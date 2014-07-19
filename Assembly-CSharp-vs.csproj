@@ -48,6 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\JPN\Scripts\Fan.cs" />
      <Compile Include="Assets\JPN\Scripts\Human.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\CoinController.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\CoinGenerator.cs" />
      <Compile Include="Assets\JPN\Scripts\Main\MainController.cs" />
      <Compile Include="Assets\JPN\Scripts\Main\MainInitializer.cs" />
      <Compile Include="Assets\JPN\Scripts\Main\StageContoroller.cs" />
