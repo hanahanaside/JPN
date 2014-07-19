@@ -13,6 +13,6 @@ public class StageDataKeeper : MonoBehaviour {
 	public void SaveStageData () {
 		Debug.Log ("Save StageData");
 		int untilSleepSeconds = stageTimeKeeper.UntilSleepSeconds;
-		mStageData.UntilSleepSeconds = untilSleepSeconds;
+		mStageData.UntilSleepSec = untilSleepSeconds;
 	}
 }

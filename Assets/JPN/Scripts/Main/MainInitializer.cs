@@ -7,6 +7,7 @@ public class MainInitializer : MonoBehaviour {
 	public GameObject[] firstAddChildArray;
 	public GameObject stagePrefab;
 	public UIGrid grid;
+	public UICenterOnChild centerOnChild;
 	
 	// Use this for initialization
 	void Start () {
@@ -21,7 +22,7 @@ public class MainInitializer : MonoBehaviour {
 			stageInitializer.InitStage (stageData);
 			AddChild (stageObject);
 		}
-
+		centerOnChild.CenterOn(grid.GetChild(1));
 	}
 
 	private void AddChild (GameObject panelObject) {

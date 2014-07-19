@@ -9,9 +9,9 @@ public class StageData {
 
 	public int IdleCount{ get; set; }
 
-	public int CoinPerMinute{ get; set; }
+	public int CoinPerMin{ get; set; }
 
-	public int UntilSleepSeconds{ get; set; }
+	public int UntilSleepSec{ get; set; }
 
 	public string AreaName{ get; set; }
 }
