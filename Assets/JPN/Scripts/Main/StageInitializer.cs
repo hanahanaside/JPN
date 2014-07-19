@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StageContoroller : MonoBehaviour {
+public class StageInitializer : MonoBehaviour {
 
 	public GameObject idlePrefab;
 	public GameObject fanPrefab;
+	public UILabel idleCountlabel;
+	public UILabel areaNameLabel;
+	public UILabel coinLabel;
+	public StageDataKeeper stageDataKeeper;
 
-	// Use this for initialization
-	void Start () {
+	public void InitStage (StageData stageData) {
+		stageDataKeeper.SetStageData (stageData);
 		GenerateIdle ();
 		GenerateFan ();
 	}
-	
+
 	private void GenerateIdle () {
 		for (int i = 0; i<5; i++) {
 			float x = Random.Range (-200.0f, 200.0f);
@@ -32,4 +36,6 @@ public class StageContoroller : MonoBehaviour {
 			fanObject.transform.localPosition = new Vector3 (x, -200, 0);
 		}
 	}
+
+
 }
