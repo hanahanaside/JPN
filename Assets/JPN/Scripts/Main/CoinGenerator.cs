@@ -3,20 +3,20 @@ using System.Collections;
 
 public class CoinGenerator : MonoBehaviour {
 
-	public GameObject coinPanel;
-	public GameObject coinPrefab;
+	public GameObject coinPanelPrefab;
+	public UICenterOnChild uiCenterOnChild;
+	private GameObject mCenterObject;
 
 	IEnumerator Start () {
-		yield return new WaitForSeconds (10f);
-		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
-		coinObject.transform.parent = coinPanel.transform;
-		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-		StartCoroutine(Start());
-		UICenterOnChild.OnCenterCallback a  = A;
-		a(gameObject);
+		yield return new WaitForSeconds (5f);
+		GameObject coinPanelObject = Instantiate (coinPanelPrefab) as GameObject;
+		coinPanelObject.transform.parent = mCenterObject.transform;
+		coinPanelObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+		StartCoroutine (Start ());
 	}
 
-	private void A(GameObject ga){
-		Debug.Log("asss");
+	void Update () {
+		mCenterObject = uiCenterOnChild.centeredObject;
 	}
+
 }
