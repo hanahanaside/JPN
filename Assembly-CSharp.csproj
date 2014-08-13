@@ -48,9 +48,15 @@
   <ItemGroup>
      <Compile Include="Assets\JPN\Scripts\Fan.cs" />
      <Compile Include="Assets\JPN\Scripts\Human.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\CoinController.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\CoinGenerator.cs" />
      <Compile Include="Assets\JPN\Scripts\Main\MainController.cs" />
      <Compile Include="Assets\JPN\Scripts\Main\MainInitializer.cs" />
      <Compile Include="Assets\JPN\Scripts\Main\StageContoroller.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\StageData.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\StageDataKeeper.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\StageInitializer.cs" />
+     <Compile Include="Assets\JPN\Scripts\Main\StageTimeKeeper.cs" />
      <Compile Include="Assets\JPN\Scripts\TestController.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
