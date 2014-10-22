@@ -190,8 +190,11 @@
      <Compile Include="Assets\Scripts\Main\StageDataKeeper.cs" />
      <Compile Include="Assets\Scripts\Main\StageInitializer.cs" />
      <Compile Include="Assets\Scripts\Main\StageTimeKeeper.cs" />
+     <Compile Include="Assets\Scripts\Manager\FenceManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\MovePanelManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\ManagementPanelManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\MoveStagePanelManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
      <Compile Include="Assets\Scripts\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
