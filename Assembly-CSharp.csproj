@@ -186,11 +186,12 @@
      <Compile Include="Assets\Scripts\Fan.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
      <Compile Include="Assets\Scripts\Human.cs" />
-     <Compile Include="Assets\Scripts\Main\MainButtonClickListener.cs" />
+     <Compile Include="Assets\Scripts\Log\MyLog.cs" />
      <Compile Include="Assets\Scripts\Main\StageDataKeeper.cs" />
      <Compile Include="Assets\Scripts\Main\StageInitializer.cs" />
      <Compile Include="Assets\Scripts\Main\StageTimeKeeper.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\MovePanelManager.cs" />
      <Compile Include="Assets\Scripts\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
@@ -233,6 +234,10 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{32824CEC-4A57-7800-7176-3A1EF23E1343}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
