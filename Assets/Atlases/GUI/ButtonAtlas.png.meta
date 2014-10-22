@@ -38,13 +38,13 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 5
   buildTargetSettings:
   - buildTarget: iPhone
     maxTextureSize: 4096
     textureFormat: 13
-    compressionQuality: 50
+    compressionQuality: 100
   spriteSheet:
     sprites: []
   spritePackingTag: 

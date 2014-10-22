@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void Start () {
+		StageDataListKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
 		StageGridManager.instance.MoveToStage (1);
 	}
@@ -23,7 +24,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	public void OnMenuButtonClicked(){
-		MoveStagePanelManager.instance.HideMoveStagePanel ();
+		MenuPanelManager.instance.ShowMenuPanel ();
 	}
 
 }

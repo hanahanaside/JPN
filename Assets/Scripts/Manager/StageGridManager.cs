@@ -12,8 +12,10 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	}
 
 	public  void CreateStageGrid () {
-		for (int i = 0; i < 9; i++) {
-			AddStage ();
+		for (int i = 0; i < 47; i++) {
+			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
+			stageGrid.AddChild (stageObject.transform);
+			stageObject.transform.localScale = new Vector3 (1, 1, 1);
 		}
 	}
 
@@ -21,12 +23,8 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		mCenterOnChild.CenterOn (stageGrid.GetChild (stageIndex));
 	}
 
-	private void AddStage () {
-		GameObject stageObject = Instantiate (stagePrefab) as GameObject;
-		StageData stageData = new StageData ();
-		StageInitializer stageInitializer = stageObject.GetComponentInChildren<StageInitializer> ();
-		stageInitializer.InitStage (stageData);
-		stageGrid.AddChild (stageObject.transform);
-		stageObject.transform.localScale = new Vector3 (1, 1, 1);
+	public int GetIndexNumber(Transform trans){
+		return stageGrid.GetIndex (trans);
 	}
+
 }

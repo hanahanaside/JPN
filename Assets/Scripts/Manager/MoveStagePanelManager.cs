@@ -4,10 +4,9 @@ using System.Collections;
 public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
 	public GameObject moveStagePanelObject;
-	public  GameObject listView;
 
 	void MoveOutEventFinished(){
-		listView.transform.localPosition = new Vector3 (0,0,0);
+		moveStagePanelObject.transform.localPosition = new Vector3 (0,0,0);
 		moveStagePanelObject.SetActive (false);
 	}
 
@@ -17,7 +16,7 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 		}
 		FenceManager.instance.ShowFence ();
 		moveStagePanelObject.SetActive (true);
-		iTweenEvent.GetEvent (listView, "MoveInEvent").Play ();
+		iTweenEvent.GetEvent (moveStagePanelObject, "MoveInEvent").Play ();
 	}
 
 	public void HideMoveStagePanel(){
@@ -25,7 +24,7 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 			return;
 		}
 		FenceManager.instance.HideFence ();
-		iTweenEvent.GetEvent (listView, "MoveOutEvent").Play ();
+		iTweenEvent.GetEvent (moveStagePanelObject, "MoveOutEvent").Play ();
 	}
 
 	public void OnFenceClicked(){
