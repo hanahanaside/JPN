@@ -3,13 +3,13 @@ using System.Collections;
 
 public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 
-	public GameObject menuPanel;
+	public GameObject dialogObject;
 
 	public void ShowMenuPanel(){
-		menuPanel.SetActive (true);
+		dialogObject.SetActive (true);
 	}
 
 	public void OnCloseButtonClicked(){
-		menuPanel.SetActive (false);
+		dialogObject.SetActive (false);
 	}
 }

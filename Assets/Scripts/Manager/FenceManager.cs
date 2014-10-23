@@ -3,13 +3,13 @@ using System.Collections;
 
 public class FenceManager : MonoSingleton<FenceManager> {
 
-	public GameObject fencePanel;
+	public GameObject fenceSpriteObject;
 
 	public void ShowFence(){
-		fencePanel.SetActive (true);
+		fenceSpriteObject.SetActive (true);
 	}
 
 	public void HideFence(){
-		fencePanel.SetActive (false);
+		fenceSpriteObject.SetActive (false);
 	}
 }

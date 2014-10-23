@@ -3,11 +3,11 @@ using System.Collections;
 
 public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 
-	public GameObject managementPanel;
+	public GameObject dialogObject;
 
 	public void ShowManagementPanel(){
 		FenceManager.instance.ShowFence ();
-		managementPanel.SetActive (true);
+		dialogObject.SetActive (true);
 	}
 		
 	public void OnTweetButtonClicked(){
@@ -16,6 +16,6 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 
 	public void OnCloseButtonClicked(){
 		FenceManager.instance.HideFence ();
-		managementPanel.SetActive (false);
+		dialogObject.SetActive (false);
 	}
 }

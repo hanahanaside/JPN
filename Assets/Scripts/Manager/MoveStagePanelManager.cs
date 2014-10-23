@@ -3,32 +3,32 @@ using System.Collections;
 
 public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
-	public GameObject moveStagePanelObject;
+	public GameObject dialogObject;
 
-	void MoveOutEventFinished(){
-		moveStagePanelObject.transform.localPosition = new Vector3 (0,0,0);
-		moveStagePanelObject.SetActive (false);
+	void MoveOutEventCompleted(){
+		dialogObject.transform.localPosition = new Vector3 (0,0,0);
+		dialogObject.SetActive (false);
 	}
 
 	public void ShowMoveStagePanel () {
-		if(moveStagePanelObject.activeSelf){
+		if(dialogObject.activeSelf){
 			return;
 		}
 		FenceManager.instance.ShowFence ();
-		moveStagePanelObject.SetActive (true);
-		iTweenEvent.GetEvent (moveStagePanelObject, "MoveInEvent").Play ();
+		dialogObject.SetActive (true);
+		ItweenEventPlayer.PlayMoveInDialogEvent (dialogObject);
 	}
 
 	public void HideMoveStagePanel(){
-		if(!moveStagePanelObject.activeSelf){
+		if(!dialogObject.activeSelf){
 			return;
 		}
 		FenceManager.instance.HideFence ();
-		iTweenEvent.GetEvent (moveStagePanelObject, "MoveOutEvent").Play ();
+		ItweenEventPlayer.PlayMoveOutDialogEvent (dialogObject,gameObject);
 	}
 
 	public void OnFenceClicked(){
-		if(moveStagePanelObject.activeSelf){
+		if(dialogObject.activeSelf){
 			HideMoveStagePanel ();
 		}
 	}

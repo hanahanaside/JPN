@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerDataManager : MonoSingleton<PlayerDataManager> {
+public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 
 	public UILabel generateCoinSpeedLabel;
 	public UILabel coinCountLabel;

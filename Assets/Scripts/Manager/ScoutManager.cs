@@ -3,12 +3,27 @@ using System.Collections;
 
 public class ScoutManager : MonoSingleton<ScoutManager> {
 
+	public Transform[] areaPositionArray;
 	public GameObject dartsObject;
 	public GameObject planeObject;
-	public GameObject fadeOutPanel;
+	public GameObject fadeOutSpriteObject;
+	public GameObject goScoutButtonObject;
+
+	void OnEnable(){
+		AreaPanelManager.instance.OnAreaClickedEvent += OnAreaClickedEvent;
+	}
+
+	void OnDisable(){
+		AreaPanelManager.instance.OnAreaClickedEvent -= OnAreaClickedEvent;
+	}
+
+	void OnAreaClickedEvent(int areaIndexNumber){
+		dartsObject.transform.localPosition = areaPositionArray [areaIndexNumber].localPosition;
+		dartsObject.SetActive (true);
+	}
 
 	void OnPlaneEventCompleted(){
-		fadeOutPanel.SetActive (true);
+		fadeOutSpriteObject.SetActive (true);
 	}
 
 	public static bool FlagScouting{ get; set;}
@@ -18,13 +33,14 @@ public class ScoutManager : MonoSingleton<ScoutManager> {
 	}
 
 	public void OnAreaButtonClicked(){
-		dartsObject.SetActive (true);
+		AreaPanelManager.instance.ShowAreaPanel ();
 	}
 
 	public void OnGoScoutButtonClicked(){
 		if(!dartsObject.activeSelf){
 			return;
 		}
+		goScoutButtonObject.SetActive (false);
 		FlagScouting = true;
 		iTweenEvent.GetEvent (planeObject,"moveOut").Play();
 	}

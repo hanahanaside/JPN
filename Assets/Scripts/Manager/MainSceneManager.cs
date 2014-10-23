@@ -6,7 +6,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void Start () {
 		StageDataListKeeper.instance.LoadData ();
-		PlayerDataManager.instance.Init ();
+		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
 		if(ScoutManager.FlagScouting){
 			StageGridManager.instance.MoveToStage (0);
@@ -21,7 +21,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		if(pauseStatus){
 
 		}else {
-			PlayerDataManager.instance.SaveData ();
+			PlayerDataKeeper.instance.SaveData ();
 			StageDataListKeeper.instance.SaveData ();
 		}
 	}
