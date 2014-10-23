@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class StageDataDao : Dao<StageDataDao> {
+public class StageDataDao : Singleton<StageDataDao> {
 
 	public List<StageData> GetStageDataList () {
 		List<StageData> stageDataList = new List<StageData> ();

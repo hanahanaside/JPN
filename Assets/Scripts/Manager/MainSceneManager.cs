@@ -5,9 +5,25 @@ using System.Collections.Generic;
 public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void Start () {
-		StageDataListKeeper.instance.Init ();
+		StageDataListKeeper.instance.LoadData ();
+		PlayerDataManager.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
-		StageGridManager.instance.MoveToStage (1);
+		if(ScoutManager.FlagScouting){
+			StageGridManager.instance.MoveToStage (0);
+			ScoutManager.instance.PlayMoveInPlaneAnimation ();
+		}else {
+			StageGridManager.instance.MoveToStage (1);
+			EventManager.instance.Init ();
+		}
+	}
+
+	void OnApplicationPause(bool pauseStatus){
+		if(pauseStatus){
+
+		}else {
+			PlayerDataManager.instance.SaveData ();
+			StageDataListKeeper.instance.SaveData ();
+		}
 	}
 
 	public void OnScoutButtonClicked(){
