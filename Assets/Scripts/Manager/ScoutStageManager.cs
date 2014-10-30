@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScoutManager : MonoSingleton<ScoutManager> {
+public class ScoutStageManager : StageManager<ScoutStageManager> {
 
 	public Transform[] areaPositionArray;
 	public GameObject dartsObject;
@@ -33,6 +33,7 @@ public class ScoutManager : MonoSingleton<ScoutManager> {
 	}
 
 	public void OnAreaButtonClicked(){
+		dartsObject.SetActive (false);
 		AreaPanelManager.instance.ShowAreaPanel ();
 	}
 

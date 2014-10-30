@@ -180,7 +180,9 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\Scripts\Abstract\IdleStageManager.cs" />
      <Compile Include="Assets\Scripts\Abstract\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Abstract\StageManager.cs" />
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Counter\CoinCounter.cs" />
      <Compile Include="Assets\Scripts\Dao\StageDataDao.cs" />
@@ -192,6 +194,7 @@
      <Compile Include="Assets\Scripts\Manager\AreaPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\EventManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FenceManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\HokkaidoStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ManagementPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MenuPanelManager.cs" />
@@ -199,9 +202,8 @@
      <Compile Include="Assets\Scripts\Manager\PlayerDataKeeper.cs" />
      <Compile Include="Assets\Scripts\Manager\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PuzzleSceneManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\ScoutManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\ScoutStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
