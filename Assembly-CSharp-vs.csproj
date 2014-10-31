@@ -186,6 +186,7 @@
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Counter\CoinCounter.cs" />
      <Compile Include="Assets\Scripts\Dao\StageDataDao.cs" />
+     <Compile Include="Assets\Scripts\Entity\IdleData.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\StageData.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
@@ -204,7 +205,14 @@
      <Compile Include="Assets\Scripts\Manager\PuzzleSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ScoutStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
+     <Compile Include="Assets\Scripts\Model\Character.cs" />
+     <Compile Include="Assets\Scripts\Model\Idle.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
+     <Compile Include="Assets\Scripts\State\HokkaidoIdleDanceState.cs" />
+     <Compile Include="Assets\Scripts\State\HokkaidoIdleNormalState.cs" />
+     <Compile Include="Assets\Scripts\State\HokkaidoIdleSleepState.cs" />
+     <Compile Include="Assets\Scripts\State\IdleState.cs" />
+     <Compile Include="Assets\Scripts\State\State.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
