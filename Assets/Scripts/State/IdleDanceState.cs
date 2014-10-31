@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HokkaidoIdleDanceState : IdleState {
+public class IdleDanceState : IdleState {
 
 	private const float INTERVAL_TIME = 0.5f;
 	private float mJumpForce = 1.0f;

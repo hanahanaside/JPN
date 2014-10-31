@@ -9,8 +9,8 @@ public class Idle : Character {
 	private float mTime;
 
 	void Start () {
-		mState = new HokkaidoIdleNormalState (gameObject,normalIdleData);
-		mTime = mState.FlightDuration ();
+		mState = new IdleNormalState (normalIdleData);
+		mTime = normalIdleData.flightDuration;
 		mState.DirectionLeft ();
 		mState.Move (gameObject);
 	}
@@ -30,13 +30,13 @@ public class Idle : Character {
 			mState.Stop ();
 			mState.DirectionRight ();
 		}
-		if (characterTransform.localPosition.y > 480.0f) {
+		if (characterTransform.localPosition.y > 450.0f) {
+			mState.Stop ();
 			mState.DirectionDown ();
-			mState.Stop ();
 		}
-		if (characterTransform.localPosition.y < -480.0f) {
-			mState.DirectionUp ();
+		if (characterTransform.localPosition.y < -450.0f) {
 			mState.Stop ();
+			mState.DirectionUp ();
 		}
 		mState.Move (gameObject);
 		mTime = mState.FlightDuration ();
@@ -51,7 +51,7 @@ public class Idle : Character {
 	}
 
 	public override void StartDancing(){
-		mState = new HokkaidoIdleDanceState ();
+		mState = new IdleDanceState ();
 		mTime = mState.FlightDuration ();
 		mState.Move (gameObject);
 	}

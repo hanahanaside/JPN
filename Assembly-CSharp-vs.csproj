@@ -208,9 +208,9 @@
      <Compile Include="Assets\Scripts\Model\Character.cs" />
      <Compile Include="Assets\Scripts\Model\Idle.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
-     <Compile Include="Assets\Scripts\State\HokkaidoIdleDanceState.cs" />
-     <Compile Include="Assets\Scripts\State\HokkaidoIdleNormalState.cs" />
      <Compile Include="Assets\Scripts\State\HokkaidoIdleSleepState.cs" />
+     <Compile Include="Assets\Scripts\State\IdleDanceState.cs" />
+     <Compile Include="Assets\Scripts\State\IdleNormalState.cs" />
      <Compile Include="Assets\Scripts\State\IdleState.cs" />
      <Compile Include="Assets\Scripts\State\State.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
