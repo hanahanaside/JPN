@@ -187,6 +187,7 @@
      <Compile Include="Assets\Scripts\Counter\CoinCounter.cs" />
      <Compile Include="Assets\Scripts\Dao\StageDataDao.cs" />
      <Compile Include="Assets\Scripts\Entity\IdleData.cs" />
+     <Compile Include="Assets\Scripts\Entity\MovableArea.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\StageData.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />

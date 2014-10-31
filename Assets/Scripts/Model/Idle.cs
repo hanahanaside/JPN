@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Idle : Character {
 
+	public MovableArea movableArea;
 	public IdleData normalIdleData;
 	public IdleData danceIdleData;
 	private IdleState mState;
@@ -20,21 +21,21 @@ public class Idle : Character {
 		if (mTime > 0) {
 			return;
 		}
-		if (characterTransform.localPosition.x > 200.0f) {
+		if (characterTransform.localPosition.x > movableArea.limitRight) {
 			transform.eulerAngles = new Vector3 (0, 0, 0);
 			mState.Stop ();
 			mState.DirectionLeft ();
 		}
-		if (characterTransform.localPosition.x < -200.0f) {
+		if (characterTransform.localPosition.x < movableArea.limitLeft) {
 			transform.eulerAngles = new Vector3 (0, 180.0f, 0);
 			mState.Stop ();
 			mState.DirectionRight ();
 		}
-		if (characterTransform.localPosition.y > 450.0f) {
+		if (characterTransform.localPosition.y > movableArea.limitTop) {
 			mState.Stop ();
 			mState.DirectionDown ();
 		}
-		if (characterTransform.localPosition.y < -450.0f) {
+		if (characterTransform.localPosition.y < movableArea.limitBottom) {
 			mState.Stop ();
 			mState.DirectionUp ();
 		}

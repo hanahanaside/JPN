@@ -23,16 +23,16 @@ public class IdleNormalState : IdleState {
 	public void Move (GameObject gameobject) {
 		Rigidbody2D rigidbody2D = gameobject.rigidbody2D;
 		mStopTime -= mFlightDuration;
-		MyLog.LogDebug ("time = " + mStopTime);
 		if (mStopTime > 0) {
 			rigidbody2D.isKinematic = true;
 			return;
 		}
 		rigidbody2D.isKinematic = false;
 		rigidbody2D.velocity = Vector2.up * mJumpForce;
+		Debug.Log ("jump = " + mJumpForce);
 		rigidbody2D.AddForce (Vector2.right * mMoveForce);
 		//ここで動いたり止まったりを調整する
-		mJumpForce = Random.Range (mIdleData.jumpForce / 1.5f, mIdleData.jumpForce * 1.5f);
+		mJumpForce = Random.Range (mIdleData.jumpForce / 1.6f, mIdleData.jumpForce * 1.5f);
 		//	mStopTime = Random.Range(0,mFlightDuration * 3.0f);
 	}
 
@@ -44,11 +44,11 @@ public class IdleNormalState : IdleState {
 	}
 
 	public void DirectionUp () {
-		mJumpForce = mIdleData.jumpForce * 3.0f;
+		mJumpForce = mIdleData.jumpForce * 2.0f;
 	}
 
 	public void DirectionDown () {
-		mJumpForce = mIdleData.jumpForce / 3.0f;
+		mJumpForce = mIdleData.jumpForce / 2.0f;
 	}
 
 	public void DirectionLeft () {
