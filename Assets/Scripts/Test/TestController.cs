@@ -4,15 +4,9 @@ using System.Collections;
 
 public class TestController : MonoBehaviour {
 
-	public UITexture texture;
+	public Idle idle;
 
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public void OnButtonClicked(){
+		idle.StartDancing ();
 	}
 }

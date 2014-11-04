@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IdleNormalState : IdleState {
+public class HokkaidoIdleNormalState : IdleState {
 
 	private float mFlightDuration;
 	//滞空時間
@@ -10,15 +10,15 @@ public class IdleNormalState : IdleState {
 	private float mMoveForce;
 	//横の移動距離
 	private float mStopTime;
-	private IdleData mIdleData;
+	private IdleParameter mIdleData;
 
-	public IdleNormalState (IdleData idleData) {
+	public HokkaidoIdleNormalState (IdleParameter idleData) {
 		mIdleData = idleData;
 		mFlightDuration = idleData.flightDuration;
 		mJumpForce = idleData.jumpForce;
 		mMoveForce = idleData.moveForce;
 	}
-
+		
 	//滞空時間ごとに呼ばれる
 	public void Move (GameObject gameobject) {
 		Rigidbody2D rigidbody2D = gameobject.rigidbody2D;
@@ -29,11 +29,18 @@ public class IdleNormalState : IdleState {
 		}
 		rigidbody2D.isKinematic = false;
 		rigidbody2D.velocity = Vector2.up * mJumpForce;
-		Debug.Log ("jump = " + mJumpForce);
+		if (mMoveForce > 0) {
+			gameobject.transform.eulerAngles = new Vector3 (0, 180, 0);
+		} else {
+			gameobject.transform.eulerAngles = new Vector3 (0, 0, 0);
+		}
+		iTweenEvent.GetEvent (gameobject,"NormaMove").Play();
 		rigidbody2D.AddForce (Vector2.right * mMoveForce);
-		//ここで動いたり止まったりを調整する
-		mJumpForce = Random.Range (mIdleData.jumpForce / 1.6f, mIdleData.jumpForce * 1.5f);
-		//	mStopTime = Random.Range(0,mFlightDuration * 3.0f);
+		//ここで次の動きを決定する
+		float addJumpForce = mIdleData.jumpForce / 2.0f;
+		mJumpForce = Random.Range (mIdleData.jumpForce - addJumpForce, mIdleData.jumpForce + addJumpForce);
+		mStopTime = Random.Range (0, mFlightDuration * 3.0f);
+		mMoveForce = Random.Range (-mIdleData.moveForce, mIdleData.moveForce);
 	}
 
 	public void Stop () {
@@ -44,7 +51,7 @@ public class IdleNormalState : IdleState {
 	}
 
 	public void DirectionUp () {
-		mJumpForce = mIdleData.jumpForce * 2.0f;
+		mJumpForce = mIdleData.jumpForce * 1.5f;
 	}
 
 	public void DirectionDown () {
