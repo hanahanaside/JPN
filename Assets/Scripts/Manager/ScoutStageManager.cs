@@ -28,6 +28,10 @@ public class ScoutStageManager : StageManager<ScoutStageManager> {
 
 	public static bool FlagScouting{ get; set;}
 
+	public override void StartLive(){
+
+	}
+
 	public void OnFadeOutFinished(){
 		Application.LoadLevel ("Puzzle");
 	}

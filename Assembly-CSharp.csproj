@@ -196,6 +196,7 @@
      <Compile Include="Assets\Scripts\Keeper\StageDataListKeeper.cs" />
      <Compile Include="Assets\Scripts\Log\MyLog.cs" />
      <Compile Include="Assets\Scripts\Manager\AreaPanelManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\EntranceStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\EventManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FenceManager.cs" />
      <Compile Include="Assets\Scripts\Manager\HokkaidoStageManager.cs" />

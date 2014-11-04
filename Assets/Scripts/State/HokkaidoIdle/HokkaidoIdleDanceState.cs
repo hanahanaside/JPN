@@ -43,7 +43,7 @@ public class HokkaidoIdleDanceState : IdleState {
 	}
 
 	public void Stop () {
-		mStopTime = -1;
+
 	}
 
 	public void DirectionUp () {

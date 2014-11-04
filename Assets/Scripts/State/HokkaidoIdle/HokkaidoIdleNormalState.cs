@@ -34,7 +34,8 @@ public class HokkaidoIdleNormalState : IdleState {
 		} else {
 			gameobject.transform.eulerAngles = new Vector3 (0, 0, 0);
 		}
-		iTweenEvent.GetEvent (gameobject,"NormaMove").Play();
+		gameobject.transform.localScale = new Vector3 (1f, 1f, 1f);
+		iTweenEvent.GetEvent (gameobject, "NormaMove").Play ();
 		rigidbody2D.AddForce (Vector2.right * mMoveForce);
 		//ここで次の動きを決定する
 		float addJumpForce = mIdleData.jumpForce / 2.0f;
