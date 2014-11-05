@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class HokkaidoStageManager : IdleStageManager<HokkaidoStageManager> {
 
-	private List<HokkaidoIdle> idleList;
+	private List<Idle> idleList;
 	private float mUntilSleepTime;
 
 	void Start () {
 		mUntilSleepTime = UntilSleepTime;
-		idleList = new List<HokkaidoIdle> ();
+		idleList = new List<Idle> ();
 		for (int i = 0; i < 5; i++) {
-			HokkaidoIdle idle = Instantiate (idlePrefab) as HokkaidoIdle;
+			Idle idle = Instantiate (idlePrefab) as Idle;
 			idle.transform.parent = transform.parent;
 			idle.transform.localScale = new Vector3 (1f, 1f, 1f);
 			float x = Random.Range (idle.movableArea.limitLeft, idle.movableArea.limitRight);
@@ -30,7 +30,7 @@ public class HokkaidoStageManager : IdleStageManager<HokkaidoStageManager> {
 		if (mUntilSleepTime > 0) {
 			return;
 		}
-		foreach (HokkaidoIdle idle in idleList) {
+		foreach (Idle idle in idleList) {
 			idle.Sleep ();
 		}
 		IsSleeping = true;
@@ -43,8 +43,8 @@ public class HokkaidoStageManager : IdleStageManager<HokkaidoStageManager> {
 		IsSleeping = false;
 		HideFence ();
 		HideWakeupButton ();
-		foreach(HokkaidoIdle idle in idleList){
-			idle.WakeUp ();
+		foreach(Idle idle in idleList){
+			idle.Wakeup ();
 		}
 		mUntilSleepTime = UntilSleepTime;
 	}
@@ -53,7 +53,7 @@ public class HokkaidoStageManager : IdleStageManager<HokkaidoStageManager> {
 		if(IsSleeping){
 			OnWakeupButtonClicked ();
 		}
-		foreach (HokkaidoIdle idle in idleList) {
+		foreach (Idle idle in idleList) {
 			idle.GetComponentInChildren<Idle> ().StartDancing ();
 		}
 	}

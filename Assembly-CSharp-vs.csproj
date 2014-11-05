@@ -180,6 +180,7 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\Scripts\Abstract\Idle.cs" />
      <Compile Include="Assets\Scripts\Abstract\IdleStageManager.cs" />
      <Compile Include="Assets\Scripts\Abstract\Singleton.cs" />
      <Compile Include="Assets\Scripts\Abstract\StageManager.cs" />
@@ -192,7 +193,6 @@
      <Compile Include="Assets\Scripts\Entity\StageData.cs" />
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
-     <Compile Include="Assets\Scripts\IdleParams\HokkaidoIdleParameter.cs" />
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\Keeper\StageDataListKeeper.cs" />
@@ -214,13 +214,11 @@
      <Compile Include="Assets\Scripts\Model\Character.cs" />
      <Compile Include="Assets\Scripts\Model\Fan.cs" />
      <Compile Include="Assets\Scripts\Model\HokkaidoIdle.cs" />
-     <Compile Include="Assets\Scripts\Model\Idle.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
      <Compile Include="Assets\Scripts\State\FanDanceState.cs" />
      <Compile Include="Assets\Scripts\State\FanNormalState.cs" />
      <Compile Include="Assets\Scripts\State\FanState.cs" />
-     <Compile Include="Assets\Scripts\State\HokkaidoIdle\HokkaidoIdleDanceState.cs" />
-     <Compile Include="Assets\Scripts\State\HokkaidoIdle\HokkaidoIdleNormalState.cs" />
+     <Compile Include="Assets\Scripts\State\IdleNormalState.cs" />
      <Compile Include="Assets\Scripts\State\IdleState.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
