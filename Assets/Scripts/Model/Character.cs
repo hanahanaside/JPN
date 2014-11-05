@@ -5,12 +5,5 @@ using System.Collections;
 
 public abstract class Character : MonoBehaviour {
 
-	[HideInInspector]
-	public Transform characterTransform;
-
-	void Awake () {
-		characterTransform = transform;
-	}
-
 	public abstract void StartDancing();
 }

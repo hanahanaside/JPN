@@ -10,9 +10,9 @@ public class HokkaidoIdleDanceState : IdleState {
 	private float mMoveForce;
 	//横の移動距離
 	private float mStopTime;
-	private IdleParameter mIdleData;
+	private IdleParams mIdleData;
 
-	public HokkaidoIdleDanceState (IdleParameter idleData) {
+	public HokkaidoIdleDanceState (IdleParams idleData) {
 		mIdleData = idleData;
 		mFlightDuration = idleData.flightDuration;
 		mJumpForce = idleData.jumpForce;

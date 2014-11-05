@@ -10,9 +10,9 @@ public class HokkaidoIdleNormalState : IdleState {
 	private float mMoveForce;
 	//横の移動距離
 	private float mStopTime;
-	private IdleParameter mIdleData;
+	private IdleParams mIdleData;
 
-	public HokkaidoIdleNormalState (IdleParameter idleData) {
+	public HokkaidoIdleNormalState (IdleParams idleData) {
 		mIdleData = idleData;
 		mFlightDuration = idleData.flightDuration;
 		mJumpForce = idleData.jumpForce;

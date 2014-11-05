@@ -5,8 +5,9 @@ using System.Collections;
 public class TestController : MonoBehaviour {
 
 	public Idle idle;
+	public Fan fan;
 
 	public void OnButtonClicked(){
-		idle.StartDancing ();
+		fan.StartDancing ();
 	}
 }

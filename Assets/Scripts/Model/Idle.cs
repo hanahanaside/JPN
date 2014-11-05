@@ -4,33 +4,51 @@ using System.Collections;
 public abstract class Idle : Character {
 
 	public MovableArea movableArea;
-	public IdleParameter normalIdleParam;
-	public IdleParameter danceIdleParam;
+	public IdleParams normalIdleParam;
+	public IdleParams danceIdleParam;
+	private UISprite mSprite;
+	private Transform mTransform;
+	private Rigidbody2D mRigidbody2D;
 
 	public abstract void WakeUp ();
 
 	public abstract void Sleep ();
 
+	void Awake(){
+		mSprite = GetComponentInChildren<UISprite> ();
+		mTransform = transform;
+		mRigidbody2D = GetComponent<Rigidbody2D> ();
+	}
+
 	public void Move (IdleState idleState) {
-		if (characterTransform.localPosition.x > movableArea.limitRight) {
+		if (mTransform.localPosition.x > movableArea.limitRight) {
 			transform.eulerAngles = new Vector3 (0, 0, 0);
 			idleState.Stop ();
 			idleState.DirectionLeft ();
 		}
-		if (characterTransform.localPosition.x < movableArea.limitLeft) {
+		if (mTransform.localPosition.x < movableArea.limitLeft) {
 			transform.eulerAngles = new Vector3 (0, 180.0f, 0);
 			idleState.Stop ();
 			idleState.DirectionRight ();
 		}
-		if (characterTransform.localPosition.y > movableArea.limitTop) {
+		if (mTransform.localPosition.y > movableArea.limitTop) {
 			idleState.Stop ();
 			idleState.DirectionDown ();
 		}
-		if (characterTransform.localPosition.y < movableArea.limitBottom) {
+		if (mTransform.localPosition.y < movableArea.limitBottom) {
 			idleState.Stop ();
 			idleState.DirectionUp ();
 		}
 		idleState.Move (gameObject);
 	}
 		
+	public void SetSprite(string spriteName){
+		mSprite.spriteName = spriteName;
+	}
+
+	public bool IsKinematic {
+		set{
+			mRigidbody2D.isKinematic = value;
+		}
+	}
 }
