@@ -9,9 +9,13 @@ public abstract class Character : MonoBehaviour {
 	public float moveSpeedX;
 	public float moveSpeedY;
 
-	public abstract void StartDancing();
+	public abstract void StartDancing ();
 
 	public abstract void StopDancing ();
+
+	public abstract void FlipLeft ();
+
+	public abstract void FlipRight ();
 
 	public void CheckFlip () {
 		if (characterTransform.localPosition.x < movableArea.limitLeft) {
@@ -46,7 +50,12 @@ public abstract class Character : MonoBehaviour {
 		}
 	}
 		
-	public void Move () {
+	public void Move () { 
+		if(moveSpeedX < 0){
+			FlipLeft ();
+		}else {
+			FlipRight ();
+		}
 		characterTransform.Translate (new Vector3 (moveSpeedX, moveSpeedY, 0));
 	}
 

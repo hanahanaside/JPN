@@ -29,6 +29,14 @@ public class Fan : Character {
 		ResetRotation ();
 		mFanState = new FanNormalState (this, iTweenEvent.GetEvent (spriteObject, "RotateEvent"));
 	}
+
+	public override void FlipRight(){
+	//	spriteObject.transform.eulerAngles = new Vector3 (0,0,0);
+	}
+
+	public override void FlipLeft(){
+	//	spriteObject.transform.eulerAngles = new Vector3 (0,180,0);
+	}
 		
 	public void ResetRotation () {
 		spriteObject.transform.eulerAngles = new Vector3 (0, 0, 0);

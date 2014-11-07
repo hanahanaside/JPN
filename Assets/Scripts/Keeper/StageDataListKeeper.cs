@@ -17,4 +17,10 @@ public class StageDataListKeeper : MonoSingleton<StageDataListKeeper> {
 	public StageData GetStageData(int index){
 		return mStageDataList[index];
 	}
+
+	public int ListCount{
+		get{
+			return mStageDataList.Count;
+		}
+	}
 }

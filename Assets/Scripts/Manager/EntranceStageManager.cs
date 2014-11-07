@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EntranceStageManager : StageManager<EntranceStageManager>{
+public class EntranceStageManager : MonoSingleton<EntranceStageManager>{
 
 	public void OnLiveButtonClicked(){
-		StageGridManager.instance.StartLive ();
+		LiveManager.instance.StartLive ();
 	}
 
-	public override void StartLive(){
+	public void StartLive(){
 
 	}
 }

@@ -25,7 +25,6 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		mPlayerData.TicketCount = 1;
 		mPlayerData.CoinCount = 10.0;
 		mPlayerData.GenerateCoinSpeed = 60.0;
-		UpdateGenerateSpeed (0);
 		UpdateCoinCount (0);
 		UpdateTicketCount (0);
 	}
@@ -34,9 +33,12 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 
 	}
 
-	public void UpdateGenerateSpeed (double addSpeed) {
-		mPlayerData.GenerateCoinSpeed += addSpeed;
-		generateCoinSpeedLabel.text = GenerateCoinSpeed + "/分";
+	public void AddGenerateCoinPower(double coinPower){
+
+	}
+
+	public void AddCoinCount(double coinCount){
+
 	}
 
 	public void UpdateCoinCount (double addCoinCount) {

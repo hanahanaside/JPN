@@ -8,6 +8,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		StageDataListKeeper.instance.LoadData ();
 		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
+		MoveStagePanelManager.instance.CreateMoveStageGrid ();
 		if(ScoutStageManager.FlagScouting){
 			StageGridManager.instance.MoveToStage (0);
 			ScoutStageManager.instance.PlayMoveInPlaneAnimation ();

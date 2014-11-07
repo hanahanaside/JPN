@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScoutStageManager : StageManager<ScoutStageManager> {
+public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 
 	public Transform[] areaPositionArray;
 	public GameObject dartsObject;
@@ -28,7 +28,7 @@ public class ScoutStageManager : StageManager<ScoutStageManager> {
 
 	public static bool FlagScouting{ get; set;}
 
-	public override void StartLive(){
+	public void StartLive(){
 
 	}
 

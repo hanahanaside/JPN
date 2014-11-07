@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-[RequireComponent (typeof (Rigidbody))]
 
 public class TestController : MonoBehaviour {
 
-	public Idle idle;
-	public Fan fan;
+	public GameObject uiRoot;
+	public GameObject puzzle;
 
-	public void OnButtonClicked(){
-		fan.StartDancing ();
+	void Start(){
+		GameObject a =  Instantiate (puzzle) as GameObject;
+		UISprite sprite = a.GetComponent<UISprite> ();
+	sprite.spriteName = "puzzle_2";
+	//	a.transform.parent = uiRoot.transform;
 	}
 }

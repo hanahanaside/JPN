@@ -25,6 +25,6 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	}
 		
 	public void StartLive(){
-		HokkaidoStageManager.instance.StartLive ();
+
 	}
 }
