@@ -193,7 +193,7 @@ public abstract class UIRect : MonoBehaviour
 	/// Transform gets cached for speed. Can't simply return 'mTrans' set in Awake because this function may be called on a prefab.
 	/// </summary>
 
-	public Transform cachedTransform { get { if (mTrans == null) mTrans = transform; return mTrans; } }
+	public Transform cachedTransform { get { if (mTrans == null) mTrans = characterTtransform; return mTrans; } }
 
 	/// <summary>
 	/// Camera used by anchors.

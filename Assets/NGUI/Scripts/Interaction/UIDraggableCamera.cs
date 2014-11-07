@@ -71,7 +71,7 @@ public class UIDraggableCamera : MonoBehaviour
 	void Start ()
 	{
 		mCam = camera;
-		mTrans = transform;
+		mTrans = characterTtransform;
 		mRoot = NGUITools.FindInParents<UIRoot>(gameObject);
 
 		if (rootForBounds == null)

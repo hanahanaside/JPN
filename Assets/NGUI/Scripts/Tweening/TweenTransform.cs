@@ -31,7 +31,7 @@ public class TweenTransform : UITweener
 		{
 			if (mTrans == null)
 			{
-				mTrans = transform;
+				mTrans = characterTtransform;
 				mPos = mTrans.position;
 				mRot = mTrans.rotation;
 				mScale = mTrans.localScale;

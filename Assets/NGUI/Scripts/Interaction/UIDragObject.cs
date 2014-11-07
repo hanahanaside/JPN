@@ -107,7 +107,7 @@ public class UIDragObject : MonoBehaviour
 
 	void FindPanel ()
 	{
-		mPanel = (target != null) ? UIPanel.Find(target.transform.parent) : null;
+		mPanel = (target != null) ? UIPanel.Find(target.characterTtransform.parent) : null;
 		if (mPanel == null) restrictWithinPanel = false;
 	}
 
@@ -157,7 +157,7 @@ public class UIDragObject : MonoBehaviour
 					CancelSpring();
 
 					// Create the plane to drag along
-					Transform trans = UICamera.currentCamera.transform;
+					Transform trans = UICamera.currentCamera.characterTtransform;
 					mPlane = new Plane((mPanel != null ? mPanel.cachedTransform.rotation : trans.rotation) * Vector3.back, UICamera.lastWorldPosition);
 				}
 			}

@@ -844,7 +844,7 @@ public class UIPanel : UIRect
 	void Awake ()
 	{
 		mGo = gameObject;
-		mTrans = transform;
+		mTrans = characterTtransform;
 
 		mHalfPixelOffset = (Application.platform == RuntimePlatform.WindowsPlayer ||
 			Application.platform == RuntimePlatform.XBOX360 ||

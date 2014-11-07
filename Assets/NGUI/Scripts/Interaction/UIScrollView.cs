@@ -187,7 +187,7 @@ public class UIScrollView : MonoBehaviour
 			if (!mCalculatedBounds)
 			{
 				mCalculatedBounds = true;
-				mTrans = transform;
+				mTrans = characterTtransform;
 				mBounds = NGUIMath.CalculateRelativeWidgetBounds(mTrans, mTrans);
 			}
 			return mBounds;
@@ -305,7 +305,7 @@ public class UIScrollView : MonoBehaviour
 
 	void Awake ()
 	{
-		mTrans = transform;
+		mTrans = characterTtransform;
 		mPanel = GetComponent<UIPanel>();
 
 		if (mPanel.clipping == UIDrawCall.Clipping.None)

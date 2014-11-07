@@ -16,7 +16,7 @@ public class LookAtTarget : MonoBehaviour
 
 	void Start ()
 	{
-		mTrans = transform;
+		mTrans = characterTtransform;
 	}
 
 	void LateUpdate ()

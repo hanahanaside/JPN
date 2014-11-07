@@ -93,7 +93,7 @@ public class UICenterOnChild : MonoBehaviour
 		}
 		if (mScrollView.panel == null) return;
 
-		Transform trans = transform;
+		Transform trans = characterTtransform;
 		if (trans.childCount == 0) return;
 
 		// Calculate the panel's center in world coordinates

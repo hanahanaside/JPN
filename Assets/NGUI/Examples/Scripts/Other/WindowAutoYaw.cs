@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Attaching this script to an object will make it turn as it gets closer to left/right edges of the screen.
@@ -22,7 +22,7 @@ public class WindowAutoYaw : MonoBehaviour
 	void OnEnable ()
 	{
 		if (uiCamera == null) uiCamera = NGUITools.FindCameraForLayer(gameObject.layer);
-		mTrans = transform;
+		mTrans = characterTtransform;
 	}
 
 	void Update ()

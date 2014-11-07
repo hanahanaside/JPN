@@ -67,7 +67,7 @@ public class SpringPosition : MonoBehaviour
 
 	void Start ()
 	{
-		mTrans = transform;
+		mTrans = characterTtransform;
 		if (updateScrollView) mSv = NGUITools.FindInParents<UIScrollView>(gameObject);
 	}
 

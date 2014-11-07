@@ -125,7 +125,7 @@ public class UIWrapContent : MonoBehaviour
 
 	protected bool CacheScrollView ()
 	{
-		mTrans = transform;
+		mTrans = characterTtransform;
 		mPanel = NGUITools.FindInParents<UIPanel>(gameObject);
 		mScroll = mPanel.GetComponent<UIScrollView>();
 		if (mScroll == null) return false;

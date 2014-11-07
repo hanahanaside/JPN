@@ -32,7 +32,7 @@ public class StageManager : MonoBehaviour {
 		StageData stageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
 
 		//ファンを生成
-		GameObject fanPrefab = Resources.Load ("Model/StageFan_1") as GameObject;
+		GameObject fanPrefab = Resources.Load ("Model/Fan_1") as GameObject;
 		GameObject fanObject = Instantiate (fanPrefab) as GameObject;
 		fanObject.transform.parent = gameObject.transform.parent;
 		fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);

@@ -513,7 +513,7 @@ public class UIPanelInspector : UIRectEditor
 			}
 		}
 
-		if (clipping != UIDrawCall.Clipping.None && !NGUIEditorTools.IsUniform(mPanel.transform.lossyScale))
+		if (clipping != UIDrawCall.Clipping.None && !NGUIEditorTools.IsUniform(mPanel.characterTtransform.lossyScale))
 		{
 			EditorGUILayout.HelpBox("Clipped panels must have a uniform scale, or clipping won't work properly!", MessageType.Error);
 

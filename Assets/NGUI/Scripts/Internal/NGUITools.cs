@@ -789,7 +789,7 @@ static public class NGUITools
 			{
 				cam.nearClipPlane = 0.1f;
 				cam.farClipPlane = 4f;
-				cam.transform.localPosition = new Vector3(0f, 0f, -700f);
+				cam.characterTtransform.localPosition = new Vector3(0f, 0f, -700f);
 			}
 			else
 			{
@@ -816,7 +816,7 @@ static public class NGUITools
 			// Find the root object
 			while (trans.parent != null) trans = trans.parent;
 
-			if (NGUITools.IsChild(trans, panel.transform))
+			if (NGUITools.IsChild(trans, panel.characterTtransform))
 			{
 				// Odd hierarchy -- can't reparent
 				panel = trans.gameObject.AddComponent<UIPanel>();
@@ -824,7 +824,7 @@ static public class NGUITools
 			else
 			{
 				// Reparent this root object to be a child of the panel
-				trans.parent = panel.transform;
+				trans.parent = panel.characterTtransform;
 				trans.localScale = Vector3.one;
 				trans.localPosition = Vector3.zero;
 				SetChildLayer(panel.cachedTransform, panel.cachedGameObject.layer);
@@ -961,7 +961,7 @@ static public class NGUITools
 #endif
 		if (comp == null)
 		{
-			Transform t = trans.transform.parent;
+			Transform t = trans.characterTtransform.parent;
 
 			while (t != null && comp == null)
 			{
@@ -1439,7 +1439,7 @@ static public class NGUITools
 		x1 *= aspect;
 
 		// We want to ignore the scale, as scale doesn't affect the camera's view region in Unity
-		Transform t = cam.transform;
+		Transform t = cam.characterTtransform;
 		Quaternion rot = t.rotation;
 		Vector3 pos = t.position;
 
@@ -1503,7 +1503,7 @@ static public class NGUITools
 		x1 *= aspect;
 
 		// We want to ignore the scale, as scale doesn't affect the camera's view region in Unity
-		Transform t = cam.transform;
+		Transform t = cam.characterTtransform;
 		Quaternion rot = t.rotation;
 		Vector3 pos = t.position;
 

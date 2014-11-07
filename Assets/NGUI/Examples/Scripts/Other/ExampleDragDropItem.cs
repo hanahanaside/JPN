@@ -27,7 +27,7 @@ public class ExampleDragDropItem : UIDragDropItem
 			if (dds != null)
 			{
 				GameObject child = NGUITools.AddChild(dds.gameObject, prefab);
-				child.transform.localScale = dds.transform.localScale;
+				child.transform.localScale = dds.characterTtransform.localScale;
 
 				Transform trans = child.transform;
 				trans.position = UICamera.lastWorldPosition;

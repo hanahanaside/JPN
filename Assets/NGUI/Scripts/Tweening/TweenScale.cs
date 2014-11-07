@@ -19,7 +19,7 @@ public class TweenScale : UITweener
 	Transform mTrans;
 	UITable mTable;
 
-	public Transform cachedTransform { get { if (mTrans == null) mTrans = transform; return mTrans; } }
+	public Transform cachedTransform { get { if (mTrans == null) mTrans = characterTtransform; return mTrans; } }
 
 	public Vector3 value { get { return cachedTransform.localScale; } set { cachedTransform.localScale = value; } }
 

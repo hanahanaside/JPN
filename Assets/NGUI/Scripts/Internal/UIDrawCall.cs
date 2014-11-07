@@ -157,7 +157,7 @@ public class UIDrawCall : MonoBehaviour
 	/// Transform is cached for speed and efficiency.
 	/// </summary>
 
-	public Transform cachedTransform { get { if (mTrans == null) mTrans = transform; return mTrans; } }
+	public Transform cachedTransform { get { if (mTrans == null) mTrans = characterTtransform; return mTrans; } }
 
 	/// <summary>
 	/// Material used by this screen.

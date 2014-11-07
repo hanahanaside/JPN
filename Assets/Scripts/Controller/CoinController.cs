@@ -8,11 +8,11 @@ public class CoinController : MonoBehaviour {
 	void Update () {
 		mLifeTime -= Time.deltaTime;
 		if (mLifeTime < 0) {
-			Destroy (transform.parent.gameObject);
+			Destroy (characterTtransform.parent.gameObject);
 		}
 	}
 
 	public void OnClick () {
-		Destroy (transform.parent.gameObject);
+		Destroy (characterTtransform.parent.gameObject);
 	}
 }

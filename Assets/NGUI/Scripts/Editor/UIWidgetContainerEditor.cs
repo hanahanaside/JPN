@@ -44,7 +44,7 @@ public class UIWidgetContainerEditor : Editor
 		if (mb.GetComponent<UIWidget>() != null) return;
 		if (mb.GetComponent<UIPanel>() != null) return;
 
-		Transform t = mb.transform;
+		Transform t = mb.characterTtransform;
 		UIWidget[] widgets = t.GetComponentsInChildren<UIWidget>();
 
 		Event e = Event.current;

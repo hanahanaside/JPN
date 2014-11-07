@@ -98,7 +98,7 @@ public class UITable : UIWidgetContainer
 		{
 			if (mChildren.Count == 0)
 			{
-				Transform myTrans = transform;
+				Transform myTrans = characterTtransform;
 
 				for (int i = 0; i < myTrans.childCount; ++i)
 				{
@@ -220,7 +220,7 @@ public class UITable : UIWidgetContainer
 		if (!mInitDone) Init();
 
 		mReposition = false;
-		Transform myTrans = transform;
+		Transform myTrans = characterTtransform;
 		mChildren.Clear();
 		List<Transform> ch = children;
 		if (ch.Count > 0) RepositionVariableSize(ch);

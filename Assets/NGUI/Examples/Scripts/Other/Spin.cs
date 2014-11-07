@@ -15,7 +15,7 @@ public class Spin : MonoBehaviour
 
 	void Start ()
 	{
-		mTrans = transform;
+		mTrans = characterTtransform;
 		mRb = rigidbody;
 	}
 

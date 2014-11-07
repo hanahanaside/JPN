@@ -410,7 +410,7 @@ public class UICreateWidgetWizard : EditorWindow
 				lbl.ambigiousFont = NGUISettings.ambigiousFont;
 				lbl.text = go.name;
 				lbl.pivot = UIWidget.Pivot.Left;
-				lbl.transform.localPosition = new Vector3(16f, 0f, 0f);
+				lbl.characterTtransform.localPosition = new Vector3(16f, 0f, 0f);
 				lbl.AssumeNaturalSize();
 			}
 
@@ -420,7 +420,7 @@ public class UICreateWidgetWizard : EditorWindow
 			// Add the scripts
 			go.AddComponent<UIToggle>().activeSprite = fg;
 			go.AddComponent<UIButton>().tweenTarget = bg.gameObject;
-			go.AddComponent<UIButtonScale>().tweenTarget = bg.transform;
+			go.AddComponent<UIButtonScale>().tweenTarget = bg.characterTtransform;
 			go.AddComponent<UIPlaySound>();
 
 			Selection.activeGameObject = go;
@@ -535,7 +535,7 @@ public class UICreateWidgetWizard : EditorWindow
 			back.spriteName = mSliderBG;
 			back.width = 200;
 			back.height = 30;
-			back.transform.localPosition = Vector3.zero;
+			back.characterTtransform.localPosition = Vector3.zero;
 			back.MakePixelPerfect();
 
 			// Foreground sprite
@@ -548,7 +548,7 @@ public class UICreateWidgetWizard : EditorWindow
 			front.spriteName = mSliderFG;
 			front.width = 200;
 			front.height = 30;
-			front.transform.localPosition = Vector3.zero;
+			front.characterTtransform.localPosition = Vector3.zero;
 			front.MakePixelPerfect();
 
 			// Add a collider
@@ -570,14 +570,14 @@ public class UICreateWidgetWizard : EditorWindow
 				thb.spriteName = mSliderTB;
 				thb.width = 20;
 				thb.height = 40;
-				thb.transform.localPosition = new Vector3(200f, 0f, 0f);
+				thb.characterTtransform.localPosition = new Vector3(200f, 0f, 0f);
 				thb.MakePixelPerfect();
 
 				NGUITools.AddWidgetCollider(thb.gameObject);
 				thb.gameObject.AddComponent<UIButtonColor>();
 				thb.gameObject.AddComponent<UIButtonScale>();
 
-				uiSlider.thumb = thb.transform;
+				uiSlider.thumb = thb.characterTtransform;
 			}
 			uiSlider.value = 1f;
 
@@ -617,13 +617,13 @@ public class UICreateWidgetWizard : EditorWindow
 			bg.pivot = UIWidget.Pivot.Left;
 			bg.width = 400;
 			bg.height = NGUISettings.fontSize + padding * 2;
-			bg.transform.localPosition = Vector3.zero;
+			bg.characterTtransform.localPosition = Vector3.zero;
 			bg.MakePixelPerfect();
 
 			UILabel lbl = NGUITools.AddWidget<UILabel>(go);
 			lbl.ambigiousFont = NGUISettings.ambigiousFont;
 			lbl.pivot = UIWidget.Pivot.Left;
-			lbl.transform.localPosition = new Vector3(padding, 0f, 0f);
+			lbl.characterTtransform.localPosition = new Vector3(padding, 0f, 0f);
 			lbl.multiLine = false;
 			lbl.supportEncoding = false;
 			lbl.width = Mathf.RoundToInt(400f - padding * 2f);
@@ -676,7 +676,7 @@ public class UICreateWidgetWizard : EditorWindow
 			sprite.pivot = UIWidget.Pivot.Left;
 			sprite.width = Mathf.RoundToInt(150f + fgPadding.x * 2f);
 			sprite.height = Mathf.RoundToInt(NGUISettings.fontSize + fgPadding.y * 2f);
-			sprite.transform.localPosition = Vector3.zero;
+			sprite.characterTtransform.localPosition = Vector3.zero;
 			sprite.MakePixelPerfect();
 
 			// Text label

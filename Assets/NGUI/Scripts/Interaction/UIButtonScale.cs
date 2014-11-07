@@ -25,7 +25,7 @@ public class UIButtonScale : MonoBehaviour
 		if (!mStarted)
 		{
 			mStarted = true;
-			if (tweenTarget == null) tweenTarget = transform;
+			if (tweenTarget == null) tweenTarget = characterTtransform;
 			mScale = tweenTarget.localScale;
 		}
 	}

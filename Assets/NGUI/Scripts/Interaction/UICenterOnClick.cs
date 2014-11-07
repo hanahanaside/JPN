@@ -20,12 +20,12 @@ public class UICenterOnClick : MonoBehaviour
 		if (center != null)
 		{
 			if (center.enabled)
-				center.CenterOn(transform);
+				center.CenterOn(characterTtransform);
 		}
 		else if (panel != null && panel.clipping != UIDrawCall.Clipping.None)
 		{
 			UIScrollView sv = panel.GetComponent<UIScrollView>();
-			Vector3 offset = -panel.cachedTransform.InverseTransformPoint(transform.position);
+			Vector3 offset = -panel.cachedTransform.InverseTransformPoint(characterTtransform.position);
 			if (!sv.canMoveHorizontally) offset.x = panel.cachedTransform.localPosition.x;
 			if (!sv.canMoveVertically) offset.y = panel.cachedTransform.localPosition.y;
 			SpringPanel.Begin(panel.cachedGameObject, offset, 6f);

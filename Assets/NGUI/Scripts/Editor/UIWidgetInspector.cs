@@ -986,7 +986,7 @@ public class UIWidgetInspector : UIRectEditor
 						if (pw != null)
 						{
 							NGUIEditorTools.RegisterUndo("Snap Dimensions", pw);
-							NGUIEditorTools.RegisterUndo("Snap Dimensions", pw.transform);
+							NGUIEditorTools.RegisterUndo("Snap Dimensions", pw.characterTtransform);
 							pw.MakePixelPerfect();
 						}
 					}

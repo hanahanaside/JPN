@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [AddComponentMenu("NGUI/Examples/Spin With Mouse")]
 public class SpinWithMouse : MonoBehaviour
@@ -10,7 +10,7 @@ public class SpinWithMouse : MonoBehaviour
 
 	void Start ()
 	{
-		mTrans = transform;
+		mTrans = characterTtransform;
 	}
 
 	void OnDrag (Vector2 delta)

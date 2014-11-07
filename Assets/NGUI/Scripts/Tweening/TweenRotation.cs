@@ -17,7 +17,7 @@ public class TweenRotation : UITweener
 
 	Transform mTrans;
 
-	public Transform cachedTransform { get { if (mTrans == null) mTrans = transform; return mTrans; } }
+	public Transform cachedTransform { get { if (mTrans == null) mTrans = characterTtransform; return mTrans; } }
 
 	[System.Obsolete("Use 'value' instead")]
 	public Quaternion rotation { get { return this.value; } set { this.value = value; } }
