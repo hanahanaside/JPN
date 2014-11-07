@@ -8,49 +8,33 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	public UILabel ticketCountLabel;
 	private PlayerData mPlayerData;
 
+	void Update(){
+		generateCoinSpeedLabel.text = mPlayerData.GenerateCoinPower+ "/分";
+		coinCountLabel.text = "" + mPlayerData.CoinCount;
+		ticketCountLabel.text = ""+mPlayerData.TicketCount;
+	}
+
 	public double CoinCount {
 		get {
 			return mPlayerData.CoinCount;
 		}
 	}
-
-	public double GenerateCoinSpeed {
-		get {
-			return mPlayerData.GenerateCoinSpeed;
-		}
-	}
-
+		
 	public void Init () {
 		mPlayerData = new PlayerData ();
 		mPlayerData.TicketCount = 1;
-		mPlayerData.CoinCount = 10.0;
-		mPlayerData.GenerateCoinSpeed = 60.0;
-		UpdateCoinCount (0);
-		UpdateTicketCount (0);
 	}
 
 	public void SaveData () {
 
 	}
 
-	public void AddGenerateCoinPower(double coinPower){
-
+	public void IncreaseGenerateCoinPower(double coinPower){
+		mPlayerData.GenerateCoinPower += coinPower;
 	}
 
-	public void AddCoinCount(double coinCount){
-
+	public void IncreaseCoinCount(double coinCount){
+		mPlayerData.CoinCount += coinCount;
 	}
-
-	public void UpdateCoinCount (double addCoinCount) {
-		if (addCoinCount > 0) {
-			mPlayerData.TotalCoinCount += addCoinCount;
-		}
-		mPlayerData.CoinCount += addCoinCount;
-		coinCountLabel.text = "" + (int)CoinCount;
-	}
-
-	public void UpdateTicketCount (int addCount) {
-		mPlayerData.TicketCount += addCount;
-		ticketCountLabel.text = "" + mPlayerData.TicketCount;
-	}
+		
 }

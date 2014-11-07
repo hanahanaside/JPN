@@ -22,7 +22,7 @@ public class Idle : MonoBehaviour {
 	public MoveSpeed moveSpeed;
 	public float moveTime;
 	public float stopTime;
-	public GameObject spriteObject;
+	public int idleId;
 
 	private Transform mTransform;
 	private float mTime;
@@ -30,13 +30,15 @@ public class Idle : MonoBehaviour {
 	private iTweenEvent mJumpEvent;
 	private iTweenEvent mScaleEvent;
 	private bool jump;
+	private UISprite mSprite;
 
 	void Start () {
 		mTransform = transform;
 		mTime = moveTime;
-		ChangeDirection (CheckDirection());
+		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
+		ChangeDirection (CheckDirection ());
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
-		mScaleEvent = iTweenEvent.GetEvent (gameObject,"ScaleEvent");
+		mScaleEvent = iTweenEvent.GetEvent (gameObject, "ScaleEvent");
 		mJumpEvent.Play ();
 		mScaleEvent.Play ();
 	}
@@ -53,12 +55,24 @@ public class Idle : MonoBehaviour {
 			if (mTime < 0) {
 				mState = State.Move;
 				mTime = moveTime;
-				ChangeDirection (CheckDirection());
+				ChangeDirection (CheckDirection ());
 				mJumpEvent.Play ();
 				mScaleEvent.Play ();
 			}
 			break;
 		case State.Live:
+			if (mTransform.localPosition.x < movableArea.limitLeft) {
+				ChangeDirection (Direction.Right);
+			}
+			if (mTransform.localPosition.x > movableArea.limitRight) {
+				ChangeDirection (Direction.Left);
+			}
+			if (mTransform.localPosition.y < movableArea.limitBottom) {
+				ChangeDirection (Direction.Up);
+			}
+			if (mTransform.localPosition.y > movableArea.limitTop) {
+				ChangeDirection (Direction.Down);
+			}
 			mTransform.Translate (new Vector3 (moveSpeed.speedX, moveSpeed.speedY, 0));
 			break;
 		case State.Sleep:
@@ -88,7 +102,7 @@ public class Idle : MonoBehaviour {
 		mTime = stopTime;
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
-		mTransform.localScale = new Vector3 (1f,1f,1f);
+		mTransform.localScale = new Vector3 (1f, 1f, 1f);
 	}
 
 	void OnCompleteJumpEvent () {
@@ -96,7 +110,7 @@ public class Idle : MonoBehaviour {
 		if (mState != State.Move) {
 			return;
 		}
-		if(jump){
+		if (jump) {
 			return;
 		}
 		if (mTransform.localPosition.x < movableArea.limitLeft) {
@@ -109,7 +123,7 @@ public class Idle : MonoBehaviour {
 			Stop ();
 		}
 		if (mTransform.localPosition.y > movableArea.limitTop) {
-			if(moveSpeed.speedY > 0){
+			if (moveSpeed.speedY > 0) {
 				Stop ();
 			}
 		}
@@ -118,41 +132,47 @@ public class Idle : MonoBehaviour {
 		}
 	}
 
-	private Direction CheckDirection(){
+	private Direction CheckDirection () {
 		if (mTransform.localPosition.x < movableArea.limitLeft) {
-			Debug.Log ("right");
 			return Direction.Right;
 		}
 		if (mTransform.localPosition.x > movableArea.limitRight) {
-			Debug.Log ("left");
 			return Direction.Left;
 		}
 		if (mTransform.localPosition.y < movableArea.limitBottom) {
-			Debug.Log ("up");
 			return Direction.Up;
 		}
 		if (mTransform.localPosition.y > movableArea.limitTop) {
-			Debug.Log ("down");
 			return Direction.Down;
 		}
-		int rand = Random.Range (0,4);
-		MyLog.LogDebug ("random");
+		int rand = Random.Range (0, 4);
 		return (Direction)rand;
 	}
 
 	public  void Sleep () {
 		mState = State.Sleep;
+		mJumpEvent.Stop ();
+		mScaleEvent.Stop ();
+		mSprite.spriteName = "idle_sleep_" + idleId;
 	}
 
 	public void Wakeup () {
 		mState = State.Move;
+		ChangeDirection (CheckDirection ());
+		mJumpEvent.Play ();
+		mScaleEvent.Play ();
+		mSprite.spriteName = "idle_normal_" + idleId;
 	}
 
-	public void StartDancing () {
+	public void StartLive () {
 		mState = State.Live;
+		ChangeDirection (CheckDirection ());
+		mJumpEvent.Play ();
+		mScaleEvent.Play ();
+		mSprite.spriteName = "idle_normal_" + idleId;
 	}
 
-	public void StopDancing () {
+	public void FinishLive () {
 		mState = State.Move;
 	}
 }

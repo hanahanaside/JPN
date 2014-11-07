@@ -9,5 +9,5 @@ public class PlayerData {
 
 	public double TotalCoinCount{ get; set; }
 
-	public double GenerateCoinSpeed{ get; set; }
+	public double GenerateCoinPower{ get; set; }
 }
