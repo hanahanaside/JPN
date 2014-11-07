@@ -212,6 +212,9 @@
      <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
      <Compile Include="Assets\Scripts\Model\Character.cs" />
      <Compile Include="Assets\Scripts\Model\Fan.cs" />
+     <Compile Include="Assets\Scripts\Params\AreaParams.cs" />
+     <Compile Include="Assets\Scripts\Params\GeneratePowerParams.cs" />
+     <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
      <Compile Include="Assets\Scripts\State\FanDanceState.cs" />
      <Compile Include="Assets\Scripts\State\FanNormalState.cs" />

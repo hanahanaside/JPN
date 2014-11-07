@@ -20,8 +20,8 @@ public class Idle : MonoBehaviour {
 
 	public MovableArea movableArea;
 	public MoveSpeed moveSpeed;
-	public float moveTime;
-	public float stopTime;
+	public float moveTimeSeconds;
+	public float stopTimeSeconds;
 	public int idleId;
 
 	private Transform mTransform;
@@ -29,16 +29,18 @@ public class Idle : MonoBehaviour {
 	private State mState = State.Move;
 	private iTweenEvent mJumpEvent;
 	private iTweenEvent mScaleEvent;
+	private iTweenEvent mRotateEvent;
 	private bool jump;
 	private UISprite mSprite;
 
 	void Start () {
 		mTransform = transform;
-		mTime = moveTime;
+		mTime = moveTimeSeconds;
 		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
 		ChangeDirection (CheckDirection ());
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		mScaleEvent = iTweenEvent.GetEvent (gameObject, "ScaleEvent");
+		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject,"RotateEvent");
 		mJumpEvent.Play ();
 		mScaleEvent.Play ();
 	}
@@ -54,7 +56,7 @@ public class Idle : MonoBehaviour {
 			//動きを再開
 			if (mTime < 0) {
 				mState = State.Move;
-				mTime = moveTime;
+				mTime = moveTimeSeconds;
 				ChangeDirection (CheckDirection ());
 				mJumpEvent.Play ();
 				mScaleEvent.Play ();
@@ -99,7 +101,7 @@ public class Idle : MonoBehaviour {
 
 	private void Stop () {
 		mState = State.Stop;
-		mTime = stopTime;
+		mTime = stopTimeSeconds;
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
 		mTransform.localScale = new Vector3 (1f, 1f, 1f);
@@ -169,10 +171,13 @@ public class Idle : MonoBehaviour {
 		ChangeDirection (CheckDirection ());
 		mJumpEvent.Play ();
 		mScaleEvent.Play ();
+		mRotateEvent.Play ();
 		mSprite.spriteName = "idle_normal_" + idleId;
 	}
 
 	public void FinishLive () {
 		mState = State.Move;
+		mRotateEvent.Stop ();
+		mSprite.transform.eulerAngles = new Vector3 (0,0,0);
 	}
 }

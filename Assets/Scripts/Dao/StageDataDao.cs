@@ -9,7 +9,7 @@ public class StageDataDao : Singleton<StageDataDao> {
 		for (int i = 1; i <= 1; i++) {
 			StageData stageData = new StageData ();
 			stageData.Id = i;
-			stageData.IdleCount = 2;
+			stageData.IdleCount = i;
 			stageData.AreaName = "北海道";
 			stageDataList.Add (stageData);
 		}
