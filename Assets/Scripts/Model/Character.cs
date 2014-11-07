@@ -3,60 +3,99 @@ using System.Collections;
 
 public abstract class Character : MonoBehaviour {
 
+	public MovableArea movableArea;
+	public MoveSpeed moveSpeed;
+	public float moveTimeSeconds;
+	public float stopTimeSeconds;
+
 	protected Transform characterTransform;
 
-	public MovableArea movableArea;
-	public float moveSpeedX;
-	public float moveSpeedY;
+	protected enum Direction {
+		Left,
+		Right,
+		Up,
+		Down,
+	}
 
-	public abstract void StartDancing ();
+	protected enum State {
+		Move,
+		Stop,
+		Live,
+		Sleep,
+	}
 
-	public abstract void StopDancing ();
+	void Awake () {
+		characterTransform = transform;
+	}
 
-	public abstract void FlipLeft ();
+	public abstract void StartLive ();
 
-	public abstract void FlipRight ();
+	public abstract void FinishLive ();
 
-	public void CheckFlip () {
+	public abstract void StartMoving ();
+
+	public abstract void Stop ();
+
+	public abstract void Sleep ();
+
+	public abstract void Wakeup ();
+
+	//移動方向を変更
+	protected void ChangeDirection (Direction direction) {
+		switch (direction) {
+		case Direction.Left:
+			characterTransform.eulerAngles = new Vector3 (0, 0, 0);
+			break;
+		case Direction.Right:
+			characterTransform.eulerAngles = new Vector3 (0, -180, 0);
+			break;
+		case Direction.Down:
+			if (moveSpeed.speedY > 0) {
+				moveSpeed.speedY = -moveSpeed.speedY;
+			}
+			break;
+		case Direction.Up:
+			if (moveSpeed.speedY < 0) {
+				moveSpeed.speedY = -moveSpeed.speedY;
+			}
+			break;
+		}
+	}
+
+	//上限の座標に達しているかをチェック
+	protected bool CheckLimit () {
 		if (characterTransform.localPosition.x < movableArea.limitLeft) {
-			moveSpeedX = -moveSpeedX;
+			return true;
 		}
 		if (characterTransform.localPosition.x > movableArea.limitRight) {
-			moveSpeedX = -moveSpeedX;
+			return true;
 		}
 		if (characterTransform.localPosition.y < movableArea.limitBottom) {
-			moveSpeedY = -moveSpeedY;
+			return true;
 		}
 		if (characterTransform.localPosition.y > movableArea.limitTop) {
-			moveSpeedY = -moveSpeedY;
+			return true;
 		}
+		return false;
 	}
 
-	public void ChangeDirection () {
+	//進むべき方向をチェックする(どこでも良ければランダム)
+	protected Direction CheckDirection () {
+		if (characterTransform.localPosition.x < movableArea.limitLeft) {
+			return Direction.Right;
+		}
+		if (characterTransform.localPosition.x > movableArea.limitRight) {
+			return Direction.Left;
+		}
+		if (characterTransform.localPosition.y < movableArea.limitBottom) {
+			return Direction.Up;
+		}
+		if (characterTransform.localPosition.y > movableArea.limitTop) {
+			return Direction.Down;
+		}
 		int rand = Random.Range (0, 4);
-		switch (rand) {
-		case 0:
-			break;
-		case 1:
-			moveSpeedX = -moveSpeedX;
-			break;
-		case 2:
-			moveSpeedY = -moveSpeedY;
-			break;
-		case 3:
-			moveSpeedX = -moveSpeedX;
-			moveSpeedY = -moveSpeedY;
-			break;
-		}
+		return (Direction)rand;
 	}
-		
-	public void Move () { 
-		if(moveSpeedX < 0){
-			FlipLeft ();
-		}else {
-			FlipRight ();
-		}
-		characterTransform.Translate (new Vector3 (moveSpeedX, moveSpeedY, 0));
-	}
+
 
 }

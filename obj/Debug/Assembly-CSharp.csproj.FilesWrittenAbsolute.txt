@@ -1,0 +1,12 @@
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/obj/Debug/Assembly-CSharp.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/UnityEngine.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/UnityEditor.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Mono.Cecil.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/nunit.framework.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Unity.DataContract.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/ICSharpCode.NRefactory.dll

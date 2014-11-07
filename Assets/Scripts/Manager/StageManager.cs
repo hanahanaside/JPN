@@ -7,8 +7,8 @@ public class StageManager : MonoBehaviour {
 	enum State {
 		Normal,
 		Sleep,
-		Live}
-	;
+		Live,
+	}
 
 	public Transform[] fanPositionArray;
 	public Transform[] idlePositionArray;
@@ -25,40 +25,42 @@ public class StageManager : MonoBehaviour {
 	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
 	private State mState = State.Normal;
-	private List<Idle> mIdleList;
+	private StageData mStageData;
+	private List<Character> mCharacterList;
 
 	void Start () {
-		mIdleList = new List<Idle> ();
-		StageData stageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
+		mCharacterList = new List<Character> ();
+		mStageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
 
 		//ファンを生成
-		GameObject fanPrefab = Resources.Load ("Model/StageFan_1") as GameObject;
+		GameObject fanPrefab = Resources.Load ("Model/Fan") as GameObject;
 		GameObject fanObject = Instantiate (fanPrefab) as GameObject;
 		fanObject.transform.parent = gameObject.transform.parent;
 		fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		fanObject.transform.localPosition = fanPositionArray [0].localPosition;
+		mCharacterList.Add (fanObject.GetComponent<Character>());
 
 		//アイドルを生成
-		for (int i = 0; i < stageData.IdleCount; i++) {
+		for (int i = 0; i < mStageData.IdleCount; i++) {
 			GameObject idlePrefab = Resources.Load ("Model/Idle_" + areaParams.stageId) as GameObject;
 			GameObject idleObject = Instantiate (idlePrefab) as GameObject;
 			idleObject.transform.parent = gameObject.transform.parent;
 			idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 			int rand = Random.Range (0, idlePositionArray.Length);
 			idleObject.transform.localPosition = idlePositionArray [rand].localPosition;
-			mIdleList.Add (idleObject.GetComponent<Idle> ());
+			mCharacterList.Add (idleObject.GetComponent<Character> ());
 		}
 
 		//エリア名をセット
-		areaNameLabel.text = stageData.AreaName;
+		areaNameLabel.text = mStageData.AreaName;
 		//サボるまでの時間をセット
-		mUntilSleepTime = areaParams.GetUntilSleepTime (mIdleList.Count);
+		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
 		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mIdleList.Count) * stageData.IdleCount;
+		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		//アイドルの数をセット
-		idleCountLabel.text = "×" + mIdleList.Count;
+		idleCountLabel.text = "×" + mStageData.IdleCount;
 		//アイドルの画像をセット
 		idleSprite.spriteName = "idle_normal_" + areaParams.stageId;
 		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
@@ -96,11 +98,11 @@ public class StageManager : MonoBehaviour {
 	}
 
 	public void OnWakeupButtonClicked () {
-		mUntilSleepTime = areaParams.GetUntilSleepTime (mIdleList.Count);
+		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
 		sleepObject.SetActive (false);
 		mState = State.Normal;
-		foreach (Idle idle in mIdleList) {
-			idle.Wakeup ();
+		foreach (Character character in mCharacterList) {
+			character.Wakeup ();
 		}
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 	}
@@ -108,8 +110,8 @@ public class StageManager : MonoBehaviour {
 	private void Sleep () {
 		sleepObject.SetActive (true);
 		mState = State.Sleep;
-		foreach (Idle idle in mIdleList) {
-			idle.Sleep ();
+		foreach (Character character in mCharacterList) {
+			character.Sleep ();
 		}
 		PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 	}
@@ -120,16 +122,16 @@ public class StageManager : MonoBehaviour {
 			sleepObject.SetActive (false);
 			PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
-		foreach (Idle idle in mIdleList) {
-			idle.StartLive ();
+		foreach (Character character in mCharacterList) {
+			character.StartLive ();
 		}
 	}
 
 	public void FinishLive () {
-		mUntilSleepTime = areaParams.GetUntilSleepTime (mIdleList.Count);
+		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
 		mState = State.Normal;
-		foreach (Idle idle in mIdleList) {
-			idle.FinishLive ();
+		foreach (Character character in mCharacterList) {
+			character.FinishLive ();
 		}
 	}
 }
