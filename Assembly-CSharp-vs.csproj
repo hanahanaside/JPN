@@ -217,9 +217,6 @@
      <Compile Include="Assets\Scripts\Params\GeneratePowerParams.cs" />
      <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
-     <Compile Include="Assets\Scripts\State\FanDanceState.cs" />
-     <Compile Include="Assets\Scripts\State\FanNormalState.cs" />
-     <Compile Include="Assets\Scripts\State\FanState.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
