@@ -119,7 +119,7 @@ public class UIKeyNavigation : MonoBehaviour
 
 	protected GameObject Get (Vector3 myDir, bool horizontal)
 	{
-		Transform t = characterTtransform;
+		Transform t = transform;
 		myDir = t.TransformDirection(myDir);
 		Vector3 myCenter = GetCenter(gameObject);
 		float min = float.MaxValue;

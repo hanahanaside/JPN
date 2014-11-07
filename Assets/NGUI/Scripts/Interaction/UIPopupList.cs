@@ -668,7 +668,7 @@ public class UIPopupList : UIWidgetContainer
 			// Automatically locate the panel responsible for this object
 			if (mPanel == null)
 			{
-				mPanel = UIPanel.Find(characterTtransform);
+				mPanel = UIPanel.Find(transform);
 				if (mPanel == null) return;
 			}
 
@@ -676,7 +676,7 @@ public class UIPopupList : UIWidgetContainer
 			handleEvents = true;
 
 			// Calculate the dimensions of the object triggering the popup list so we can position it below it
-			Transform myTrans = characterTtransform;
+			Transform myTrans = transform;
 			Bounds bounds = NGUIMath.CalculateRelativeWidgetBounds(myTrans.parent, myTrans);
 
 			// Create the root object for the list

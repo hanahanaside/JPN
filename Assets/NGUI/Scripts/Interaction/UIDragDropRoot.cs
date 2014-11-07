@@ -16,6 +16,6 @@ public class UIDragDropRoot : MonoBehaviour
 {
 	static public Transform root;
 
-	void OnEnable () { root = characterTtransform; }
-	void OnDisable () { if (root == characterTtransform) root = null; }
+	void OnEnable () { root = transform; }
+	void OnDisable () { if (root == transform) root = null; }
 }

@@ -16,7 +16,7 @@ public class PanWithMouse : MonoBehaviour
 
 	void Start ()
 	{
-		mTrans = characterTtransform;
+		mTrans = transform;
 		mStart = mTrans.localRotation;
 	}
 

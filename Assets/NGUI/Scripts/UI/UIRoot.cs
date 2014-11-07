@@ -140,7 +140,7 @@ public class UIRoot : MonoBehaviour
 
 	Transform mTrans;
 
-	protected virtual void Awake () { mTrans = characterTtransform; }
+	protected virtual void Awake () { mTrans = transform; }
 	protected virtual void OnEnable () { list.Add(this); }
 	protected virtual void OnDisable () { list.Remove(this); }
 

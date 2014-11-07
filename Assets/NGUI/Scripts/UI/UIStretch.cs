@@ -86,7 +86,7 @@ public class UIStretch : MonoBehaviour
 	{
 		mAnim = animation;
 		mRect = new Rect();
-		mTrans = characterTtransform;
+		mTrans = transform;
 		mWidget = GetComponent<UIWidget>();
 		mSprite = GetComponent<UISprite>();
 		mPanel = GetComponent<UIPanel>();
@@ -129,7 +129,7 @@ public class UIStretch : MonoBehaviour
 
 			if (wc != null)
 			{
-				Bounds b = wc.CalculateBounds(characterTtransform.parent);
+				Bounds b = wc.CalculateBounds(transform.parent);
 
 				mRect.x = b.min.x;
 				mRect.y = b.min.y;
@@ -160,7 +160,7 @@ public class UIStretch : MonoBehaviour
 			}
 			else if (container != null)
 			{
-				Transform root = characterTtransform.parent;
+				Transform root = transform.parent;
 				Bounds b = (root != null) ? NGUIMath.CalculateRelativeWidgetBounds(root, container.transform) :
 					NGUIMath.CalculateRelativeWidgetBounds(container.transform);
 

@@ -486,7 +486,7 @@ public class UIPrefabTool : EditorWindow
 		Vector3 size = bounds.extents;
 		float objSize = size.magnitude;
 
-		cam.characterTtransform.position = bounds.center;
+		cam.transform.position = bounds.center;
 		cam.cullingMask = (1 << root.layer);
 
 		if (point != null) SetupSnapshotCamera(child, cam, point);
@@ -525,8 +525,8 @@ public class UIPrefabTool : EditorWindow
 		// Set the camera's properties
 		cam.cullingMask = mask;
 		cam.isOrthoGraphic = true;
-		cam.characterTtransform.position = bounds.center;
-		cam.characterTtransform.rotation = Quaternion.LookRotation(camDir);
+		cam.transform.position = bounds.center;
+		cam.transform.rotation = Quaternion.LookRotation(camDir);
 
 		float objSize = bounds.size.magnitude;
 		if (point != null) SetupSnapshotCamera(child, cam, point);
@@ -542,7 +542,7 @@ public class UIPrefabTool : EditorWindow
 		light.shadows = LightShadows.None;
 		light.color = Color.white;
 		light.intensity = 0.65f;
-		light.characterTtransform.rotation = Quaternion.LookRotation(lightDir);
+		light.transform.rotation = Quaternion.LookRotation(lightDir);
 		light.cullingMask = mask;
 		return true;
 	}
@@ -553,8 +553,8 @@ public class UIPrefabTool : EditorWindow
 
 	static void SetupSnapshotCamera (GameObject go, Camera cam, UISnapshotPoint point)
 	{
-		Vector3 pos = point.characterTtransform.localPosition;
-		Quaternion rot = point.characterTtransform.localRotation;
+		Vector3 pos = point.transform.localPosition;
+		Quaternion rot = point.transform.localRotation;
 		Transform t = go.transform;
 
 		if (t.parent != null)
@@ -563,8 +563,8 @@ public class UIPrefabTool : EditorWindow
 			rot = t.parent.rotation * rot;
 		}
 
-		cam.characterTtransform.position = pos;
-		cam.characterTtransform.rotation = rot;
+		cam.transform.position = pos;
+		cam.transform.rotation = rot;
 		cam.isOrthoGraphic = point.isOrthographic;
 		cam.nearClipPlane = point.nearClip;
 		cam.farClipPlane = point.farClip;
@@ -623,8 +623,8 @@ public class UIPrefabTool : EditorWindow
 			cam.orthographicSize = orthoSize;
 		}
 
-		cam.characterTtransform.position = snapshot.position;
-		cam.characterTtransform.rotation = snapshot.rotation;
+		cam.transform.position = snapshot.position;
+		cam.transform.rotation = snapshot.rotation;
 	}
 
 	/// <summary>

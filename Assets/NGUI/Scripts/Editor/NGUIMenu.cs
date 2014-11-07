@@ -654,8 +654,8 @@ static public class NGUIMenu
 		svc.nearClipPlane = cam.nearClipPlane;
 		svc.farClipPlane = cam.farClipPlane;
 		sv.size = Mathf.Sqrt(svc.aspect) / 0.7071068f;
-		sv.pivot = cam.characterTtransform.position;
-		sv.rotation = cam.characterTtransform.rotation;
+		sv.pivot = cam.transform.position;
+		sv.rotation = cam.transform.rotation;
 		sv.orthographic = true;
 		sv.Repaint();
 	}

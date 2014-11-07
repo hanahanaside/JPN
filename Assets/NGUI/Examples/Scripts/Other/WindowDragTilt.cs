@@ -17,7 +17,7 @@ public class WindowDragTilt : MonoBehaviour
 
 	void OnEnable ()
 	{
-		mTrans = characterTtransform;
+		mTrans = transform;
 		mLastPos = mTrans.position;
 	}
 

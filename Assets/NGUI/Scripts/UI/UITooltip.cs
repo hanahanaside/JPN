@@ -39,7 +39,7 @@ public class UITooltip : MonoBehaviour
 
 	protected virtual void Start ()
 	{
-		mTrans = characterTtransform;
+		mTrans = transform;
 		mWidgets = GetComponentsInChildren<UIWidget>();
 		mPos = mTrans.localPosition;
 		if (uiCamera == null) uiCamera = NGUITools.FindCameraForLayer(gameObject.layer);
@@ -101,7 +101,7 @@ public class UITooltip : MonoBehaviour
 			// Orthographic camera positioning is trivial
 			mPos = Input.mousePosition;
 
-			Transform textTrans = text.characterTtransform;
+			Transform textTrans = text.transform;
 			Vector3 offset = textTrans.localPosition;
 			Vector3 textScale = textTrans.localScale;
 

@@ -33,7 +33,7 @@ public class UIDragScrollView : MonoBehaviour
 
 	void OnEnable ()
 	{
-		mTrans = characterTtransform;
+		mTrans = transform;
 
 		// Auto-upgrade
 		if (scrollView == null && draggablePanel != null)

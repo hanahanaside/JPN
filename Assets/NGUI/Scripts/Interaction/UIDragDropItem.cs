@@ -59,7 +59,7 @@ public class UIDragDropItem : MonoBehaviour
 
 	protected virtual void Start ()
 	{
-		mTrans = characterTtransform;
+		mTrans = transform;
 		mCollider = collider;
 		mButton = GetComponent<UIButton>();
 		mDragScrollView = GetComponent<UIDragScrollView>();
@@ -100,10 +100,10 @@ public class UIDragDropItem : MonoBehaviour
 
 		if (cloneOnDrag)
 		{
-			GameObject clone = NGUITools.AddChild(characterTtransform.parent.gameObject, gameObject);
-			clone.transform.localPosition = characterTtransform.localPosition;
-			clone.transform.localRotation = characterTtransform.localRotation;
-			clone.transform.localScale = characterTtransform.localScale;
+			GameObject clone = NGUITools.AddChild(transform.parent.gameObject, gameObject);
+			clone.transform.localPosition = transform.localPosition;
+			clone.transform.localRotation = transform.localRotation;
+			clone.transform.localScale = transform.localScale;
 
 			UIButtonColor bc = clone.GetComponent<UIButtonColor>();
 			if (bc != null) bc.defaultColor = GetComponent<UIButtonColor>().defaultColor;
@@ -208,7 +208,7 @@ public class UIDragDropItem : MonoBehaviour
 			if (container != null)
 			{
 				// Container found -- parent this object to the container
-				mTrans.parent = (container.reparentTarget != null) ? container.reparentTarget : container.characterTtransform;
+				mTrans.parent = (container.reparentTarget != null) ? container.reparentTarget : container.transform;
 
 				Vector3 pos = mTrans.localPosition;
 				pos.z = 0f;

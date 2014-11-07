@@ -68,7 +68,7 @@ public class UIProgressBar : UIWidgetContainer
 	/// Cached for speed.
 	/// </summary>
 
-	public Transform cachedTransform { get { if (mTrans == null) mTrans = characterTtransform; return mTrans; } }
+	public Transform cachedTransform { get { if (mTrans == null) mTrans = transform; return mTrans; } }
 
 	/// <summary>
 	/// Camera used to draw the scroll bar.

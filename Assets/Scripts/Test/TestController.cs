@@ -3,14 +3,13 @@ using System.Collections;
 
 public class TestController : MonoBehaviour {
 
-	public Fan fan;
+	public GameObject uiRoot;
+	public GameObject puzzle;
 
 	void Start(){
-
-	}
-
-	public void OnButtonClicked(){
-		Debug.Log ("click");
-		fan.StartLive ();
+		GameObject a =  Instantiate (puzzle) as GameObject;
+		UISprite sprite = a.GetComponent<UISprite> ();
+	sprite.spriteName = "puzzle_2";
+	//	a.transform.parent = uiRoot.transform;
 	}
 }

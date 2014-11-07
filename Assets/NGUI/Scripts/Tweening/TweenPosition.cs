@@ -21,7 +21,7 @@ public class TweenPosition : UITweener
 	Transform mTrans;
 	UIRect mRect;
 
-	public Transform cachedTransform { get { if (mTrans == null) mTrans = characterTtransform; return mTrans; } }
+	public Transform cachedTransform { get { if (mTrans == null) mTrans = transform; return mTrans; } }
 
 	[System.Obsolete("Use 'value' instead")]
 	public Vector3 position { get { return this.value; } set { this.value = value; } }

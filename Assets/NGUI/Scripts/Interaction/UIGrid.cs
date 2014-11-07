@@ -118,7 +118,7 @@ public class UIGrid : UIWidgetContainer
 
 	public List<Transform> GetChildList ()
 	{
-		Transform myTrans = characterTtransform;
+		Transform myTrans = transform;
 		List<Transform> list = new List<Transform>();
 
 		for (int i = 0; i < myTrans.childCount; ++i)
@@ -172,7 +172,7 @@ public class UIGrid : UIWidgetContainer
 	{
 		if (trans != null)
 		{
-			trans.parent = characterTtransform;
+			trans.parent = transform;
 			ResetPosition(GetChildList());
 		}
 	}
@@ -322,7 +322,7 @@ public class UIGrid : UIWidgetContainer
 	public void ConstrainWithinPanel ()
 	{
 		if (mPanel != null)
-			mPanel.ConstrainTargetToBounds(characterTtransform, true);
+			mPanel.ConstrainTargetToBounds(transform, true);
 	}
 
 	/// <summary>
@@ -342,7 +342,7 @@ public class UIGrid : UIWidgetContainer
 		int y = 0;
 		int maxX = 0;
 		int maxY = 0;
-		Transform myTrans = characterTtransform;
+		Transform myTrans = transform;
 
 		// Re-add the children in the same order we have them in and position them accordingly
 		for (int i = 0, imax = list.Count; i < imax; ++i)

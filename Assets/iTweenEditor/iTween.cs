@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2011 Bob Berkebile (pixelplacment)
+// Copyright (c) 2011 Bob Berkebile (pixelplacment)
 // Please direct any bugs/comments/suggestions to http://pixelplacement.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -3454,16 +3454,16 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[3];
 		
 		//from values:
-		vector3s[0]=characterTtransform.eulerAngles;
+		vector3s[0]=transform.eulerAngles;
 		
 		//set look:
 		if(tweenArguments.Contains("looktarget")){
 			if (tweenArguments["looktarget"].GetType() == typeof(Transform)) {
 				//transform.LookAt((Transform)tweenArguments["looktarget"]);
-				characterTtransform.LookAt((Transform)tweenArguments["looktarget"], (Vector3?)tweenArguments["up"] ?? Defaults.up);
+				transform.LookAt((Transform)tweenArguments["looktarget"], (Vector3?)tweenArguments["up"] ?? Defaults.up);
 			}else if(tweenArguments["looktarget"].GetType() == typeof(Vector3)){
 				//transform.LookAt((Vector3)tweenArguments["looktarget"]);
-				characterTtransform.LookAt((Vector3)tweenArguments["looktarget"], (Vector3?)tweenArguments["up"] ?? Defaults.up);
+				transform.LookAt((Vector3)tweenArguments["looktarget"], (Vector3?)tweenArguments["up"] ?? Defaults.up);
 			}
 		}else{
 			Debug.LogError("iTween Error: LookTo needs a 'looktarget' property!");
@@ -3471,8 +3471,8 @@ public class iTween : MonoBehaviour{
 		}
 
 		//to values:
-		vector3s[1]=characterTtransform.eulerAngles;
-		characterTtransform.eulerAngles=vector3s[0];
+		vector3s[1]=transform.eulerAngles;
+		transform.eulerAngles=vector3s[0];
 		
 		//axis restriction:
 		if(tweenArguments.Contains("axis")){
@@ -3531,7 +3531,7 @@ public class iTween : MonoBehaviour{
 		//do we need to plot a path to get to the beginning of the supplied path?		
 		bool plotStart;
 		int offset;
-		if(characterTtransform.position != suppliedPath[0]){
+		if(transform.position != suppliedPath[0]){
 			if(!tweenArguments.Contains("movetopath") || (bool)tweenArguments["movetopath"]==true){
 				plotStart=true;
 				offset=3;	
@@ -3547,7 +3547,7 @@ public class iTween : MonoBehaviour{
 		//build calculated path:
 		vector3s = new Vector3[suppliedPath.Length+offset];
 		if(plotStart){
-			vector3s[1]=characterTtransform.position;
+			vector3s[1]=transform.position;
 			offset=2;
 		}else{
 			offset=1;
@@ -3587,9 +3587,9 @@ public class iTween : MonoBehaviour{
 		
 		//from values:
 		if (isLocal) {
-			vector3s[0]=vector3s[1]=characterTtransform.localPosition;				
+			vector3s[0]=vector3s[1]=transform.localPosition;				
 		}else{
-			vector3s[0]=vector3s[1]=characterTtransform.position;
+			vector3s[0]=vector3s[1]=transform.position;
 		}
 		
 		//to values:
@@ -3629,10 +3629,10 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[6];
 		
 		//grab starting rotation:
-		vector3s[4] = characterTtransform.eulerAngles;
+		vector3s[4] = transform.eulerAngles;
 		
 		//from values:
-		vector3s[0]=vector3s[1]=vector3s[3]=characterTtransform.position;
+		vector3s[0]=vector3s[1]=vector3s[3]=transform.position;
 				
 		//to values:
 		if (tweenArguments.Contains("amount")) {
@@ -3650,9 +3650,9 @@ public class iTween : MonoBehaviour{
 		}	
 		
 		//calculation for dial in:
-		characterTtransform.Translate(vector3s[1],space);
-		vector3s[5] = characterTtransform.position;
-		characterTtransform.position=vector3s[0];
+		transform.Translate(vector3s[1],space);
+		vector3s[5] = transform.position;
+		transform.position=vector3s[0];
 		
 		//handle orient to path request:
 		if(tweenArguments.Contains("orienttopath") && (bool)tweenArguments["orienttopath"]){
@@ -3671,7 +3671,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[3];
 		
 		//from values:
-		vector3s[0]=vector3s[1]=characterTtransform.localScale;				
+		vector3s[0]=vector3s[1]=transform.localScale;				
 
 		//to values:
 		if (tweenArguments.Contains("scale")) {
@@ -3705,7 +3705,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[3];
 		
 		//from values:
-		vector3s[0]=vector3s[1]=characterTtransform.localScale;				
+		vector3s[0]=vector3s[1]=transform.localScale;				
 
 		//to values:
 		if (tweenArguments.Contains("amount")) {
@@ -3734,7 +3734,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[3];
 		
 		//from values:
-		vector3s[0]=vector3s[1]=characterTtransform.localScale;				
+		vector3s[0]=vector3s[1]=transform.localScale;				
 
 		//to values:
 		if (tweenArguments.Contains("amount")) {
@@ -3764,9 +3764,9 @@ public class iTween : MonoBehaviour{
 		
 		//from values:
 		if (isLocal) {
-			vector3s[0]=vector3s[1]=characterTtransform.localEulerAngles;				
+			vector3s[0]=vector3s[1]=transform.localEulerAngles;				
 		}else{
-			vector3s[0]=vector3s[1]=characterTtransform.eulerAngles;
+			vector3s[0]=vector3s[1]=transform.eulerAngles;
 		}
 		
 		//to values:
@@ -3804,7 +3804,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[5];
 		
 		//from values:
-		vector3s[0]=vector3s[1]=vector3s[3]=characterTtransform.eulerAngles;
+		vector3s[0]=vector3s[1]=vector3s[3]=transform.eulerAngles;
 		
 		//to values:
 		if (tweenArguments.Contains("amount")) {
@@ -3833,7 +3833,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[4];
 		
 		//from values:
-		vector3s[0]=vector3s[1]=vector3s[3]=characterTtransform.eulerAngles;
+		vector3s[0]=vector3s[1]=vector3s[3]=transform.eulerAngles;
 		
 		//to values:
 		if (tweenArguments.Contains("amount")) {
@@ -3862,10 +3862,10 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[4];
 		
 		//grab starting rotation:
-		vector3s[3] = characterTtransform.eulerAngles;		
+		vector3s[3] = transform.eulerAngles;		
 		
 		//root:
-		vector3s[0]=characterTtransform.position;
+		vector3s[0]=transform.position;
 		
 		//amount:
 		if (tweenArguments.Contains("amount")) {
@@ -3888,7 +3888,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[3];
 		
 		//root:
-		vector3s[0]=characterTtransform.localScale;
+		vector3s[0]=transform.localScale;
 		
 		//amount:
 		if (tweenArguments.Contains("amount")) {
@@ -3911,7 +3911,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[3];
 		
 		//root:
-		vector3s[0]=characterTtransform.eulerAngles;
+		vector3s[0]=transform.eulerAngles;
 		
 		//amount:
 		if (tweenArguments.Contains("amount")) {
@@ -3934,10 +3934,10 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[5];
 		
 		//grab starting rotation:
-		vector3s[4] = characterTtransform.eulerAngles;
+		vector3s[4] = transform.eulerAngles;
 		
 		//from values:
-		vector3s[0]=characterTtransform.position;
+		vector3s[0]=transform.position;
 		vector3s[1]=vector3s[3]=Vector3.zero;
 				
 		//to values:
@@ -3961,7 +3961,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[4];
 		
 		//from values:
-		vector3s[0]=characterTtransform.eulerAngles;
+		vector3s[0]=transform.eulerAngles;
 		vector3s[1]=vector3s[3]=Vector3.zero;
 				
 		//to values:
@@ -3985,7 +3985,7 @@ public class iTween : MonoBehaviour{
 		vector3s=new Vector3[3];
 		
 		//from values:
-		vector3s[0]=characterTtransform.localScale;
+		vector3s[0]=transform.localScale;
 		vector3s[1]=Vector3.zero;
 				
 		//to values:
@@ -4155,15 +4155,15 @@ public class iTween : MonoBehaviour{
 	}
 	
 	void ApplyMoveToPathTargets(){
-		preUpdate = characterTtransform.position;
+		preUpdate = transform.position;
 		float t = ease(0,1,percentage);
 		float lookAheadAmount;
 		
 		//clamp easing equation results as "back" will fail since overshoots aren't handled in the Catmull-Rom interpolation:
 		if(isLocal){
-			characterTtransform.localPosition=path.Interp(Mathf.Clamp(t,0,1));	
+			transform.localPosition=path.Interp(Mathf.Clamp(t,0,1));	
 		}else{
-			characterTtransform.position=path.Interp(Mathf.Clamp(t,0,1));	
+			transform.position=path.Interp(Mathf.Clamp(t,0,1));	
 		}
 		
 		//handle orient to path request:
@@ -4185,16 +4185,16 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//need physics?
-		postUpdate=characterTtransform.position;
+		postUpdate=transform.position;
 		if(physics){
-			characterTtransform.position=preUpdate;
+			transform.position=preUpdate;
 			rigidbody.MovePosition(postUpdate);
 		}
 	}
 	
 	void ApplyMoveToTargets(){
 		//record current:
-		preUpdate=characterTtransform.position;
+		preUpdate=transform.position;
 			
 		//calculate:
 		vector3s[2].x = ease(vector3s[0].x,vector3s[1].x,percentage);
@@ -4203,37 +4203,37 @@ public class iTween : MonoBehaviour{
 		
 		//apply:	
 		if (isLocal) {
-			characterTtransform.localPosition=vector3s[2];
+			transform.localPosition=vector3s[2];
 		}else{
-			characterTtransform.position=vector3s[2];
+			transform.position=vector3s[2];
 		}
 			
 		//dial in:
 		if(percentage==1){
 			if (isLocal) {
-				characterTtransform.localPosition=vector3s[1];		
+				transform.localPosition=vector3s[1];		
 			}else{
-				characterTtransform.position=vector3s[1];
+				transform.position=vector3s[1];
 			}
 		}
 			
 		//need physics?
-		postUpdate=characterTtransform.position;
+		postUpdate=transform.position;
 		if(physics){
-			characterTtransform.position=preUpdate;
+			transform.position=preUpdate;
 			rigidbody.MovePosition(postUpdate);
 		}
 	}	
 	
 	void ApplyMoveByTargets(){	
-		preUpdate = characterTtransform.position;
+		preUpdate = transform.position;
 		
 		//reset rotation to prevent look interferences as object rotates and attempts to move with translate and record current rotation
 		Vector3 currentRotation = new Vector3();
 		
 		if(tweenArguments.Contains("looktarget")){
-			currentRotation = characterTtransform.eulerAngles;
-			characterTtransform.eulerAngles = vector3s[4];	
+			currentRotation = transform.eulerAngles;
+			transform.eulerAngles = vector3s[4];	
 		}
 		
 		//calculate:
@@ -4242,14 +4242,14 @@ public class iTween : MonoBehaviour{
 		vector3s[2].z = ease(vector3s[0].z,vector3s[1].z,percentage);
 				
 		//apply:
-		characterTtransform.Translate(vector3s[2]-vector3s[3],space);
+		transform.Translate(vector3s[2]-vector3s[3],space);
 		
 		//record:
 		vector3s[3]=vector3s[2];
 		
 		//reset rotation:
 		if(tweenArguments.Contains("looktarget")){
-			characterTtransform.eulerAngles = currentRotation;	
+			transform.eulerAngles = currentRotation;	
 		}
 				
 		/*
@@ -4260,9 +4260,9 @@ public class iTween : MonoBehaviour{
 		*/
 		
 		//need physics?
-		postUpdate=characterTtransform.position;
+		postUpdate=transform.position;
 		if(physics){
-			characterTtransform.position=preUpdate;
+			transform.position=preUpdate;
 			rigidbody.MovePosition(postUpdate);
 		}
 	}	
@@ -4274,11 +4274,11 @@ public class iTween : MonoBehaviour{
 		vector3s[2].z = ease(vector3s[0].z,vector3s[1].z,percentage);
 		
 		//apply:
-		characterTtransform.localScale=vector3s[2];	
+		transform.localScale=vector3s[2];	
 		
 		//dial in:
 		if(percentage==1){
-			characterTtransform.localScale=vector3s[1];
+			transform.localScale=vector3s[1];
 		}
 	}
 	
@@ -4290,14 +4290,14 @@ public class iTween : MonoBehaviour{
 		
 		//apply:
 		if (isLocal) {
-			characterTtransform.localRotation = Quaternion.Euler(vector3s[2]);
+			transform.localRotation = Quaternion.Euler(vector3s[2]);
 		}else{
-			characterTtransform.rotation = Quaternion.Euler(vector3s[2]);
+			transform.rotation = Quaternion.Euler(vector3s[2]);
 		};	
 	}	
 	
 	void ApplyRotateToTargets(){
-		preUpdate=characterTtransform.eulerAngles;
+		preUpdate=transform.eulerAngles;
 		
 		//calculate:
 		vector3s[2].x = ease(vector3s[0].x,vector3s[1].x,percentage);
@@ -4306,30 +4306,30 @@ public class iTween : MonoBehaviour{
 		
 		//apply:
 		if (isLocal) {
-			characterTtransform.localRotation = Quaternion.Euler(vector3s[2]);
+			transform.localRotation = Quaternion.Euler(vector3s[2]);
 		}else{
-			characterTtransform.rotation = Quaternion.Euler(vector3s[2]);
+			transform.rotation = Quaternion.Euler(vector3s[2]);
 		};	
 		
 		//dial in:
 		if(percentage==1){
 			if (isLocal) {
-				characterTtransform.localRotation = Quaternion.Euler(vector3s[1]);
+				transform.localRotation = Quaternion.Euler(vector3s[1]);
 			}else{
-				characterTtransform.rotation = Quaternion.Euler(vector3s[1]);
+				transform.rotation = Quaternion.Euler(vector3s[1]);
 			};
 		}
 		
 		//need physics?
-		postUpdate=characterTtransform.eulerAngles;
+		postUpdate=transform.eulerAngles;
 		if(physics){
-			characterTtransform.eulerAngles=preUpdate;
+			transform.eulerAngles=preUpdate;
 			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
 		}
 	}
 	
 	void ApplyRotateAddTargets(){
-		preUpdate = characterTtransform.eulerAngles;
+		preUpdate = transform.eulerAngles;
 		
 		//calculate:
 		vector3s[2].x = ease(vector3s[0].x,vector3s[1].x,percentage);
@@ -4337,15 +4337,15 @@ public class iTween : MonoBehaviour{
 		vector3s[2].z = ease(vector3s[0].z,vector3s[1].z,percentage);
 		
 		//apply:
-		characterTtransform.Rotate(vector3s[2]-vector3s[3],space);
+		transform.Rotate(vector3s[2]-vector3s[3],space);
 
 		//record:
 		vector3s[3]=vector3s[2];	
 		
 		//need physics?
-		postUpdate=characterTtransform.eulerAngles;
+		postUpdate=transform.eulerAngles;
 		if(physics){
-			characterTtransform.eulerAngles=preUpdate;
+			transform.eulerAngles=preUpdate;
 			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
 		}		
 	}	
@@ -4353,30 +4353,30 @@ public class iTween : MonoBehaviour{
 	void ApplyShakePositionTargets(){
 		//preUpdate = transform.position;
 		if (isLocal) {
-			preUpdate = characterTtransform.localPosition;
+			preUpdate = transform.localPosition;
 		}else{
-			preUpdate = characterTtransform.position;
+			preUpdate = transform.position;
 		}
 		
 		//reset rotation to prevent look interferences as object rotates and attempts to move with translate and record current rotation
 		Vector3 currentRotation = new Vector3();
 		
 		if(tweenArguments.Contains("looktarget")){
-			currentRotation = characterTtransform.eulerAngles;
-			characterTtransform.eulerAngles = vector3s[3];	
+			currentRotation = transform.eulerAngles;
+			transform.eulerAngles = vector3s[3];	
 		}
 		
 		//impact:
 		if (percentage==0) {
-			characterTtransform.Translate(vector3s[1],space);
+			transform.Translate(vector3s[1],space);
 		}
 		
 		//transform.position=vector3s[0];
 		//reset:
 		if (isLocal) {
-			characterTtransform.localPosition=vector3s[0];
+			transform.localPosition=vector3s[0];
 		}else{
-			characterTtransform.position=vector3s[0];
+			transform.position=vector3s[0];
 		}
 		
 		//generate:
@@ -4388,20 +4388,20 @@ public class iTween : MonoBehaviour{
 		//apply:	
 		//transform.Translate(vector3s[2],space);	
 		if (isLocal) {
-			characterTtransform.localPosition+=vector3s[2];
+			transform.localPosition+=vector3s[2];
 		}else{
-			characterTtransform.position+=vector3s[2];
+			transform.position+=vector3s[2];
 		}
 		
 		//reset rotation:
 		if(tweenArguments.Contains("looktarget")){
-			characterTtransform.eulerAngles = currentRotation;	
+			transform.eulerAngles = currentRotation;	
 		}	
 		
 		//need physics?
-		postUpdate=characterTtransform.position;
+		postUpdate=transform.position;
 		if(physics){
-			characterTtransform.position=preUpdate;
+			transform.position=preUpdate;
 			rigidbody.MovePosition(postUpdate);
 		}
 	}	
@@ -4409,11 +4409,11 @@ public class iTween : MonoBehaviour{
 	void ApplyShakeScaleTargets(){
 		//impact:
 		if (percentage==0) {
-			characterTtransform.localScale=vector3s[1];
+			transform.localScale=vector3s[1];
 		}
 		
 		//reset:
-		characterTtransform.localScale=vector3s[0];
+		transform.localScale=vector3s[0];
 		
 		//generate:
 		float diminishingControl = 1-percentage;
@@ -4422,19 +4422,19 @@ public class iTween : MonoBehaviour{
 		vector3s[2].z= UnityEngine.Random.Range(-vector3s[1].z*diminishingControl, vector3s[1].z*diminishingControl);
 
 		//apply:
-		characterTtransform.localScale+=vector3s[2];
+		transform.localScale+=vector3s[2];
 	}		
 	
 	void ApplyShakeRotationTargets(){
-		preUpdate = characterTtransform.eulerAngles;
+		preUpdate = transform.eulerAngles;
 		
 		//impact:
 		if (percentage==0) {
-			characterTtransform.Rotate(vector3s[1],space);
+			transform.Rotate(vector3s[1],space);
 		}
 		
 		//reset:
-		characterTtransform.eulerAngles=vector3s[0];
+		transform.eulerAngles=vector3s[0];
 		
 		//generate:
 		float diminishingControl = 1-percentage;
@@ -4443,25 +4443,25 @@ public class iTween : MonoBehaviour{
 		vector3s[2].z= UnityEngine.Random.Range(-vector3s[1].z*diminishingControl, vector3s[1].z*diminishingControl);
 
 		//apply:
-		characterTtransform.Rotate(vector3s[2],space);
+		transform.Rotate(vector3s[2],space);
 		
 		//need physics?
-		postUpdate=characterTtransform.eulerAngles;
+		postUpdate=transform.eulerAngles;
 		if(physics){
-			characterTtransform.eulerAngles=preUpdate;
+			transform.eulerAngles=preUpdate;
 			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
 		}
 	}		
 	
 	void ApplyPunchPositionTargets(){
-		preUpdate = characterTtransform.position;
+		preUpdate = transform.position;
 		
 		//reset rotation to prevent look interferences as object rotates and attempts to move with translate and record current rotation
 		Vector3 currentRotation = new Vector3();
 		
 		if(tweenArguments.Contains("looktarget")){
-			currentRotation = characterTtransform.eulerAngles;
-			characterTtransform.eulerAngles = vector3s[4];	
+			currentRotation = transform.eulerAngles;
+			transform.eulerAngles = vector3s[4];	
 		}
 		
 		//calculate:
@@ -4482,14 +4482,14 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//apply:
-		characterTtransform.Translate(vector3s[2]-vector3s[3],space);
+		transform.Translate(vector3s[2]-vector3s[3],space);
 
 		//record:
 		vector3s[3]=vector3s[2];
 		
 		//reset rotation:
 		if(tweenArguments.Contains("looktarget")){
-			characterTtransform.eulerAngles = currentRotation;	
+			transform.eulerAngles = currentRotation;	
 		}
 		
 		//dial in:
@@ -4500,15 +4500,15 @@ public class iTween : MonoBehaviour{
 		*/
 		
 		//need physics?
-		postUpdate=characterTtransform.position;
+		postUpdate=transform.position;
 		if(physics){
-			characterTtransform.position=preUpdate;
+			transform.position=preUpdate;
 			rigidbody.MovePosition(postUpdate);
 		}
 	}		
 	
 	void ApplyPunchRotationTargets(){
-		preUpdate = characterTtransform.eulerAngles;
+		preUpdate = transform.eulerAngles;
 		
 		//calculate:
 		if(vector3s[1].x>0){
@@ -4528,7 +4528,7 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//apply:
-		characterTtransform.Rotate(vector3s[2]-vector3s[3],space);
+		transform.Rotate(vector3s[2]-vector3s[3],space);
 
 		//record:
 		vector3s[3]=vector3s[2];
@@ -4541,9 +4541,9 @@ public class iTween : MonoBehaviour{
 		*/
 		
 		//need physics?
-		postUpdate=characterTtransform.eulerAngles;
+		postUpdate=transform.eulerAngles;
 		if(physics){
-			characterTtransform.eulerAngles=preUpdate;
+			transform.eulerAngles=preUpdate;
 			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
 		}
 	}	
@@ -4567,7 +4567,7 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//apply:
-		characterTtransform.localScale=vector3s[0]+vector3s[2];
+		transform.localScale=vector3s[0]+vector3s[2];
 		
 		//dial in:
 		/*

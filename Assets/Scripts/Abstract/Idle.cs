@@ -34,9 +34,9 @@ public class Idle : MonoBehaviour {
 	private UISprite mSprite;
 
 	void Start () {
-		mTransform = characterTtransform;
+		mTransform = transform;
 		mTime = moveTimeSeconds;
-		mSprite = characterTtransform.FindChild ("Sprite").GetComponent<UISprite> ();
+		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
 		ResizeSprite ();
 		ChangeDirection (CheckDirection ());
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
@@ -186,7 +186,7 @@ public class Idle : MonoBehaviour {
 	public void FinishLive () {
 		mState = State.Move;
 		mRotateEvent.Stop ();
-		mSprite.characterTtransform.localEulerAngles = new Vector3 (0, 0, 0);
+		mSprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 	}
 
 	private void ResizeSprite () {

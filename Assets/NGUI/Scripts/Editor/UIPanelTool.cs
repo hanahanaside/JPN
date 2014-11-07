@@ -92,7 +92,7 @@ public class UIPanelTool : EditorWindow
 	static List<UIWidget> GetWidgets (UIPanel panel)
 	{
 		List<UIWidget> widgets = new List<UIWidget>();
-		if (panel != null) GetWidgets(panel.characterTtransform, widgets);
+		if (panel != null) GetWidgets(panel.transform, widgets);
 		return widgets;
 	}
 

@@ -199,7 +199,7 @@ public class iTweenEvent : MonoBehaviour{
 	}
 	
 	public void OnDrawGizmos() {
-		if(showIconInInspector) Gizmos.DrawIcon(characterTtransform.position, "iTweenIcon.tif");
+		if(showIconInInspector) Gizmos.DrawIcon(transform.position, "iTweenIcon.tif");
 	}
 	
 	IEnumerator StartEvent() {

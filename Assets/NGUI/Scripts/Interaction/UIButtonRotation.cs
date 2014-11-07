@@ -25,7 +25,7 @@ public class UIButtonRotation : MonoBehaviour
 		if (!mStarted)
 		{
 			mStarted = true;
-			if (tweenTarget == null) tweenTarget = characterTtransform;
+			if (tweenTarget == null) tweenTarget = transform;
 			mRot = tweenTarget.localRotation;
 		}
 	}

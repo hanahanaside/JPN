@@ -17,7 +17,7 @@ public class LagPosition : MonoBehaviour
 
 	void OnEnable ()
 	{
-		mTrans = characterTtransform;
+		mTrans = transform;
 		mAbsolute = mTrans.position;
 		mRelative = mTrans.localPosition;
 	}
