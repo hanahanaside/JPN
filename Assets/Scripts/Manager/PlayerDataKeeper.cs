@@ -9,8 +9,8 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	private PlayerData mPlayerData;
 
 	void Update(){
-		generateCoinSpeedLabel.text = mPlayerData.GenerateCoinPower+ "/分";
-		coinCountLabel.text = "" + mPlayerData.CoinCount;
+		generateCoinSpeedLabel.text = GameMath.RoundOne(mPlayerData.GenerateCoinPower) + "/分";
+		coinCountLabel.text = "" + GameMath.RoundZero(mPlayerData.CoinCount);
 		ticketCountLabel.text = ""+mPlayerData.TicketCount;
 	}
 
@@ -37,4 +37,7 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		mPlayerData.CoinCount += coinCount;
 	}
 		
+	public void DecreaseGenerateCoinPower(double coinPower){
+		mPlayerData.GenerateCoinPower -= coinPower;
+	}
 }

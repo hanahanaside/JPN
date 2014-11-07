@@ -37,20 +37,23 @@ public class Idle : MonoBehaviour {
 		mTransform = transform;
 		mTime = moveTimeSeconds;
 		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
+		ResizeSprite ();
 		ChangeDirection (CheckDirection ());
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		mScaleEvent = iTweenEvent.GetEvent (gameObject, "ScaleEvent");
-		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject,"RotateEvent");
+		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject, "RotateEvent");
 		mJumpEvent.Play ();
 		mScaleEvent.Play ();
 	}
 
 	void Update () {
 		switch (mState) {
+		//ムーブ
 		case State.Move:
 			mTime -= Time.deltaTime;
 			mTransform.Translate (new Vector3 (moveSpeed.speedX, moveSpeed.speedY, 0));
 			break;
+		//ストップ
 		case State.Stop:
 			mTime -= Time.deltaTime;
 			//動きを再開
@@ -62,6 +65,7 @@ public class Idle : MonoBehaviour {
 				mScaleEvent.Play ();
 			}
 			break;
+		//ライブ
 		case State.Live:
 			if (mTransform.localPosition.x < movableArea.limitLeft) {
 				ChangeDirection (Direction.Right);
@@ -77,6 +81,7 @@ public class Idle : MonoBehaviour {
 			}
 			mTransform.Translate (new Vector3 (moveSpeed.speedX, moveSpeed.speedY, 0));
 			break;
+		//スリープ
 		case State.Sleep:
 			break;
 		}
@@ -156,6 +161,7 @@ public class Idle : MonoBehaviour {
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
 		mSprite.spriteName = "idle_sleep_" + idleId;
+		ResizeSprite ();
 	}
 
 	public void Wakeup () {
@@ -164,6 +170,7 @@ public class Idle : MonoBehaviour {
 		mJumpEvent.Play ();
 		mScaleEvent.Play ();
 		mSprite.spriteName = "idle_normal_" + idleId;
+		ResizeSprite ();
 	}
 
 	public void StartLive () {
@@ -173,11 +180,17 @@ public class Idle : MonoBehaviour {
 		mScaleEvent.Play ();
 		mRotateEvent.Play ();
 		mSprite.spriteName = "idle_normal_" + idleId;
+		ResizeSprite ();
 	}
 
 	public void FinishLive () {
 		mState = State.Move;
 		mRotateEvent.Stop ();
-		mSprite.transform.eulerAngles = new Vector3 (0,0,0);
+		mSprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
+	}
+
+	private void ResizeSprite () {
+		UISpriteData spriteData = mSprite.GetAtlasSprite ();
+		mSprite.SetDimensions (spriteData.width, spriteData.height);
 	}
 }

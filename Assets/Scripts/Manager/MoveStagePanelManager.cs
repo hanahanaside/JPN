@@ -28,7 +28,7 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
 	//グリッドを作成する
 	public void CreateMoveStageGrid () {
-		for (int i = 1; i <= 47; i++) {
+		for (int i = 1; i <= 10; i++) {
 			GameObject moveStageCellPrefab = Resources.Load ("MoveStageCell/MoveStageCell_" + i) as GameObject;
 			GameObject moveStageCellObject = Instantiate (moveStageCellPrefab) as GameObject;
 			grid.AddChild (moveStageCellObject.transform);

@@ -17,6 +17,7 @@ public class StageManager : MonoBehaviour {
 	public UILabel generateCoinPowerLabel;
 	public UILabel idleCountLabel;
 	public UILabel areaNameLabel;
+	public UISprite idleSprite;
 	public AreaParams areaParams;
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
@@ -54,11 +55,14 @@ public class StageManager : MonoBehaviour {
 		mUntilSleepTime = areaParams.GetUntilSleepTime (mIdleList.Count);
 		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mIdleList.Count) * stageData.IdleCount;
-		generateCoinPowerLabel.text = mTotalGenerateCoinPower + "/分";
+		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		//アイドルの数をセット
 		idleCountLabel.text = "×" + mIdleList.Count;
-
+		//アイドルの画像をセット
+		idleSprite.spriteName = "idle_normal_" + areaParams.stageId;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 	}
 
 	void Update () {
@@ -98,6 +102,7 @@ public class StageManager : MonoBehaviour {
 		foreach (Idle idle in mIdleList) {
 			idle.Wakeup ();
 		}
+		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 	}
 
 	private void Sleep () {
@@ -106,12 +111,14 @@ public class StageManager : MonoBehaviour {
 		foreach (Idle idle in mIdleList) {
 			idle.Sleep ();
 		}
+		PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 	}
 
 	public void StartLive () {
 		mState = State.Live;
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);
+			PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
 		foreach (Idle idle in mIdleList) {
 			idle.StartLive ();
