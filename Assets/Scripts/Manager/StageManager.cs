@@ -8,6 +8,7 @@ public class StageManager : MonoBehaviour {
 		Normal,
 		Sleep,
 		Live,
+		Construction
 	}
 
 	public Transform[] fanPositionArray;
@@ -95,6 +96,8 @@ public class StageManager : MonoBehaviour {
 			}
 			break;
 		case State.Sleep:
+			break;
+		case State.Construction:
 			break;
 		}
 	}

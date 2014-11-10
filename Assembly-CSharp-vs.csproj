@@ -186,6 +186,7 @@
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Converter\TimeConverter.cs" />
      <Compile Include="Assets\Scripts\Dao\StageDataDao.cs" />
+     <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\StageData.cs" />
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />
