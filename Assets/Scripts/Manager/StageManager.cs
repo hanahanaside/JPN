@@ -33,12 +33,14 @@ public class StageManager : MonoBehaviour {
 		mStageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
 
 		//ファンを生成
-		GameObject fanPrefab = Resources.Load ("Model/Fan") as GameObject;
-		GameObject fanObject = Instantiate (fanPrefab) as GameObject;
-		fanObject.transform.parent = gameObject.transform.parent;
-		fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-		fanObject.transform.localPosition = fanPositionArray [0].localPosition;
-		mCharacterList.Add (fanObject.GetComponent<Character>());
+		for (int i = 0; i < fanPositionArray.Length; i++) {
+			GameObject fanPrefab = Resources.Load ("Model/Fan_" + (i + 1)) as GameObject;
+			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
+			fanObject.transform.parent = gameObject.transform.parent;
+			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+			fanObject.transform.localPosition = fanPositionArray [i].localPosition;
+			mCharacterList.Add (fanObject.GetComponent<Character> ());
+		}
 
 		//アイドルを生成
 		for (int i = 0; i < mStageData.IdleCount; i++) {
