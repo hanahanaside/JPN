@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class CoinController : MonoBehaviour {
+
+	public static event Action<string> OnClickedEvent;
 
 	public GameObject getCoinEffectPrefab;
 	private float mLifeTime = 3.0f;
@@ -14,6 +17,8 @@ public class CoinController : MonoBehaviour {
 	}
 
 	public void OnClick () {
+		string tag = gameObject.tag;
+		OnClickedEvent (tag);
 		GameObject getCoinEffectObject = Instantiate (getCoinEffectPrefab) as GameObject;
 		getCoinEffectObject.transform.parent = transform.parent.transform.parent;
 		getCoinEffectObject.transform.localScale = new Vector3 (1f,1f,1f);
