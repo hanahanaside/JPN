@@ -44,10 +44,16 @@ public abstract class Character : MonoBehaviour {
 	protected void ChangeDirection (Direction direction) {
 		switch (direction) {
 		case Direction.Left:
-			characterTransform.eulerAngles = new Vector3 (0, 0, 0);
+			characterTransform.localScale = new Vector3 (1,1,1);
+			if(moveSpeed.speedX > 0){
+				moveSpeed.speedX = -moveSpeed.speedX;
+			}
 			break;
 		case Direction.Right:
-			characterTransform.eulerAngles = new Vector3 (0, -180, 0);
+			characterTransform.localScale = new Vector3 (-1, 1, 1);
+			if(moveSpeed.speedX < 0){
+				moveSpeed.speedX = -moveSpeed.speedX;
+			}
 			break;
 		case Direction.Down:
 			if (moveSpeed.speedY > 0) {

@@ -57,7 +57,12 @@ public class Idle : Character {
 		mTime = stopTimeSeconds;
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
-		characterTransform.localScale = new Vector3 (1f, 1f, 1f);
+		if(moveSpeed.speedX > 0){
+			characterTransform.localScale = new Vector3 (-1f, 1f, 1f);
+		}else {
+			characterTransform.localScale = new Vector3 (1f, 1f, 1f);
+		}
+
 	}
 
 	void OnCompleteJumpEvent () {

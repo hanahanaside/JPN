@@ -33,9 +33,8 @@ public class StageManager : MonoBehaviour {
 	void Start () {
 		mCharacterList = new List<Character> ();
 		mStageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
-
 		//工事中かをチェック
-		if(mStageData.FlagConstruction == 1){
+		if (mStageData.FlagConstruction == 1) {
 			InitConstruction ();
 			return;
 		}
@@ -148,8 +147,17 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//工事中の初期化処理
-	private void InitConstruction(){
+	private void InitConstruction () {
 		mState = State.Construction;
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
+		for (int i = 1; i <= 4; i++) {
+			GameObject workerPrefab = Resources.Load ("Model/Worker_" + i) as GameObject;
+			GameObject workerObject = Instantiate (workerPrefab) as GameObject;
+			workerObject.transform.parent = gameObject.transform.parent;
+			workerObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+			int rand = Random.Range (0, idlePositionArray.Length);
+			workerObject.transform.localPosition = idlePositionArray [rand].localPosition;
+			mCharacterList.Add (workerObject.GetComponent<Character> ());
+		}
 	}
 }

@@ -180,7 +180,6 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
-     <Compile Include="Assets\Scripts\Abstract\Idle.cs" />
      <Compile Include="Assets\Scripts\Abstract\Singleton.cs" />
      <Compile Include="Assets\Scripts\Cell\MoveStageCell.cs" />
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
@@ -214,6 +213,8 @@
      <Compile Include="Assets\Scripts\Math\GameMath.cs" />
      <Compile Include="Assets\Scripts\Model\Character.cs" />
      <Compile Include="Assets\Scripts\Model\Fan.cs" />
+     <Compile Include="Assets\Scripts\Model\Idle.cs" />
+     <Compile Include="Assets\Scripts\Model\Worker.cs" />
      <Compile Include="Assets\Scripts\Params\AreaParams.cs" />
      <Compile Include="Assets\Scripts\Params\GeneratePowerParams.cs" />
      <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />
