@@ -11,15 +11,21 @@ public static class TimeConverter {
 		int m = eh / 60; //ehを60で割る．1分は，60秒
 		int sec = eh % 60; //ehを60で割ったあまり
 		StringBuilder sb = new StringBuilder ();
-		if(h > 0){
+		if (h > 0) {
 			sb.Append (h + "時間");
 		}
-		if(m > 0){
+		if (m > 0) {
 			sb.Append (m + "分");
 		}
-		if(sec >= 0){
+		if (sec >= 0) {
 			sb.Append (sec + "秒");
 		}
 		return sb.ToString ();
+	}
+
+	public static float ConvertHoursToSeconds (float hours) {
+		float minutes = hours * 60.0f;
+		float seconds = minutes * 60.0f;
+		return seconds;
 	}
 }

@@ -19,6 +19,7 @@ public class StageManager : MonoBehaviour {
 	public UILabel idleCountLabel;
 	public UILabel areaNameLabel;
 	public UISprite idleSprite;
+	public UITexture backGroundTexture;
 	public AreaParams areaParams;
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
@@ -32,6 +33,12 @@ public class StageManager : MonoBehaviour {
 	void Start () {
 		mCharacterList = new List<Character> ();
 		mStageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
+
+		//工事中かをチェック
+		if(mStageData.FlagConstruction == 1){
+			InitConstruction ();
+			return;
+		}
 
 		//ファンを生成
 		for (int i = 0; i < fanPositionArray.Length; i++) {
@@ -138,5 +145,11 @@ public class StageManager : MonoBehaviour {
 		foreach (Character character in mCharacterList) {
 			character.FinishLive ();
 		}
+	}
+
+	//工事中の初期化処理
+	private void InitConstruction(){
+		mState = State.Construction;
+		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
 	}
 }

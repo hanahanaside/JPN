@@ -11,6 +11,7 @@ public class StageDataDao : Singleton<StageDataDao> {
 			stageData.Id = i;
 			stageData.IdleCount = i;
 			stageData.AreaName = AreaName(i);
+			stageData.FlagConstruction = 1;
 			stageDataList.Add (stageData);
 		}
 		return stageDataList;

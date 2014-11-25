@@ -5,7 +5,7 @@ public class AreaParams : MonoBehaviour {
 
 	public int areaId;
 	public int stageId;
-	public float factoryTimeHours;
+	public float constructionTimeHours;
 	public GeneratePowerParams generatePowerParams;
 	public UntilSleepParams untilSleepParams;
 
