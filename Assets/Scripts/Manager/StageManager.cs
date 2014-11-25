@@ -141,7 +141,7 @@ public class StageManager : MonoBehaviour {
 		generateCoinPowerLabel.text = "0/分";
 		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
-			GameObject workerPrefab = Resources.Load ("Model/Worker_" + i) as GameObject;
+			GameObject workerPrefab = Resources.Load ("Model/Worker/Worker_" + i) as GameObject;
 			GameObject workerObject = Instantiate (workerPrefab) as GameObject;
 			workerObject.transform.parent = gameObject.transform.parent;
 			workerObject.transform.localScale = new Vector3 (1f, 1f, 1f);
@@ -157,7 +157,7 @@ public class StageManager : MonoBehaviour {
 
 		//ファンを生成
 		for (int i = 0; i < fanPositionArray.Length; i++) {
-			GameObject fanPrefab = Resources.Load ("Model/Fan_" + (i + 1)) as GameObject;
+			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + (i + 1)) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
 			fanObject.transform.parent = gameObject.transform.parent;
 			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
@@ -167,7 +167,7 @@ public class StageManager : MonoBehaviour {
 
 		//アイドルを生成
 		for (int i = 0; i < mStageData.IdleCount; i++) {
-			GameObject idlePrefab = Resources.Load ("Model/Idle_" + areaParams.stageId) as GameObject;
+			GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + areaParams.stageId) as GameObject;
 			GameObject idleObject = Instantiate (idlePrefab) as GameObject;
 			idleObject.transform.parent = gameObject.transform.parent;
 			idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);

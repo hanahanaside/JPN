@@ -35,7 +35,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
-		mTime = 10.0f;
+		mTime = 60.0f;
 		livePanelObject.SetActive (true);
 		mLive = true;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveStartEvent").Play();
