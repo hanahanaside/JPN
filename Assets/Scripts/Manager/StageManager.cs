@@ -128,8 +128,17 @@ public class StageManager : MonoBehaviour {
 	private void InitConstruction () {
 		mCharacterList = new List<Character> ();
 		mState = State.Construction;
+		//背景を設置
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
 		mUntilSleepTime = TimeConverter.ConvertHoursToSeconds (areaParams.constructionTimeHours);
+		//労働者の画像をセット
+		idleSprite.spriteName = "worker_1";
+		//労働者の数をセット
+		idleCountLabel.text = "×4";
+		//エリア名をセット
+		areaNameLabel.text = "建設中";
+		//コイン生成パワーをセット
+		generateCoinPowerLabel.text = "0/分";
 		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
 			GameObject workerPrefab = Resources.Load ("Model/Worker_" + i) as GameObject;
