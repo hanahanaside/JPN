@@ -31,49 +31,13 @@ public class StageManager : MonoBehaviour {
 	private List<Character> mCharacterList;
 
 	void Start () {
-		mCharacterList = new List<Character> ();
 		mStageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
 		//工事中かをチェック
-		if (mStageData.FlagConstruction == 1) {
+		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 			InitConstruction ();
-			return;
+		}else {
+			InitNormal ();
 		}
-
-		//ファンを生成
-		for (int i = 0; i < fanPositionArray.Length; i++) {
-			GameObject fanPrefab = Resources.Load ("Model/Fan_" + (i + 1)) as GameObject;
-			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
-			fanObject.transform.parent = gameObject.transform.parent;
-			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			fanObject.transform.localPosition = fanPositionArray [i].localPosition;
-			mCharacterList.Add (fanObject.GetComponent<Character> ());
-		}
-
-		//アイドルを生成
-		for (int i = 0; i < mStageData.IdleCount; i++) {
-			GameObject idlePrefab = Resources.Load ("Model/Idle_" + areaParams.stageId) as GameObject;
-			GameObject idleObject = Instantiate (idlePrefab) as GameObject;
-			idleObject.transform.parent = gameObject.transform.parent;
-			idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			int rand = Random.Range (0, idlePositionArray.Length);
-			idleObject.transform.localPosition = idlePositionArray [rand].localPosition;
-			mCharacterList.Add (idleObject.GetComponent<Character> ());
-		}
-
-		//エリア名をセット
-		areaNameLabel.text = mStageData.AreaName;
-		//サボるまでの時間をセット
-		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
-		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
-		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
-		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
-		//アイドルの数をセット
-		idleCountLabel.text = "×" + mStageData.IdleCount;
-		//アイドルの画像をセット
-		idleSprite.spriteName = "idle_normal_" + areaParams.stageId;
-		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
-		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 	}
 
 	void Update () {
@@ -104,6 +68,20 @@ public class StageManager : MonoBehaviour {
 		case State.Sleep:
 			break;
 		case State.Construction:
+			//建設中の時間を更新
+			mUntilSleepTime -= Time.deltaTime;
+			untilSleepLabel.text = "あと" + TimeConverter.Convert (mUntilSleepTime) + "で完成";
+			if (mUntilSleepTime > 0) {
+				return;
+			}
+			//建設完了
+			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
+			backGroundTexture.mainTexture = Resources.Load ("Texture/St_"+mStageData.Id) as Texture;
+			foreach (Character character in mCharacterList) {
+				Destroy (character.gameObject);
+			}
+			mState = State.Normal;
+			InitNormal ();
 			break;
 		}
 	}
@@ -148,8 +126,11 @@ public class StageManager : MonoBehaviour {
 
 	//工事中の初期化処理
 	private void InitConstruction () {
+		mCharacterList = new List<Character> ();
 		mState = State.Construction;
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
+		mUntilSleepTime = TimeConverter.ConvertHoursToSeconds (areaParams.constructionTimeHours);
+		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
 			GameObject workerPrefab = Resources.Load ("Model/Worker_" + i) as GameObject;
 			GameObject workerObject = Instantiate (workerPrefab) as GameObject;
@@ -159,5 +140,46 @@ public class StageManager : MonoBehaviour {
 			workerObject.transform.localPosition = idlePositionArray [rand].localPosition;
 			mCharacterList.Add (workerObject.GetComponent<Character> ());
 		}
+	}
+
+	//通常時の初期化処理
+	private void InitNormal(){
+		mCharacterList = new List<Character> ();
+
+		//ファンを生成
+		for (int i = 0; i < fanPositionArray.Length; i++) {
+			GameObject fanPrefab = Resources.Load ("Model/Fan_" + (i + 1)) as GameObject;
+			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
+			fanObject.transform.parent = gameObject.transform.parent;
+			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+			fanObject.transform.localPosition = fanPositionArray [i].localPosition;
+			mCharacterList.Add (fanObject.GetComponent<Character> ());
+		}
+
+		//アイドルを生成
+		for (int i = 0; i < mStageData.IdleCount; i++) {
+			GameObject idlePrefab = Resources.Load ("Model/Idle_" + areaParams.stageId) as GameObject;
+			GameObject idleObject = Instantiate (idlePrefab) as GameObject;
+			idleObject.transform.parent = gameObject.transform.parent;
+			idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+			int rand = Random.Range (0, idlePositionArray.Length);
+			idleObject.transform.localPosition = idlePositionArray [rand].localPosition;
+			mCharacterList.Add (idleObject.GetComponent<Character> ());
+		}
+
+		//エリア名をセット
+		areaNameLabel.text = mStageData.AreaName;
+		//サボるまでの時間をセット
+		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
+		//コイン生成パワーを算出してセット
+		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
+		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
+		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
+		//アイドルの数をセット
+		idleCountLabel.text = "×" + mStageData.IdleCount;
+		//アイドルの画像をセット
+		idleSprite.spriteName = "idle_normal_" + areaParams.stageId;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 	}
 }
