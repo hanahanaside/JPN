@@ -42,11 +42,11 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	private void FinishLive(){
+		mLive = false;
+		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.FinishLive ();
 		}
-		mLive = false;
-		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
 	}
 }
