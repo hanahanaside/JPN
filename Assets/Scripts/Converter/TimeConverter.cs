@@ -22,10 +22,4 @@ public static class TimeConverter {
 		}
 		return sb.ToString ();
 	}
-
-	public static float ConvertHoursToSeconds (float hours) {
-		float minutes = hours * 60.0f;
-		float seconds = minutes * 60.0f;
-		return seconds;
-	}
 }

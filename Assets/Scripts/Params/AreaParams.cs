@@ -5,9 +5,9 @@ public class AreaParams : MonoBehaviour {
 
 	public int areaId;
 	public int stageId;
-	public float constructionTimeHours;
+	public float constructionTimeMInutes;
 	public GeneratePowerParams generatePowerParams;
-	public UntilSleepParams untilSleepParams;
+	public UntilSleepParams untilSleepTimeMinutes;
 
 	public double GetGeneratePower(int idleCount){
 		if(idleCount <= 5){
@@ -28,22 +28,22 @@ public class AreaParams : MonoBehaviour {
 		return generatePowerParams.level_Max;
 	}
 
-	public float GetUntilSleepTime(int idleCount){
+	public float GetUntilSleepTimeMinutes(int idleCount){
 		if(idleCount <= 5){
-			return untilSleepParams.level_1;
+			return untilSleepTimeMinutes.level_1;
 		}
 		if(idleCount <= 10){
-			return untilSleepParams.level_2;
+			return untilSleepTimeMinutes.level_2;
 		}
 		if(idleCount <= 15){
-			return untilSleepParams.level_3;
+			return untilSleepTimeMinutes.level_3;
 		}
 		if(idleCount <= 20){
-			return untilSleepParams.level_4;
+			return untilSleepTimeMinutes.level_4;
 		}
 		if(idleCount <= 24){
-			return untilSleepParams.level_5;
+			return untilSleepTimeMinutes.level_5;
 		}
-		return untilSleepParams.level_Max;
+		return untilSleepTimeMinutes.level_Max;
 	}
 }

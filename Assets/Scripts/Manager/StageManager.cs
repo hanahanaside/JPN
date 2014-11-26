@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour {
 	public AreaParams areaParams;
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
-	private float mUntilSleepTime;
+	private float mUntilSleepTimeSeconds;
 	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
 	private State mState = State.Normal;
@@ -35,7 +35,7 @@ public class StageManager : MonoBehaviour {
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 			InitConstruction ();
-		}else {
+		} else {
 			InitNormal ();
 		}
 	}
@@ -44,9 +44,9 @@ public class StageManager : MonoBehaviour {
 		switch (mState) {
 		case State.Normal:
 			//スリープ時間を更新
-			mUntilSleepTime -= Time.deltaTime;
-			untilSleepLabel.text = "あと" + TimeConverter.Convert (mUntilSleepTime) + "でサボる";
-			if (mUntilSleepTime < 0) {
+			mUntilSleepTimeSeconds -= Time.deltaTime;
+			untilSleepLabel.text = "あと" + TimeConverter.Convert (mUntilSleepTimeSeconds) + "でサボる";
+			if (mUntilSleepTimeSeconds < 0) {
 				Sleep ();
 				return;
 			}
@@ -69,14 +69,14 @@ public class StageManager : MonoBehaviour {
 			break;
 		case State.Construction:
 			//建設中の時間を更新
-			mUntilSleepTime -= Time.deltaTime;
-			untilSleepLabel.text = "あと" + TimeConverter.Convert (mUntilSleepTime) + "で完成";
-			if (mUntilSleepTime > 0) {
+			mUntilSleepTimeSeconds -= Time.deltaTime;
+			untilSleepLabel.text = "あと" + TimeConverter.Convert (mUntilSleepTimeSeconds) + "で完成";
+			if (mUntilSleepTimeSeconds > 0) {
 				return;
 			}
 			//建設完了
 			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
-			backGroundTexture.mainTexture = Resources.Load ("Texture/St_"+mStageData.Id) as Texture;
+			backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
 			foreach (Character character in mCharacterList) {
 				Destroy (character.gameObject);
 			}
@@ -87,13 +87,14 @@ public class StageManager : MonoBehaviour {
 	}
 
 	public void OnWakeupButtonClicked () {
-		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
+		mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
 		sleepObject.SetActive (false);
 		mState = State.Normal;
 		foreach (Character character in mCharacterList) {
 			character.Wakeup ();
 		}
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
 	}
 
 	private void Sleep () {
@@ -116,9 +117,13 @@ public class StageManager : MonoBehaviour {
 		}
 	}
 
-	public void FinishLive () {
-		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
-		mState = State.Normal;
+	public void FinishLive () { 
+		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
+			mState = State.Construction;
+		} else {
+			mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+			mState = State.Normal;
+		}
 		foreach (Character character in mCharacterList) {
 			character.FinishLive ();
 		}
@@ -130,7 +135,8 @@ public class StageManager : MonoBehaviour {
 		mState = State.Construction;
 		//背景を設置
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
-		mUntilSleepTime = TimeConverter.ConvertHoursToSeconds (areaParams.constructionTimeHours);
+		//建設時間を設置
+		mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
 		//労働者の画像をセット
 		idleSprite.spriteName = "worker_1";
 		//労働者の数をセット
@@ -152,7 +158,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//通常時の初期化処理
-	private void InitNormal(){
+	private void InitNormal () {
 		mCharacterList = new List<Character> ();
 
 		//ファンを生成
@@ -179,7 +185,7 @@ public class StageManager : MonoBehaviour {
 		//エリア名をセット
 		areaNameLabel.text = mStageData.AreaName;
 		//サボるまでの時間をセット
-		mUntilSleepTime = areaParams.GetUntilSleepTime (mStageData.IdleCount);
+		mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
 		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";

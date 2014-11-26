@@ -35,10 +35,11 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
-		mTime = 60.0f;
+		mTime = 30.0f;
 		livePanelObject.SetActive (true);
 		mLive = true;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveStartEvent").Play();
+		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
 	}
 
 	private void FinishLive(){
@@ -48,5 +49,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.FinishLive ();
 		}
+		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 }

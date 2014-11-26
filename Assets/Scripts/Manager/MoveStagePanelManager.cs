@@ -5,6 +5,7 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
 	public GameObject dialogObject;
 	public UIGrid grid;
+	public UIScrollView scrollView;
 
 	void OnEnable () {
 		MoveStageCell.OnMoveStageCellClickedEvent += OnMoveAreaClickedEvent;
@@ -28,14 +29,12 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
 	//グリッドを作成する
 	public void CreateMoveStageGrid () {
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 47; i++) {
 			GameObject moveStageCellPrefab = Resources.Load ("MoveStageCell/MoveStageCell_" + i) as GameObject;
 			GameObject moveStageCellObject = Instantiate (moveStageCellPrefab) as GameObject;
 			grid.AddChild (moveStageCellObject.transform);
 			moveStageCellObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-
 		}
-
 	}
 
 	public void ShowMoveStagePanel () {
@@ -44,6 +43,7 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 		}
 		FenceManager.instance.ShowFence ();
 		dialogObject.SetActive (true);
+		scrollView.ResetPosition ();
 		ItweenEventPlayer.PlayMoveInDialogEvent (dialogObject);
 	}
 

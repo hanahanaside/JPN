@@ -24,6 +24,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			StageGridManager.instance.MoveToStage (1);
 			EventManager.instance.Init ();
 		}
+		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
 	void OnApplicationPause (bool pauseStatus) {
@@ -54,23 +55,28 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			PlayerDataKeeper.instance.IncreaseCoinCount (1000.0);
 			break;
 		}
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 	}
 
 	public void OnScoutButtonClicked () {
 		MoveStagePanelManager.instance.HideMoveStagePanel ();
 		StageGridManager.instance.MoveToStage (0);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnManagementButtonClicked () {
 		ManagementPanelManager.instance.ShowManagementPanel ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnMoveStageButtonClicked () {
 		MoveStagePanelManager.instance.ShowMoveStagePanel ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnMenuButtonClicked () {
 		MenuPanelManager.instance.ShowMenuPanel ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 }

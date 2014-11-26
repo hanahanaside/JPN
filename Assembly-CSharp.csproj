@@ -180,11 +180,12 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
-     <Compile Include="Assets\Scripts\Abstract\Singleton.cs" />
      <Compile Include="Assets\Scripts\Cell\MoveStageCell.cs" />
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Converter\TimeConverter.cs" />
-     <Compile Include="Assets\Scripts\Dao\StageDataDao.cs" />
+     <Compile Include="Assets\Scripts\Database\DatabaseHelper.cs" />
+     <Compile Include="Assets\Scripts\Database\StageDataDao.cs" />
+     <Compile Include="Assets\Scripts\Debug\Debugger.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\StageData.cs" />
@@ -208,6 +209,8 @@
      <Compile Include="Assets\Scripts\Manager\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PuzzleSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ScoutStageManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\SplashSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
      <Compile Include="Assets\Scripts\Math\GameMath.cs" />
