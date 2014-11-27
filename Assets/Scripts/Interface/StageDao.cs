@@ -2,9 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public interface StageDao {
+public interface StageDao
+{
 
 	List<Stage> SelectAll ();
 
-	void UpdateById(Stage stage);
+	Stage SelectById (int id);
+
+	void UpdateRecord (Stage stage);
 }

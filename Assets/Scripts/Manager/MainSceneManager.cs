@@ -13,6 +13,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	void Start () {
+		MyLog.LogDebug ("start");
 		StageListKeeper.instance.LoadData ();
 		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
@@ -27,17 +28,19 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
-	void OnApplicationPause (bool pauseStatus) {
+	public void OnApplicationPause (bool pauseStatus) {
 		if (pauseStatus) {
+			MyLog.LogDebug ("pause");
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
 			//ステージデータをセーブ
 			StageListKeeper.instance.SaveData ();
-		}else {
+		} else {
+			MyLog.LogDebug ("resume");
 			//時間関係の処理の指令を出す
 		}
 	}
-
+		
 	//コインタップ時の処理
 	void OnCoinClickedEvent (string tag) {
 		switch (tag) {

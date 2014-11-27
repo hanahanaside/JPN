@@ -7,7 +7,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
 	public static event Action CreatedDatabaseEvent;
 
-	public const string DATABASE_FILE_NAME = "jpn.db"; 
+	public static readonly string DATABASE_FILE_NAME = "jpn.db"; 
 
 	public string filePath {
 		get;
@@ -28,20 +28,25 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		baseFilePath = "file://"+Path.Combine (Application.streamingAssetsPath, databaseFileName);
 		#endif
 
-		#if UNITY_EDITOR
-		File.Delete(filePath);
-		#endif
 	}
 
-	public void CreateDatabase(){
+	public void CreateDB(){
 		#if UNITY_IPHONE
 		if (!File.Exists (filePath)) {
-			File.Copy (baseFilePath, filePath); 
+			CopyDB();
 			CreatedDatabaseEvent ();
 		}else {
 			UpdateDatabase();
 		}
 		#endif
+	}
+
+	public void DeleteDB(){
+		File.Delete (filePath);
+	}
+
+	public void CopyDB(){
+		File.Copy (baseFilePath, filePath); 
 	}
 
 	private void UpdateDatabase(){
