@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Debugger : MonoBehaviour {
+public class MyDebugger : MonoBehaviour {
 
 	public GameObject soundManagerPrefab;
 
