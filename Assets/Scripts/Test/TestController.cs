@@ -3,13 +3,9 @@ using System.Collections;
 
 public class TestController : MonoBehaviour {
 
-	public GameObject uiRoot;
-	public GameObject puzzle;
+	enum test{aiueo}
 
 	void Start(){
-		GameObject a =  Instantiate (puzzle) as GameObject;
-		UISprite sprite = a.GetComponent<UISprite> ();
-	sprite.spriteName = "puzzle_2";
-	//	a.transform.parent = uiRoot.transform;
+		Debug.Log (test.aiueo.ToString());
 	}
 }

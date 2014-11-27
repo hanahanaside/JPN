@@ -58,10 +58,10 @@ public class StageManager : MonoBehaviour {
 			}
 			break;
 		case State.Live:
-			//コイン生成時間を更新(2倍)
+			//コイン生成時間を更新(10倍)
 			mUntilGenerateTime -= Time.deltaTime;
 			if (mUntilGenerateTime < 0) {
-				PlayerDataKeeper.instance.IncreaseCoinCount ((mTotalGenerateCoinPower * 2.0) / 100.0);
+				PlayerDataKeeper.instance.IncreaseCoinCount ((mTotalGenerateCoinPower * 10.0) / 100.0);
 				mUntilGenerateTime = UNTIL_GENERATE_TIME;
 			}
 			break;
@@ -121,7 +121,8 @@ public class StageManager : MonoBehaviour {
 		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 			mState = State.Construction;
 		} else {
-			mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+		//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+			mUntilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) /10;
 			mState = State.Normal;
 		}
 		foreach (Character character in mCharacterList) {
@@ -135,8 +136,9 @@ public class StageManager : MonoBehaviour {
 		mState = State.Construction;
 		//背景を設置
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
-		//建設時間を設置
-		mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
+		//建設時間を設置(テストで10分の1)
+	//	mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
+		mUntilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) /10;
 		//労働者の画像をセット
 		idleSprite.spriteName = "worker_1";
 		//労働者の数をセット
@@ -184,8 +186,9 @@ public class StageManager : MonoBehaviour {
 
 		//エリア名をセット
 		areaNameLabel.text = mStageData.AreaName;
-		//サボるまでの時間をセット
-		mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+		//サボるまでの時間をセット(テストで10分の1)
+	//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+		mUntilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) /10;
 		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";

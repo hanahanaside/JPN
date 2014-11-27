@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using MiniJSON;
 
 public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 
@@ -7,9 +8,10 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	public UILabel coinCountLabel;
 	public UILabel ticketCountLabel;
 	private PlayerData mPlayerData;
+	private double mGenerateCoinPower;
 
 	void Update(){
-		generateCoinSpeedLabel.text = GameMath.RoundOne(mPlayerData.GenerateCoinPower) + "/分";
+		generateCoinSpeedLabel.text = GameMath.RoundOne(mGenerateCoinPower) + "/分";
 		coinCountLabel.text = "" + GameMath.RoundZero(mPlayerData.CoinCount);
 		ticketCountLabel.text = ""+mPlayerData.TicketCount;
 	}
@@ -21,16 +23,23 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	}
 		
 	public void Init () {
-		mPlayerData = new PlayerData ();
-		mPlayerData.TicketCount = 1;
+		string playerDataJson = PrefsManager.instance.PlayerDataJson;
+		MyLog.LogDebug ("init player data " + playerDataJson);
+		mPlayerData = JsonParser.DeserializePlayerData (playerDataJson);
+		//初期起動時の処理
+		if(string.IsNullOrEmpty(playerDataJson)){
+			mPlayerData.TicketCount = 10;
+		}
 	}
 
 	public void SaveData () {
-
+		string playerDataJson = JsonParser.SerializePlayerData (mPlayerData);
+		PrefsManager.instance.PlayerDataJson = playerDataJson;
+		MyLog.LogDebug ("save player data " + playerDataJson);
 	}
 
 	public void IncreaseGenerateCoinPower(double coinPower){
-		mPlayerData.GenerateCoinPower += coinPower;
+		mGenerateCoinPower += coinPower;
 	}
 
 	public void IncreaseCoinCount(double coinCount){
@@ -38,6 +47,6 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	}
 		
 	public void DecreaseGenerateCoinPower(double coinPower){
-		mPlayerData.GenerateCoinPower -= coinPower;
+		mGenerateCoinPower -= coinPower;
 	}
 }

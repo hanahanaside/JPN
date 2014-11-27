@@ -29,10 +29,12 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void OnApplicationPause (bool pauseStatus) {
 		if (pauseStatus) {
-
-		} else {
+			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
+			//ステージデータをセーブ
 			StageDataListKeeper.instance.SaveData ();
+		}else {
+			//時間関係の処理の指令を出す
 		}
 	}
 
@@ -78,5 +80,4 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		MenuPanelManager.instance.ShowMenuPanel ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
-
 }

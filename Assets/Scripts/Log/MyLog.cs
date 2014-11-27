@@ -9,6 +9,6 @@ public class MyLog  {
 		if(!mIsDebug){
 			return;
 		}
-		Debug.Log (message);
+		Debug.Log ("[my log] \n" +  message);
 	}
 }
