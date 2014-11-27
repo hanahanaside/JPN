@@ -13,7 +13,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	void Start () {
-		StageDataListKeeper.instance.LoadData ();
+		StageListKeeper.instance.LoadData ();
 		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
@@ -32,7 +32,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
 			//ステージデータをセーブ
-			StageDataListKeeper.instance.SaveData ();
+			StageListKeeper.instance.SaveData ();
 		}else {
 			//時間関係の処理の指令を出す
 		}

@@ -4,7 +4,8 @@ using System.Collections;
 public class PrefsManager :Singleton<PrefsManager> {
 
 	private enum Kies {
-		PlayerData
+		PlayerData,
+		DatabaseVersion
 	}
 
 	public string PlayerDataJson {
@@ -17,5 +18,13 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 	}
 
-
+	public int DatabaseVersion{
+		get{
+			return PlayerPrefs.GetInt (Kies.DatabaseVersion.ToString(),0);
+		}
+		set{
+			PlayerPrefs.SetInt (Kies.DatabaseVersion.ToString(),value);
+			PlayerPrefs.Save ();
+		}
+	}
 }

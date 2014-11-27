@@ -2,19 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class StageDataListKeeper : MonoSingleton<StageDataListKeeper> {
+public class StageListKeeper : MonoSingleton<StageListKeeper> {
 
-	private List<StageData> mStageDataList;
+	private List<Stage> mStageDataList;
 
 	public void LoadData(){
-		mStageDataList = StageDataDao.instance.GetStageDataList ();
+		StageDao dao = DaoFactory.CreateStageDao ();
+		mStageDataList = dao.SelectAll ();
 	}
 
 	public void SaveData(){
 
 	}
 
-	public StageData GetStageData(int index){
+	public Stage GetStageData(int index){
 		return mStageDataList[index];
 	}
 

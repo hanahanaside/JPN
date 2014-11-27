@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using MiniJSON;
+using System;
 
 public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 
@@ -26,13 +27,14 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		string playerDataJson = PrefsManager.instance.PlayerDataJson;
 		MyLog.LogDebug ("init player data " + playerDataJson);
 		mPlayerData = JsonParser.DeserializePlayerData (playerDataJson);
-		//初期起動時の処理
+		//初回期起動時の処理
 		if(string.IsNullOrEmpty(playerDataJson)){
 			mPlayerData.TicketCount = 10;
 		}
 	}
 
 	public void SaveData () {
+		mPlayerData.ExitDate = DateTime.Now.ToString ();
 		string playerDataJson = JsonParser.SerializePlayerData (mPlayerData);
 		PrefsManager.instance.PlayerDataJson = playerDataJson;
 		MyLog.LogDebug ("save player data " + playerDataJson);

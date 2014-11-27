@@ -20,9 +20,9 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 
 	public  void CreateStageGrid () {
 		mStageManagerList = new List<StageManager> ();
-		int count = StageDataListKeeper.instance.ListCount;
+		int count = StageListKeeper.instance.ListCount;
 		for (int i = 0; i < count; i++) {
-			StageData stageData = StageDataListKeeper.instance.GetStageData (i);
+			Stage stageData = StageListKeeper.instance.GetStageData (i);
 			GameObject stagePrefab = Resources.Load ("Stage/Stage_" + stageData.Id) as GameObject;
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			stageGrid.AddChild (stageObject.transform);

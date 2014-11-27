@@ -3,8 +3,20 @@ using System.Collections;
 
 public class SplashSceneManager : MonoBehaviour {
 
+	void OnEnable(){
+		DatabaseHelper.CreatedDatabaseEvent += CreatedDatabaseEvent;
+	}
+
+	void OnDisable(){
+		DatabaseHelper.CreatedDatabaseEvent -= CreatedDatabaseEvent;
+	}
+
 	void Start () {
+		DatabaseHelper.instance.CreateDatabase ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Hanauta);
+	}
+
+	void CreatedDatabaseEvent(){
 		Invoke ("Move",2.0f);
 	}
 

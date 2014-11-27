@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StageData {
+public class Stage {
 
 	public static readonly int NOT_CONSTRUCTION = 0;
 	public static readonly int IN_CONSTRUCTION = 1;

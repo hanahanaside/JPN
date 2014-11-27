@@ -27,13 +27,13 @@ public class StageManager : MonoBehaviour {
 	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
 	private State mState = State.Normal;
-	private StageData mStageData;
+	private Stage mStageData;
 	private List<Character> mCharacterList;
 
 	void Start () {
-		mStageData = StageDataListKeeper.instance.GetStageData (areaParams.stageId - 1);
+		mStageData = StageListKeeper.instance.GetStageData (areaParams.stageId - 1);
 		//工事中かをチェック
-		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			InitConstruction ();
 		} else {
 			InitNormal ();
@@ -75,7 +75,7 @@ public class StageManager : MonoBehaviour {
 				return;
 			}
 			//建設完了
-			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
+			mStageData.FlagConstruction = Stage.NOT_CONSTRUCTION;
 			backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
 			foreach (Character character in mCharacterList) {
 				Destroy (character.gameObject);
@@ -118,7 +118,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	public void FinishLive () { 
-		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 		} else {
 		//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
@@ -138,7 +138,7 @@ public class StageManager : MonoBehaviour {
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
 		//建設時間を設置(テストで10分の1)
 	//	mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
-		mUntilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) /10;
+		mUntilSleepTimeSeconds = (areaParams.constructionTimeMInutes * 60) /10;
 		//労働者の画像をセット
 		idleSprite.spriteName = "worker_1";
 		//労働者の数をセット

@@ -2,12 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class StageDataDao : Singleton<StageDataDao> {
+public class StageDbDao : StageDao {
 
-	public List<StageData> GetStageDataList () {
-		List<StageData> stageDataList = new List<StageData> ();
+	private const string TABLE_NAME = "stage";
+	private const string FIELD_ID = "id";
+	private const string FIELD_AREA_NAME = "area_name";
+	private const string FIELD_IDLE_COUNT = "idle_count";
+	private const string FIELD_FLAG_CONSTRUCTION = "flag_construction";
+	private const string FIELD_CREATED_DATE = "created_date";
+
+	public List<Stage> SelectAll(){
+		List<Stage> stageDataList = new List<Stage> ();
 		for (int i = 1; i <= 47; i++) {
-			StageData stageData = new StageData ();
+			Stage stageData = new Stage ();
 			stageData.Id = i;
 			stageData.IdleCount = 10;
 			stageData.AreaName = AreaName (i);
@@ -15,6 +22,10 @@ public class StageDataDao : Singleton<StageDataDao> {
 			stageDataList.Add (stageData);
 		}
 		return stageDataList;
+	}
+
+	public void UpdateById(Stage stage){
+
 	}
 
 	//ダミーデータ
