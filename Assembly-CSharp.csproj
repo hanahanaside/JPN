@@ -186,7 +186,7 @@
      <Compile Include="Assets\Scripts\DB\DaoFactory.cs" />
      <Compile Include="Assets\Scripts\DB\DatabaseHelper.cs" />
      <Compile Include="Assets\Scripts\DB\StageDbDao.cs" />
-     <Compile Include="Assets\Scripts\Debug\Debugger.cs" />
+     <Compile Include="Assets\Scripts\Debug\MyDebugger.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\Stage.cs" />
