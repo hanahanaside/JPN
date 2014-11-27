@@ -19,11 +19,11 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	}
 
 	public  void CreateStageGrid () {
+		StageDao dao = DaoFactory.CreateStageDao ();
+		List<Stage> stageList = dao.SelectAll ();
 		mStageManagerList = new List<StageManager> ();
-		int count = StageListKeeper.instance.ListCount;
-		for (int i = 0; i < count; i++) {
-			Stage stageData = StageListKeeper.instance.GetStageData (i);
-			GameObject stagePrefab = Resources.Load ("Stage/Stage_" + stageData.Id) as GameObject;
+		foreach(Stage stage in stageList){
+			GameObject stagePrefab = Resources.Load ("Stage/Stage_" + stage.Id) as GameObject;
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			stageGrid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);

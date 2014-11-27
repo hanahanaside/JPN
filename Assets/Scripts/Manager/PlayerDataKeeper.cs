@@ -27,10 +27,6 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		string playerDataJson = PrefsManager.instance.PlayerDataJson;
 		MyLog.LogDebug ("init player data " + playerDataJson);
 		mPlayerData = JsonParser.DeserializePlayerData (playerDataJson);
-		//初回期起動時の処理
-		if(string.IsNullOrEmpty(playerDataJson)){
-			mPlayerData.TicketCount = 10;
-		}
 	}
 
 	public void SaveData () {

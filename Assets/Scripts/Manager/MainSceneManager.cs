@@ -14,7 +14,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void Start () {
 		MyLog.LogDebug ("start");
-		StageListKeeper.instance.LoadData ();
 		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
@@ -33,8 +32,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			MyLog.LogDebug ("pause");
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
-			//ステージデータをセーブ
-			StageListKeeper.instance.SaveData ();
 		} else {
 			MyLog.LogDebug ("resume");
 			//時間関係の処理の指令を出す

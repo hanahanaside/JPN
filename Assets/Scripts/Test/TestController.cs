@@ -6,6 +6,7 @@ public class TestController : MonoBehaviour {
 	enum test{aiueo}
 
 	void Start(){
-		Debug.Log (test.aiueo.ToString());
+		int b = 25;
+		double a = (double)b;
 	}
 }

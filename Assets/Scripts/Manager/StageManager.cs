@@ -31,7 +31,7 @@ public class StageManager : MonoBehaviour {
 	private List<Character> mCharacterList;
 
 	void Start () {
-		mStageData = StageListKeeper.instance.GetStageData (areaParams.stageId - 1);
+		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			InitConstruction ();
@@ -76,6 +76,7 @@ public class StageManager : MonoBehaviour {
 			}
 			//建設完了
 			mStageData.FlagConstruction = Stage.NOT_CONSTRUCTION;
+			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 			backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
 			foreach (Character character in mCharacterList) {
 				Destroy (character.gameObject);
@@ -138,7 +139,9 @@ public class StageManager : MonoBehaviour {
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
 		//建設時間を設置(テストで10分の1)
 	//	mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
-		mUntilSleepTimeSeconds = (areaParams.constructionTimeMInutes * 60) /10;
+		float constructionTimeSeconds = (areaParams.constructionTimeMInutes * 60) /10;
+		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.CreatedDate);
+		mUntilSleepTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 		//労働者の画像をセット
 		idleSprite.spriteName = "worker_1";
 		//労働者の数をセット

@@ -14,13 +14,20 @@ public class MyDebugger : MonoBehaviour {
 	}
 
 	void OnGUI () {
+		string sceneName = Application.loadedLevelName;
+		if (sceneName == "Main") {
+			ShowMainGUI ();
+		}
+	}
+
+	private void ShowMainGUI () {
 		Rect pauseRect = new Rect (10, 30, 80, 20);
-		bool clickedPause = GUI.Button (pauseRect, "save data");
+		bool clickedPause = GUI.Button (pauseRect, "save pref");
 		if (clickedPause) {
-			OnPauseButtonClicked ();
+			MainSceneManager.instance.OnApplicationPause (true);
 		}
 		Rect deleteDBRect = new Rect (10, 60, 80, 20);
-		bool clickedDeleteDB = GUI.Button (deleteDBRect, "delete DB");
+		bool clickedDeleteDB = GUI.Button (deleteDBRect, "reset DB");
 		if (clickedDeleteDB) {
 			DatabaseHelper.instance.DeleteDB ();
 			DatabaseHelper.instance.CopyDB ();
@@ -29,16 +36,6 @@ public class MyDebugger : MonoBehaviour {
 		bool clickedPrefs = GUI.Button (prefsRect, "clear prefs");
 		if (clickedPrefs) {
 			PrefsManager.instance.PlayerDataJson = "";
-		}
-	}
-
-	private void OnPauseButtonClicked () {
-		string sceneName = Application.loadedLevelName;
-		if (sceneName == "Main") {
-			MainSceneManager.instance.OnApplicationPause (true);
-		}
-		if(sceneName == "Puzzle"){
-
 		}
 	}
 
