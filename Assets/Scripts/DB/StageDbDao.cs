@@ -13,12 +13,13 @@ public class StageDbDao : StageDao {
 	private const string FIELD_FLAG_CONSTRUCTION = "flag_construction";
 	private const string FIELD_CREATED_DATE = "created_date";
 
-	//全てのステージデータを取得
+	//存在する全てのステージデータを取得
 	public List<Stage> SelectAll () {
 		List<Stage> stageDataList = new List<Stage> ();
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
-		sb.Append ("select * from " + TABLE_NAME + ";");
+		sb.Append ("select * from " + TABLE_NAME + " ");
+		sb.Append ("where " + FIELD_IDLE_COUNT +  " != 0;");
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		while (sqliteQuery.Step ()) {
 			Stage stage = GetStage (sqliteQuery);
