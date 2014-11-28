@@ -13,7 +13,7 @@ public class Idle : Character {
 	private bool jump;
 	private UISprite mSprite;
 
-	void Start () {
+	public void Init () {
 		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		mScaleEvent = iTweenEvent.GetEvent (gameObject, "ScaleEvent");

@@ -27,17 +27,23 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
+
 	public void OnApplicationPause (bool pauseStatus) {
+
 		if (pauseStatus) {
 			MyLog.LogDebug ("pause");
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
 		} else {
+			//エディタだとStartの前に呼ばれてしまう
+			#if !UNITY_EDITOR
 			MyLog.LogDebug ("resume");
 			//時間関係の処理の指令を出す
 			StageGridManager.instance.Resume ();
+			#endif
 		}
 	}
+	
 		
 	//コインタップ時の処理
 	void OnCoinClickedEvent (string tag) {

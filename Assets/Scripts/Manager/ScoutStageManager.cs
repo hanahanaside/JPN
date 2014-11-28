@@ -33,6 +33,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	public void OnFadeOutFinished(){
+		PlayerDataKeeper.instance.SaveData ();
 		Application.LoadLevel ("Puzzle");
 	}
 
