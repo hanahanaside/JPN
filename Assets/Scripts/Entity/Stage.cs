@@ -14,6 +14,6 @@ public class Stage {
 
 	public string AreaName{ get; set; }
 
-	public string CreatedDate{ get; set; }
-	//作られた日付
+	public string UpdatedDate{ get; set; }
+
 }

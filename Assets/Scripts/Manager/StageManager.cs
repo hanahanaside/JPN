@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class StageManager : MonoBehaviour {
 
@@ -76,14 +77,31 @@ public class StageManager : MonoBehaviour {
 			}
 			//建設完了
 			mStageData.FlagConstruction = Stage.NOT_CONSTRUCTION;
-			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 			backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
 			foreach (Character character in mCharacterList) {
 				Destroy (character.gameObject);
 			}
 			mState = State.Normal;
+			mStageData.UpdatedDate = DateTime.Now.ToString ();
+			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 			InitNormal ();
 			break;
+		}
+	}
+		
+	public void Resume(){
+		//工事中かをチェック
+		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
+			float constructionTimeSeconds = (areaParams.constructionTimeMInutes * 60) / 10;
+			float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
+			mUntilSleepTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
+		}else {
+			//サボるまでの時間をセット(テストで10分の1)
+			//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+			float untilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+			float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
+			Debug.Log ("ts " +timeSpanSeconds);
+			mUntilSleepTimeSeconds = untilSleepTimeSeconds - timeSpanSeconds;
 		}
 	}
 
@@ -122,8 +140,8 @@ public class StageManager : MonoBehaviour {
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 		} else {
-		//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-			mUntilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) /10;
+			//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+			mUntilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
 			mState = State.Normal;
 		}
 		foreach (Character character in mCharacterList) {
@@ -137,26 +155,32 @@ public class StageManager : MonoBehaviour {
 		mState = State.Construction;
 		//背景を設置
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
+
 		//建設時間を設置(テストで10分の1)
-	//	mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
-		float constructionTimeSeconds = (areaParams.constructionTimeMInutes * 60) /10;
-		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.CreatedDate);
+		//	mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
+		float constructionTimeSeconds = (areaParams.constructionTimeMInutes * 60) / 10;
+		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mUntilSleepTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
+
 		//労働者の画像をセット
 		idleSprite.spriteName = "worker_1";
+
 		//労働者の数をセット
 		idleCountLabel.text = "×4";
+
 		//エリア名をセット
 		areaNameLabel.text = "建設中";
+
 		//コイン生成パワーをセット
 		generateCoinPowerLabel.text = "0/分";
+
 		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
 			GameObject workerPrefab = Resources.Load ("Model/Worker/Worker_" + i) as GameObject;
 			GameObject workerObject = Instantiate (workerPrefab) as GameObject;
 			workerObject.transform.parent = gameObject.transform.parent;
 			workerObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			int rand = Random.Range (0, idlePositionArray.Length);
+			int rand = UnityEngine.Random.Range (0, idlePositionArray.Length);
 			workerObject.transform.localPosition = idlePositionArray [rand].localPosition;
 			mCharacterList.Add (workerObject.GetComponent<Character> ());
 		}
@@ -182,22 +206,29 @@ public class StageManager : MonoBehaviour {
 			GameObject idleObject = Instantiate (idlePrefab) as GameObject;
 			idleObject.transform.parent = gameObject.transform.parent;
 			idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			int rand = Random.Range (0, idlePositionArray.Length);
+			int rand = UnityEngine.Random.Range (0, idlePositionArray.Length);
 			idleObject.transform.localPosition = idlePositionArray [rand].localPosition;
 			mCharacterList.Add (idleObject.GetComponent<Character> ());
 		}
 
 		//エリア名をセット
 		areaNameLabel.text = mStageData.AreaName;
+
 		//サボるまでの時間をセット(テストで10分の1)
-	//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-		mUntilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) /10;
+		//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+		float untilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
+		Debug.Log ("ts " +timeSpanSeconds);
+		mUntilSleepTimeSeconds = untilSleepTimeSeconds - timeSpanSeconds;
+
 		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
+
 		//アイドルの数をセット
 		idleCountLabel.text = "×" + mStageData.IdleCount;
+
 		//アイドルの画像をセット
 		idleSprite.spriteName = "idle_normal_" + areaParams.stageId;
 		UISpriteData spriteData = idleSprite.GetAtlasSprite ();

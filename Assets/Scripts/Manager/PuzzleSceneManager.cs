@@ -18,7 +18,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		Stage stage = dao.SelectById (40);
 		stage.IdleCount = 1;
-		stage.CreatedDate = System.DateTime.Now.ToString ();
+		stage.UpdatedDate = System.DateTime.Now.ToString ();
 		dao.UpdateRecord (stage);
 	}
 
@@ -26,7 +26,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		Stage stage = dao.SelectById (2);
 		stage.IdleCount = 2;
-		stage.CreatedDate = System.DateTime.Now.ToString ();
+		stage.UpdatedDate = System.DateTime.Now.ToString ();
 		dao.UpdateRecord (stage);
 	}
 

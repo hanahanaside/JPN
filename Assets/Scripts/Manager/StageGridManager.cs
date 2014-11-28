@@ -34,5 +34,10 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	public void MoveToStage (int stageIndex) {
 		mCenterOnChild.CenterOn (stageGrid.GetChild (stageIndex));
 	}
-
+		
+	public void Resume(){
+		foreach(StageManager stageManager in mStageManagerList){
+			stageManager.Resume ();
+		}
+	}
 }

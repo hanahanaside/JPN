@@ -22,6 +22,12 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 			return mPlayerData.CoinCount;
 		}
 	}
+
+	public string ExitDate{
+		get{
+			return mPlayerData.ExitDate;
+		}
+	}
 		
 	public void Init () {
 		string playerDataJson = PrefsManager.instance.PlayerDataJson;

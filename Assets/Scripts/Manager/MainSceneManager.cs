@@ -35,6 +35,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		} else {
 			MyLog.LogDebug ("resume");
 			//時間関係の処理の指令を出す
+			StageGridManager.instance.Resume ();
 		}
 	}
 		

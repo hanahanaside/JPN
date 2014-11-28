@@ -11,7 +11,7 @@ public class StageDbDao : StageDao {
 	private const string FIELD_AREA_NAME = "area_name";
 	private const string FIELD_IDLE_COUNT = "idle_count";
 	private const string FIELD_FLAG_CONSTRUCTION = "flag_construction";
-	private const string FIELD_CREATED_DATE = "created_date";
+	private const string FIELD_UPDATED_DATE = "updated_date";
 
 	//存在する全てのステージデータを取得
 	public List<Stage> SelectAll () {
@@ -53,7 +53,7 @@ public class StageDbDao : StageDao {
 		sb.Append ("update " + TABLE_NAME + " set ");
 		sb.Append (FIELD_IDLE_COUNT + " = " + stage.IdleCount + ", ");
 		sb.Append (FIELD_FLAG_CONSTRUCTION + " = " + stage.FlagConstruction + ", ");
-		sb.Append (FIELD_CREATED_DATE + " = '" + stage.CreatedDate + "' ");
+		sb.Append (FIELD_UPDATED_DATE + " = '" + stage.UpdatedDate + "' ");
 		sb.Append ("where " + FIELD_ID + " = " + stage.Id + ";");
 		MyLog.LogDebug ("sql " + sb.ToString());
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
@@ -71,7 +71,7 @@ public class StageDbDao : StageDao {
 			stage.AreaName = sqliteQuery.GetString (FIELD_AREA_NAME);
 			stage.IdleCount = sqliteQuery.GetInteger (FIELD_IDLE_COUNT);
 			stage.FlagConstruction = sqliteQuery.GetInteger (FIELD_FLAG_CONSTRUCTION);
-			stage.CreatedDate = sqliteQuery.GetString (FIELD_CREATED_DATE);
+			stage.UpdatedDate = sqliteQuery.GetString (FIELD_UPDATED_DATE);
 		} catch (Exception e) {
 			MyLog.LogDebug (e.Message);
 		} 
