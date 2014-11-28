@@ -8,6 +8,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	void Start(){
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
+		Debug.Log ("num " + ScoutStageManager.AreaIndexNumber);
 	}
 
 	public void OnBackButtonClicked () {

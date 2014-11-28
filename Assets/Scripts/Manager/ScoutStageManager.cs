@@ -18,6 +18,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	void OnAreaClickedEvent(int areaIndexNumber){
+		AreaIndexNumber = areaIndexNumber;
 		dartsObject.transform.localPosition = areaPositionArray [areaIndexNumber].localPosition;
 		dartsObject.SetActive (true);
 	}
@@ -27,6 +28,8 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	public static bool FlagScouting{ get; set;}
+
+	public static int AreaIndexNumber{ get; set;}
 
 	public void StartLive(){
 
