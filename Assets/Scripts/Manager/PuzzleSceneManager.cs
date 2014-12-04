@@ -7,6 +7,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	private static int id = 0;
 
 	void Start(){
+		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
 		Debug.Log ("num " + ScoutStageManager.AreaIndexNumber);
 	}
