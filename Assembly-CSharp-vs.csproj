@@ -225,6 +225,8 @@
      <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />
      <Compile Include="Assets\Scripts\Parser\JsonParser.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
+     <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
+     <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
