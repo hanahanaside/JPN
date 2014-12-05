@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Target : MonoBehaviour {
 
-	public string targetTag;
+	public static event Action<string> CompletePuzzleEvent;
+	public static event Action UpdateGameEvent;
 	private List<Transform> mChildList;
 	private int mCorrectCount;
 
@@ -21,12 +23,19 @@ public class Target : MonoBehaviour {
 	}
 
 	void OpenedPuzzleEvent(string puzzleTag){
-		if(puzzleTag == targetTag){
+		if(puzzleTag == tag){
 			Correct ();
 		}
 		if(mCorrectCount >= mChildList.Count){
-			Debug.Log ("get");
+			iTweenEvent.GetEvent (gameObject,"ExitEvent").Play();
+		}else {
+			UpdateGameEvent ();
 		}
+	}
+
+	void CompleteExitEvent(){
+			CompletePuzzleEvent (tag);
+			Destroy (gameObject);
 	}
 
 	private void Correct(){

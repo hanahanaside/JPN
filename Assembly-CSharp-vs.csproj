@@ -202,6 +202,8 @@
      <Compile Include="Assets\Scripts\Manager\EntranceStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\EventManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FenceManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\FinishPuzzleDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\GetIdleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Manager\LiveManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ManagementPanelManager.cs" />
@@ -226,6 +228,7 @@
      <Compile Include="Assets\Scripts\Parser\JsonParser.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
+     <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
