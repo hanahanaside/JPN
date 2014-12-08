@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
@@ -29,7 +30,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
 		remainingTapCountLabel.text = "残りタップ" + mRemainingTapCount + "回";
-		GameObject puzzleTablePrefab = Resources.Load ("Table_1/PuzzleTable_2") as GameObject;
+		GameObject puzzleTablePrefab = Resources.Load ("Table_1/PuzzleTable_3") as GameObject;
 		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		puzzleTableObject.transform.parent = puzzleTableTransform;
 		puzzleTableObject.transform.localScale = new Vector3 (1, 1, 1);
@@ -44,18 +45,14 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		
 	//パズル完成時に呼ばれる
 	void CompletePuzzleEvent (string itemTag) {
-		Debug.Log ("get");
 		string id = itemTag.Remove (0, 7);
-		Debug.Log ("id " + id);
-		StageDao dao = DaoFactory.CreateStageDao ();
-		Stage stage = dao.SelectById (System.Convert.ToInt32(id));
-		stage.IdleCount++;
-		dao.UpdateRecord (stage);
+
 		FenceManager.instance.ShowFence ();
 		GameObject getIdleDialogPrefab = Resources.Load ("Dialog/GetIdleDialog_" + id) as GameObject;
 		GameObject getIdleDialogObject = Instantiate (getIdleDialogPrefab) as GameObject;
 		getIdleDialogObject.transform.parent = GameObject.Find ("UI Root").transform;
 		getIdleDialogObject.transform.localScale = new Vector3 (1, 1, 1);
+		GetIdleDialogManager.instance.IdleID = Convert.ToInt32 (id);
 	}
 
 	//アイドルゲットダイアログを閉じた時に呼ばれる
@@ -82,7 +79,6 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 			finishPuzzleDialogObject.transform.localScale = new Vector3 (1, 1, 1);
 			return;
 		}
-		Debug.Log ("update");
 		mUpdateCount = 0;
 	}
 
