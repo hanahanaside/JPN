@@ -4,9 +4,12 @@ using System.Collections;
 public abstract class Character : MonoBehaviour {
 
 	public MovableArea movableArea;
-	public MoveSpeed moveSpeed;
 	public float moveTimeSeconds;
 	public float stopTimeSeconds;
+	public float maxSpeedX;
+	public float maxSpeedY;
+	[HideInInspector]
+	public MoveSpeed moveSpeed;
 
 	protected Transform characterTransform;
 
@@ -42,6 +45,16 @@ public abstract class Character : MonoBehaviour {
 
 	//移動方向を変更
 	protected void ChangeDirection (Direction direction) {
+		float speedX = Random.Range (0,maxSpeedX);
+		float speedY = Random.Range (0,maxSpeedY);
+		if(moveSpeed.speedX < 0){
+			speedX = -speedX;
+		}
+		if(moveSpeed.speedY < 0){
+			speedY = -speedY;
+		}
+		moveSpeed.speedX = speedX;
+		moveSpeed.speedY = speedY;
 		switch (direction) {
 		case Direction.Left:
 			characterTransform.localScale = new Vector3 (1,1,1);

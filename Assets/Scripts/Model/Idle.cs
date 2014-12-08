@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Idle : Character {
 		
-	public int idleId;
+	private string idleId;
 
 	private float mTime;
 	private State mState = State.Move;
@@ -14,6 +14,8 @@ public class Idle : Character {
 	private UISprite mSprite;
 
 	public void Init () {
+		idleId = name.Replace ("Idle_","");
+		idleId = idleId.Replace ("(Clone)","");
 		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		mScaleEvent = iTweenEvent.GetEvent (mSprite.gameObject, "ScaleEvent");
@@ -82,6 +84,7 @@ public class Idle : Character {
 		mScaleEvent.Stop ();
 		mSprite.spriteName = "idle_sleep_" + idleId;
 		ResizeSprite ();
+		mSprite.transform.localScale = new Vector3 (1f,1f,1f);
 	}
 
 	public override void Wakeup () {

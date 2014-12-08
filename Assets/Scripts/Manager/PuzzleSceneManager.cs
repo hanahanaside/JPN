@@ -17,6 +17,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		Target.UpdateGameEvent += UpdateGameEvent;
 		GetIdleDialogManager.ClosedEvent += ClosedDialogEvent;
 		FinishPuzzleDialogManager.FinishPuzzleEvent += FinishPuzzleEvent;
+		Puzzle.OpenedPuzzleEvent += OpenedPuzzleEvent;
 	}
 
 	void OnDisable () {
@@ -24,6 +25,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		Target.UpdateGameEvent -= UpdateGameEvent;
 		GetIdleDialogManager.ClosedEvent -= ClosedDialogEvent;
 		FinishPuzzleDialogManager.FinishPuzzleEvent -= FinishPuzzleEvent;
+		Puzzle.OpenedPuzzleEvent -= OpenedPuzzleEvent;
 	}
 
 	void Start () {
@@ -40,6 +42,31 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 			GameObject targetObject = Instantiate (targetPrefab) as GameObject;
 			targetGrid.AddChild (targetObject.transform);
 			targetObject.transform.localScale = new Vector3 (1,1,1);
+		}
+	}
+
+	//パズルオープン時に呼ばれる
+	void OpenedPuzzleEvent(string tag){
+		switch(tag){
+		case "puzzle_coin_1":
+			PlayerDataKeeper.instance.IncreaseCoinCount (1);
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			break;
+		case "puzzle_coin_5":
+			PlayerDataKeeper.instance.IncreaseCoinCount (5);
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			break;
+		case "puzzle_coin_10":
+			PlayerDataKeeper.instance.IncreaseCoinCount (10);
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			break;
+		case "puzzle_coin_100":
+			PlayerDataKeeper.instance.IncreaseCoinCount (100);
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			break;
+		case "puzzle_ticket":
+			PlayerDataKeeper.instance.IncreaseTicketCount (1);
+			break;
 		}
 	}
 		
