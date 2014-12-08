@@ -16,7 +16,7 @@ public class Idle : Character {
 	public void Init () {
 		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
-		mScaleEvent = iTweenEvent.GetEvent (gameObject, "ScaleEvent");
+		mScaleEvent = iTweenEvent.GetEvent (mSprite.gameObject, "ScaleEvent");
 		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject, "RotateEvent");
 		StartMoving ();
 	}
@@ -57,12 +57,7 @@ public class Idle : Character {
 		mTime = stopTimeSeconds;
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
-		if(moveSpeed.speedX > 0){
-			characterTransform.localScale = new Vector3 (-1f, 1f, 1f);
-		}else {
-			characterTransform.localScale = new Vector3 (1f, 1f, 1f);
-		}
-
+		mSprite.transform.localScale = new Vector3 (1f,1f,1f);
 	}
 
 	void OnCompleteJumpEvent () {
@@ -121,6 +116,6 @@ public class Idle : Character {
 
 	private void ResizeSprite () {
 		UISpriteData spriteData = mSprite.GetAtlasSprite ();
-		mSprite.SetDimensions (spriteData.width, spriteData.height);
+		mSprite.SetDimensions ((int)(spriteData.width/1.3), (int)(spriteData.height/1.3));
 	}
 }
