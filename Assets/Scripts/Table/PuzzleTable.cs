@@ -16,7 +16,14 @@ public class PuzzleTable : MonoBehaviour {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
 		//生成するパズルの種類の数を決める
-		int[] puzzleIdArray = CreatePuzzleIdArray ();
+		int[] puzzleIdArray = null;
+		//被らないようにする
+		while (true) {
+			puzzleIdArray = CreatePuzzleIdArray ();
+			if(CheckNotDuplicate(puzzleIdArray)){
+				break;
+			}
+		}
 		puzzleObjectArray = new GameObject[puzzleIdArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
 			int puzzleId = puzzleIdArray [i];
@@ -42,6 +49,15 @@ public class PuzzleTable : MonoBehaviour {
 		table.Reposition ();
 
 		CreatedPuzzleTableEvent (puzzleObjectArray);
+	}
+
+	//パズルのキャラが被っているかをチェックする
+	private bool CheckNotDuplicate (int[] puzzleIdArray) {
+		int puzzleId = puzzleIdArray[0];
+		if(puzzleId == puzzleIdArray[1]){
+			return false;
+		}
+		return true;
 	}
 
 	//指定した配列の順番にパズルを設置する
@@ -112,7 +128,7 @@ public class PuzzleTable : MonoBehaviour {
 	//キャラが被らないようにパズルIDをを返す
 	private int[] CreatePuzzleIdArray () {
 		int[] puzzleIdArray = new int[2];
-		for(int i = 0; i<puzzleIdArray.Length;i++){
+		for (int i = 0; i < puzzleIdArray.Length; i++) {
 			int rand = UnityEngine.Random.Range (1, 11);
 			int puzzleId = 0;
 			switch (rand) {
