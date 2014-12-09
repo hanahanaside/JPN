@@ -5,6 +5,7 @@ using System;
 
 public class Target : MonoBehaviour {
 
+	public static event Action UpdateGameEvent;
 	public static event Action<string> CompleteTargetEvent;
 
 	private List<Transform> mChildList;
@@ -15,25 +16,22 @@ public class Target : MonoBehaviour {
 	}
 
 	void CompleteExitEvent(){
-		Destroy (gameObject);
+		enabled = false;
 		CompleteTargetEvent (tag);
 	}
 		
 	public void Correct () {
+		if(!enabled){
+			return;
+		}
 		mCorrectCount++;
 		UISprite sprite = mChildList [mCorrectCount - 1].GetComponent<UISprite> ();
 		sprite.spriteName = "symbol_on";
-	}
-
-	public bool CheckNotComplete(){
 		if (mCorrectCount >= mChildList.Count) {
-			return false;
+			iTweenEvent.GetEvent (gameObject, "ExitEvent").Play ();
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_1);
+		}else {
+			UpdateGameEvent ();
 		}
-		return true;
-	}
-
-	public void StartCompleteEvent(){
-		iTweenEvent.GetEvent (gameObject, "ExitEvent").Play ();
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_1);
 	}
 }

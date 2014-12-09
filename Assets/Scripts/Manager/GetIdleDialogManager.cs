@@ -2,9 +2,9 @@
 using System.Collections;
 using System;
 
-public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
+public class GetIdleDialogManager : MonoBehaviour {
 
-	public static event Action<string> ClosedEvent;
+	public static event Action ClosedEvent;
 	public int IdleID{ get; set;}
 
 	// Use this for initialization
@@ -23,7 +23,12 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		stage.IdleCount++;
 		stage.UpdatedDate = DateTime.Now.ToString ();
 		dao.UpdateRecord (stage);
-		ClosedEvent (tag);
+		FenceManager.instance.HideFence ();
+		ClosedEvent ();
 		Destroy (transform.parent.gameObject);
+	}
+
+	public void Show(int id){
+
 	}
 }
