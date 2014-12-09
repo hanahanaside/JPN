@@ -5,39 +5,26 @@ using System;
 
 public class Referee : MonoBehaviour {
 
+	public static event Action FinishGameEvent;
+
 	public UILabel remainingTapCountLabel;
 	public UIGrid targetGrid;
+	public GameObject finishPuzzleDialogPrefab;
 	private List<GameObject> mTargetObjectList;
 	private int mRemainingTapCount = 10;
 
 	void OnEnable () {
 		Puzzle.OpenedPuzzleEvent += OpenedPuzzleEvent;
 		Target.CompleteTargetEvent += CompleteTargetEvent;
+		GetIdleDialogManager.ClosedEvent += ClosedDialogEvent;
+		FinishPuzzleDialogManager.FinishPuzzleEvent += FinishPuzzleEvent;
 	}
 
 	void OnDisable () {
 		Puzzle.OpenedPuzzleEvent -= OpenedPuzzleEvent;
 		Target.CompleteTargetEvent -= CompleteTargetEvent;
-	}
-
-	void Update(){
-		remainingTapCountLabel.text = "残りタップ" + mRemainingTapCount + "回";
-	}
-
-	//アイドルゲットダイアログを閉じた時に呼ばれる
-	void ClosedDialogEvent (string dialogTag) {
-		FenceManager.instance.HideFence ();
-	}
-
-	//パズル完成時に呼ばれる
-	void CompleteTargetEvent (string targetTag) {
-		string id = targetTag.Remove (0, 7);
-		FenceManager.instance.ShowFence ();
-		GameObject getIdleDialogPrefab = Resources.Load ("Dialog/GetIdleDialog_" + id) as GameObject;
-		GameObject getIdleDialogObject = Instantiate (getIdleDialogPrefab) as GameObject;
-		getIdleDialogObject.transform.parent = transform.parent.transform.parent;
-		getIdleDialogObject.transform.localScale = new Vector3 (1, 1, 1);
-		GetIdleDialogManager.instance.IdleID = Convert.ToInt32 (id);
+		GetIdleDialogManager.ClosedEvent -= ClosedDialogEvent;
+		FinishPuzzleDialogManager.FinishPuzzleEvent -= FinishPuzzleEvent;
 	}
 
 	void Start () {
@@ -51,6 +38,29 @@ public class Referee : MonoBehaviour {
 		}
 	}
 
+	void Update () {
+		remainingTapCountLabel.text = "残りタップ" + mRemainingTapCount + "回";
+	}
+
+	//アイドルゲットダイアログを閉じた時に呼ばれる
+	void ClosedDialogEvent (string dialogTag) {
+		FenceManager.instance.HideFence ();
+		targetGrid.Reposition ();
+		UpdateGame ();
+	}
+
+	//パズル完成アニメーション終了時に呼ばれる
+	void CompleteTargetEvent (string targetTag) {
+		string id = targetTag.Remove (0, 7);
+		FenceManager.instance.ShowFence ();
+		GameObject getIdleDialogPrefab = Resources.Load ("Dialog/GetIdleDialog_" + id) as GameObject;
+		GameObject getIdleDialogObject = Instantiate (getIdleDialogPrefab) as GameObject;
+		getIdleDialogObject.transform.parent = transform.parent.transform.parent;
+		getIdleDialogObject.transform.localScale = new Vector3 (1, 1, 1);
+		GetIdleDialogManager.instance.IdleID = Convert.ToInt32 (id);
+	}
+
+	//パズルオープン時に呼ばれる
 	void OpenedPuzzleEvent (string tag) {
 		mRemainingTapCount--;
 		switch (tag) {
@@ -75,28 +85,34 @@ public class Referee : MonoBehaviour {
 			break;
 		}
 		foreach (GameObject targetObject in mTargetObjectList) {
-			CheckAnswer (tag, targetObject);
+			string targetTag = targetObject.tag;
+			//ターゲットと違う場合はコンティニュー
+			if (tag != targetTag) {
+				continue;
+			}
+			Target target = targetObject.GetComponent<Target> ();
+			target.Correct ();
+			//フルになったらアニメーション開始して処理を終了
+			if (!target.CheckNotComplete ()) {
+				target.StartCompleteEvent ();
+				mTargetObjectList.Remove (targetObject);
+				return;
+			}
 		}
+		UpdateGame ();
 	}
 
-
-	private void CheckAnswer (string tag, GameObject targetObject) {
-		string targetTag = targetObject.tag;
-		if (tag != targetTag) {
-			return;
-		}
-		Target target = targetObject.GetComponent<Target> ();
-		target.Correct ();
-		if (target.CheckNotComplete()) {
-
-		} else {
-			target.StartCompleteEvent ();
-		}
-
+	void FinishPuzzleEvent () {
+		FenceManager.instance.HideFence ();
+		FinishGameEvent ();
 	}
 
-	void CompleteExitEvent () {
-		FenceManager.instance.ShowFence ();
+	private void UpdateGame () {
+		if (mRemainingTapCount <= 0) {
+			FenceManager.instance.ShowFence ();
+			GameObject finishPuzzleDialogObject = Instantiate (finishPuzzleDialogPrefab) as GameObject;
+			finishPuzzleDialogObject.transform.parent = transform.parent.transform.parent;
+			finishPuzzleDialogObject.transform.localScale = new Vector3 (1, 1, 1);
+		}
 	}
-
 }
