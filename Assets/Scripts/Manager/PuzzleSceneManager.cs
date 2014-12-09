@@ -18,26 +18,29 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	void OnEnable () {
 		Referee.UpdateGameEvent += UpdateGameEvent;
 		Target.UpdateGameEvent += UpdateGameEvent;
-		Puzzle.OpenedPuzzleEvent += OpenedPuzzleEvent;
 		Target.CompleteTargetEvent += CompleteTargetEvent;
 		GetIdleDialogManager.ClosedEvent += UpdateGameEvent;
+		FinishPuzzleDialogManager.FinishPuzzleEvent += FinishPuzzleEvent;
 	}
 
 	void OnDisable () {
 		Referee.UpdateGameEvent -= UpdateGameEvent;
 		Target.UpdateGameEvent -= UpdateGameEvent;
-		Puzzle.OpenedPuzzleEvent -= OpenedPuzzleEvent;
 		Target.CompleteTargetEvent -= CompleteTargetEvent;
 		GetIdleDialogManager.ClosedEvent -= UpdateGameEvent;
+		FinishPuzzleDialogManager.FinishPuzzleEvent -= FinishPuzzleEvent;
 	}
 
 	void Start () {
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
-		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab) as GameObject;
+		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_1") as GameObject;
+		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		puzzleTableObject.transform.parent = puzzleTableParent.transform;
 		puzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
 		puzzleTableObject.transform.localScale = new Vector3 (1, 1, 1);
+		PuzzleTable puzzleTable = puzzleTableObject.GetComponent<PuzzleTable> ();
+		puzzleTable.CreateTable (1);
 	}
 
 	void Update () {
@@ -55,13 +58,10 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		GetIdleDialogManager getIdleManager = getIdleDialogObject.GetComponentInChildren<GetIdleDialogManager> ();
 		getIdleManager.Show (Convert.ToInt32 (id));
 	}
-
-	//パズルオープン時に呼ばれる
-	void OpenedPuzzleEvent (string tag) {
-		mRemainingTapCount--;
-	}
-
+		
+	//ゲームを更新する
 	void UpdateGameEvent () {
+		mRemainingTapCount--;
 		if (mRemainingTapCount <= 0) {
 			FenceManager.instance.ShowFence ();
 			GameObject finishPuzzleDialogObject = Instantiate (finishPuzzleDialogPrefab) as GameObject;

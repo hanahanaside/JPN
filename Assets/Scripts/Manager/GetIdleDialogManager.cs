@@ -5,7 +5,7 @@ using System;
 public class GetIdleDialogManager : MonoBehaviour {
 
 	public static event Action ClosedEvent;
-	public int IdleID{ get; set;}
+	private int mIdleId;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +19,7 @@ public class GetIdleDialogManager : MonoBehaviour {
 
 	public void OnCloseButtonClicked(){
 		StageDao dao = DaoFactory.CreateStageDao ();
-		Stage stage = dao.SelectById (System.Convert.ToInt32(IdleID));
+		Stage stage = dao.SelectById (mIdleId);
 		stage.IdleCount++;
 		stage.UpdatedDate = DateTime.Now.ToString ();
 		dao.UpdateRecord (stage);
@@ -29,6 +29,6 @@ public class GetIdleDialogManager : MonoBehaviour {
 	}
 
 	public void Show(int id){
-
+		mIdleId = id;
 	}
 }

@@ -8,12 +8,21 @@ public class PuzzleTable : MonoBehaviour {
 	public static event Action<GameObject[]> CreatedPuzzleTableEvent;
 
 	private List<Transform> mChildList;
-	public GameObject[] puzzleObjectArray;
+	private GameObject[] puzzleObjectArray;
 	public GameObject[] blankPuzzleArray;
 
-	void Start () {
+	//パズルテーブルを作成する
+	public void CreateTable (int level) {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
+		//生成するパズルの種類の数を決める
+		int[] puzzleIdArray = CreatePuzzleIdArray ();
+		puzzleObjectArray = new GameObject[puzzleIdArray.Length];
+		for (int i = 0; i < puzzleObjectArray.Length; i++) {
+			int puzzleId = puzzleIdArray [i];
+			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + puzzleId) as GameObject;
+			puzzleObjectArray [i] = puzzlePrefab;
+		}
 
 		foreach (GameObject puzzleObject in puzzleObjectArray) {
 			Puzzle puzzle = puzzleObject.GetComponent<Puzzle> ();
@@ -25,7 +34,7 @@ public class PuzzleTable : MonoBehaviour {
 			AddPuzzle (puzzleIndexArray, puzzleObject);
 
 		}
-			
+
 		//残りの場所にブランクを設置
 		AddEmptyPuzzle ();
 
@@ -98,5 +107,40 @@ public class PuzzleTable : MonoBehaviour {
 			}
 		}
 		return false;
+	}
+
+	//キャラが被らないようにパズルIDをを返す
+	private int[] CreatePuzzleIdArray () {
+		int[] puzzleIdArray = new int[2];
+		for(int i = 0; i<puzzleIdArray.Length;i++){
+			int rand = UnityEngine.Random.Range (1, 11);
+			int puzzleId = 0;
+			switch (rand) {
+			case 1:
+			case 2:
+				puzzleId = 1;
+				break;
+			case 3:
+			case 4:
+				puzzleId = 2;
+				break;
+			case 5:
+			case 6:
+				puzzleId = 3;
+				break;
+			case 7:
+			case 8:
+				puzzleId = 4;
+				break;
+			case 9:
+				puzzleId = 5;
+				break;
+			case 10:
+				puzzleId = 6;
+				break;
+			}
+			puzzleIdArray [i] = puzzleId;
+		}
+		return puzzleIdArray;
 	}
 }
