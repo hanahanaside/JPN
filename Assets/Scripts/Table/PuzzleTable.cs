@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class PuzzleTable : MonoSingleton<PuzzleTable> {
+public class PuzzleTable : MonoBehaviour {
 
-	public string[] puzzleTag;
+	public static event Action<GameObject[]> CreatedPuzzleTableEvent;
+
 	private List<Transform> mChildList;
 	public GameObject[] puzzleObjectArray;
 	public GameObject[] blankPuzzleArray;
@@ -13,11 +15,11 @@ public class PuzzleTable : MonoSingleton<PuzzleTable> {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
 
-		foreach(GameObject puzzleObject in puzzleObjectArray){
+		foreach (GameObject puzzleObject in puzzleObjectArray) {
 			Puzzle puzzle = puzzleObject.GetComponent<Puzzle> ();
 
 			//パズルを設置するインデックスの配列を作成
-			int[]	puzzleIndexArray = CreateIndexArray (puzzle);
+			int[] puzzleIndexArray = CreateIndexArray (puzzle);
 
 			//作成した配列にパズルを設置
 			AddPuzzle (puzzleIndexArray, puzzleObject);
@@ -29,6 +31,8 @@ public class PuzzleTable : MonoSingleton<PuzzleTable> {
 
 		//テーブルを整列
 		table.Reposition ();
+
+		CreatedPuzzleTableEvent (puzzleObjectArray);
 	}
 
 	//指定した配列の順番にパズルを設置する
@@ -52,7 +56,7 @@ public class PuzzleTable : MonoSingleton<PuzzleTable> {
 			if (child.childCount != 0) {
 				continue;
 			}
-			GameObject	puzzleObject = Instantiate (blankPuzzleArray[0])as GameObject;
+			GameObject	puzzleObject = Instantiate (blankPuzzleArray [0])as GameObject;
 			puzzleObject.transform.parent = child;
 			puzzleObject.transform.localPosition = new Vector3 (0, 0, 0);
 			puzzleObject.transform.localScale = new Vector3 (1, 1, 1);
@@ -67,7 +71,7 @@ public class PuzzleTable : MonoSingleton<PuzzleTable> {
 
 		while (true) {
 			//1つめのパズルを設置する場所をランダムで決定
-			int rand = Random.Range (0, puzzle.firstIndexArray.Length - 1);
+			int rand = UnityEngine.Random.Range (0, puzzle.firstIndexArray.Length - 1);
 			puzzleIndexArray [0] = puzzle.firstIndexArray [rand];
 
 			//2つめ以降のパズルを設置する場所を決定

@@ -13,11 +13,14 @@ public class Referee : MonoBehaviour {
 	private List<GameObject> mTargetObjectList;
 	private int mRemainingTapCount = 10;
 
+	public GameObject puzzleTablePrefab;
+
 	void OnEnable () {
 		Puzzle.OpenedPuzzleEvent += OpenedPuzzleEvent;
 		Target.CompleteTargetEvent += CompleteTargetEvent;
 		GetIdleDialogManager.ClosedEvent += ClosedDialogEvent;
 		FinishPuzzleDialogManager.FinishPuzzleEvent += FinishPuzzleEvent;
+		PuzzleTable.CreatedPuzzleTableEvent += CreatedPuzzleTableEvent;
 	}
 
 	void OnDisable () {
@@ -25,21 +28,32 @@ public class Referee : MonoBehaviour {
 		Target.CompleteTargetEvent -= CompleteTargetEvent;
 		GetIdleDialogManager.ClosedEvent -= ClosedDialogEvent;
 		FinishPuzzleDialogManager.FinishPuzzleEvent -= FinishPuzzleEvent;
+		PuzzleTable.CreatedPuzzleTableEvent -= CreatedPuzzleTableEvent;
 	}
 
 	void Start () {
+		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab) as GameObject;
+		puzzleTableObject.transform.parent = transform.parent;
+		puzzleTableObject.transform.localPosition = new Vector3 (-250, 200, 0);
+		puzzleTableObject.transform.localScale = new Vector3 (1, 1, 1);
+	}
+
+	void Update () {
+		remainingTapCountLabel.text = "残りタップ" + mRemainingTapCount + "回";
+	}
+
+	void CreatedPuzzleTableEvent (GameObject[] puzzleObjectArray) {
+		Debug.Log ("created");
 		mTargetObjectList = new List<GameObject> ();
-		foreach (string tag in PuzzleTable.instance.puzzleTag) {
-			GameObject targetPrefab = Resources.Load ("Target/Target_" + tag) as GameObject;
+		foreach (GameObject puzzleObject in puzzleObjectArray) {
+			string id = puzzleObject.tag.Remove (0, 7);
+			GameObject targetPrefab = Resources.Load ("Target/Target_" + id) as GameObject;
 			GameObject targetObject = Instantiate (targetPrefab) as GameObject;
 			targetGrid.AddChild (targetObject.transform);
 			targetObject.transform.localScale = new Vector3 (1, 1, 1);
 			mTargetObjectList.Add (targetObject);
 		}
-	}
 
-	void Update () {
-		remainingTapCountLabel.text = "残りタップ" + mRemainingTapCount + "回";
 	}
 
 	//アイドルゲットダイアログを閉じた時に呼ばれる
