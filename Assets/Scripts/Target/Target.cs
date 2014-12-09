@@ -5,43 +5,35 @@ using System;
 
 public class Target : MonoBehaviour {
 
-	public static event Action<string> CompletePuzzleEvent;
-	public static event Action UpdateGameEvent;
+	public static event Action<string> CompleteTargetEvent;
+
 	private List<Transform> mChildList;
 	private int mCorrectCount;
 
-	void OnEnable(){
-		Puzzle.OpenedPuzzleEvent += OpenedPuzzleEvent;
-	}
-
-	void OnDisable(){
-		Puzzle.OpenedPuzzleEvent -= OpenedPuzzleEvent;
-	}
-
-	void Start(){
-		mChildList = GetComponentInChildren<UIGrid> ().GetChildList();
-	}
-
-	void OpenedPuzzleEvent(string puzzleTag){
-		if(puzzleTag == tag){
-			Correct ();
-		}
-		if(mCorrectCount >= mChildList.Count){
-			iTweenEvent.GetEvent (gameObject,"ExitEvent").Play();
-			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_1);
-		}else {
-			UpdateGameEvent ();
-		}
+	void Start () {
+		mChildList = GetComponentInChildren<UIGrid> ().GetChildList ();
 	}
 
 	void CompleteExitEvent(){
-			CompletePuzzleEvent (tag);
-			Destroy (gameObject);
+		Destroy (gameObject);
+		CompleteTargetEvent (tag);
+	}
+		
+	public void Correct () {
+		mCorrectCount++;
+		UISprite sprite = mChildList [mCorrectCount - 1].GetComponent<UISprite> ();
+		sprite.spriteName = "symbol_on";
 	}
 
-	private void Correct(){
-		mCorrectCount++;
-		UISprite sprite = mChildList[mCorrectCount-1].GetComponent<UISprite>();
-		sprite.spriteName = "symbol_on";
+	public bool CheckNotComplete(){
+		if (mCorrectCount >= mChildList.Count) {
+			return false;
+		}
+		return true;
+	}
+
+	public void StartCompleteEvent(){
+		iTweenEvent.GetEvent (gameObject, "ExitEvent").Play ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_1);
 	}
 }
