@@ -6,6 +6,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	public bool FlagBackButtonClicked{ get; set; }
 
+	public GameObject getIdleDialogPrefab;
 	public Transform uiRoot;
 	public Transform puzzleTableParent;
 	public GameObject finishPuzzleDialogPrefab;
@@ -35,7 +36,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		Debug.Log ("level " +ScoutStageManager.AreaIndexNumber);
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
-		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_1") as GameObject;
+		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_2") as GameObject;
 		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		puzzleTableObject.transform.parent = puzzleTableParent.transform;
 		puzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
@@ -52,7 +53,6 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	void CompleteTargetEvent (string targetTag) {
 		string id = targetTag.Remove (0, 7);
 		FenceManager.instance.ShowFence ();
-		GameObject getIdleDialogPrefab = Resources.Load ("Dialog/GetIdleDialog_" + id) as GameObject;
 		GameObject getIdleDialogObject = Instantiate (getIdleDialogPrefab) as GameObject;
 		getIdleDialogObject.transform.parent = uiRoot.transform;
 		getIdleDialogObject.transform.localScale = new Vector3 (1, 1, 1);

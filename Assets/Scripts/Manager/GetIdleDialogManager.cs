@@ -5,17 +5,9 @@ using System;
 public class GetIdleDialogManager : MonoBehaviour {
 
 	public static event Action ClosedEvent;
-	private int mIdleId;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public UISprite mIdleSprite;
+	private int mIdleId;
 
 	public void OnCloseButtonClicked(){
 		StageDao dao = DaoFactory.CreateStageDao ();
@@ -30,5 +22,8 @@ public class GetIdleDialogManager : MonoBehaviour {
 
 	public void Show(int id){
 		mIdleId = id;
+		mIdleSprite.spriteName = "idle_normal_" + mIdleId;
+		mIdleSprite.width = mIdleSprite.GetAtlasSprite ().width * 2;
+		mIdleSprite.height = mIdleSprite.GetAtlasSprite ().height * 2;
 	}
 }

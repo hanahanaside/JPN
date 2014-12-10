@@ -3,9 +3,9 @@ using System.Collections;
 
 public class TestController : MonoBehaviour {
 
-	enum test{aiueo}
+	public UILabel label;
 
 	void Start(){
-
+		label.text = "aaaa";
 	}
 }

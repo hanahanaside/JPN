@@ -23,9 +23,21 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		}
 	}
 
+	public double TotalCoinCount{
+		get{
+			return mPlayerData.TotalCoinCount;
+		}
+	}
+
 	public string ExitDate{
 		get{
 			return mPlayerData.ExitDate;
+		}
+	}
+
+	public double GenerateCoinPower{
+		get{
+			return mGenerateCoinPower;
 		}
 	}
 		
