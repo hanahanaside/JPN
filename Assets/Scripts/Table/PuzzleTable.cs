@@ -10,23 +10,24 @@ public class PuzzleTable : MonoBehaviour {
 	private List<Transform> mChildList;
 	private GameObject[] puzzleObjectArray;
 	public GameObject[] blankPuzzleArray;
+	public int[] puzzleIdArray;
 
 	//パズルテーブルを作成する
 	public void CreateTable (int level) {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
 		//生成するパズルの種類の数を決める
-		int[] puzzleIdArray = null;
+		int[] targetIdArray = null;
 		//被らないようにする
 		while (true) {
-			puzzleIdArray = CreatePuzzleIdArray ();
-			if(CheckNotDuplicate(puzzleIdArray)){
+			targetIdArray = CreatePuzzleIdArray ();
+			if(CheckNotDuplicate(targetIdArray)){
 				break;
 			}
 		}
-		puzzleObjectArray = new GameObject[puzzleIdArray.Length];
+		puzzleObjectArray = new GameObject[targetIdArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
-			int puzzleId = puzzleIdArray [i];
+			int puzzleId = targetIdArray [i];
 			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + puzzleId) as GameObject;
 			puzzleObjectArray [i] = puzzlePrefab;
 		}
@@ -127,36 +128,36 @@ public class PuzzleTable : MonoBehaviour {
 
 	//キャラが被らないようにパズルIDをを返す
 	private int[] CreatePuzzleIdArray () {
-		int[] puzzleIdArray = new int[2];
-		for (int i = 0; i < puzzleIdArray.Length; i++) {
+		int[] targetIdArray = new int[2];
+		for (int i = 0; i < targetIdArray.Length; i++) {
 			int rand = UnityEngine.Random.Range (1, 11);
 			int puzzleId = 0;
 			switch (rand) {
 			case 1:
 			case 2:
-				puzzleId = 1;
+				puzzleId = puzzleIdArray[0];
 				break;
 			case 3:
 			case 4:
-				puzzleId = 2;
+				puzzleId = puzzleIdArray[1];
 				break;
 			case 5:
 			case 6:
-				puzzleId = 3;
+				puzzleId = puzzleIdArray[2];
 				break;
 			case 7:
 			case 8:
-				puzzleId = 4;
+				puzzleId = puzzleIdArray[3];
 				break;
 			case 9:
-				puzzleId = 5;
+				puzzleId = puzzleIdArray[4];
 				break;
 			case 10:
-				puzzleId = 6;
+				puzzleId = puzzleIdArray[5];
 				break;
 			}
-			puzzleIdArray [i] = puzzleId;
+			targetIdArray [i] = puzzleId;
 		}
-		return puzzleIdArray;
+		return targetIdArray;
 	}
 }
