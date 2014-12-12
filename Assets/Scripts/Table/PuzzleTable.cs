@@ -75,7 +75,7 @@ public class PuzzleTable : MonoBehaviour {
 		int[] puzzleFormationArray = puzzle.puzzleFormationArray;
 		bool complete = false;
 		startIndex = 5;
-		while(!complete){
+		while (!complete) {
 			startIndex = UnityEngine.Random.Range (0, 27);
 			for (int i = 0; i < puzzleFormationArray.Length; i++) {
 				//パズルの配列のサイズがポジションの要素数を超える場合はContinue
@@ -119,49 +119,31 @@ public class PuzzleTable : MonoBehaviour {
 		
 	//空のパズルを設置
 	private void AddEmptyPuzzle () {
+		int[] emptyPuzzleIndexArray = { 0, 0, 0, 0, 1 };
 		for (int i = 0; i < mPuzzlePositionArray.Length; i++) {
 			if (mPuzzlePositionArray [i] != 0) {
 				continue;
 			}
+			int rand = UnityEngine.Random.Range (0, emptyPuzzleIndexArray.Length);
+			int emptyPuzzleIndex = emptyPuzzleIndexArray [rand];
+			Debug.Log ("ind " + emptyPuzzleIndex);
 			Transform child = mChildList [i];
-			GameObject	puzzleObject = Instantiate (blankPuzzleArray [0])as GameObject;
+			GameObject	puzzleObject = Instantiate (blankPuzzleArray [emptyPuzzleIndex])as GameObject;
 			puzzleObject.transform.parent = child;
 			puzzleObject.transform.localPosition = new Vector3 (0, 0, 0);
 			puzzleObject.transform.localScale = new Vector3 (1, 1, 1);
 		}
 	}
 				
-	//キャラが被らないようにパズルIDをを返す
+	//パズルIDを確率で計算して返す
 	private int[] CreatePuzzleIdArray () {
 		int[] targetIdArray = new int[2];
+		int[] percentArray = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 5 };
 		for (int i = 0; i < targetIdArray.Length; i++) {
-			int rand = UnityEngine.Random.Range (1, 11);
-			int puzzleId = 0;
-			switch (rand) {
-			case 1:
-			case 2:
-				puzzleId = puzzleIdArray [0];
-				break;
-			case 3:
-			case 4:
-				puzzleId = puzzleIdArray [1];
-				break;
-			case 5:
-			case 6:
-				puzzleId = puzzleIdArray [2];
-				break;
-			case 7:
-			case 8:
-				puzzleId = puzzleIdArray [3];
-				break;
-			case 9:
-				puzzleId = puzzleIdArray [4];
-				break;
-			case 10:
-				puzzleId = puzzleIdArray [5];
-				break;
-			}
-			targetIdArray [i] = puzzleId;
+			int rand = UnityEngine.Random.Range (0, percentArray.Length);
+			int targetIndex = percentArray [rand];
+			int targetId = puzzleIdArray [targetIndex];
+			targetIdArray [i] = targetId;
 		}
 		return targetIdArray;
 	}
