@@ -27,6 +27,8 @@ public class PuzzleTable : MonoBehaviour {
 			}
 		}
 			
+		targetIdArray [0] = 7;
+		targetIdArray [1] = 8;
 		//パズルの配列を作成開始
 		foreach (int targetId in targetIdArray) {
 			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + targetId) as GameObject;
@@ -74,7 +76,6 @@ public class PuzzleTable : MonoBehaviour {
 		int startIndex = 0;
 		int[] puzzleFormationArray = puzzle.puzzleFormationArray;
 		bool complete = false;
-		startIndex = 5;
 		while (!complete) {
 			startIndex = UnityEngine.Random.Range (0, 27);
 			for (int i = 0; i < puzzleFormationArray.Length; i++) {
@@ -82,7 +83,7 @@ public class PuzzleTable : MonoBehaviour {
 				if (startIndex + puzzleFormationArray.Length > mPuzzlePositionArray.Length) {
 					break;
 				}
-				//失敗
+				//設置しようとしたが、既に設置済みなので失敗
 				if (puzzleFormationArray [i] != 0 && mPuzzlePositionArray [startIndex + i] != 0) {
 					break;
 				}

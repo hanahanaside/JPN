@@ -8,10 +8,19 @@ public class Target : MonoBehaviour {
 	public static event Action UpdateGameEvent;
 	public static event Action<string> CompleteTargetEvent;
 
+	public int puzzleCount;
+	public GameObject symbolPrefab;
+
 	private List<Transform> mChildList;
 	private int mCorrectCount;
 
 	void Start () {
+		for(int i = 0;i < puzzleCount;i++){
+			GameObject symbolObject = Instantiate (symbolPrefab) as GameObject;
+			GetComponentInChildren<UIGrid> ().AddChild (symbolObject.transform);
+			symbolObject.transform.localScale = new Vector3 (1,1,1);
+		}
+		GetComponentInChildren<UIGrid> ().Reposition ();
 		mChildList = GetComponentInChildren<UIGrid> ().GetChildList ();
 	}
 
