@@ -36,7 +36,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		Debug.Log ("level " +ScoutStageManager.AreaIndexNumber);
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
-		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_2") as GameObject;
+		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_1") as GameObject;
 		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		puzzleTableObject.transform.parent = puzzleTableParent.transform;
 		puzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
