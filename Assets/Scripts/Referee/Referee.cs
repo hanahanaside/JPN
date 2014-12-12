@@ -21,10 +21,9 @@ public class Referee : MonoBehaviour {
 	}
 
 	//パズルテーブルが作られた時に呼ばれる
-	void CreatedPuzzleTableEvent (GameObject[] puzzleObjectArray) {
+	void CreatedPuzzleTableEvent (int[] targetIdArray) {
 		mTargetObjectList = new List<GameObject> ();
-		foreach (GameObject puzzleObject in puzzleObjectArray) {
-			string id = puzzleObject.tag.Remove (0, 7);
+		foreach (int id in targetIdArray) {
 			GameObject targetPrefab = Resources.Load ("Target/Target_" + id) as GameObject;
 			GameObject targetObject = Instantiate (targetPrefab) as GameObject;
 			targetGrid.AddChild (targetObject.transform);
