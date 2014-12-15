@@ -25,7 +25,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		baseFilePath = Application.streamingAssetsPath + "/" + DATABASE_FILE_NAME;
 
 		#if UNITY_ANDROID && UNITY_EDITOR
-		baseFilePath = "file://"+Path.Combine (Application.streamingAssetsPath, databaseFileName);
+		baseFilePath = "file://"+Path.Combine (Application.streamingAssetsPath, DATABASE_FILE_NAME);
 		#endif
 
 	}
@@ -39,6 +39,12 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 			UpdateDatabase();
 		}
 		#endif
+
+		#if UNITY_ANDROID
+		if (!File.Exists (filePath)) {
+			StartCoroutine("CreateAndroidDatabase");
+		}
+		#endif
 	}
 
 	public void DeleteDB(){
@@ -47,6 +53,13 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
 	public void CopyDB(){
 		File.Copy (baseFilePath, filePath); 
+	}
+
+	private IEnumerator CreateAndroidDatabase(){
+		WWW www = new WWW (baseFilePath);
+		yield return www;
+		File.WriteAllBytes (filePath, www.bytes);
+		CreatedDatabaseEvent ();
 	}
 
 	private void UpdateDatabase(){
