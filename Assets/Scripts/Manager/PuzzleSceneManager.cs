@@ -36,7 +36,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		Debug.Log ("level " +ScoutStageManager.AreaIndexNumber);
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
-		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_2") as GameObject;
+		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_4") as GameObject;
 		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		puzzleTableObject.transform.parent = puzzleTableParent.transform;
 		puzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
@@ -51,7 +51,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	//パズル完成アニメーション終了時に呼ばれる
 	void CompleteTargetEvent (string targetTag) {
-		string id = targetTag.Remove (0, 7);
+		string id = targetTag.Remove (0, 5);
 		FenceManager.instance.ShowFence ();
 		GameObject getIdleDialogObject = Instantiate (getIdleDialogPrefab) as GameObject;
 		getIdleDialogObject.transform.parent = uiRoot.transform;

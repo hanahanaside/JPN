@@ -18,7 +18,7 @@ public class Puzzle : MonoBehaviour {
 
 	void OnClick () {
 		collider.enabled = false;
-		mButton.normalSprite = tag;
+		mButton.normalSprite = "puzzle_"+tag;
 		OpenedPuzzleEvent (tag);
 	}
 }

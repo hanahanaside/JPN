@@ -24,7 +24,8 @@ public class Referee : MonoBehaviour {
 	void CreatedPuzzleTableEvent (GameObject[] puzzleObjectArray) {
 		mTargetObjectList = new List<GameObject> ();
 		foreach (GameObject puzzleObject in puzzleObjectArray) {
-			string id = puzzleObject.tag.Remove (0, 7);
+			string id = puzzleObject.tag.Remove (0, 5);
+			Debug.Log ("id " + id);
 			GameObject targetPrefab = Resources.Load ("Target/Target_" + id) as GameObject;
 			GameObject targetObject = Instantiate (targetPrefab) as GameObject;
 			targetGrid.AddChild (targetObject.transform);
