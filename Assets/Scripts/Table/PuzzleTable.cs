@@ -7,7 +7,7 @@ public class PuzzleTable : MonoBehaviour {
 
 	public static event Action<int[]> CreatedPuzzleTableEvent;
 
-	private int[] mPuzzlePositionArray = { 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1 };
+	private int[] mPuzzlePositionArray = { 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1 };
 	private List<Transform> mChildList;
 	private GameObject[] puzzleObjectArray;
 	public GameObject[] blankPuzzleArray;
@@ -30,16 +30,26 @@ public class PuzzleTable : MonoBehaviour {
 		targetIdArray [0] = 7;
 		targetIdArray [1] = 8;
 		//パズルの配列を作成開始
-		foreach (int targetId in targetIdArray) {
-			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + targetId) as GameObject;
+	//	foreach (int targetId in targetIdArray) {
+			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + 7) as GameObject;
 			Puzzle puzzle = puzzlePrefab.GetComponent<Puzzle> ();
 
 			//パズルを設置する最初のポジションインデックスを取得
-			int startIndex = GetStartIndex (puzzle);
-
+		//	int startIndex = GetStartIndex (puzzle);
+		int startIndex = 0;
+		int count = 0;
 			//配列に数字を反映させる
-			ApplyToArray (startIndex, puzzle);
+		for (int i = 0; i < mPuzzlePositionArray.Length; i++) {
+			if(mPuzzlePositionArray[i] != 0){
+				continue;
+			}
+			if(count >= puzzle.puzzleFormationArray.Length){
+				break;
+			}
+			mPuzzlePositionArray [i] = puzzle.puzzleFormationArray [count];
+			count++;
 		}
+	//	}
 			
 		//作成した配列通りにパズルを設置する
 		PutPuzzle ();
@@ -77,7 +87,7 @@ public class PuzzleTable : MonoBehaviour {
 		int[] puzzleFormationArray = puzzle.puzzleFormationArray;
 		bool complete = false;
 		while (!complete) {
-			startIndex = UnityEngine.Random.Range (0, 27);
+			startIndex = UnityEngine.Random.Range (0, 25);
 			for (int i = 0; i < puzzleFormationArray.Length; i++) {
 				//パズルの配列のサイズがポジションの要素数を超える場合はContinue
 				if (startIndex + puzzleFormationArray.Length > mPuzzlePositionArray.Length) {
@@ -101,6 +111,11 @@ public class PuzzleTable : MonoBehaviour {
 
 	//配列にパズルの数字を反映させる
 	private void ApplyToArray (int startIndex, Puzzle puzzle) {
+		for(int i = 0; i<mPuzzlePositionArray.Length;i++){
+			if(mPuzzlePositionArray[i] != 0){
+				continue;
+			}
+		}
 		foreach (int puzzleIndex in puzzle.puzzleFormationArray) {
 			if (mPuzzlePositionArray [startIndex] == 0) {
 				mPuzzlePositionArray [startIndex] = puzzleIndex;
@@ -127,7 +142,6 @@ public class PuzzleTable : MonoBehaviour {
 			}
 			int rand = UnityEngine.Random.Range (0, emptyPuzzleIndexArray.Length);
 			int emptyPuzzleIndex = emptyPuzzleIndexArray [rand];
-			Debug.Log ("ind " + emptyPuzzleIndex);
 			Transform child = mChildList [i];
 			GameObject	puzzleObject = Instantiate (blankPuzzleArray [emptyPuzzleIndex])as GameObject;
 			puzzleObject.transform.parent = child;
