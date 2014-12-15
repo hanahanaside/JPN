@@ -12,7 +12,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	public GameObject finishPuzzleDialogPrefab;
 	public UILabel remainingTapCountLabel;
 
-	private int mRemainingTapCount = 30;
+	private int mRemainingTapCount = 10;
 
 	public GameObject puzzleTablePrefab;
 
