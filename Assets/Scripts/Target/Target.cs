@@ -7,12 +7,20 @@ public class Target : MonoBehaviour {
 
 	public static event Action UpdateGameEvent;
 	public static event Action<string> CompleteTargetEvent;
+	public int symbolCount;
+	public GameObject symbolPrefab;
 
 	private List<Transform> mChildList;
 	private int mCorrectCount;
 
 	void Start () {
-		mChildList = GetComponentInChildren<UIGrid> ().GetChildList ();
+		UIGrid grid = GetComponentInChildren<UIGrid> ();
+		for(int i = 0;i<symbolCount;i++){
+			GameObject symbolObject = Instantiate (symbolPrefab)as GameObject;
+			grid.AddChild (symbolObject.transform);
+			symbolObject.transform.localScale = new Vector3 (1,1,1);
+		}
+		mChildList = grid.GetChildList ();
 	}
 
 	void CompleteExitEvent(){
