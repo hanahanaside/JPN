@@ -65,6 +65,13 @@ public class StageManager : MonoBehaviour {
 				PlayerDataKeeper.instance.IncreaseCoinCount ((mTotalGenerateCoinPower * 10.0) / 100.0);
 				mUntilGenerateTime = UNTIL_GENERATE_TIME;
 			}
+			//建設中の場合の処理
+			if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
+				mTimeSeconds -= Time.deltaTime * 10.0f;
+				if(mTimeSeconds >= 0){
+					untilSleepLabel.text = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
+				}
+			}
 			break;
 		case State.Sleep:
 			break;

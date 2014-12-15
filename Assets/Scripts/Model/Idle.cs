@@ -20,6 +20,7 @@ public class Idle : Character {
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		mScaleEvent = iTweenEvent.GetEvent (mSprite.gameObject, "ScaleEvent");
 		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject, "RotateEvent");
+		ResizeSprite ();
 		StartMoving ();
 	}
 
@@ -85,6 +86,7 @@ public class Idle : Character {
 		mSprite.spriteName = "idle_sleep_" + idleId;
 		ResizeSprite ();
 		mSprite.transform.localScale = new Vector3 (1f,1f,1f);
+		ResizeSprite ();
 	}
 
 	public override void Wakeup () {
