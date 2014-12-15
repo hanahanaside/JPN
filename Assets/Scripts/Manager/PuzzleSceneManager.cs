@@ -33,10 +33,10 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	}
 
 	void Start () {
-		Debug.Log ("level " +ScoutStageManager.AreaIndexNumber);
+		Debug.Log ("level " +ScoutStageManager.SelectedAreaId);
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
-		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_7") as GameObject;
+		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_" + ScoutStageManager.SelectedAreaId) as GameObject;
 		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		puzzleTableObject.transform.parent = puzzleTableParent.transform;
 		puzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
