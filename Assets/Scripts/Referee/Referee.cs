@@ -25,14 +25,12 @@ public class Referee : MonoBehaviour {
 		mTargetObjectList = new List<GameObject> ();
 		foreach (GameObject puzzleObject in puzzleObjectArray) {
 			string id = puzzleObject.tag.Remove (0, 5);
-			Debug.Log ("id " + id);
 			GameObject targetPrefab = Resources.Load ("Target/Target_" + id) as GameObject;
 			GameObject targetObject = Instantiate (targetPrefab) as GameObject;
 			targetGrid.AddChild (targetObject.transform);
 			targetObject.transform.localScale = new Vector3 (1, 1, 1);
 			mTargetObjectList.Add (targetObject);
 		}
-
 	}
 		
 	//パズルオープン時に呼ばれる

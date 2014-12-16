@@ -189,6 +189,8 @@
      <Compile Include="Assets\Scripts\DB\StageDbDao.cs" />
      <Compile Include="Assets\Scripts\Debug\MyDebugger.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
+     <Compile Include="Assets\Scripts\Dialog\ContinueDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\Stage.cs" />
@@ -204,7 +206,6 @@
      <Compile Include="Assets\Scripts\Manager\EventManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FenceManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FinishPuzzleDialogManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\GetIdleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Manager\LiveManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ManagementPanelManager.cs" />

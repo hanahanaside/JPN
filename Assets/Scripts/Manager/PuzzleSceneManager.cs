@@ -5,23 +5,28 @@ using System;
 public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	public bool FlagBackButtonClicked{ get; set; }
-
-	public GameObject getIdleDialogPrefab;
+	public GameObject puzzleTablePrefab;
+	public GameObject continueDialogObject;
+	public GameObject finishPuzzleDialogObject;
+	public GameObject getIdleDialogObject;
 	public Transform uiRoot;
 	public Transform puzzleTableParent;
-	public GameObject finishPuzzleDialogPrefab;
 	public UILabel remainingTapCountLabel;
+	public UIGrid targetGrid;
 
 	private int mRemainingTapCount = 10;
+	private GameObject mPuzzleTableObject;
 
-	public GameObject puzzleTablePrefab;
 
 	void OnEnable () {
 		Referee.UpdateGameEvent += UpdateGameEvent;
 		Target.UpdateGameEvent += UpdateGameEvent;
 		Target.CompleteTargetEvent += CompleteTargetEvent;
 		GetIdleDialogManager.ClosedEvent += UpdateGameEvent;
-		FinishPuzzleDialogManager.FinishPuzzleEvent += FinishPuzzleEvent;
+		ContinueDialogManager.FinishPuzzleEvent += FinishPuzzleEvent;
+		ContinueDialogManager.BuyTapCountEvent += BuyTapCountEvent;
+		FinishPuzzleDialogManager.BackToStageEvent += BackToStageEvent;
+		FinishPuzzleDialogManager.RetryEvent += RetryEvent;
 	}
 
 	void OnDisable () {
@@ -29,20 +34,17 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		Target.UpdateGameEvent -= UpdateGameEvent;
 		Target.CompleteTargetEvent -= CompleteTargetEvent;
 		GetIdleDialogManager.ClosedEvent -= UpdateGameEvent;
-		FinishPuzzleDialogManager.FinishPuzzleEvent -= FinishPuzzleEvent;
+		ContinueDialogManager.FinishPuzzleEvent -= FinishPuzzleEvent;
+		ContinueDialogManager.BuyTapCountEvent -= BuyTapCountEvent;
+		FinishPuzzleDialogManager.BackToStageEvent -= BackToStageEvent;
+		FinishPuzzleDialogManager.RetryEvent -= RetryEvent;
 	}
 
 	void Start () {
 		Debug.Log ("level " +ScoutStageManager.SelectedAreaId);
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
-		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_" + ScoutStageManager.SelectedAreaId) as GameObject;
-		GameObject puzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
-		puzzleTableObject.transform.parent = puzzleTableParent.transform;
-		puzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
-		puzzleTableObject.transform.localScale = new Vector3 (1, 1, 1);
-		PuzzleTable puzzleTable = puzzleTableObject.GetComponent<PuzzleTable> ();
-		puzzleTable.CreateTable (1);
+		CreatePuzzleTable ();
 	}
 
 	void Update () {
@@ -53,9 +55,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	void CompleteTargetEvent (string targetTag) {
 		string id = targetTag.Remove (0, 5);
 		FenceManager.instance.ShowFence ();
-		GameObject getIdleDialogObject = Instantiate (getIdleDialogPrefab) as GameObject;
-		getIdleDialogObject.transform.parent = uiRoot.transform;
-		getIdleDialogObject.transform.localScale = new Vector3 (1, 1, 1);
+		getIdleDialogObject.SetActive (true);
 		GetIdleDialogManager getIdleManager = getIdleDialogObject.GetComponentInChildren<GetIdleDialogManager> ();
 		getIdleManager.Show (Convert.ToInt32 (id));
 	}
@@ -65,17 +65,55 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		mRemainingTapCount--;
 		if (mRemainingTapCount <= 0) {
 			FenceManager.instance.ShowFence ();
-			GameObject finishPuzzleDialogObject = Instantiate (finishPuzzleDialogPrefab) as GameObject;
-			finishPuzzleDialogObject.transform.parent = uiRoot.transform;
-			finishPuzzleDialogObject.transform.localScale = new Vector3 (1, 1, 1);
+			continueDialogObject.SetActive (true);
 		}
 	}
 
+	//パズルを終了する
+	void FinishPuzzleEvent(){
+		continueDialogObject.SetActive (false);
+		finishPuzzleDialogObject.SetActive (true);
+		FinishPuzzleDialogManager manager = finishPuzzleDialogObject.GetComponentInChildren<FinishPuzzleDialogManager> ();
+		manager.Show ();
+	}
+
+	//リトライ
+	void RetryEvent(int coinCount){
+		finishPuzzleDialogObject.SetActive (false);
+		FenceManager.instance.HideFence ();
+		System.Collections.Generic.List<Transform> childList = targetGrid.GetChildList ();
+		foreach(Transform childTransform in childList){
+		//	targetGrid.RemoveChild (childTransform);
+			Destroy (childTransform.gameObject);
+		//	childTransform.gameObject.SetActive (false);
+		}
+		Destroy (mPuzzleTableObject);
+		mRemainingTapCount = 10;
+		CreatePuzzleTable ();
+	}
+
+	//タップを購入する
+	void BuyTapCountEvent(){
+		mRemainingTapCount += 5;
+		FenceManager.instance.HideFence ();
+		continueDialogObject.SetActive (false);
+	}
 						
-	//パズルを終了
-	void FinishPuzzleEvent () {
+	//ステージにもどる
+	void BackToStageEvent () {
 		PlayerDataKeeper.instance.SaveData ();
 		FlagBackButtonClicked = true;
 		Application.LoadLevel ("Main");
+	}
+
+	//パズルテーブルを作る
+	private void CreatePuzzleTable(){
+		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_" + ScoutStageManager.SelectedAreaId) as GameObject;
+		mPuzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
+		mPuzzleTableObject.transform.parent = puzzleTableParent.transform;
+		mPuzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
+		mPuzzleTableObject.transform.localScale = new Vector3 (1, 1, 1);
+		PuzzleTable puzzleTable = mPuzzleTableObject.GetComponent<PuzzleTable> ();
+		puzzleTable.CreateTable ();
 	}
 }

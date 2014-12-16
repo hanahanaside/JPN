@@ -7,22 +7,28 @@ public class GetIdleDialogManager : MonoBehaviour {
 	public static event Action ClosedEvent;
 
 	public UISprite mIdleSprite;
-	private int mIdleId;
+	public UILabel titleLabel;
+	private Stage mStage;
 
 	public void OnCloseButtonClicked(){
+		mStage.UpdatedDate = DateTime.Now.ToString ();
 		StageDao dao = DaoFactory.CreateStageDao ();
-		Stage stage = dao.SelectById (mIdleId);
-		stage.IdleCount++;
-		stage.UpdatedDate = DateTime.Now.ToString ();
-		dao.UpdateRecord (stage);
+		dao.UpdateRecord (mStage);
 		FenceManager.instance.HideFence ();
 		ClosedEvent ();
 		Destroy (transform.parent.gameObject);
 	}
 
 	public void Show(int id){
-		mIdleId = id;
-		mIdleSprite.spriteName = "idle_normal_" + mIdleId;
+		StageDao dao = DaoFactory.CreateStageDao ();
+		mStage = dao.SelectById (id);
+		mStage.IdleCount++;
+		mIdleSprite.spriteName = "idle_normal_" + id;
+		System.Text.StringBuilder sb = new System.Text.StringBuilder ();
+		sb.Append (mStage.AreaName + "の子をスカウトした！");
+		sb.Append ("\n");
+		sb.Append ( mStage.IdleCount + " / 25");
+		titleLabel.text = sb.ToString ();
 		mIdleSprite.width = mIdleSprite.GetAtlasSprite ().width * 2;
 		mIdleSprite.height = mIdleSprite.GetAtlasSprite ().height * 2;
 	}

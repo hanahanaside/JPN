@@ -13,7 +13,7 @@ public class PuzzleTable : MonoBehaviour {
 	public int[] puzzleIdArray;
 
 	//パズルテーブルを作成する
-	public void CreateTable (int level) {
+	public void CreateTable () {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
 		//生成するパズルの種類の数を決める
