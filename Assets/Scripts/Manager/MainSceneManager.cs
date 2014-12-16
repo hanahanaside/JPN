@@ -27,9 +27,15 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
+	void Update () {
+		#if UNITY_ANDROID
+		if (Input.GetKey (KeyCode.Escape)) {
+			Application.Quit ();
+		}
+		#endif
+	}
 
-	public void OnApplicationPause (bool pauseStatus) {
-
+	void OnApplicationPause (bool pauseStatus) {
 		if (pauseStatus) {
 			MyLog.LogDebug ("pause");
 			//プレイヤーデータをセーブ

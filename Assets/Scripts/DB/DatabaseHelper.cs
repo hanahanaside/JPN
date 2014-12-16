@@ -43,6 +43,8 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		#if UNITY_ANDROID
 		if (!File.Exists (filePath)) {
 			StartCoroutine("CreateAndroidDatabase");
+		}else {
+			CreatedDatabaseEvent();
 		}
 		#endif
 	}
