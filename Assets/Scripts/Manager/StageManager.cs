@@ -33,6 +33,7 @@ public class StageManager : MonoBehaviour {
 
 	void Start () {
 		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
+		idleCountLabel.color = new Color(0, 0.5f, 0.25f, 1.0f);
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			InitConstruction ();

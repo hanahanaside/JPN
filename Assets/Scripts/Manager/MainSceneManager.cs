@@ -24,6 +24,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			StageGridManager.instance.MoveToStage (1);
 			EventManager.instance.Init ();
 		}
+		ScoutStageManager.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
