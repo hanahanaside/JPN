@@ -9,60 +9,61 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public GameObject fadeOutSpriteObject;
 	public GameObject goScoutButtonObject;
 
-	void OnEnable(){
+	void OnEnable () {
 		AreaPanelManager.instance.OnAreaClickedEvent += OnAreaClickedEvent;
 	}
 
-	void OnDisable(){
+	void OnDisable () {
 		AreaPanelManager.instance.OnAreaClickedEvent -= OnAreaClickedEvent;
 	}
 
-	void OnAreaClickedEvent(int areaIndexNumber){
-		SelectedAreaId = areaIndexNumber +1;
-		dartsObject.transform.localPosition = areaPositionArray [areaIndexNumber].localPosition;
-		dartsObject.SetActive (true);
-	}
-
-	void OnPlaneEventCompleted(){
-		fadeOutSpriteObject.SetActive (true);
-	}
-
-	public static bool FlagScouting{ get; set;}
-
-	public static int SelectedAreaId{ get; set;}
-
-	public void StartLive(){
-
-	}
-
-	public void Init(){
-		if(SelectedAreaId != 0){
-			dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId-1].localPosition;
+	void Awake () {
+		if (SelectedAreaId != 0) {
+			dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId - 1].localPosition;
 			dartsObject.SetActive (true);
 		}
 	}
 
-	public void OnFadeOutFinished(){
+
+	void OnAreaClickedEvent (int areaIndexNumber) {
+		SelectedAreaId = areaIndexNumber + 1;
+		dartsObject.transform.localPosition = areaPositionArray [areaIndexNumber].localPosition;
+		dartsObject.SetActive (true);
+	}
+
+	void OnPlaneEventCompleted () {
+		fadeOutSpriteObject.SetActive (true);
+	}
+
+	public static bool FlagScouting{ get; set; }
+
+	public static int SelectedAreaId{ get; set; }
+
+	public void StartLive () {
+
+	}
+
+	public void OnFadeOutFinished () {
 		PlayerDataKeeper.instance.SaveData ();
 		Application.LoadLevel ("Puzzle");
 	}
 
-	public void OnAreaButtonClicked(){
+	public void OnAreaButtonClicked () {
 		dartsObject.SetActive (false);
 		AreaPanelManager.instance.ShowAreaPanel ();
 	}
 
-	public void OnGoScoutButtonClicked(){
-		if(!dartsObject.activeSelf){
+	public void OnGoScoutButtonClicked () {
+		if (!dartsObject.activeSelf) {
 			return;
 		}
 		goScoutButtonObject.SetActive (false);
 		FlagScouting = true;
-		iTweenEvent.GetEvent (planeObject,"moveOut").Play();
+		iTweenEvent.GetEvent (planeObject, "moveOut").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
 	}
 
-	public void PlayMoveInPlaneAnimation(){
-		iTweenEvent.GetEvent (planeObject,"moveIn").Play();
+	public void PlayMoveInPlaneAnimation () {
+		iTweenEvent.GetEvent (planeObject, "moveIn").Play ();
 	}
 }

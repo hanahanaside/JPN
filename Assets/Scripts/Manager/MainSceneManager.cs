@@ -24,7 +24,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			StageGridManager.instance.MoveToStage (1);
 			EventManager.instance.Init ();
 		}
-		ScoutStageManager.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
@@ -39,8 +38,10 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	void OnApplicationPause (bool pauseStatus) {
 		if (pauseStatus) {
 			MyLog.LogDebug ("pause");
+			#if !UNITY_EDITOR
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
+			#endif
 		} else {
 			//エディタだとStartの前に呼ばれてしまう
 			#if !UNITY_EDITOR

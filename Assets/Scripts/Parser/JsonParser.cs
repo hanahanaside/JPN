@@ -8,8 +8,10 @@ public static class JsonParser {
 
 	public static PlayerData DeserializePlayerData (string json) {
 		PlayerData playerData = new PlayerData ();
-		//データがなければ何もしない
+		//最初の取得時
 		if (string.IsNullOrEmpty (json)) {
+			playerData.CoinCount = 100;
+			playerData.TicketCount = 10;
 			return playerData;
 		}
 		//double の値が整数値だとCast Exceptionになる
@@ -17,7 +19,7 @@ public static class JsonParser {
 			IDictionary playerDataDictionary = (IDictionary)Json.Deserialize (json);
 			playerData.TicketCount = (int)((long)playerDataDictionary [PlayerData.Kies.TicketCount.ToString ()]);
 			playerData.ExitDate = (string)playerDataDictionary [PlayerData.Kies.ExitDate.ToString ()];
-			playerData.CoinCount = (double)playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()];
+			playerData.CoinCount = (double)((long)playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()]);
 		}catch(Exception e){
 			MyLog.LogDebug (e.Message);
 		}

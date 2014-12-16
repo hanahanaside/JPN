@@ -189,6 +189,7 @@
      <Compile Include="Assets\Scripts\DB\StageDbDao.cs" />
      <Compile Include="Assets\Scripts\Debug\MyDebugger.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
+     <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\Stage.cs" />
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />

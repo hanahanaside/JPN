@@ -12,9 +12,6 @@ public class SplashSceneManager : MonoBehaviour {
 	}
 
 	void Start () {
-		#if UNITY_EDITOR
-		DatabaseHelper.instance.DeleteDB ();
-		#endif
 		DatabaseHelper.instance.CreateDB ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Hanauta);
 	}

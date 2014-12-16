@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MyLog  {
+public class MyLog {
 
 	private static bool mIsDebug = true;
 

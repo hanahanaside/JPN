@@ -9,9 +9,11 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	private float mTime;
 	private bool mLive;
 	private GameObject mirrorBallSpriteObject;
+	private UILabel mRemainingLiveTimeLabel;
 
 	void Awake(){
 		mirrorBallSpriteObject = livePanelObject.transform.Find ("MirroBallSprite").gameObject;
+		mRemainingLiveTimeLabel = livePanelObject.transform.Find ("RemainingTimeLabel").GetComponent<UILabel>();
 	}
 
 	// Update is called once per frame
@@ -20,6 +22,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 			return;
 		}	
 		mTime -= Time.deltaTime;
+		mRemainingLiveTimeLabel.text = "" + (int)mTime;
 		if (mTime > 0) {
 			return;
 		}
@@ -31,12 +34,12 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		EntranceStageManager.instance.FinishLive ();
 	}
 
-	public void StartLive () {
+	public void StartLive (float time) {
+		mTime = time;
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
-		mTime = 30.0f;
 		livePanelObject.SetActive (true);
 		mLive = true;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveStartEvent").Play();
