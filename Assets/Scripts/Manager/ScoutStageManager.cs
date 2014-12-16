@@ -37,7 +37,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 
 	public void Init(){
 		if(SelectedAreaId != 0){
-			dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId].localPosition;
+			dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId-1].localPosition;
 			dartsObject.SetActive (true);
 		}
 	}
