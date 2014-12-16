@@ -9,7 +9,8 @@ public class SoundManager : MonoSingleton<SoundManager> {
 		GetIdol_1,
 		GetIdol_2,
 		Katsu,
-		Hanauta}
+		Hanauta,
+		Plane}
 
 	;
 
@@ -48,6 +49,10 @@ public class SoundManager : MonoSingleton<SoundManager> {
 
 	public void PlaySE (SE_CHANNEL seChannel) {
 		int seChannelId = (int)seChannel;
-		mSEsourceArray [seChannelId].Play ();
+		AudioSource seAudioSource = mSEsourceArray [seChannelId];
+		if(seChannel == SE_CHANNEL.GetCoin){
+			seAudioSource.volume = 0.5f;
+		}
+		seAudioSource.Play ();
 	}
 }

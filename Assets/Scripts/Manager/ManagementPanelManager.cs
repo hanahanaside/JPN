@@ -18,15 +18,15 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 		dialogObject.SetActive (true);
 		iTweenEvent.GetEvent (dialogObject,"ShowEvent").Play();
 		//コインの総獲得数を設置
-		totalCoinCountLabel.text = "" + PlayerDataKeeper.instance.TotalCoinCount;
+		totalCoinCountLabel.text = "" + GameMath.RoundZero (PlayerDataKeeper.instance.TotalCoinCount);
 		//現在のコイン生成パワーをセット
-		generateCoinPowerLabel.text = ""+PlayerDataKeeper.instance.GenerateCoinPower;
+		generateCoinPowerLabel.text = ""+GameMath.RoundOne (PlayerDataKeeper.instance.GenerateCoinPower);
 		//全データを取得
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
 		//アイドルの総人数を設置
 		int totalIdleCount = GetTotalIdleCount(stageList);
-		totalIdleCountLabel.text = "" + totalIdleCount;
+		totalIdleCountLabel.text =  totalIdleCount + "人";
 		//エリアごとのアイドル情報のセルを設置
 		foreach(Stage stage in stageList){
 			GameObject areaInfoCell = Instantiate (areaInfoCellPrefab) as GameObject; 

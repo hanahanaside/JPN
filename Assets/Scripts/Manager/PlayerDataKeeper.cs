@@ -60,6 +60,7 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 
 	public void IncreaseCoinCount(double coinCount){
 		mPlayerData.CoinCount += coinCount;
+		mPlayerData.TotalCoinCount += coinCount;
 	}
 
 	public void IncreaseTicketCount(int increaseCount){

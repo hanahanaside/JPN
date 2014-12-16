@@ -38,6 +38,7 @@ public class Target : MonoBehaviour {
 		if (mCorrectCount >= mChildList.Count) {
 			iTweenEvent.GetEvent (gameObject, "ExitEvent").Play ();
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_1);
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_2);
 		}else {
 			UpdateGameEvent ();
 		}

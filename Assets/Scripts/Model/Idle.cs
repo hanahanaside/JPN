@@ -84,7 +84,6 @@ public class Idle : Character {
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
 		mSprite.spriteName = "idle_sleep_" + idleId;
-		ResizeSprite ();
 		mSprite.transform.localScale = new Vector3 (1f,1f,1f);
 		ResizeSprite ();
 	}
@@ -121,6 +120,7 @@ public class Idle : Character {
 
 	private void ResizeSprite () {
 		UISpriteData spriteData = mSprite.GetAtlasSprite ();
-		mSprite.SetDimensions ((int)(spriteData.width/1.3), (int)(spriteData.height/1.3));
+		mSprite.width = (int)(spriteData.width / 1.3);
+		mSprite.height = (int)(spriteData.height / 1.3);
 	}
 }

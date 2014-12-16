@@ -28,6 +28,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	void OnCompleteMirrorBallFinishLiveEvent(){
 		livePanelObject.SetActive (false);
+		EntranceStageManager.instance.FinishLive ();
 	}
 
 	public void StartLive () {

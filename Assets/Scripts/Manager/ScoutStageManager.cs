@@ -52,6 +52,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		goScoutButtonObject.SetActive (false);
 		FlagScouting = true;
 		iTweenEvent.GetEvent (planeObject,"moveOut").Play();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
 	}
 
 	public void PlayMoveInPlaneAnimation(){
