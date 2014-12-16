@@ -14,14 +14,19 @@ public class CoinGenerator : MonoBehaviour {
 
 	void Update () {
 		mInterval -= Time.deltaTime;
-		if (mInterval < 0) {
-			int rand = Random.Range (0, coinPrefabArray.Length);
-			GameObject coinPrefab = coinPrefabArray [rand];
-			GameObject coinObject = Instantiate (coinPrefab) as GameObject;
-			coinObject.transform.parent = mCenteredObject.transform;
-			coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			mInterval = 5.0f;
+		if (mInterval > 0) {
+			return;
 		}
+		if (mCenteredObject.tag == "sleep") {
+			mInterval = 5.0f;
+			return;
+		}
+		int rand = Random.Range (0, coinPrefabArray.Length);
+		GameObject coinPrefab = coinPrefabArray [rand];
+		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
+		coinObject.transform.parent = mCenteredObject.transform;
+		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+		mInterval = 5.0f;
 	}
 
 	void OnCenterCallBack (GameObject centeredObject) {

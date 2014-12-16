@@ -116,6 +116,7 @@ public class StageManager : MonoBehaviour {
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		sleepObject.SetActive (false);
 		mState = State.Normal;
+		transform.parent.gameObject.tag = "default";
 		foreach (Character character in mCharacterList) {
 			character.Wakeup ();
 		}
@@ -129,6 +130,7 @@ public class StageManager : MonoBehaviour {
 
 	//サボりを開始
 	private void Sleep () {
+		transform.parent.gameObject.tag = "sleep";
 		sleepObject.SetActive (true);
 		mState = State.Sleep;
 		//コイン生成パワーをセット
@@ -145,6 +147,7 @@ public class StageManager : MonoBehaviour {
 	//ライブを開始
 	public void StartLive () {
 		mState = State.Live;
+		transform.parent.gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);
 			PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
