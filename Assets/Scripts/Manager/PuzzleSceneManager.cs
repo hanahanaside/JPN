@@ -53,6 +53,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	//パズル完成アニメーション終了時に呼ばれる
 	void CompleteTargetEvent (string targetTag) {
+		targetGrid.repositionNow = true;
 		string id = targetTag.Remove (0, 5);
 		FenceManager.instance.ShowFence ();
 		getIdleDialogObject.SetActive (true);

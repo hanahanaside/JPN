@@ -25,6 +25,7 @@ public class Target : MonoBehaviour {
 
 	void CompleteExitEvent(){
 		enabled = false;
+		Destroy (gameObject);
 		CompleteTargetEvent (tag);
 	}
 		

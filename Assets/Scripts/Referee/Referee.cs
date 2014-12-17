@@ -31,6 +31,7 @@ public class Referee : MonoBehaviour {
 			targetObject.transform.localScale = new Vector3 (1, 1, 1);
 			mTargetObjectList.Add (targetObject);
 		}
+		targetGrid.repositionNow = true;
 	}
 		
 	//パズルオープン時に呼ばれる
@@ -66,6 +67,9 @@ public class Referee : MonoBehaviour {
 			break;
 		}
 		foreach (GameObject targetObject in mTargetObjectList) {
+			if(targetObject == null){
+				continue;
+			}
 			string targetTag = targetObject.tag;
 			//ターゲットと違う場合はコンティニュー
 			if (tag != targetTag) {

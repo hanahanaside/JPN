@@ -8,7 +8,6 @@ public class PuzzleTable : MonoBehaviour {
 	public static event Action<GameObject[]> CreatedPuzzleTableEvent;
 
 	private List<Transform> mChildList;
-	private GameObject[] puzzleObjectArray;
 	public GameObject[] blankPuzzleArray;
 	public int[] puzzleIdArray;
 
@@ -25,7 +24,7 @@ public class PuzzleTable : MonoBehaviour {
 				break;
 			}
 		}
-		puzzleObjectArray = new GameObject[targetIdArray.Length];
+		GameObject[]	puzzleObjectArray = new GameObject[targetIdArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
 			int puzzleId = targetIdArray [i];
 			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + puzzleId) as GameObject;

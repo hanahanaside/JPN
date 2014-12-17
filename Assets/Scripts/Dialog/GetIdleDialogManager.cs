@@ -16,7 +16,7 @@ public class GetIdleDialogManager : MonoBehaviour {
 		dao.UpdateRecord (mStage);
 		FenceManager.instance.HideFence ();
 		ClosedEvent ();
-		Destroy (transform.parent.gameObject);
+		transform.parent.gameObject.SetActive (false);
 	}
 
 	public void Show(int id){
