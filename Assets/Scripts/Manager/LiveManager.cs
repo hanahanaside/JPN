@@ -7,6 +7,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	public GameObject[] curtainArray;
 	public GameObject[] ballArray;
 	public GameObject label;
+	public GameObject ballParent;
 
 	private float mTime;
 	private bool mLive;
@@ -48,6 +49,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	public void StartLive (float time) {
+		EntranceStageManager.instance.StartLive ();
 		mTime = time;
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
@@ -70,6 +72,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.FinishLive ();
 		}
+		EntranceStageManager.instance.FinishLive ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
@@ -86,9 +89,17 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	private void OpenBall(){
-		foreach(GameObject ball in ballArray){
+		for( int i = 0; i< ballArray.Length;i ++ ){
+			GameObject ball = ballArray[i];
 			if(!ball.activeSelf){
 				ball.SetActive (true);
+				if(i == 4){
+					iTweenEvent.GetEvent (ballParent,"RotateEvent").Play();
+					iTweenEvent.GetEvent (ballParent,"ExitEvent").Play();
+					foreach(GameObject ballObject in ballArray){
+						iTweenEvent.GetEvent (ballObject,"CenterEvent").Play();
+					}
+				}
 				break;
 			}
 		}
