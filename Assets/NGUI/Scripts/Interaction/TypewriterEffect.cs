@@ -90,6 +90,7 @@ public class TypewriterEffect : MonoBehaviour
 		Finish();
 		mReset = true;
 		mActive = true;
+		mNextChar = 0;
 	}
 
 	/// <summary>
@@ -135,7 +136,7 @@ public class TypewriterEffect : MonoBehaviour
 			if (keepFullDimensions && scrollView != null) scrollView.UpdatePosition();
 		}
 
-		while (mCurrentOffset < mFullText.Length && mNextChar <= RealTime.time)
+		while (mCurrentOffset < mFullText.Length&& mNextChar <= RealTime.time)
 		{
 			int lastOffset = mCurrentOffset;
 			charsPerSecond = Mathf.Max(1, charsPerSecond);
