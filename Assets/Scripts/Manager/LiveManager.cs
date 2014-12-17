@@ -49,6 +49,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	public void StartLive (float time) {
+		FenceManager.instance.ShowFence ();
 		EntranceStageManager.instance.StartLive ();
 		ballParent.transform.localPosition = new Vector3 (0,0,0);
 		foreach(GameObject ballObject in ballArray){
@@ -85,6 +86,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	private void OpenCurtain(){
+		FenceManager.instance.HideFence ();
 		foreach(GameObject curtain in curtainArray){
 			iTweenEvent.GetEvent (curtain,"OpenEvent").Play();
 		}

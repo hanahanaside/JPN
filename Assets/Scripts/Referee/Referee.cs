@@ -8,6 +8,7 @@ public class Referee : MonoBehaviour {
 	public static event Action UpdateGameEvent;
 
 	public UIGrid targetGrid;
+	public GameObject openEffectPrefab;
 	private List<GameObject> mTargetObjectList;
 
 	void OnEnable () {
@@ -35,7 +36,14 @@ public class Referee : MonoBehaviour {
 	}
 		
 	//パズルオープン時に呼ばれる
-	void OpenedPuzzleEvent (string tag) {
+	void OpenedPuzzleEvent (GameObject puzzleObject) {
+		Debug.Log ("" + puzzleObject.transform.position);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
+		GameObject effectObject =  Instantiate (openEffectPrefab) as GameObject;
+		effectObject.transform.parent = puzzleObject.transform;
+		effectObject.transform.localScale = new Vector3 (1,1,1);
+		effectObject.transform.localPosition = new Vector3 (0,0,0);
+		string tag = puzzleObject.tag;
 		Debug.Log ("tag " +tag);
 		switch (tag) {
 		case "puzzle_blank":

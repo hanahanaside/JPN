@@ -19,7 +19,7 @@ public static class JsonParser {
 			IDictionary playerDataDictionary = (IDictionary)Json.Deserialize (json);
 			playerData.TicketCount = (int)((long)playerDataDictionary [PlayerData.Kies.TicketCount.ToString ()]);
 			playerData.ExitDate = (string)playerDataDictionary [PlayerData.Kies.ExitDate.ToString ()];
-			playerData.CoinCount = (double)((long)playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()]);
+			playerData.CoinCount = (double)(playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()]);
 		}catch(Exception e){
 			MyLog.LogDebug (e.Message);
 		}

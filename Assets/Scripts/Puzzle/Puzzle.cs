@@ -4,10 +4,11 @@ using System;
 
 public class Puzzle : MonoBehaviour {
 
-	public static event Action<string> OpenedPuzzleEvent;
+	public static event Action<GameObject> OpenedPuzzleEvent;
 
 	public int[] firstIndexArray;
 	public int[] rangeArray;
+	private GameObject openEffectPrefab;
 
 	private UIButton mButton;
 
@@ -22,6 +23,6 @@ public class Puzzle : MonoBehaviour {
 	void OnClick () {
 		collider.enabled = false;
 		mButton.normalSprite = "puzzle_" + tag;
-		OpenedPuzzleEvent (tag);
+		OpenedPuzzleEvent (gameObject);
 	}
 }
