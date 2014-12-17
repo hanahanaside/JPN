@@ -50,12 +50,18 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	public void StartLive (float time) {
 		EntranceStageManager.instance.StartLive ();
+		ballParent.transform.localPosition = new Vector3 (0,0,0);
+		foreach(GameObject ballObject in ballArray){
+			ballObject.transform.localPosition = new Vector3 (0,0,0);
+		}
+
 		mTime = time;
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
 		livePanelObject.SetActive (true);
+		spinTextureObject.transform.localEulerAngles = new Vector3 (0,0,0);
 		label.SetActive (true);
 		mLive = true;
 		label.GetComponent<TypewriterEffect> ().ResetToBeginning ();
@@ -68,6 +74,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	private void FinishLive(){
 		mLive = false;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
+		iTweenEvent.GetEvent (ballParent,"RotateEvent").Stop();
+		ballParent.transform.localEulerAngles = new Vector3 (0,0,0);
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.FinishLive ();
