@@ -212,7 +212,6 @@
      <Compile Include="Assets\Scripts\Manager\MenuPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MoveStagePanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PlayerDataKeeper.cs" />
-     <Compile Include="Assets\Scripts\Manager\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PuzzleSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ScoutStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
@@ -229,11 +228,13 @@
      <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />
      <Compile Include="Assets\Scripts\Parser\JsonParser.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
+     <Compile Include="Assets\Scripts\Prefs\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
      <Compile Include="Assets\Scripts\Referee\Referee.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
+     <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransform.cs" />
@@ -358,7 +359,11 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
+     <None Include="Assets\Terasurware\Editor\ExportTemplate.txt" />
+     <None Include="Assets\Terasurware\Editor\ExportTemplate2.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+     <None Include="Assets\Terasurware\Editor\EntityTemplate.txt" />
+     <None Include="Assets\Terasurware\Editor\EntityTemplate2.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />

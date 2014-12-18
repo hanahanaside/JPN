@@ -36,6 +36,7 @@ public class MyDebugger : MonoBehaviour {
 		bool clickedPrefs = GUI.Button (prefsRect, "clear prefs");
 		if (clickedPrefs) {
 			PrefsManager.instance.PlayerDataJson = "";
+			PlayerPrefs.DeleteAll ();
 		}
 	}
 

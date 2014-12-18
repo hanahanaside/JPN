@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Plugins\MiniJSON.cs" />
      <Compile Include="Assets\Plugins\MonoSingleton.cs" />
+     <Compile Include="Assets\Plugins\PlayerPrefsX.cs" />
      <Compile Include="Assets\Plugins\Singleton.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.6.8.txt" />
@@ -74,7 +75,11 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
+     <None Include="Assets\Terasurware\Editor\ExportTemplate.txt" />
+     <None Include="Assets\Terasurware\Editor\ExportTemplate2.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+     <None Include="Assets\Terasurware\Editor\EntityTemplate.txt" />
+     <None Include="Assets\Terasurware\Editor\EntityTemplate2.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />

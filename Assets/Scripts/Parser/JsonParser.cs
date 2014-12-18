@@ -10,8 +10,8 @@ public static class JsonParser {
 		PlayerData playerData = new PlayerData ();
 		//最初の取得時
 		if (string.IsNullOrEmpty (json)) {
-			playerData.CoinCount = 100;
-			playerData.TicketCount = 10;
+			playerData.CoinCount = 10000;
+			playerData.TicketCount = 100;
 			return playerData;
 		}
 		//double の値が整数値だとCast Exceptionになる

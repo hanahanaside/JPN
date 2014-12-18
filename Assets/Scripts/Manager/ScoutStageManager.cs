@@ -8,9 +8,17 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public GameObject planeObject;
 	public GameObject fadeOutSpriteObject;
 	public GameObject goScoutButtonObject;
+	public UILabel costLabel;
+
+	public static bool FlagScouting{ get; set; }
+
+	public static int SelectedAreaId{ get; set; }
+
+	private static int Cost{ get; set; }
+
 
 	void OnEnable () {
-		AreaPanelManager.instance.OnAreaClickedEvent += OnAreaClickedEvent;
+		AreaPanelManager.instance.OnAreaClickedEvent += OnAreaClickedEvent; 
 	}
 
 	void OnDisable () {
@@ -22,29 +30,29 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 			dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId - 1].localPosition;
 			dartsObject.SetActive (true);
 		}
+		if (Cost != 0) {
+			costLabel.text = "" + Cost;
+		}
 	}
 
 
-	void OnAreaClickedEvent (int areaIndexNumber) {
+	void OnAreaClickedEvent (int areaIndexNumber, int cost) {
+		Cost = cost;
 		SelectedAreaId = areaIndexNumber + 1;
 		dartsObject.transform.localPosition = areaPositionArray [areaIndexNumber].localPosition;
 		dartsObject.SetActive (true);
+		costLabel.text = "" + cost; 
 	}
 
 	void OnPlaneEventCompleted () {
 		fadeOutSpriteObject.SetActive (true);
 	}
 
-	public static bool FlagScouting{ get; set; }
-
-	public static int SelectedAreaId{ get; set; }
-
 	public void StartLive () {
 
 	}
 
 	public void OnFadeOutFinished () {
-		PlayerDataKeeper.instance.SaveData ();
 		Application.LoadLevel ("Puzzle");
 	}
 
@@ -59,6 +67,8 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		}
 		goScoutButtonObject.SetActive (false);
 		FlagScouting = true;
+		PlayerDataKeeper.instance.DecreaseCoinCount (Cost);
+		PlayerDataKeeper.instance.SaveData ();
 		iTweenEvent.GetEvent (planeObject, "moveOut").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
 	}
