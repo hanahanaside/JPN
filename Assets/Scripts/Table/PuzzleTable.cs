@@ -125,7 +125,7 @@ public class PuzzleTable : MonoBehaviour {
 		return false;
 	}
 
-	//キャラが被らないようにパズルIDをを返す
+	//パズルIDをを返す
 	private int[] CreatePuzzleIdArray () {
 		int[] targetIdArray = new int[2];
 		for (int i = 0; i < targetIdArray.Length; i++) {
