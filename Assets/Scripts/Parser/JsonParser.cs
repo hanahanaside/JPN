@@ -10,7 +10,7 @@ public static class JsonParser {
 		PlayerData playerData = new PlayerData ();
 		//最初の取得時
 		if (string.IsNullOrEmpty (json)) {
-			playerData.CoinCount = 10000;
+			playerData.CoinCount = 10000.1;
 			playerData.TicketCount = 100;
 			return playerData;
 		}

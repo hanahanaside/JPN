@@ -24,7 +24,7 @@ public class MyDebugger : MonoBehaviour {
 		Rect pauseRect = new Rect (10, 30, 80, 20);
 		bool clickedPause = GUI.Button (pauseRect, "save pref");
 		if (clickedPause) {
-			MainSceneManager.instance.gameObject.SendMessage ("OnApplicationPause",true);
+			PlayerDataKeeper.instance.SaveData ();
 		}
 		Rect deleteDBRect = new Rect (10, 60, 80, 20);
 		bool clickedDeleteDB = GUI.Button (deleteDBRect, "reset DB");

@@ -14,7 +14,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 
 	public static int SelectedAreaId{ get; set; }
 
-	private static int Cost{ get; set; }
+	private static double Cost{ get; set; }
 
 
 	void OnEnable () {

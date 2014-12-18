@@ -27,6 +27,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 	public UIScrollView areaScrollView;
 	public UIGrid grid;
 	public GameObject dialogObject;
+	public GameObject buyAreaDialogObject;
 
 	private Entity_Area mEntityArea;
 	private int[] mClearedPuzzleCountArray;
@@ -34,8 +35,6 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 	void Awake () {
 		//マスターデータを取得
 		mEntityArea = Resources.Load ("Data/Area") as Entity_Area; //=> Resourcesからデータファイルの読み込み
-		//各ステージのクリア回数を取得
-		mClearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 	}
 
 	void MoveOutEventCompleted () {
@@ -44,6 +43,8 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 	}
 
 	public void ShowAreaPanel () {
+		//各ステージのクリア回数を取得
+		mClearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		FenceManager.instance.ShowFence ();
 		dialogObject.SetActive (true);
 		areaScrollView.ResetPosition ();
@@ -54,7 +55,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 			switch (clearedCount) {
 			//未購入の場合
 			case (int)AreaState.NotYetPurchased:
-				label.text = mEntityArea.param [i].minimum_amount + "人でオープン";
+				label.text = "未購入";
 				break;
 			//ロックの場合
 			case (int)AreaState.Lock:
@@ -110,6 +111,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		switch(clearCount){
 		case (int)AreaState.NotYetPurchased:
 			ItweenEventPlayer.PlayMoveOutDialogEvent (dialogObject, gameObject);
+			ShowBuyAreaDialog (areaName);
 			break;
 		case (int)AreaState.Lock:
 			break;
@@ -120,6 +122,15 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 			OnAreaClickedEvent ((int)areaName,cost);
 			break;
 		}
+	}
+
+	private void ShowBuyAreaDialog(AreaName areaName){
+		Area area = new Area ();
+		area.AreaId = mEntityArea.param [(int)areaName].area_id;
+		area.AreaName = mEntityArea.param[(int)areaName].area_name;
+		area.AreaOpen = mEntityArea.param [(int)areaName].area_open;
+		buyAreaDialogObject.SetActive (true);
+		BuyAreaDialogManager.instance.Show (area);
 	}
 
 	public void OnCloseButtonClicked () {

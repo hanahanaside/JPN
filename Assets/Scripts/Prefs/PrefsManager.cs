@@ -35,6 +35,7 @@ public class PrefsManager :Singleton<PrefsManager> {
 			if(clearedPuzzleCountArray[0] == -2){
 				clearedPuzzleCountArray [0] = 0;
 				clearedPuzzleCountArray [1] = -1;
+				ClearedPuzzleCountArray = clearedPuzzleCountArray;
 			}
 			return clearedPuzzleCountArray;
 		}

@@ -6,7 +6,7 @@ public class TestController : MonoBehaviour {
 	public UILabel label;
 
 	void Start(){
-		int[] test =  PrefsManager.instance.ClearedPuzzleCountArray;
+		double test = 10;
 		Debug.Log ("" + test);
 	}
 
