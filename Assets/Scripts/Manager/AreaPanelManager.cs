@@ -121,6 +121,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 			OnAreaClickedEvent ((int)areaName);
 			break;
 		}
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	private void ShowBuyAreaDialog(AreaName areaName){
@@ -135,5 +136,6 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 	public void OnCloseButtonClicked () {
 		FenceManager.instance.HideFence ();
 		ItweenEventPlayer.PlayMoveOutDialogEvent (dialogObject, gameObject);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 }

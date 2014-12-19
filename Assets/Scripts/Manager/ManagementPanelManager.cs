@@ -41,7 +41,7 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 	}
 		
 	public void OnTweetButtonClicked(){
-
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnCloseButtonClicked(){
@@ -52,6 +52,7 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 		}
 		FenceManager.instance.HideFence ();
 		dialogObject.SetActive (false);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	private int GetTotalIdleCount(List<Stage> stageList){

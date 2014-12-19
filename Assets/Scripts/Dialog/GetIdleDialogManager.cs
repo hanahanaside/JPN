@@ -17,6 +17,7 @@ public class GetIdleDialogManager : MonoBehaviour {
 		FenceManager.instance.HideFence ();
 		ClosedEvent ();
 		transform.parent.gameObject.SetActive (false);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void Show(int id){

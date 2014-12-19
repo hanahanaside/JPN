@@ -9,9 +9,12 @@ public class ContinueDialogManager : MonoBehaviour {
 
 	public void OnFinishPuzzleClicked(){
 		FinishPuzzleEvent ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnBuyTapCountClicked(){
 		BuyTapCountEvent ();
+		PlayerDataKeeper.instance.DecreaseTicketCount (1);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 }

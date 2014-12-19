@@ -19,6 +19,7 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 	void OnMoveAreaClickedEvent (int index) {
 		HideMoveStagePanel ();
 		StageGridManager.instance.MoveToStage (index + 2);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	//ダイアログを閉じた時に呼ばれる

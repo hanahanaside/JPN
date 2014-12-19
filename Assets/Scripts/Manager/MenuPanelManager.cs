@@ -11,5 +11,6 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 
 	public void OnCloseButtonClicked(){
 		dialogObject.SetActive (false);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 }

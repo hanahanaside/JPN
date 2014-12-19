@@ -74,4 +74,8 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	public void DecreaseCoinCount(double coinCount){
 		mPlayerData.CoinCount -= coinCount;
 	}
+
+	public void DecreaseTicketCount(int decreaseCount){
+		mPlayerData.TicketCount -= decreaseCount;
+	}
 }

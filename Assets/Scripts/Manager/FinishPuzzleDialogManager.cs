@@ -13,11 +13,13 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 
 	public void OnBackToStageClicked(){
 		BackToStageEvent();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnRetryClicked(){
 		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
 		RetryEvent (0);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void Show(){
