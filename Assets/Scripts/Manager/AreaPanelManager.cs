@@ -22,7 +22,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		Lock = -2
 	}
 
-	public event Action<int,int> OnAreaClickedEvent;
+	public event Action<int> OnAreaClickedEvent;
 
 	public UIScrollView areaScrollView;
 	public UIGrid grid;
@@ -65,7 +65,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 				break;
 			//デフォルト
 			default:
-				int cost = mEntityArea.param [i].cost_start + (mEntityArea.param [i].cost_add * mClearedPuzzleCountArray [i]);
+				int cost = AreaCostCaluculator.instance.CalcCost (i);
 				sb.Append (cost + "コイン");
 				break;
 			}
@@ -116,10 +116,9 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		case (int)AreaState.Lock:
 			break;
 		default:
-			int cost = mEntityArea.param [(int)areaName].cost_start + (mEntityArea.param [(int)areaName].cost_add * clearCount);
 			FenceManager.instance.HideFence ();
 			ItweenEventPlayer.PlayMoveOutDialogEvent (dialogObject, gameObject);
-			OnAreaClickedEvent ((int)areaName,cost);
+			OnAreaClickedEvent ((int)areaName);
 			break;
 		}
 	}

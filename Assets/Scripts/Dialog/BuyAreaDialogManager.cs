@@ -22,6 +22,7 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	}
 
 	public void CancelClicked () {
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		Dismiss ();
 	}
 
@@ -40,11 +41,12 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		}
 		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
 		PlayerDataKeeper.instance.DecreaseCoinCount (mArea.AreaOpen);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		Dismiss ();
 	}
 
 	public void UseTicketClicked () {
-
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnFenceClicked () {

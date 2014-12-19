@@ -10,7 +10,9 @@ public class SoundManager : MonoSingleton<SoundManager> {
 		GetIdol_2,
 		Katsu,
 		Hanauta,
-		Plane}
+		Plane,
+		Cheer
+	}
 
 	;
 
@@ -49,10 +51,35 @@ public class SoundManager : MonoSingleton<SoundManager> {
 
 	public void PlaySE (SE_CHANNEL seChannel) {
 		int seChannelId = (int)seChannel;
-		AudioSource seAudioSource = mSEsourceArray [seChannelId];
-		if(seChannel == SE_CHANNEL.GetCoin){
-			seAudioSource.volume = 0.5f;
+		AudioSource audioSource = mSEsourceArray [seChannelId];
+		switch(seChannel){
+		case SE_CHANNEL.GetCoin:
+			audioSource.volume = 0.5f;
+			break;
+		case SE_CHANNEL.Cheer:
+			audioSource.volume = 0.5f;
+			break;
 		}
-		seAudioSource.Play ();
+		audioSource.Play ();
+	}
+
+	public void FadeoutSE(SE_CHANNEL seChannel){
+		StartCoroutine ("Fadeout",seChannel);
+	}
+
+	IEnumerator Fadeout(SE_CHANNEL seChannel)
+	{
+		int seChannelId = (int)seChannel;
+		AudioSource audioSource = mSEsourceArray [seChannelId];
+		float duration = 1f;
+		float currentTime = 0.0f;
+		float waitTime = 0.02f;
+		float firstVol = audioSource.volume;
+		while (duration > currentTime)
+		{
+			currentTime += Time.fixedDeltaTime;
+			audioSource.volume = Mathf.Clamp01(firstVol * (duration - currentTime) / duration);
+			yield return new WaitForSeconds(waitTime);
+		}
 	}
 }

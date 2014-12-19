@@ -37,7 +37,6 @@ public class Referee : MonoBehaviour {
 		
 	//パズルオープン時に呼ばれる
 	void OpenedPuzzleEvent (GameObject puzzleObject) {
-		Debug.Log ("" + puzzleObject.transform.position);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
 		GameObject effectObject =  Instantiate (openEffectPrefab) as GameObject;
 		effectObject.transform.parent = puzzleObject.transform;

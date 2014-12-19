@@ -9,13 +9,11 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public GameObject fadeOutSpriteObject;
 	public GameObject goScoutButtonObject;
 	public UILabel costLabel;
+	private int mCost;
 
 	public static bool FlagScouting{ get; set; }
 
 	public static int SelectedAreaId{ get; set; }
-
-	private static double Cost{ get; set; }
-
 
 	void OnEnable () {
 		AreaPanelManager.instance.OnAreaClickedEvent += OnAreaClickedEvent; 
@@ -29,19 +27,18 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		if (SelectedAreaId != 0) {
 			dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId - 1].localPosition;
 			dartsObject.SetActive (true);
-		}
-		if (Cost != 0) {
-			costLabel.text = "" + Cost;
+			mCost = AreaCostCaluculator.instance.CalcCost (SelectedAreaId -1);
+			costLabel.text = "" + mCost;
 		}
 	}
 
 
-	void OnAreaClickedEvent (int areaIndexNumber, int cost) {
-		Cost = cost;
+	void OnAreaClickedEvent (int areaIndexNumber) {
+		mCost = AreaCostCaluculator.instance.CalcCost (areaIndexNumber);
 		SelectedAreaId = areaIndexNumber + 1;
 		dartsObject.transform.localPosition = areaPositionArray [areaIndexNumber].localPosition;
 		dartsObject.SetActive (true);
-		costLabel.text = "" + cost; 
+		costLabel.text = "" + mCost; 
 	}
 
 	void OnPlaneEventCompleted () {
@@ -49,7 +46,11 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	public void StartLive () {
+		goScoutButtonObject.SetActive (false);
+	}
 
+	public void FinishLive(){
+		goScoutButtonObject.SetActive (true);
 	}
 
 	public void OnFadeOutFinished () {
@@ -59,6 +60,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public void OnAreaButtonClicked () {
 		dartsObject.SetActive (false);
 		AreaPanelManager.instance.ShowAreaPanel ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OnGoScoutButtonClicked () {
@@ -67,7 +69,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		}
 		goScoutButtonObject.SetActive (false);
 		FlagScouting = true;
-		PlayerDataKeeper.instance.DecreaseCoinCount (Cost);
+		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
 		PlayerDataKeeper.instance.SaveData ();
 		iTweenEvent.GetEvent (planeObject, "moveOut").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);

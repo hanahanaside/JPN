@@ -5,6 +5,7 @@ using System;
 public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	public bool FlagBackButtonClicked{ get; set; }
+
 	public GameObject puzzleTablePrefab;
 	public GameObject continueDialogObject;
 	public GameObject finishPuzzleDialogObject;
@@ -41,7 +42,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	}
 
 	void Start () {
-		Debug.Log ("level " +ScoutStageManager.SelectedAreaId);
+		Debug.Log ("level " + ScoutStageManager.SelectedAreaId);
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
 		CreatePuzzleTable ();
@@ -59,6 +60,10 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		getIdleDialogObject.SetActive (true);
 		GetIdleDialogManager getIdleManager = getIdleDialogObject.GetComponentInChildren<GetIdleDialogManager> ();
 		getIdleManager.Show (Convert.ToInt32 (id));
+		//パズルクリアカウントを更新
+		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
+		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
+		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
 	}
 		
 	//ゲームを更新する
@@ -71,7 +76,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	}
 
 	//パズルを終了する
-	void FinishPuzzleEvent(){
+	void FinishPuzzleEvent () {
 		continueDialogObject.SetActive (false);
 		finishPuzzleDialogObject.SetActive (true);
 		FinishPuzzleDialogManager manager = finishPuzzleDialogObject.GetComponentInChildren<FinishPuzzleDialogManager> ();
@@ -79,14 +84,12 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	}
 
 	//リトライ
-	void RetryEvent(int coinCount){
+	void RetryEvent (int coinCount) {
 		finishPuzzleDialogObject.SetActive (false);
 		FenceManager.instance.HideFence ();
 		System.Collections.Generic.List<Transform> childList = targetGrid.GetChildList ();
-		foreach(Transform childTransform in childList){
-		//	targetGrid.RemoveChild (childTransform);
+		foreach (Transform childTransform in childList) {
 			Destroy (childTransform.gameObject);
-		//	childTransform.gameObject.SetActive (false);
 		}
 		Destroy (mPuzzleTableObject);
 		mRemainingTapCount = 10;
@@ -94,7 +97,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	}
 
 	//タップを購入する
-	void BuyTapCountEvent(){
+	void BuyTapCountEvent () {
 		mRemainingTapCount += 5;
 		FenceManager.instance.HideFence ();
 		continueDialogObject.SetActive (false);
@@ -108,7 +111,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	}
 
 	//パズルテーブルを作る
-	private void CreatePuzzleTable(){
+	private void CreatePuzzleTable () {
 		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_" + ScoutStageManager.SelectedAreaId) as GameObject;
 		mPuzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		mPuzzleTableObject.transform.parent = puzzleTableParent.transform;

@@ -49,24 +49,30 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	public void StartLive (float time) {
+		mTime = time;
 		FenceManager.instance.ShowFence ();
 		EntranceStageManager.instance.StartLive ();
+		ScoutStageManager.instance.StartLive ();
 		ballParent.transform.localPosition = new Vector3 (0,0,0);
 		foreach(GameObject ballObject in ballArray){
 			ballObject.transform.localPosition = new Vector3 (0,0,0);
 		}
+		livePanelObject.SetActive (true);
+		spinTextureObject.transform.localEulerAngles = new Vector3 (0,0,0);
+		SoundManager.instance.StopBGM ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Cheer);
+		Invoke ("StartLiveAnimation",3.0f);
+	}
 
-		mTime = time;
+	private void StartLiveAnimation(){
+		SoundManager.instance.FadeoutSE (SoundManager.SE_CHANNEL.Cheer);
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
-		livePanelObject.SetActive (true);
-		spinTextureObject.transform.localEulerAngles = new Vector3 (0,0,0);
-		label.SetActive (true);
-		mLive = true;
-		label.GetComponent<TypewriterEffect> ().ResetToBeginning ();
+
 		label.GetComponent<UILabel> ().text = "会いたくて\n会いたくて\n君に逢いたくて\nこの胸が\nときめくの\n君のせいだから";
+		label.GetComponent<TypewriterEffect> ().ResetToBeginning ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
 		Invoke ("OpenCurtain",12.3f);
 		Invoke ("OpenBall",7.0f);
@@ -93,9 +99,9 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (GameObject ball in ballArray) {
 			ball.SetActive (false);
 		}
-		label.SetActive (false);
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Play();
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveStartEvent").Play();
+		mLive = true;
 	}
 
 	private void OpenBall(){
@@ -109,6 +115,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 					foreach(GameObject ballObject in ballArray){
 						iTweenEvent.GetEvent (ballObject,"CenterEvent").Play();
 					}
+					label.GetComponent<UILabel> ().text = "";
 				}
 				break;
 			}

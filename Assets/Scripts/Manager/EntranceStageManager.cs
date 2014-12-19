@@ -10,6 +10,7 @@ public class EntranceStageManager : MonoSingleton<EntranceStageManager>{
 		FenceManager.instance.ShowFence ();
 		selectLiveTimeDialog.SetActive (true);
 		iTweenEvent.GetEvent (selectLiveTimeDialog,"ShowEvent").Play();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void StartLive(){
