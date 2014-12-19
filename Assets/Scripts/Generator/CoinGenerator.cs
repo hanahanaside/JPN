@@ -27,6 +27,7 @@ public class CoinGenerator : MonoBehaviour {
 		coinObject.transform.parent = mCenteredObject.transform;
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		mInterval = 5.0f;
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GenerateCoin);
 	}
 
 	void OnCenterCallBack (GameObject centeredObject) {

@@ -11,7 +11,8 @@ public class SoundManager : MonoSingleton<SoundManager> {
 		Katsu,
 		Hanauta,
 		Plane,
-		Cheer
+		Cheer,
+		GenerateCoin
 	}
 
 	;
