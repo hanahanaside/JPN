@@ -148,6 +148,7 @@ public class StageManager : MonoBehaviour {
 	//ライブを開始
 	public void StartLive () {
 		mState = State.Live;
+		untilSleepLabel.text = "ライブ中";
 		transform.parent.gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);

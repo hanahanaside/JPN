@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CoinGenerator : MonoBehaviour {
+public class CoinGenerator : MonoSingleton<CoinGenerator> {
 
 	public GameObject[] coinPrefabArray;
 	public UICenterOnChild uiCenterOnChild;
 	private GameObject mCenteredObject;
 	private float mInterval = 5.0f;
+	private bool mStop = false;
 
 	void Awake () {
 		uiCenterOnChild.onCenter = OnCenterCallBack;
 	}
 
 	void Update () {
+		if(mStop){
+			return;
+		}
 		mInterval -= Time.deltaTime;
 		if (mInterval > 0) {
 			return;
@@ -32,5 +36,13 @@ public class CoinGenerator : MonoBehaviour {
 
 	void OnCenterCallBack (GameObject centeredObject) {
 		mCenteredObject = centeredObject;
+	}
+
+	public void StopGenerating(){
+		mStop = true;
+	}
+
+	public void StartGenerating(){
+		mStop = false;
 	}
 }

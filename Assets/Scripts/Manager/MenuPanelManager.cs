@@ -10,6 +10,7 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 	}
 
 	public void OnCloseButtonClicked(){
+		FenceManager.instance.HideFence ();
 		dialogObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}

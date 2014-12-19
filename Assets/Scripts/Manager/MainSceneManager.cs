@@ -92,6 +92,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	public void OnMenuButtonClicked () {
+		FenceManager.instance.ShowFence ();
 		MenuPanelManager.instance.ShowMenuPanel ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}

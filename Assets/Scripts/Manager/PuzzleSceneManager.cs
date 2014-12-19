@@ -16,8 +16,8 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	public UIGrid targetGrid;
 
 	private int mRemainingTapCount = 10;
+	private int mContinueCount;
 	private GameObject mPuzzleTableObject;
-
 
 	void OnEnable () {
 		Referee.UpdateGameEvent += UpdateGameEvent;
@@ -71,7 +71,12 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	//ゲームを更新する
 	void UpdateGameEvent () {
 		mRemainingTapCount--;
-		if (mRemainingTapCount <= 0) {
+		if (mRemainingTapCount > 0) {
+			return;
+		}
+		if (mContinueCount >= 3) {
+			FinishedAnswerCheckEvent ();
+		} else {
 			FenceManager.instance.ShowFence ();
 			continueDialogObject.SetActive (true);
 		}
@@ -106,12 +111,14 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		}
 		Destroy (mPuzzleTableObject);
 		mRemainingTapCount = 10;
+		mContinueCount = 0;
 		CreatePuzzleTable ();
 	}
 
 	//タップを購入する
 	void BuyTapCountEvent () {
 		mRemainingTapCount += 5;
+		mContinueCount++;
 		FenceManager.instance.HideFence ();
 		continueDialogObject.SetActive (false);
 	}

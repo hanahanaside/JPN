@@ -21,9 +21,11 @@ public class Target : MonoBehaviour {
 			symbolObject.transform.localScale = new Vector3 (1,1,1);
 		}
 		mChildList = grid.GetChildList ();
+		GetComponent<UISprite> ().depth = 2;
 	}
 
 	void CompleteExitEvent(){
+		FenceManager.instance.HideTransparentFence ();
 		enabled = false;
 		Destroy (gameObject);
 		CompleteTargetEvent (tag);
@@ -37,6 +39,7 @@ public class Target : MonoBehaviour {
 		UISprite sprite = mChildList [mCorrectCount - 1].GetComponent<UISprite> ();
 		sprite.spriteName = "symbol_on";
 		if (mCorrectCount >= mChildList.Count) {
+			FenceManager.instance.ShowTransparentFence ();
 			iTweenEvent.GetEvent (gameObject, "ExitEvent").Play ();
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_1);
 		}else {

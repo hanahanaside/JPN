@@ -50,6 +50,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	public void StartLive (float time) {
 		mTime = time;
+		CoinGenerator.instance.StopGenerating ();
 		FenceManager.instance.ShowFence ();
 		EntranceStageManager.instance.StartLive ();
 		ScoutStageManager.instance.StartLive ();
@@ -88,6 +89,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 			stageManager.FinishLive ();
 		}
 		EntranceStageManager.instance.FinishLive ();
+		ScoutStageManager.instance.FinishLive ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
@@ -102,6 +104,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Play();
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveStartEvent").Play();
 		mLive = true;
+		CoinGenerator.instance.StartGenerating ();
 	}
 
 	private void OpenBall(){
