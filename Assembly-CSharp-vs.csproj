@@ -217,7 +217,6 @@
      <Compile Include="Assets\Scripts\Manager\PlayerDataKeeper.cs" />
      <Compile Include="Assets\Scripts\Manager\PuzzleSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ScoutStageManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SplashSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
@@ -234,6 +233,8 @@
      <Compile Include="Assets\Scripts\Prefs\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
      <Compile Include="Assets\Scripts\Referee\Referee.cs" />
+     <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
+     <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />

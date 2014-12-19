@@ -28,6 +28,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		ContinueDialogManager.BuyTapCountEvent += BuyTapCountEvent;
 		FinishPuzzleDialogManager.BackToStageEvent += BackToStageEvent;
 		FinishPuzzleDialogManager.RetryEvent += RetryEvent;
+		PuzzleTable.FinishedAnswerCheckEvent += FinishedAnswerCheckEvent;
 	}
 
 	void OnDisable () {
@@ -39,6 +40,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		ContinueDialogManager.BuyTapCountEvent -= BuyTapCountEvent;
 		FinishPuzzleDialogManager.BackToStageEvent -= BackToStageEvent;
 		FinishPuzzleDialogManager.RetryEvent -= RetryEvent;
+		PuzzleTable.FinishedAnswerCheckEvent -= FinishedAnswerCheckEvent;
 	}
 
 	void Start () {
@@ -77,7 +79,16 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	//パズルを終了する
 	void FinishPuzzleEvent () {
+		FenceManager.instance.HideFence ();
 		continueDialogObject.SetActive (false);
+		//答え合わせ
+		PuzzleTable puzzleTable = puzzleTableParent.GetComponentInChildren<PuzzleTable> ();
+		StartCoroutine (puzzleTable.AnswerCheck ());	
+	}
+
+	//答え合わせ終了時に呼ばれる
+	void FinishedAnswerCheckEvent () {
+		FenceManager.instance.ShowFence ();
 		finishPuzzleDialogObject.SetActive (true);
 		FinishPuzzleDialogManager manager = finishPuzzleDialogObject.GetComponentInChildren<FinishPuzzleDialogManager> ();
 		manager.Show ();
@@ -112,6 +123,11 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
 	//パズルテーブルを作る
 	private void CreatePuzzleTable () {
+		#if UNITY_EDITOR
+		if (ScoutStageManager.SelectedAreaId == 0) {
+			ScoutStageManager.SelectedAreaId = 1;
+		}
+		#endif
 		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_" + ScoutStageManager.SelectedAreaId) as GameObject;
 		mPuzzleTableObject = Instantiate (puzzleTablePrefab)as GameObject;
 		mPuzzleTableObject.transform.parent = puzzleTableParent.transform;

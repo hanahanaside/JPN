@@ -8,7 +8,7 @@ public class Puzzle : MonoBehaviour {
 
 	public int[] firstIndexArray;
 	public int[] rangeArray;
-	private GameObject openEffectPrefab;
+	private GameObject mOpenEffectPrefab;
 
 	private UIButton mButton;
 
@@ -18,11 +18,23 @@ public class Puzzle : MonoBehaviour {
 		int rand = UnityEngine.Random.Range (0, baseIdArray.Length);
 		int baseId = baseIdArray [rand];
 		mButton.normalSprite = "puzzle_base_" + baseId;
+		mOpenEffectPrefab = Resources.Load ("Effect/GetCoinEffect") as GameObject;
 	}
 
 	void OnClick () {
-		collider.enabled = false;
-		mButton.normalSprite = "puzzle_" + tag;
+		Open ();
 		OpenedPuzzleEvent (gameObject);
 	}
+
+	public void Open(){
+		GameObject effectObject =  Instantiate (mOpenEffectPrefab) as GameObject;
+		effectObject.transform.parent = gameObject.transform;
+		effectObject.transform.localScale = new Vector3 (1,1,1);
+		effectObject.transform.localPosition = new Vector3 (0,0,0);
+		collider.enabled = false;
+		mButton.normalSprite = "puzzle_" + tag;
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
+	}
+
+
 }

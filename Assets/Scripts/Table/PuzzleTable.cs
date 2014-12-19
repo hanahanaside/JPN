@@ -6,6 +6,7 @@ using System;
 public class PuzzleTable : MonoBehaviour {
 
 	public static event Action<GameObject[]> CreatedPuzzleTableEvent;
+	public static event Action FinishedAnswerCheckEvent;
 
 	private List<Transform> mChildList;
 	public GameObject[] blankPuzzleArray;
@@ -20,7 +21,7 @@ public class PuzzleTable : MonoBehaviour {
 		//被らないようにする
 		while (true) {
 			targetIdArray = CreatePuzzleIdArray ();
-			if(CheckNotDuplicate(targetIdArray)){
+			if (CheckNotDuplicate (targetIdArray)) {
 				break;
 			}
 		}
@@ -51,10 +52,28 @@ public class PuzzleTable : MonoBehaviour {
 		CreatedPuzzleTableEvent (puzzleObjectArray);
 	}
 
+	//アイドルのパズルを全てオープンする
+	public IEnumerator AnswerCheck () {
+		yield return new WaitForSeconds (1.0f);
+		foreach (Transform childTransform in mChildList) {
+			GameObject grandChildObject = childTransform.GetChild (0).gameObject;
+			if(!grandChildObject.collider.enabled){
+				continue;
+			}
+			grandChildObject.collider.enabled = false;
+			if (0 <= grandChildObject.tag.IndexOf ("idle")) {
+				Puzzle puzzle = grandChildObject.GetComponent<Puzzle> ();
+				puzzle.Open ();
+				yield return new WaitForSeconds (0.3f);
+			}
+		}
+		FinishedAnswerCheckEvent ();
+	}
+
 	//パズルのキャラが被っているかをチェックする
 	private bool CheckNotDuplicate (int[] puzzleIdArray) {
-		int puzzleId = puzzleIdArray[0];
-		if(puzzleId == puzzleIdArray[1]){
+		int puzzleId = puzzleIdArray [0];
+		if (puzzleId == puzzleIdArray [1]) {
 			return false;
 		}
 		return true;
@@ -134,25 +153,25 @@ public class PuzzleTable : MonoBehaviour {
 			switch (rand) {
 			case 1:
 			case 2:
-				puzzleId = puzzleIdArray[0];
+				puzzleId = puzzleIdArray [0];
 				break;
 			case 3:
 			case 4:
-				puzzleId = puzzleIdArray[1];
+				puzzleId = puzzleIdArray [1];
 				break;
 			case 5:
 			case 6:
-				puzzleId = puzzleIdArray[2];
+				puzzleId = puzzleIdArray [2];
 				break;
 			case 7:
 			case 8:
-				puzzleId = puzzleIdArray[3];
+				puzzleId = puzzleIdArray [3];
 				break;
 			case 9:
-				puzzleId = puzzleIdArray[4];
+				puzzleId = puzzleIdArray [4];
 				break;
 			case 10:
-				puzzleId = puzzleIdArray[5];
+				puzzleId = puzzleIdArray [5];
 				break;
 			}
 			targetIdArray [i] = puzzleId;

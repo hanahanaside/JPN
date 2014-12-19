@@ -9,6 +9,7 @@ public class GetIdleDialogManager : MonoBehaviour {
 	public UISprite mIdleSprite;
 	public UILabel titleLabel;
 	private Stage mStage;
+	private int mIdleId;
 
 	public void OnCloseButtonClicked(){
 		mStage.UpdatedDate = DateTime.Now.ToString ();
@@ -17,10 +18,11 @@ public class GetIdleDialogManager : MonoBehaviour {
 		FenceManager.instance.HideFence ();
 		ClosedEvent ();
 		transform.parent.gameObject.SetActive (false);
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		GetIdolSoundManager.instance.PlayVoice (mIdleId-1);
 	}
 
 	public void Show(int id){
+		mIdleId = id;
 		StageDao dao = DaoFactory.CreateStageDao ();
 		mStage = dao.SelectById (id);
 		mStage.IdleCount++;
