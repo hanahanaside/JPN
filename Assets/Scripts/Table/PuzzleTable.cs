@@ -52,7 +52,7 @@ public class PuzzleTable : MonoBehaviour {
 		CreatedPuzzleTableEvent (puzzleObjectArray);
 	}
 
-	//アイドルのパズルを全てオープンする
+	//答え合わせをする
 	public IEnumerator AnswerCheck () {
 		yield return new WaitForSeconds (1.0f);
 		foreach (Transform childTransform in mChildList) {

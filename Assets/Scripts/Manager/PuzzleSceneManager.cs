@@ -82,12 +82,14 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		FenceManager.instance.HideFence ();
 		continueDialogObject.SetActive (false);
 		//答え合わせ
+		FenceManager.instance.ShowTransparentFence ();
 		PuzzleTable puzzleTable = puzzleTableParent.GetComponentInChildren<PuzzleTable> ();
 		StartCoroutine (puzzleTable.AnswerCheck ());	
 	}
 
 	//答え合わせ終了時に呼ばれる
 	void FinishedAnswerCheckEvent () {
+		FenceManager.instance.HideTransparentFence ();
 		FenceManager.instance.ShowFence ();
 		finishPuzzleDialogObject.SetActive (true);
 		FinishPuzzleDialogManager manager = finishPuzzleDialogObject.GetComponentInChildren<FinishPuzzleDialogManager> ();
