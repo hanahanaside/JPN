@@ -52,24 +52,24 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		for (int i = 0; i < childList.Count; i++) {
 			int clearedCount = mClearedPuzzleCountArray [i];
 			UILabel label = childList [i].Find ("Label").GetComponent<UILabel> ();
+			StringBuilder sb = new StringBuilder ();
+			sb.Append (mEntityArea.param [i].area_name + "\n");
 			switch (clearedCount) {
 			//未購入の場合
 			case (int)AreaState.NotYetPurchased:
-				label.text = "未購入";
+				sb.Append ("未購入");
 				break;
 			//ロックの場合
 			case (int)AreaState.Lock:
-				label.text = "ロック";
+				sb.Append ("ロック");
 				break;
 			//デフォルト
 			default:
 				int cost = mEntityArea.param [i].cost_start + (mEntityArea.param [i].cost_add * mClearedPuzzleCountArray [i]);
-				StringBuilder sb = new StringBuilder ();
-				sb.Append (mEntityArea.param [i].area_name + "\n");
 				sb.Append (cost + "コイン");
-				label.text = sb.ToString ();
 				break;
 			}
+			label.text = sb.ToString ();
 		}
 		ItweenEventPlayer.PlayMoveInDialogEvent (dialogObject);
 	}
