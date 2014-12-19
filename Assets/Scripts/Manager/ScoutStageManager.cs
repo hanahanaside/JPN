@@ -24,12 +24,14 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	void Awake () {
-		if (SelectedAreaId != 0) {
-			dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId - 1].localPosition;
-			dartsObject.SetActive (true);
-			mCost = AreaCostCaluculator.instance.CalcCost (SelectedAreaId -1);
-			costLabel.text = "" + mCost;
+		if (SelectedAreaId == 0) {
+			SelectedAreaId = 1;
 		}
+		dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId - 1].localPosition;
+		dartsObject.SetActive (true);
+		mCost = AreaCostCaluculator.instance.CalcCost (SelectedAreaId - 1);
+		costLabel.text = "" + mCost;
+		
 	}
 
 
@@ -49,7 +51,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		goScoutButtonObject.SetActive (false);
 	}
 
-	public void FinishLive(){
+	public void FinishLive () {
 		goScoutButtonObject.SetActive (true);
 	}
 
@@ -58,7 +60,6 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	public void OnAreaButtonClicked () {
-		dartsObject.SetActive (false);
 		AreaPanelManager.instance.ShowAreaPanel ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
