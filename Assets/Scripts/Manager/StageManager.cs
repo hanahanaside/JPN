@@ -216,7 +216,8 @@ public class StageManager : MonoBehaviour {
 
 		//ファンを生成
 		for (int i = 0; i < fanPositionArray.Length; i++) {
-			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + (i + 1)) as GameObject;
+			int rand = UnityEngine.Random.Range (1,14);
+			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
 			fanObject.transform.parent = gameObject.transform.parent;
 			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
