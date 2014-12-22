@@ -21,7 +21,12 @@ public class Target : MonoBehaviour {
 			symbolObject.transform.localScale = new Vector3 (1,1,1);
 		}
 		mChildList = grid.GetChildList ();
-		GetComponent<UISprite> ().depth = 2;
+		UISprite sprite = GetComponent<UISprite> ();
+		sprite.depth = 2;
+		BoxCollider boxCollider =  gameObject.AddComponent<BoxCollider> ();
+		boxCollider.size = new Vector3 (sprite.width,sprite.height,0);
+		boxCollider.isTrigger = true;
+		gameObject.AddComponent<UIButtonScale> ();
 	}
 
 	void CompleteExitEvent(){
@@ -29,6 +34,12 @@ public class Target : MonoBehaviour {
 		enabled = false;
 		Destroy (gameObject);
 		CompleteTargetEvent (tag);
+	}
+
+	void OnClick(){
+		string tag = gameObject.tag;
+		int id = Convert.ToInt32 (tag.Replace ("idle_",""));
+		MapDialogManager.instance.Show (id);
 	}
 		
 	public void Correct () {
