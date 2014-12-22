@@ -6,8 +6,11 @@ public class PrefsManager :Singleton<PrefsManager> {
 	private enum Kies {
 		PlayerData,
 		DatabaseVersion,
-		ClearedPuzzleCountArray
-	} 
+		ClearedPuzzleCountArray,
+		BGM_ON,
+		SE_ON,
+		NotificationON
+	}
 
 	public string PlayerDataJson {
 		get {
@@ -31,8 +34,8 @@ public class PrefsManager :Singleton<PrefsManager> {
 
 	public int[] ClearedPuzzleCountArray {
 		get {
-			int[] clearedPuzzleCountArray = PlayerPrefsX.GetIntArray (Kies.ClearedPuzzleCountArray.ToString(), -2, 8);
-			if(clearedPuzzleCountArray[0] == -2){
+			int[] clearedPuzzleCountArray = PlayerPrefsX.GetIntArray (Kies.ClearedPuzzleCountArray.ToString (), -2, 8);
+			if (clearedPuzzleCountArray [0] == -2) {
 				clearedPuzzleCountArray [0] = 0;
 				clearedPuzzleCountArray [1] = -1;
 				ClearedPuzzleCountArray = clearedPuzzleCountArray;
@@ -40,7 +43,34 @@ public class PrefsManager :Singleton<PrefsManager> {
 			return clearedPuzzleCountArray;
 		}
 		set {
-			PlayerPrefsX.SetIntArray (Kies.ClearedPuzzleCountArray.ToString(), value);
+			PlayerPrefsX.SetIntArray (Kies.ClearedPuzzleCountArray.ToString (), value);
+		}
+	}
+
+	public bool BGM_ON {
+		get {
+			return PlayerPrefsX.GetBool (Kies.BGM_ON.ToString (), true);
+		}
+		set {
+			PlayerPrefsX.SetBool (Kies.BGM_ON.ToString (), value);
+		}
+	}
+
+	public bool SE_ON {
+		get {
+			return PlayerPrefsX.GetBool (Kies.SE_ON.ToString (), true);
+		}
+		set {
+			PlayerPrefsX.SetBool (Kies.SE_ON.ToString (), value);
+		}
+	}
+
+	public bool NotificationON {
+		get {
+			return PlayerPrefsX.GetBool (Kies.NotificationON.ToString (), true);
+		}
+		set {
+			PlayerPrefsX.SetBool (Kies.NotificationON.ToString (), value);
 		}
 	}
 }

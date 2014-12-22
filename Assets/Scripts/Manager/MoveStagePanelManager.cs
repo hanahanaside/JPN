@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
@@ -30,9 +31,10 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
 	//グリッドを作成する
 	public void CreateMoveStageGrid () {
-		int stageCount = StageGridManager.instance.StageManagerList.Count;
-		for (int i = 1; i <= stageCount; i++) {
-			GameObject moveStageCellPrefab = Resources.Load ("MoveStageCell/MoveStageCell_" + i) as GameObject;
+		StageDao dao = DaoFactory.CreateStageDao ();
+		List<Stage> stageList = dao.SelectAll ();
+		foreach(Stage stage in stageList){
+			GameObject moveStageCellPrefab = Resources.Load ("MoveStageCell/MoveStageCell_" + stage.Id) as GameObject;
 			GameObject moveStageCellObject = Instantiate (moveStageCellPrefab) as GameObject;
 			grid.AddChild (moveStageCellObject.transform);
 			moveStageCellObject.transform.localScale = new Vector3 (1f, 1f, 1f);

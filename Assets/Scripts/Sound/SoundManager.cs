@@ -12,8 +12,7 @@ public class SoundManager : MonoSingleton<SoundManager> {
 		Hanauta,
 		Plane,
 		Cheer,
-		GenerateCoin
-	}
+		GenerateCoin}
 
 	;
 
@@ -41,6 +40,9 @@ public class SoundManager : MonoSingleton<SoundManager> {
 	}
 
 	public void PlayBGM (BGM_CHANNEL bgmChannel) {
+		if(!PrefsManager.instance.BGM_ON){
+			return;
+		}
 		int channelId = (int)bgmChannel;
 		mBGMAudioSource.clip = bgmClipArray [channelId];
 		mBGMAudioSource.Play ();
@@ -51,9 +53,12 @@ public class SoundManager : MonoSingleton<SoundManager> {
 	}
 
 	public void PlaySE (SE_CHANNEL seChannel) {
+		if(!PrefsManager.instance.SE_ON){
+			return;
+		}
 		int seChannelId = (int)seChannel;
 		AudioSource audioSource = mSEsourceArray [seChannelId];
-		switch(seChannel){
+		switch (seChannel) {
 		case SE_CHANNEL.GetCoin:
 			audioSource.volume = 0.5f;
 			break;
@@ -64,23 +69,21 @@ public class SoundManager : MonoSingleton<SoundManager> {
 		audioSource.Play ();
 	}
 
-	public void FadeoutSE(SE_CHANNEL seChannel){
-		StartCoroutine ("Fadeout",seChannel);
+	public void FadeoutSE (SE_CHANNEL seChannel) {
+		StartCoroutine ("Fadeout", seChannel);
 	}
 
-	IEnumerator Fadeout(SE_CHANNEL seChannel)
-	{
+	IEnumerator Fadeout (SE_CHANNEL seChannel) {
 		int seChannelId = (int)seChannel;
 		AudioSource audioSource = mSEsourceArray [seChannelId];
 		float duration = 1f;
 		float currentTime = 0.0f;
 		float waitTime = 0.02f;
 		float firstVol = audioSource.volume;
-		while (duration > currentTime)
-		{
+		while (duration > currentTime) {
 			currentTime += Time.fixedDeltaTime;
-			audioSource.volume = Mathf.Clamp01(firstVol * (duration - currentTime) / duration);
-			yield return new WaitForSeconds(waitTime);
+			audioSource.volume = Mathf.Clamp01 (firstVol * (duration - currentTime) / duration);
+			yield return new WaitForSeconds (waitTime);
 		}
 	}
 }
