@@ -8,6 +8,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	public GameObject[] ballArray;
 	public GameObject label;
 	public GameObject ballParent;
+	public GameObject curtainHeadObject;
 
 	private float mTime;
 	private bool mLive;
@@ -48,6 +49,10 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		EntranceStageManager.instance.FinishLive ();
 	}
 
+	void OpenedCurtainEvent(){
+		curtainHeadObject.SetActive (false);
+	}
+
 	public void StartLive (float time) {
 		mTime = time;
 		CoinGenerator.instance.StopGenerating ();
@@ -59,6 +64,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 			ballObject.transform.localPosition = new Vector3 (0,0,0);
 		}
 		livePanelObject.SetActive (true);
+		curtainHeadObject.SetActive (true);
 		spinTextureObject.transform.localEulerAngles = new Vector3 (0,0,0);
 		SoundManager.instance.StopBGM ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Cheer);
