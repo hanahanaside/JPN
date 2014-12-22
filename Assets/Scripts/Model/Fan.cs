@@ -59,11 +59,12 @@ public class Fan : Character {
 	}
 
 	public override void Sleep () {
+		mRotateEvent.Stop ();
 		mState = State.Sleep;
 	}
 
 	public override void Wakeup () {
-		mState = State.Move;
+		StartMoving ();
 	}
 
 	public override void Stop () {
@@ -78,6 +79,12 @@ public class Fan : Character {
 		mState = State.Move;
 		mTime = moveTimeSeconds;
 		ChangeDirection (CheckDirection ());
+		if(characterTransform.localPosition.y >= movableArea.limitTop){
+			characterTransform.localPosition = new Vector3 (characterTransform.localPosition.x,movableArea.limitTop - 5.0f,0);
+		}
+		if(characterTransform.localPosition.y <= movableArea.limitBottom){
+			characterTransform.localPosition = new Vector3 (characterTransform.localPosition.x,movableArea.limitBottom +  5.0f,0);
+		}
 	}
 
 }
