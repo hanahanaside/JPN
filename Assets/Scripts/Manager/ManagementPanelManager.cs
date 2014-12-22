@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 
@@ -12,21 +13,25 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 	public UILabel generateCoinPowerLabel;
 	public UILabel totalIdleCountLabel;
 
+	private int mTotalIdleCount;
+	private double mTotalCoinCount;
+
 	public void ShowManagementPanel(){
 		FenceManager.instance.ShowFence ();
 		//ダイアログを表示
 		dialogObject.SetActive (true);
 		iTweenEvent.GetEvent (dialogObject,"ShowEvent").Play();
 		//コインの総獲得数を設置
-		totalCoinCountLabel.text = "" + GameMath.RoundZero (PlayerDataKeeper.instance.TotalCoinCount);
+		mTotalCoinCount = GameMath.RoundZero (PlayerDataKeeper.instance.TotalCoinCount);
+		totalCoinCountLabel.text = "" + mTotalCoinCount;
 		//現在のコイン生成パワーをセット
 		generateCoinPowerLabel.text = ""+GameMath.RoundOne (PlayerDataKeeper.instance.GenerateCoinPower);
 		//全データを取得
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
 		//アイドルの総人数を設置
-		int totalIdleCount = GetTotalIdleCount(stageList);
-		totalIdleCountLabel.text =  totalIdleCount + "人";
+		mTotalIdleCount = GetTotalIdleCount(stageList);
+		totalIdleCountLabel.text =  mTotalIdleCount + "人";
 		//エリアごとのアイドル情報のセルを設置
 		foreach(Stage stage in stageList){
 			GameObject areaInfoCell = Instantiate (areaInfoCellPrefab) as GameObject; 
@@ -42,6 +47,11 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 		
 	public void OnTweetButtonClicked(){
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		StringBuilder sb = new StringBuilder ();
+		sb.Append ("私の経営するアイドルグループの在籍人数が" + mTotalIdleCount +"人、\n");
+		sb.Append ("累計"+mTotalCoinCount +"円を稼ぎだしたよ！\n");
+		sb.Append ("このゲーム超面白いからやってみて！→http://tt5.us/jpn47");
+		TwitterClient.instance.Tweet (sb.ToString());
 	}
 
 	public void OnCloseButtonClicked(){
