@@ -7,7 +7,8 @@ public class PlayerData {
 		TicketCount,
 		CoinCount,
 		TotalCoinCount,
-		ExitDate
+		ExitDate,
+		GenerateCoinPower
 	}
 
 	public int TicketCount{ get; set; }
@@ -15,6 +16,8 @@ public class PlayerData {
 	public double CoinCount{ get; set; }
 
 	public double TotalCoinCount{ get; set; }
+
+	public double GenerateCoinPower{ get; set;}
 
 	public string ExitDate{ get; set; }
 }

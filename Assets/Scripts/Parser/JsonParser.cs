@@ -12,6 +12,8 @@ public static class JsonParser {
 		if (string.IsNullOrEmpty (json)) {
 			playerData.CoinCount = 100000000.1;
 			playerData.TicketCount = 100;
+			playerData.GenerateCoinPower = 0.01;
+			playerData.ExitDate = DateTime.Now.ToString ();
 			return playerData;
 		}
 		//double の値が整数値だとCast Exceptionになる
@@ -20,6 +22,7 @@ public static class JsonParser {
 			playerData.TicketCount = (int)((long)playerDataDictionary [PlayerData.Kies.TicketCount.ToString ()]);
 			playerData.ExitDate = (string)playerDataDictionary [PlayerData.Kies.ExitDate.ToString ()];
 			playerData.CoinCount = (double)(playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()]);
+			playerData.GenerateCoinPower = (double)(playerDataDictionary[PlayerData.Kies.GenerateCoinPower.ToString()]);
 		}catch(Exception e){
 			MyLog.LogDebug (e.Message);
 		}
@@ -32,6 +35,7 @@ public static class JsonParser {
 		playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()] = playerData.CoinCount;
 		playerDataDictionary [PlayerData.Kies.ExitDate.ToString ()] = playerData.ExitDate;
 		playerDataDictionary [PlayerData.Kies.TotalCoinCount.ToString ()] = playerData.TotalCoinCount;
+		playerDataDictionary [PlayerData.Kies.GenerateCoinPower.ToString ()] = playerData.GenerateCoinPower;
 		string playerDataString = Json.Serialize (playerDataDictionary);
 		return playerDataString;
 	}

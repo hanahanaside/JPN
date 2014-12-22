@@ -40,6 +40,12 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 			return mGenerateCoinPower;
 		}
 	}
+
+	public double SavedGenerateCoinPower{
+		get{
+			return mPlayerData.GenerateCoinPower;
+		}
+	}
 		
 	public void Init () {
 		string playerDataJson = PrefsManager.instance.PlayerDataJson;
@@ -49,6 +55,7 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 
 	public void SaveData () {
 		mPlayerData.ExitDate = DateTime.Now.ToString ();
+		mPlayerData.GenerateCoinPower = mGenerateCoinPower;
 		string playerDataJson = JsonParser.SerializePlayerData (mPlayerData);
 		PrefsManager.instance.PlayerDataJson = playerDataJson;
 		MyLog.LogDebug ("save player data " + playerDataJson);

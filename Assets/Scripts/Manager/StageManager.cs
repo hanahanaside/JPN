@@ -123,7 +123,7 @@ public class StageManager : MonoBehaviour {
 			character.Wakeup ();
 		}
 		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
+		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount);
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
@@ -243,7 +243,7 @@ public class StageManager : MonoBehaviour {
 		SetUntilSleepTime ();
 
 		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount) * mStageData.IdleCount;
+		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount);
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 

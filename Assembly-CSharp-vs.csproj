@@ -195,6 +195,7 @@
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\MapDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Dialog\SleepTimeCoinDialogManager.cs" />
      <Compile Include="Assets\Scripts\Entity\Area.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\Stage.cs" />

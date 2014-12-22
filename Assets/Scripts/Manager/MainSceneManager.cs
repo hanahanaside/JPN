@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
@@ -22,8 +23,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			ScoutStageManager.instance.PlayMoveInPlaneAnimation ();
 		} else {
 			StageGridManager.instance.MoveToStage (1);
-			EventManager.instance.Init ();
 		}
+		CalcSleepTimeCoin ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
@@ -43,13 +44,27 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			PlayerDataKeeper.instance.SaveData ();
 			#endif
 		} else {
-			//エディタだとStartの前に呼ばれてしまう
-			#if !UNITY_EDITOR
+			#if UNITY_EDITOR
+			return;
+			#endif
 			MyLog.LogDebug ("resume");
+			CalcSleepTimeCoin ();
 			//時間関係の処理の指令を出す
 			StageGridManager.instance.Resume ();
-			#endif
+
 		}
+	}
+
+	private void CalcSleepTimeCoin(){
+		DateTime dtNow = DateTime.Now;
+		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
+		TimeSpan ts = dtNow - dtExit;
+		Debug.Log ("ts " + ts.TotalSeconds);
+		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60) * ts.TotalSeconds;
+		Debug.Log ("addCoin " +addCoin);
+		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
+		FenceManager.instance.ShowFence ();
+		SleepTimeCoinDialogManager.instance.Show (addCoin);
 	}
 	
 		
