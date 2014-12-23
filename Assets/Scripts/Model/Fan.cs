@@ -13,7 +13,6 @@ public class Fan : Character {
 		mSpriteObject = characterTransform.FindChild ("Sprite").gameObject;
 		mRotateEvent = iTweenEvent.GetEvent (mSpriteObject, "RotateEvent");
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
-		StartMoving ();
 	}
 
 	void Update () {
@@ -42,6 +41,7 @@ public class Fan : Character {
 			break;
 		//スリープ
 		case State.Sleep:
+			mRotateEvent.Stop ();
 			break;
 		}
 	}
@@ -58,8 +58,7 @@ public class Fan : Character {
 		StartMoving ();
 	}
 
-	public override void Sleep () {
-		mRotateEvent.Stop ();
+	public override void Sleep () { 
 		mState = State.Sleep;
 	}
 
