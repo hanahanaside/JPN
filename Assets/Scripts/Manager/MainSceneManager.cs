@@ -60,7 +60,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
 		TimeSpan ts = dtNow - dtExit;
 		Debug.Log ("ts " + ts.TotalSeconds);
-		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60) * ts.TotalSeconds;
+		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
 		Debug.Log ("addCoin " +addCoin);
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
 		FenceManager.instance.ShowFence ();
