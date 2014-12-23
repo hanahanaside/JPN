@@ -34,6 +34,17 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	public void MoveToStage (int stageIndex) {
 		mCenterOnChild.CenterOn (stageGrid.GetChild (stageIndex));
 	}
+
+	public void MoveToSleepStage(){
+		List<Transform> childList = stageGrid.GetChildList ();
+		for(int i = 0;i < childList.Count;i++){
+			Transform childTransform = childList[i];
+			if(childTransform.gameObject.tag == "sleep"){
+				MoveToStage (i);
+				break;
+			}
+		}
+	}
 		
 	public void Resume(){
 		foreach(StageManager stageManager in mStageManagerList){

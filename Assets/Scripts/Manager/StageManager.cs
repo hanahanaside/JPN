@@ -5,6 +5,9 @@ using System;
 
 public class StageManager : MonoBehaviour {
 
+	public static event Action SleepEvent;
+	public static event Action WakeupEvent;
+
 	enum State {
 		Normal,
 		Sleep,
@@ -126,6 +129,7 @@ public class StageManager : MonoBehaviour {
 		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount);
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
+		WakeupEvent ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
 		MyLog.LogDebug ("wake up stage " + mStageData.Id);
 	}
@@ -143,6 +147,7 @@ public class StageManager : MonoBehaviour {
 			character.Sleep ();
 		}
 		PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
+		SleepEvent ();
 		MyLog.LogDebug ("sleep stage " + mStageData.Id);
 	}
 
