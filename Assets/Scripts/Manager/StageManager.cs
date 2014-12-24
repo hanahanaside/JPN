@@ -171,6 +171,7 @@ public class StageManager : MonoBehaviour {
 		transform.parent.gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);
+			WakeupEvent ();
 			PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
 		foreach (Character character in mCharacterList) {
@@ -202,6 +203,19 @@ public class StageManager : MonoBehaviour {
 		}
 		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
 		idleCountLabel.text = "×" + mStageData.IdleCount;
+		if (mState == State.Sleep) {
+			foreach (Character character in mCharacterList) {
+				character.Sleep ();
+			}
+		}
+	}
+
+	public void RemoveIdle (int count) {
+		for(int i = 0;i < count;i++){
+			Character character = mCharacterList [0];
+			mCharacterList.Remove (character);
+			Destroy (character.gameObject);
+		}
 	}
 		
 	//迷子のアイドルを生成
@@ -249,6 +263,13 @@ public class StageManager : MonoBehaviour {
 
 	//通常時の初期化処理
 	private void InitNormal () {
+
+		//アイドルを生成
+		for (int i = 0; i < mStageData.IdleCount; i++) {
+			GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + areaParams.stageId) as GameObject;
+			GenerateIdle (idlePrefab);
+		}
+
 		//ファンを生成
 		for (int i = 0; i < fanPositionArray.Length; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
@@ -260,11 +281,6 @@ public class StageManager : MonoBehaviour {
 			mCharacterList.Add (fanObject.GetComponent<Character> ());
 		}
 
-		//アイドルを生成
-		for (int i = 0; i < mStageData.IdleCount; i++) {
-			GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + areaParams.stageId) as GameObject;
-			GenerateIdle (idlePrefab);
-		}
 
 		//エリア名をセット
 		areaNameLabel.text = mStageData.AreaName;

@@ -66,6 +66,11 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		}
 	}
 
+	public void RemoveIdle(int stageId,int count){
+		StageManager stageManager = mStageManagerList[stageId-1];
+		stageManager.RemoveIdle (count);
+	}
+
 	public void GenerateIdle () {
 		LostIdleEvent lostIdleEvent =  Resources.Load ("Data/LostIdleEvent") as LostIdleEvent;
 		StageManager stageManager = mStageManagerList [lostIdleEvent.lostIdleID - 1];

@@ -8,16 +8,23 @@ public class EventManager : MonoSingleton<EventManager> {
 	public GameObject sleepButtonObject;
 	public GameObject liveButtonObject;
 	public GameObject LostButtonObject;
-	public GameObject TransferButtonObject;
+	public GameObject TradeButtonObject;
 	public GameObject newsButtonObject;
 	public GameObject eventPanelObject;
+	public GameObject okButtonObject;
+	public GameObject yesButtonObject;
+	public GameObject noButtonObject;
 	public UILabel messageLabel;
 
 	private int mSleepStageCount;
 	private LostIdleEvent mLostIdleEvent;
+	private TradeIdleEvent mTradeIdleEvent;
 
 	public void Init () {
+		//全てのイベント情報を取得
 		mLostIdleEvent = Resources.Load ("Data/LostIdleEvent") as LostIdleEvent;
+		mTradeIdleEvent = Resources.Load ("Data/TradeIdleEvent") as TradeIdleEvent;
+
 		//	int[] eventIdArray = { -1, -1, -1, -1, -1, -1, -1, 0, 1, 2 };
 		int[] eventIdArray = { 0, 1, 2 };
 		int rand = UnityEngine.Random.Range (0, eventIdArray.Length);
@@ -30,14 +37,16 @@ public class EventManager : MonoSingleton<EventManager> {
 			break;
 		case 1:
 			//移籍
-			TransferButtonObject.SetActive (true);
+			OccurTradeIdleEvent ();
 			break;
 		case 2:
 			//ニュース
 			newsButtonObject.SetActive (true);
 			break;
 		}
-
+		if (mTradeIdleEvent.occurring) {
+			TradeButtonObject.SetActive (true);
+		}
 	}
 
 	public void GenerateLostIdle () {
@@ -46,9 +55,9 @@ public class EventManager : MonoSingleton<EventManager> {
 			LostButtonObject.SetActive (true);
 			StageGridManager.instance.GenerateLostIdle (mLostIdleEvent.lostIdleID, mLostIdleEvent.lostIdleCount);
 		}
-
 	}
 
+	//迷子イベントを発生させる
 	private void RaiseLostIdleEvent () {
 		//迷子のアイドルが0人だったらイベント開始
 		if (mLostIdleEvent.lostIdleCount <= 0) {
@@ -66,6 +75,29 @@ public class EventManager : MonoSingleton<EventManager> {
 			Debug.Log ("id " + stage.Id);
 			Debug.Log ("count " + count);
 		}
+	}
+
+	//トレードイベントを発生させる
+	private void OccurTradeIdleEvent () {
+		//発生中だったら何もしない
+		if (mTradeIdleEvent.occurring) {
+			Debug.Log ("い");
+			return;
+		}
+		StageDao dao = DaoFactory.CreateStageDao ();
+		List<Stage> stageList = dao.SelectAll ();
+		int rand = UnityEngine.Random.Range (0, stageList.Count);
+		Stage stage = stageList [rand];
+		//アイドルの数が1人以下だったら何もしない
+		if (stage.IdleCount <= 1) {
+			Debug.Log ("あ");
+			return;
+		}
+		mTradeIdleEvent.idleID = stage.Id;
+		mTradeIdleEvent.idleCount = UnityEngine.Random.Range (1, stage.IdleCount);
+		mTradeIdleEvent.reward = stage.Id * mTradeIdleEvent.idleCount * 100;
+		mTradeIdleEvent.occurring = true;
+		Debug.Log ("発生");
 	}
 
 	void OnEnable () {
@@ -112,7 +144,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			sb.Append ("すべて見つけたんだね！\n");
 			sb.Append (mLostIdleEvent.reward + "コインゲット!!");
 			ShowEventPanel (sb.ToString ());
-			TransferButtonObject.SetActive (false);
+			TradeButtonObject.SetActive (false);
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
 			Stage stage = stageList [mLostIdleEvent.lostIdleID - 1];
@@ -147,14 +179,21 @@ public class EventManager : MonoSingleton<EventManager> {
 		sb.Append ("他の都道府県にまぎれこんでいるから、見つけたらタップしよう！\n");
 		sb.Append ("すべて見つけたらボーナスだ！");
 		ShowEventPanel (sb.ToString ());
+		yesButtonObject.SetActive (false);
+		noButtonObject.SetActive (false);
+		okButtonObject.SetActive (true);
 	}
 
 	public void TransferButtonClicked () {
+		StageDao dao = DaoFactory.CreateStageDao ();
+		Stage stage = dao.SelectById (mTradeIdleEvent.idleID);
 		StringBuilder sb = new StringBuilder ();
-		sb.Append ("新潟の子かわいいね！\n");
-		sb.Append ("3人を2000コインでうちに\n");
-		sb.Append ("移籍させてくれないか？");
+		sb.Append (stage.AreaName + "はすごく人気だね！！\n");
+		sb.Append (mTradeIdleEvent.idleCount + "人を" + mTradeIdleEvent.reward + "コインでうちの事務所に移籍させてくれないかな？\n");
 		ShowEventPanel (sb.ToString ());
+		yesButtonObject.SetActive (true);
+		noButtonObject.SetActive (true);
+		okButtonObject.SetActive (false);
 	}
 
 	public void NewsButtonClicked () {
@@ -164,14 +203,33 @@ public class EventManager : MonoSingleton<EventManager> {
 		sb.Append ("2000コインゲットだ！");
 		ShowEventPanel (sb.ToString ());
 		newsButtonObject.SetActive (false);
+		yesButtonObject.SetActive (false);
+		noButtonObject.SetActive (false);
+		okButtonObject.SetActive (true);
 	}
 
+	//移籍の時のみ発動
 	public void YesButtonClicked () {
+		PlayerDataKeeper.instance.IncreaseCoinCount (mTradeIdleEvent.reward);
+		StageDao dao = DaoFactory.CreateStageDao ();
+		Stage stage = dao.SelectById (mTradeIdleEvent.idleID);
+		stage.IdleCount -= mTradeIdleEvent.idleCount;
+		dao.UpdateRecord (stage);
+		mTradeIdleEvent.occurring = false;
+		TradeButtonObject.SetActive (false);
+		StageGridManager.instance.RemoveIdle (mTradeIdleEvent.idleID, mTradeIdleEvent.idleCount);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 	}
 
+	//移籍の時のみ発動
 	public void NoButtonClicked () {
+		mTradeIdleEvent.occurring = false;
+		TradeButtonObject.SetActive (false);
+		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
+	}
 
+	public void OKButtonClicked () {
+		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 	}
 
 	private void ShowEventPanel (string text) {
