@@ -59,8 +59,10 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	}
 
 	public void SaveData () {
-		mPlayerData.ExitDate = DateTime.Now.ToString ();
-		mPlayerData.GenerateCoinPower = mGenerateCoinPower;
+		if(Application.loadedLevelName == "Main"){
+			mPlayerData.GenerateCoinPower = mGenerateCoinPower;
+			mPlayerData.ExitDate = DateTime.Now.ToString ();
+		}
 		string playerDataJson = JsonParser.SerializePlayerData (mPlayerData);
 		PrefsManager.instance.PlayerDataJson = playerDataJson;
 		MyLog.LogDebug ("save player data " + playerDataJson);

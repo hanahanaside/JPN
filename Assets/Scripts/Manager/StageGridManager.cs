@@ -72,7 +72,7 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	}
 
 	public void GenerateIdle () {
-		LostIdleEvent lostIdleEvent =  Resources.Load ("Data/LostIdleEvent") as LostIdleEvent;
+		LostIdleEvent lostIdleEvent =  Resources.Load ("Event/LostIdleEvent") as LostIdleEvent;
 		StageManager stageManager = mStageManagerList [lostIdleEvent.lostIdleID - 1];
 		stageManager.AddIdle (lostIdleEvent.lostIdleCount);
 	}

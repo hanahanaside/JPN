@@ -236,6 +236,7 @@
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
      <Compile Include="Assets\Scripts\Referee\Referee.cs" />
      <Compile Include="Assets\Scripts\ScriptableObject\LostIdleEvent.cs" />
+     <Compile Include="Assets\Scripts\ScriptableObject\NewsEvent.cs" />
      <Compile Include="Assets\Scripts\ScriptableObject\TradeIdleEvent.cs" />
      <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
@@ -244,6 +245,7 @@
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
+     <Compile Include="Assets\Terasurware\Classes\Entity_News.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransform.cs" />
