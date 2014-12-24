@@ -216,6 +216,8 @@ public class StageManager : MonoBehaviour {
 			mCharacterList.Remove (character);
 			Destroy (character.gameObject);
 		}
+		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
+		idleCountLabel.text = "×" + mStageData.IdleCount;
 	}
 		
 	//迷子のアイドルを生成

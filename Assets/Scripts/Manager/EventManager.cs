@@ -15,6 +15,7 @@ public class EventManager : MonoSingleton<EventManager> {
 	public GameObject yesButtonObject;
 	public GameObject noButtonObject;
 	public UILabel messageLabel;
+	public UILabel coinLabel;
 
 	private int mSleepStageCount;
 	private LostIdleEvent mLostIdleEvent;
@@ -191,6 +192,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		sb.Append (stage.AreaName + "はすごく人気だね！！\n");
 		sb.Append (mTradeIdleEvent.idleCount + "人を" + mTradeIdleEvent.reward + "コインでうちの事務所に移籍させてくれないかな？\n");
 		ShowEventPanel (sb.ToString ());
+		coinLabel.text = "" + mTradeIdleEvent.reward;
 		yesButtonObject.SetActive (true);
 		noButtonObject.SetActive (true);
 		okButtonObject.SetActive (false);
