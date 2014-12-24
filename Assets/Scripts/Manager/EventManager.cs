@@ -14,15 +14,10 @@ public class EventManager : MonoSingleton<EventManager> {
 	public UILabel messageLabel;
 
 	private int mSleepStageCount;
-
-	enum lostIdleKies {
-		lostIdleID,
-		lostIdleCount,
-		findIdleCount,
-		reward
-	}
+	private LostIdleEvent mLostIdleEvent;
 
 	public void Init () {
+		mLostIdleEvent = Resources.Load ("Data/LostIdleEvent") as LostIdleEvent;
 		//	int[] eventIdArray = { -1, -1, -1, -1, -1, -1, -1, 0, 1, 2 };
 		int[] eventIdArray = { 0, 1, 2 };
 		int rand = UnityEngine.Random.Range (0, eventIdArray.Length);
@@ -47,19 +42,16 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	public void GenerateLostIdle () {
 		//迷子のアイドルがいれば生成してアラートを表示
-		int[] lostIdleInfoArray = PrefsManager.instance.LostIdleInfoArray;
-		if (lostIdleInfoArray [(int)lostIdleKies.lostIdleCount] >= 1) {
+		if (mLostIdleEvent.lostIdleCount >= 1) {
 			LostButtonObject.SetActive (true);
-			StageGridManager.instance.GenerateLostIdle (lostIdleInfoArray [(int)lostIdleKies.lostIdleID], lostIdleInfoArray [(int)lostIdleKies.lostIdleCount]);
+			StageGridManager.instance.GenerateLostIdle (mLostIdleEvent.lostIdleID, mLostIdleEvent.lostIdleCount);
 		}
 
 	}
 
 	private void RaiseLostIdleEvent () {
-		//迷子のアイドルの情報を取得
-		int[] lostIdleInfoArray = PrefsManager.instance.LostIdleInfoArray;
 		//迷子のアイドルが0人だったらイベント開始
-		if (lostIdleInfoArray [(int)lostIdleKies.lostIdleCount] <= 0) {
+		if (mLostIdleEvent.lostIdleCount <= 0) {
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
 			int rand = UnityEngine.Random.Range (0, stageList.Count);
@@ -67,11 +59,10 @@ public class EventManager : MonoSingleton<EventManager> {
 			int count = UnityEngine.Random.Range (0, stage.IdleCount);
 			stage.IdleCount -= count;
 			dao.UpdateRecord (stage);
-			lostIdleInfoArray [(int)lostIdleKies.lostIdleID] = stage.Id;
-			lostIdleInfoArray [(int)lostIdleKies.lostIdleCount] = count;
-			lostIdleInfoArray [(int)lostIdleKies.findIdleCount] = 0;
-			lostIdleInfoArray [(int)lostIdleKies.reward] = stage.Id * count * 10;
-			PrefsManager.instance.LostIdleInfoArray = lostIdleInfoArray;
+			mLostIdleEvent.lostIdleID = stage.Id;
+			mLostIdleEvent.lostIdleCount = count;
+			mLostIdleEvent.foundIdleCount = 0;
+			mLostIdleEvent.reward = stage.Id * count * 10;
 			Debug.Log ("id " + stage.Id);
 			Debug.Log ("count " + count);
 		}
@@ -112,30 +103,25 @@ public class EventManager : MonoSingleton<EventManager> {
 	}
 
 	void FoundIdleEvent (Character character) {
-		int[] lostIdleInfoArray = PrefsManager.instance.LostIdleInfoArray;
-		lostIdleInfoArray [(int)lostIdleKies.findIdleCount]++;
-		Debug.Log ("find count " + lostIdleInfoArray [(int)lostIdleKies.findIdleCount]);
-		if (lostIdleInfoArray [(int)lostIdleKies.findIdleCount] == lostIdleInfoArray [(int)lostIdleKies.lostIdleCount]) {
-			int reward = lostIdleInfoArray [(int)lostIdleKies.reward];
-			int idleId = lostIdleInfoArray [(int)lostIdleKies.lostIdleID];
-			int lostCount = lostIdleInfoArray [(int)lostIdleKies.lostIdleCount];
-			PlayerDataKeeper.instance.IncreaseCoinCount (reward);
+		mLostIdleEvent.foundIdleCount++;
+		Debug.Log ("find count " + mLostIdleEvent.foundIdleCount);
+		if (mLostIdleEvent.foundIdleCount == mLostIdleEvent.lostIdleCount) {
+			PlayerDataKeeper.instance.IncreaseCoinCount (mLostIdleEvent.reward);
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("すごい！\n");
 			sb.Append ("すべて見つけたんだね！\n");
-			sb.Append (reward + "コインゲット!!");
+			sb.Append (mLostIdleEvent.reward + "コインゲット!!");
 			ShowEventPanel (sb.ToString ());
 			TransferButtonObject.SetActive (false);
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
-			Stage stage = stageList [idleId - 1];
-			stage.IdleCount += lostCount;
+			Stage stage = stageList [mLostIdleEvent.lostIdleID - 1];
+			stage.IdleCount += mLostIdleEvent.lostIdleCount;
 			dao.UpdateRecord (stage);
-			lostIdleInfoArray [(int)lostIdleKies.lostIdleCount] = 0;
+			StageGridManager.instance.GenerateIdle ();
+			mLostIdleEvent.lostIdleCount = 0;
 			LostButtonObject.SetActive (false);
-			StageGridManager.instance.GenerateIdle (idleId, lostCount);
 		}
-		PrefsManager.instance.LostIdleInfoArray = lostIdleInfoArray;
 	}
 
 	void CompleteDismissEvent () { 
@@ -153,14 +139,11 @@ public class EventManager : MonoSingleton<EventManager> {
 	}
 
 	public void LostButtonClicked () {
-		int[] lostIdleInfoArray = PrefsManager.instance.LostIdleInfoArray;
-		int idleId = lostIdleInfoArray [(int)lostIdleKies.lostIdleID];
-		int lostCount = lostIdleInfoArray [(int)lostIdleKies.lostIdleCount];
 		StageDao dao = DaoFactory.CreateStageDao ();
-		Stage stage = dao.SelectById (idleId);
+		Stage stage = dao.SelectById (mLostIdleEvent.lostIdleID);
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("大変だ！\n");
-		sb.Append (stage.AreaName + "のアイドルが " + lostCount + "人迷子になったぞ！\n");
+		sb.Append (stage.AreaName + "のアイドルが " + mLostIdleEvent.lostIdleCount + "人迷子になったぞ！\n");
 		sb.Append ("他の都道府県にまぎれこんでいるから、見つけたらタップしよう！\n");
 		sb.Append ("すべて見つけたらボーナスだ！");
 		ShowEventPanel (sb.ToString ());

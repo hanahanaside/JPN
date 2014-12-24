@@ -235,6 +235,7 @@
      <Compile Include="Assets\Scripts\Prefs\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
      <Compile Include="Assets\Scripts\Referee\Referee.cs" />
+     <Compile Include="Assets\Scripts\ScriptableObject\LostIdleEvent.cs" />
      <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
