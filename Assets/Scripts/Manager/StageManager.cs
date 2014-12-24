@@ -111,7 +111,7 @@ public class StageManager : MonoBehaviour {
 		}
 	}
 
-	void FoundIdleEvent(Character character){
+	void FoundIdleEvent (Character character) {
 		mCharacterList.Remove (character);
 	}
 
@@ -194,6 +194,16 @@ public class StageManager : MonoBehaviour {
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 	}
 
+	//アイドル発見時に追加する処理
+	public void AddIdle (int count) {
+		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject; 
+		for (int i = 0; i < count; i++) {
+			GenerateIdle (idlePrefab);
+		}
+		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
+		idleCountLabel.text = "×" + mStageData.IdleCount;
+	}
+		
 	//迷子のアイドルを生成
 	public void GenerateLostIdle (int idleId) {
 		GameObject lostIdlePrefab = Resources.Load ("Model/Idle/Idle_" + idleId) as GameObject;
@@ -287,7 +297,7 @@ public class StageManager : MonoBehaviour {
 		mCharacterList.Add (idleObject.GetComponent<Character> ());
 		return idleObject;
 	}
-
+		
 	//建設中の時間をセット
 	private void SetConstructionTime () {
 		//	mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;

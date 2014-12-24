@@ -66,7 +66,12 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		}
 	}
 
-	private int CreateStageIndex(int idleId){
+	public void GenerateIdle (int idleId, int count) {
+		StageManager stageManager = mStageManagerList [idleId - 1];
+		stageManager.AddIdle (count);
+	}
+
+	private int CreateStageIndex (int idleId) {
 		int rand = Random.Range (0, StageGridManager.instance.StageCount);
 		while (rand + 1 == idleId) {
 			rand = Random.Range (0, StageGridManager.instance.StageCount);

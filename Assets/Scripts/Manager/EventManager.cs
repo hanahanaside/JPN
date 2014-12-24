@@ -117,6 +117,8 @@ public class EventManager : MonoSingleton<EventManager> {
 		Debug.Log ("find count " + lostIdleInfoArray [(int)lostIdleKies.findIdleCount]);
 		if (lostIdleInfoArray [(int)lostIdleKies.findIdleCount] == lostIdleInfoArray [(int)lostIdleKies.lostIdleCount]) {
 			int reward = lostIdleInfoArray [(int)lostIdleKies.reward];
+			int idleId = lostIdleInfoArray [(int)lostIdleKies.lostIdleID];
+			int lostCount = lostIdleInfoArray [(int)lostIdleKies.lostIdleCount];
 			PlayerDataKeeper.instance.IncreaseCoinCount (reward);
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("全員発見しました！\n");
@@ -125,11 +127,12 @@ public class EventManager : MonoSingleton<EventManager> {
 			TransferButtonObject.SetActive (false);
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
-			Stage stage = stageList[lostIdleInfoArray [(int)lostIdleKies.lostIdleID] -1 ];
-			stage.IdleCount += lostIdleInfoArray [(int)lostIdleKies.lostIdleCount];
+			Stage stage = stageList[idleId -1 ];
+			stage.IdleCount += lostCount;
 			dao.UpdateRecord (stage);
 			lostIdleInfoArray [(int)lostIdleKies.lostIdleCount] = 0;
 			LostButtonObject.SetActive (false);
+			StageGridManager.instance.GenerateIdle (idleId,lostCount);
 		}
 		PrefsManager.instance.LostIdleInfoArray = lostIdleInfoArray;
 	}
