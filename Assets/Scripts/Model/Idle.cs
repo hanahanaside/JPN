@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Idle : Character {
 		
+	public static event Action<Character> FoundEvent;
+
 	private string idleId;
 
 	private float mTime;
@@ -15,11 +18,11 @@ public class Idle : Character {
 	private UISprite mSprite;
 
 	public void Init () {
-		idleId = name.Replace ("Idle_","");
-		idleId = idleId.Replace ("(Clone)","");
+		idleId = name.Replace ("Idle_", "");
+		idleId = idleId.Replace ("(Clone)", "");
 		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
-		mIdleEvent = iTweenEvent.GetEvent (gameObject,"IdleEvent");
+		mIdleEvent = iTweenEvent.GetEvent (gameObject, "IdleEvent");
 		mScaleEvent = iTweenEvent.GetEvent (mSprite.gameObject, "ScaleEvent");
 		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject, "RotateEvent");
 		ResizeSprite ();
@@ -41,7 +44,7 @@ public class Idle : Character {
 				mTime = moveTimeSeconds;
 				ChangeDirection (CheckDirection ());
 				mIdleEvent.Stop ();
-				transform.localEulerAngles = new Vector3 (0,0,0);
+				transform.localEulerAngles = new Vector3 (0, 0, 0);
 				mJumpEvent.Play ();
 				mScaleEvent.Play ();
 			}
@@ -64,7 +67,7 @@ public class Idle : Character {
 		mTime = stopTimeSeconds;
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
-		mSprite.transform.localScale = new Vector3 (1f,1f,1f);
+		mSprite.transform.localScale = new Vector3 (1f, 1f, 1f);
 		mIdleEvent.Play ();
 	}
 
@@ -83,15 +86,15 @@ public class Idle : Character {
 			Stop ();
 		}
 	}
-		
+
 	public override void Sleep () {
 		mState = State.Sleep;
 		mIdleEvent.Stop ();
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
 		mSprite.spriteName = "idle_sleep_" + idleId;
-		mSprite.transform.localScale = new Vector3 (1f,1f,1f);
-		transform.localEulerAngles = new Vector3 (0,0,0);
+		mSprite.transform.localScale = new Vector3 (1f, 1f, 1f);
+		transform.localEulerAngles = new Vector3 (0, 0, 0);
 		ResizeSprite ();
 	}
 
@@ -115,7 +118,7 @@ public class Idle : Character {
 		mSprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 	}
 
-	public override void StartMoving(){
+	public override void StartMoving () {
 		mState = State.Move;
 		mSprite.spriteName = "idle_normal_" + idleId;
 		ResizeSprite ();
@@ -123,6 +126,17 @@ public class Idle : Character {
 		ChangeDirection (CheckDirection ());
 		mJumpEvent.Play ();
 		mScaleEvent.Play ();
+	}
+
+	public void OnClick () {
+		FoundEvent (this);
+		GameObject effectPrefab = Resources.Load ("Effect/GetCoinEffect") as GameObject;
+		GameObject effectObject = Instantiate (effectPrefab) as GameObject;
+		effectObject.transform.parent = characterTransform.parent;
+		effectObject.transform.localScale = new Vector3 (1,1,1);
+		effectObject.transform.localPosition = characterTransform.localPosition;
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
+		Destroy (gameObject);
 	}
 
 	private void ResizeSprite () {

@@ -18,11 +18,17 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		}
 	}
 
+	public int StageCount {
+		get {
+			return mStageManagerList.Count;
+		}
+	}
+
 	public  void CreateStageGrid () {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
 		mStageManagerList = new List<StageManager> ();
-		foreach(Stage stage in stageList){
+		foreach (Stage stage in stageList) {
 			GameObject stagePrefab = Resources.Load ("Stage/Stage_" + stage.Id) as GameObject;
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			stageGrid.AddChild (stageObject.transform);
@@ -35,20 +41,36 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		mCenterOnChild.CenterOn (stageGrid.GetChild (stageIndex));
 	}
 
-	public void MoveToSleepStage(){
+	public void MoveToSleepStage () {
 		List<Transform> childList = stageGrid.GetChildList ();
-		for(int i = 0;i < childList.Count;i++){
-			Transform childTransform = childList[i];
-			if(childTransform.gameObject.tag == "sleep"){
+		for (int i = 0; i < childList.Count; i++) {
+			Transform childTransform = childList [i];
+			if (childTransform.gameObject.tag == "sleep") {
 				MoveToStage (i);
 				break;
 			}
 		}
 	}
-		
-	public void Resume(){
-		foreach(StageManager stageManager in mStageManagerList){
+
+	public void Resume () {
+		foreach (StageManager stageManager in mStageManagerList) {
 			stageManager.Resume ();
 		}
+	}
+
+	public void GenerateLostIdle (int idleId, int count) {
+		for (int i = 0; i < count; i++) {
+			int stageIndex = CreateStageIndex (idleId);
+			StageManager stageManager = mStageManagerList [stageIndex];
+			stageManager.GenerateLostIdle (idleId);
+		}
+	}
+
+	private int CreateStageIndex(int idleId){
+		int rand = Random.Range (0, StageGridManager.instance.StageCount);
+		while (rand + 1 == idleId) {
+			rand = Random.Range (0, StageGridManager.instance.StageCount);
+		}
+		return rand;
 	}
 }

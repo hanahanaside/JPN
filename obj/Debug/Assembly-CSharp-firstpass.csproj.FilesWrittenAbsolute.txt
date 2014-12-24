@@ -8,3 +8,4 @@
 /Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/nunit.framework.dll
 /Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Unity.DataContract.dll
 /Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/P31RestKit.dll

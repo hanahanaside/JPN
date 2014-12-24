@@ -15,6 +15,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void Start () {
 		MyLog.LogDebug ("start");
+		EventManager.instance.Init ();
 		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
@@ -25,6 +26,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			StageGridManager.instance.MoveToStage (1);
 		}
 		CalcSleepTimeCoin ();
+		EventManager.instance.GenerateLostIdle ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
@@ -44,14 +46,12 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			PlayerDataKeeper.instance.SaveData ();
 			#endif
 		} else {
-			#if UNITY_EDITOR
-			return;
-			#endif
 			MyLog.LogDebug ("resume");
+			#if !UNITY_EDITOR
 			CalcSleepTimeCoin ();
 			//時間関係の処理の指令を出す
 			StageGridManager.instance.Resume ();
-
+			#endif
 		}
 	}
 

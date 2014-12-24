@@ -9,7 +9,8 @@ public class PrefsManager :Singleton<PrefsManager> {
 		ClearedPuzzleCountArray,
 		BGM_ON,
 		SE_ON,
-		NotificationON
+		NotificationON,
+		LostIdleInfoArray
 	}
 
 	public string PlayerDataJson {
@@ -44,6 +45,16 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 		set {
 			PlayerPrefsX.SetIntArray (Kies.ClearedPuzzleCountArray.ToString (), value);
+		}
+	}
+
+	public int[] LostIdleInfoArray {
+		get {
+			int[] lostIdleInfoArray = PlayerPrefsX.GetIntArray (Kies.LostIdleInfoArray.ToString (), 0, 4);
+			return lostIdleInfoArray;
+		}
+		set {
+			PlayerPrefsX.SetIntArray (Kies.LostIdleInfoArray.ToString (), value);
 		}
 	}
 
