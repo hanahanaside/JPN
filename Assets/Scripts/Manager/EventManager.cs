@@ -45,7 +45,7 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	}
 
-	public void GenerateLostIdle(){
+	public void GenerateLostIdle () {
 		//迷子のアイドルがいれば生成してアラートを表示
 		int[] lostIdleInfoArray = PrefsManager.instance.LostIdleInfoArray;
 		if (lostIdleInfoArray [(int)lostIdleKies.lostIdleCount] >= 1) {
@@ -106,7 +106,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			StopScaleEvent (sleepButtonObject);
 			sleepButtonObject.SetActive (false);
 		}
-		if(liveButtonObject.activeSelf){
+		if (liveButtonObject.activeSelf) {
 			liveButtonObject.SetActive (false);
 		}
 	}
@@ -121,18 +121,19 @@ public class EventManager : MonoSingleton<EventManager> {
 			int lostCount = lostIdleInfoArray [(int)lostIdleKies.lostIdleCount];
 			PlayerDataKeeper.instance.IncreaseCoinCount (reward);
 			StringBuilder sb = new StringBuilder ();
-			sb.Append ("全員発見しました！\n");
+			sb.Append ("すごい！\n");
+			sb.Append ("すべて見つけたんだね！\n");
 			sb.Append (reward + "コインゲット!!");
 			ShowEventPanel (sb.ToString ());
 			TransferButtonObject.SetActive (false);
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
-			Stage stage = stageList[idleId -1 ];
+			Stage stage = stageList [idleId - 1];
 			stage.IdleCount += lostCount;
 			dao.UpdateRecord (stage);
 			lostIdleInfoArray [(int)lostIdleKies.lostIdleCount] = 0;
 			LostButtonObject.SetActive (false);
-			StageGridManager.instance.GenerateIdle (idleId,lostCount);
+			StageGridManager.instance.GenerateIdle (idleId, lostCount);
 		}
 		PrefsManager.instance.LostIdleInfoArray = lostIdleInfoArray;
 	}
@@ -152,10 +153,16 @@ public class EventManager : MonoSingleton<EventManager> {
 	}
 
 	public void LostButtonClicked () {
+		int[] lostIdleInfoArray = PrefsManager.instance.LostIdleInfoArray;
+		int idleId = lostIdleInfoArray [(int)lostIdleKies.lostIdleID];
+		int lostCount = lostIdleInfoArray [(int)lostIdleKies.lostIdleCount];
+		StageDao dao = DaoFactory.CreateStageDao ();
+		Stage stage = dao.SelectById (idleId);
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("大変だ！\n");
-		sb.Append ("何人か迷子になってる子がいるみたいだ！\n");
-		sb.Append ("見つけてきてくれ！");
+		sb.Append (stage.AreaName + "のアイドルが " + lostCount + "人迷子になったぞ！\n");
+		sb.Append ("他の都道府県にまぎれこんでいるから、見つけたらタップしよう！\n");
+		sb.Append ("すべて見つけたらボーナスだ！");
 		ShowEventPanel (sb.ToString ());
 	}
 
