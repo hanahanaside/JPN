@@ -25,7 +25,10 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		} else {
 			StageGridManager.instance.MoveToStage (1);
 		}
-		CalcSleepTimeCoin ();
+
+			CalcSleepTimeCoin ();
+
+
 		EventManager.instance.GenerateLostIdle ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}

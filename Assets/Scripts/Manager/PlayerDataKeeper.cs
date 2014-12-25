@@ -38,6 +38,9 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		get{
 			return mPlayerData.ExitDate;
 		}
+		set{
+			mPlayerData.ExitDate = value;
+		}
 	}
 
 	public double GenerateCoinPower{

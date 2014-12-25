@@ -3,13 +3,14 @@ using System.Collections;
 
 public class PlayerData {
 
-	public int TicketCount{ get; set; }
+	public int TicketCount = 100;
 
-	public double CoinCount{ get; set; }
+	public double CoinCount = 10000;
 
-	public double TotalCoinCount{ get; set; }
+	public double TotalCoinCount = 10000;
 
-	public double GenerateCoinPower{ get; set;}
+	public double GenerateCoinPower;
 
-	public string ExitDate{ get; set; }
+	public string ExitDate = System.DateTime.Now.ToString();
+
 }
