@@ -7,4 +7,5 @@ public class LostIdleEvent : ScriptableObject {
 	public int lostIdleCount;
 	public int foundIdleCount;
 	public int reward;
+	public bool occurring;
 }

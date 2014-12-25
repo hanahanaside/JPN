@@ -58,7 +58,7 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	public void GenerateLostIdle () {
 		//迷子のアイドルがいれば生成してアラートを表示
-		if (lostIdleEvent.lostIdleCount >= 1) {
+		if (lostIdleEvent.occurring) {
 			LostButtonObject.SetActive (true);
 			StageGridManager.instance.GenerateLostIdle (lostIdleEvent.lostIdleID, lostIdleEvent.lostIdleCount);
 		}
@@ -68,7 +68,7 @@ public class EventManager : MonoSingleton<EventManager> {
 	private void RaiseLostIdleEvent () {
 		MyLog.LogDebug ("迷子イベント");
 		//迷子のアイドルが0人だったらイベント開始
-		if (lostIdleEvent.lostIdleCount > 0) {
+		if (lostIdleEvent.occurring) {
 			Debug.Log ("発生中");
 			return;
 		}
@@ -88,6 +88,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		lostIdleEvent.lostIdleCount = count;
 		lostIdleEvent.foundIdleCount = 0;
 		lostIdleEvent.reward = stage.Id * count * 10;
+		lostIdleEvent.occurring = true;
 		Debug.Log ("id " + stage.Id);
 		Debug.Log ("count " + count);
 		MyLog.LogDebug ("迷子イベント開始");
@@ -175,7 +176,7 @@ public class EventManager : MonoSingleton<EventManager> {
 	void FoundIdleEvent (Character character) {
 		lostIdleEvent.foundIdleCount++;
 		Debug.Log ("find count " + lostIdleEvent.foundIdleCount);
-		if (lostIdleEvent.foundIdleCount == lostIdleEvent.lostIdleCount) {
+		if (lostIdleEvent.foundIdleCount >= lostIdleEvent.lostIdleCount) {
 			PlayerDataKeeper.instance.IncreaseCoinCount (lostIdleEvent.reward);
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("すごい！\n");
@@ -189,7 +190,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			stage.IdleCount += lostIdleEvent.lostIdleCount;
 			dao.UpdateRecord (stage);
 			StageGridManager.instance.GenerateIdle ();
-			lostIdleEvent.lostIdleCount = 0;
+			lostIdleEvent.occurring = false;
 			LostButtonObject.SetActive (false);
 		}
 	}
