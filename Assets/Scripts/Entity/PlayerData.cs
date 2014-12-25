@@ -3,14 +3,6 @@ using System.Collections;
 
 public class PlayerData {
 
-	public enum Kies{
-		TicketCount,
-		CoinCount,
-		TotalCoinCount,
-		ExitDate,
-		GenerateCoinPower
-	}
-
 	public int TicketCount{ get; set; }
 
 	public double CoinCount{ get; set; }

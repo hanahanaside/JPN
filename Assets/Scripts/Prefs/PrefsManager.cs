@@ -3,24 +3,16 @@ using System.Collections;
 
 public class PrefsManager :Singleton<PrefsManager> {
 
-	private enum Kies {
+	public enum Kies {
 		PlayerData,
 		DatabaseVersion,
 		ClearedPuzzleCountArray,
 		BGM_ON,
 		SE_ON,
 		NotificationON,
-		LostIdleInfoArray
-	}
-
-	public string PlayerDataJson {
-		get {
-			return PlayerPrefs.GetString (Kies.PlayerData.ToString ());
-		}
-		set {
-			PlayerPrefs.SetString (Kies.PlayerData.ToString (), value);
-			PlayerPrefs.Save ();
-		}
+		LostIdleEvent,
+		TradeIdleEvent,
+		NewsEvent
 	}
 
 	public int DatabaseVersion {
@@ -45,16 +37,6 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 		set {
 			PlayerPrefsX.SetIntArray (Kies.ClearedPuzzleCountArray.ToString (), value);
-		}
-	}
-
-	public int[] LostIdleInfoArray {
-		get {
-			int[] lostIdleInfoArray = PlayerPrefsX.GetIntArray (Kies.LostIdleInfoArray.ToString (), 0, 4);
-			return lostIdleInfoArray;
-		}
-		set {
-			PlayerPrefsX.SetIntArray (Kies.LostIdleInfoArray.ToString (), value);
 		}
 	}
 
@@ -83,5 +65,20 @@ public class PrefsManager :Singleton<PrefsManager> {
 		set {
 			PlayerPrefsX.SetBool (Kies.NotificationON.ToString (), value);
 		}
+	}
+
+	public void WriteData <T> (T data, Kies key)where T:class {
+		string json = JsonFx.Json.JsonWriter.Serialize (data);
+		PlayerPrefs.SetString (key.ToString (), json);
+		PlayerPrefs.Save ();
+	}
+
+	public T Read<T> (Kies key)where T:class, new() {
+		string json = PlayerPrefs.GetString (key.ToString ());
+		T data = JsonFx.Json.JsonReader.Deserialize<T> (json);
+		if (data == null) {
+			data = new T ();
+		}
+		return data;
 	}
 }

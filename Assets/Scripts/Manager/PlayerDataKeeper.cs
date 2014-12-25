@@ -53,9 +53,7 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	}
 		
 	public void Init () {
-		string playerDataJson = PrefsManager.instance.PlayerDataJson;
-		MyLog.LogDebug ("init player data " + playerDataJson);
-		mPlayerData = JsonParser.DeserializePlayerData (playerDataJson);
+		mPlayerData = PrefsManager.instance.Read<PlayerData> (PrefsManager.Kies.PlayerData);
 	}
 
 	public void SaveData () {
@@ -63,9 +61,7 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 			mPlayerData.GenerateCoinPower = mGenerateCoinPower;
 			mPlayerData.ExitDate = DateTime.Now.ToString ();
 		}
-		string playerDataJson = JsonParser.SerializePlayerData (mPlayerData);
-		PrefsManager.instance.PlayerDataJson = playerDataJson;
-		MyLog.LogDebug ("save player data " + playerDataJson);
+		PrefsManager.instance.WriteData (mPlayerData,PrefsManager.Kies.PlayerData);
 	}
 
 	public void IncreaseGenerateCoinPower(double coinPower){

@@ -71,10 +71,9 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		stageManager.RemoveIdle (count);
 	}
 
-	public void GenerateIdle () {
-		LostIdleEvent lostIdleEvent =  Resources.Load ("Event/LostIdleEvent") as LostIdleEvent;
-		StageManager stageManager = mStageManagerList [lostIdleEvent.lostIdleID - 1];
-		stageManager.AddIdle (lostIdleEvent.lostIdleCount);
+	public void GenerateIdle (int idleID) {
+		StageManager stageManager = mStageManagerList [idleID - 1];
+		stageManager.AddIdle (idleID);
 	}
 
 	public int GetMaxGeneratePower(){

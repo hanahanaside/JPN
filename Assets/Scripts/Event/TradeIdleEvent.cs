@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TradeIdleEvent : ScriptableObject {
+public class TradeIdleEvent {
 
 	public int idleID;
 	public int idleCount;

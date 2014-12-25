@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LostIdleEvent : ScriptableObject {
+public class LostIdleEvent {
 
 	public int lostIdleID;
 	public int lostIdleCount;

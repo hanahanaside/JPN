@@ -199,6 +199,9 @@
      <Compile Include="Assets\Scripts\Entity\Area.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\Stage.cs" />
+     <Compile Include="Assets\Scripts\Event\LostIdleEvent.cs" />
+     <Compile Include="Assets\Scripts\Event\NewsEvent.cs" />
+     <Compile Include="Assets\Scripts\Event\TradeIdleEvent.cs" />
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
@@ -230,14 +233,10 @@
      <Compile Include="Assets\Scripts\Params\AreaParams.cs" />
      <Compile Include="Assets\Scripts\Params\GeneratePowerParams.cs" />
      <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />
-     <Compile Include="Assets\Scripts\Parser\JsonParser.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Prefs\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
      <Compile Include="Assets\Scripts\Referee\Referee.cs" />
-     <Compile Include="Assets\Scripts\ScriptableObject\LostIdleEvent.cs" />
-     <Compile Include="Assets\Scripts\ScriptableObject\NewsEvent.cs" />
-     <Compile Include="Assets\Scripts\ScriptableObject\TradeIdleEvent.cs" />
      <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
@@ -387,6 +386,9 @@
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
  <Reference Include="P31RestKit">
  <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/P31RestKit.dll</HintPath>
+ </Reference>
+ <Reference Include="JsonFx.Json">
+ <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/JsonFx.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
