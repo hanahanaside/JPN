@@ -15,11 +15,12 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		if(Application.loadedLevelName == "Main"){
 			generateCoinSpeedLabel.text = GameMath.RoundOne(mGenerateCoinPower) + "/分";
 		}else {
-			generateCoinSpeedLabel.text = GameMath.RoundOne(mPlayerData.GenerateCoinPower) + "/分";
+			generateCoinSpeedLabel.text = "";
 		}
 
 		coinCountLabel.text = "" + GameMath.RoundZero(mPlayerData.CoinCount);
 		ticketCountLabel.text = ""+mPlayerData.TicketCount;
+		mPlayerData.GenerateCoinPower = mGenerateCoinPower;
 	}
 
 	public double CoinCount {
@@ -38,6 +39,9 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 		get{
 			return mPlayerData.ExitDate;
 		}
+		set{
+			mPlayerData.ExitDate = value;
+		}
 	}
 
 	public double GenerateCoinPower{
@@ -53,21 +57,9 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	}
 		
 	public void Init () {
-		string playerDataJson = PrefsManager.instance.PlayerDataJson;
-		MyLog.LogDebug ("init player data " + playerDataJson);
-		mPlayerData = JsonParser.DeserializePlayerData (playerDataJson);
+		mPlayerData = Resources.Load ("Data/PlayerData") as PlayerData;
 	}
-
-	public void SaveData () {
-		if(Application.loadedLevelName == "Main"){
-			mPlayerData.GenerateCoinPower = mGenerateCoinPower;
-			mPlayerData.ExitDate = DateTime.Now.ToString ();
-		}
-		string playerDataJson = JsonParser.SerializePlayerData (mPlayerData);
-		PrefsManager.instance.PlayerDataJson = playerDataJson;
-		MyLog.LogDebug ("save player data " + playerDataJson);
-	}
-
+		
 	public void IncreaseGenerateCoinPower(double coinPower){
 		mGenerateCoinPower += coinPower;
 	}

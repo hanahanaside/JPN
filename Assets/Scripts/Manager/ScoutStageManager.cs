@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 
@@ -56,6 +57,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	public void OnFadeOutFinished () {
+		PlayerDataKeeper.instance.ExitDate = DateTime.Now.ToString ();
 		Application.LoadLevel ("Puzzle");
 	}
 
@@ -71,7 +73,6 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		goScoutButtonObject.SetActive (false);
 		FlagScouting = true;
 		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
-		PlayerDataKeeper.instance.SaveData ();
 		iTweenEvent.GetEvent (planeObject, "moveOut").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
 	}
