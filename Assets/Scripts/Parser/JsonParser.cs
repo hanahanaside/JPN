@@ -1,0 +1,42 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using MiniJSON;
+using System;
+
+public static class JsonParser {
+
+	public static PlayerData DeserializePlayerData (string json) {
+		PlayerData playerData = new PlayerData ();
+		//最初の取得時
+		if (string.IsNullOrEmpty (json)) {
+			playerData.CoinCount = 100000000.1;
+			playerData.TicketCount = 100;
+			playerData.GenerateCoinPower = 0.01;
+			playerData.ExitDate = DateTime.Now.ToString ();
+			return playerData;
+		}
+		//double の値が整数値だとCast Exceptionになる
+		try{
+			IDictionary playerDataDictionary = (IDictionary)Json.Deserialize (json);
+			playerData.TicketCount = (int)((long)playerDataDictionary [PlayerData.Kies.TicketCount.ToString ()]);
+			playerData.ExitDate = (string)playerDataDictionary [PlayerData.Kies.ExitDate.ToString ()];
+			playerData.CoinCount = (double)(playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()]);
+			playerData.GenerateCoinPower = (double)(playerDataDictionary[PlayerData.Kies.GenerateCoinPower.ToString()]);
+		}catch(Exception e){
+			MyLog.LogDebug (e.Message);
+		}
+		return playerData;
+	}
+
+	public static string SerializePlayerData (PlayerData playerData) {
+		IDictionary playerDataDictionary = new Dictionary<string,object> ();
+		playerDataDictionary [PlayerData.Kies.TicketCount.ToString ()] = playerData.TicketCount;
+		playerDataDictionary [PlayerData.Kies.CoinCount.ToString ()] = playerData.CoinCount;
+		playerDataDictionary [PlayerData.Kies.ExitDate.ToString ()] = playerData.ExitDate;
+		playerDataDictionary [PlayerData.Kies.TotalCoinCount.ToString ()] = playerData.TotalCoinCount;
+		playerDataDictionary [PlayerData.Kies.GenerateCoinPower.ToString ()] = playerData.GenerateCoinPower;
+		string playerDataString = Json.Serialize (playerDataDictionary);
+		return playerDataString;
+	}
+}

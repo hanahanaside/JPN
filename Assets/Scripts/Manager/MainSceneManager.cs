@@ -25,12 +25,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		} else {
 			StageGridManager.instance.MoveToStage (1);
 		}
-		if(string.IsNullOrEmpty(PlayerDataKeeper.instance.ExitDate)){
-			PlayerDataKeeper.instance.ExitDate = DateTime.Now.ToString ();
-		}else {
-			CalcSleepTimeCoin ();
-		}
-
+		CalcSleepTimeCoin ();
 		EventManager.instance.GenerateLostIdle ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
@@ -48,7 +43,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			MyLog.LogDebug ("pause");
 			#if !UNITY_EDITOR
 			//プレイヤーデータをセーブ
-			PlayerDataKeeper.instance.ExitDate = DateTime.Now.ToString ();
+			PlayerDataKeeper.instance.SaveData ();
 			#endif
 		} else {
 			MyLog.LogDebug ("resume");

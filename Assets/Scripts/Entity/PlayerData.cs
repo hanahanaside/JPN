@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerData : ScriptableObject {
+public class PlayerData {
 
-	public int TicketCount;
+	public enum Kies{
+		TicketCount,
+		CoinCount,
+		TotalCoinCount,
+		ExitDate,
+		GenerateCoinPower
+	}
 
-	public double CoinCount;
+	public int TicketCount{ get; set; }
 
-	public double TotalCoinCount;
+	public double CoinCount{ get; set; }
 
-	public double GenerateCoinPower;
+	public double TotalCoinCount{ get; set; }
 
-	public string ExitDate;
+	public double GenerateCoinPower{ get; set;}
+
+	public string ExitDate{ get; set; }
 }

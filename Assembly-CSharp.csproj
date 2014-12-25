@@ -230,6 +230,7 @@
      <Compile Include="Assets\Scripts\Params\AreaParams.cs" />
      <Compile Include="Assets\Scripts\Params\GeneratePowerParams.cs" />
      <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />
+     <Compile Include="Assets\Scripts\Parser\JsonParser.cs" />
      <Compile Include="Assets\Scripts\Player\ItweenEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Prefs\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />

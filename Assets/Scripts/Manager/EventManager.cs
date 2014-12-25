@@ -50,11 +50,9 @@ public class EventManager : MonoSingleton<EventManager> {
 		}
 		if (tradeIdleEvent.occurring) {
 			TradeButtonObject.SetActive (true);
-			StartScaleEvent (TradeButtonObject);
 		}
 		if (newsEvent.occurring) {
 			newsButtonObject.SetActive (true);
-			StartScaleEvent (newsButtonObject);
 		}
 	}
 
@@ -62,7 +60,6 @@ public class EventManager : MonoSingleton<EventManager> {
 		//迷子のアイドルがいれば生成してアラートを表示
 		if (lostIdleEvent.occurring) {
 			LostButtonObject.SetActive (true);
-			StartScaleEvent (LostButtonObject);
 			StageGridManager.instance.GenerateLostIdle (lostIdleEvent.lostIdleID, lostIdleEvent.lostIdleCount);
 		}
 	}
@@ -102,6 +99,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		Debug.Log ("トレードイベント");
 		//発生中だったら何もしない
 		if (tradeIdleEvent.occurring) {
+			TradeButtonObject.SetActive (true);
 			Debug.Log ("発生中");
 			return;
 		}
@@ -118,6 +116,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		tradeIdleEvent.idleCount = UnityEngine.Random.Range (1, stage.IdleCount);
 		tradeIdleEvent.reward = stage.Id * tradeIdleEvent.idleCount * 100;
 		tradeIdleEvent.occurring = true;
+		TradeButtonObject.SetActive (true);
 		Debug.Log ("トレードイベント開始");
 	}
 
@@ -126,6 +125,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		Debug.Log ("ニュースイベント");
 		//発生中だったら何もしない
 		if (newsEvent.occurring) {
+			newsButtonObject.SetActive (true);
 			Debug.Log ("発生中");
 			return;
 		}
@@ -135,6 +135,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		newsEvent.reward = entityNews.param [rand].reward;
 		newsEvent.unit = entityNews.param [rand].unit;
 		newsEvent.occurring = true;
+		newsButtonObject.SetActive (true);
 		Debug.Log ("ニュースイベント開始");
 	}
 
@@ -158,7 +159,6 @@ public class EventManager : MonoSingleton<EventManager> {
 		}
 		if (mSleepStageCount >= StageGridManager.instance.StageCount) {
 			liveButtonObject.SetActive (true);
-			StartScaleEvent (liveButtonObject);
 		}
 	}
 
