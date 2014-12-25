@@ -57,13 +57,13 @@ public abstract class Character : MonoBehaviour {
 		moveSpeed.speedY = speedY;
 		switch (direction) {
 		case Direction.Left:
-			characterTransform.localScale = new Vector3 (1,1,1);
+			characterTransform.localScale = new Vector3 (0.8f,0.8f,0.8f);
 			if(moveSpeed.speedX > 0){
 				moveSpeed.speedX = -moveSpeed.speedX;
 			}
 			break;
 		case Direction.Right:
-			characterTransform.localScale = new Vector3 (-1, 1, 1);
+			characterTransform.localScale = new Vector3 (-0.8f, 0.8f, 0.8f);
 			if(moveSpeed.speedX < 0){
 				moveSpeed.speedX = -moveSpeed.speedX;
 			}

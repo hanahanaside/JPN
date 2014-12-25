@@ -26,8 +26,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			StageGridManager.instance.MoveToStage (1);
 		}
 
-			CalcSleepTimeCoin ();
-
+		CalcSleepTimeCoin ();
 
 		EventManager.instance.GenerateLostIdle ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
@@ -60,13 +59,13 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		}
 	}
 
-	private void CalcSleepTimeCoin(){
+	private void CalcSleepTimeCoin () {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
 		TimeSpan ts = dtNow - dtExit;
 		Debug.Log ("ts " + ts.TotalSeconds);
 		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
-		Debug.Log ("addCoin " +addCoin);
+		Debug.Log ("addCoin " + addCoin);
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
 		FenceManager.instance.ShowFence ();
 		SleepTimeCoinDialogManager.instance.Show (addCoin);

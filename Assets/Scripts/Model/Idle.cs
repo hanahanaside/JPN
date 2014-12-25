@@ -25,6 +25,7 @@ public class Idle : Character {
 		mIdleEvent = iTweenEvent.GetEvent (gameObject, "IdleEvent");
 		mScaleEvent = iTweenEvent.GetEvent (mSprite.gameObject, "ScaleEvent");
 		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject, "RotateEvent");
+		characterTransform.localScale = new Vector3 (0.8f,0.8f,0.8f);
 		ResizeSprite ();
 		StartMoving ();
 	}

@@ -13,6 +13,7 @@ public class Fan : Character {
 		mSpriteObject = characterTransform.FindChild ("Sprite").gameObject;
 		mRotateEvent = iTweenEvent.GetEvent (mSpriteObject, "RotateEvent");
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
+		characterTransform.localScale = new Vector3 (0.8f,0.8f,0.8f);
 	}
 
 	void Update () {

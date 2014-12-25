@@ -15,7 +15,6 @@ public class StageManager : MonoBehaviour {
 		Construction
 	}
 
-	public Transform[] fanPositionArray;
 	public Transform[] idlePositionArray;
 	public GameObject sleepObject;
 	public UILabel untilSleepLabel;
@@ -211,7 +210,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	public void RemoveIdle (int count) {
-		for(int i = 0;i < count;i++){
+		for (int i = 0; i < count; i++) {
 			Character character = mCharacterList [0];
 			mCharacterList.Remove (character);
 			Destroy (character.gameObject);
@@ -273,13 +272,15 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//ファンを生成
-		for (int i = 0; i < fanPositionArray.Length; i++) {
+		for (int i = 0; i < mStageData.IdleCount; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
-			fanObject.transform.parent = gameObject.transform.parent;
+			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
+			float y = UnityEngine.Random.Range (-230.0f, -180.0f);
+			fanObject.transform.parent = transform.parent;
 			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			fanObject.transform.localPosition = fanPositionArray [i].localPosition;
+			fanObject.transform.localPosition = new Vector3 (x, y, 0);
 			mCharacterList.Add (fanObject.GetComponent<Character> ());
 		}
 
@@ -307,10 +308,11 @@ public class StageManager : MonoBehaviour {
 	//アイドルを生成
 	private GameObject GenerateIdle (GameObject idlePrefab) {
 		GameObject idleObject = Instantiate (idlePrefab) as GameObject;
-		idleObject.transform.parent = gameObject.transform.parent;
+		idleObject.transform.parent = transform.parent;
 		idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-		int rand = UnityEngine.Random.Range (0, idlePositionArray.Length);
-		idleObject.transform.localPosition = idlePositionArray [rand].localPosition;
+		float x = UnityEngine.Random.Range (-175.0f, 175.0f);
+		float y = UnityEngine.Random.Range (0, 300.0f);
+		idleObject.transform.localPosition = new Vector3 (x, y, 0);
 		idleObject.GetComponent<Idle> ().Init ();
 		mCharacterList.Add (idleObject.GetComponent<Character> ());
 		return idleObject;
