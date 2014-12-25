@@ -23,11 +23,17 @@ public class EventManager : MonoSingleton<EventManager> {
 	public NewsEvent newsEvent;
 
 	public void Init () {
+		StageDao dao = DaoFactory.CreateStageDao ();
+		List<Stage> stageList = dao.SelectAll ();
+		if (stageList.Count <= 5) {
+			return;
+		}
 		//	int[] eventIdArray = { -1, -1, -1, -1, -1, -1, -1, 0, 1, 2 };
 		int[] eventIdArray = { 0, 1, 2 };
 		int rand = UnityEngine.Random.Range (0, eventIdArray.Length);
 		int eventId = eventIdArray [rand];
 		Debug.Log ("event " + eventId);
+		//	eventId = 1;
 		switch (eventId) {
 		case 0:
 			//迷子
@@ -60,33 +66,40 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	//迷子イベントを発生させる
 	private void RaiseLostIdleEvent () {
+		MyLog.LogDebug ("迷子イベント");
 		//迷子のアイドルが0人だったらイベント開始
-		if (lostIdleEvent.lostIdleCount <= 0) {
-			StageDao dao = DaoFactory.CreateStageDao ();
-			List<Stage> stageList = dao.SelectAll ();
-			int rand = UnityEngine.Random.Range (0, stageList.Count);
-			Stage stage = stageList [rand];
-			if (stage.IdleCount <= 2) {
-				Debug.Log ("アイドルが2人以下なので迷子を中止");
-				return;
-			}
-			int count = UnityEngine.Random.Range (1, stage.IdleCount);
-			stage.IdleCount -= count;
-			dao.UpdateRecord (stage);
-			lostIdleEvent.lostIdleID = stage.Id;
-			lostIdleEvent.lostIdleCount = count;
-			lostIdleEvent.foundIdleCount = 0;
-			lostIdleEvent.reward = stage.Id * count * 10;
-			Debug.Log ("id " + stage.Id);
-			Debug.Log ("count " + count);
+		if (lostIdleEvent.lostIdleCount > 0) {
+			Debug.Log ("発生中");
+			return;
 		}
+
+		StageDao dao = DaoFactory.CreateStageDao ();
+		List<Stage> stageList = dao.SelectAll ();
+		int rand = UnityEngine.Random.Range (0, stageList.Count);
+		Stage stage = stageList [rand];
+		if (stage.IdleCount <= 2) {
+			Debug.Log ("アイドルが2人以下なので迷子を中止");
+			return;
+		}
+		int count = UnityEngine.Random.Range (1, stage.IdleCount);
+		stage.IdleCount -= count;
+		dao.UpdateRecord (stage);
+		lostIdleEvent.lostIdleID = stage.Id;
+		lostIdleEvent.lostIdleCount = count;
+		lostIdleEvent.foundIdleCount = 0;
+		lostIdleEvent.reward = stage.Id * count * 10;
+		Debug.Log ("id " + stage.Id);
+		Debug.Log ("count " + count);
+		MyLog.LogDebug ("迷子イベント開始");
 	}
 
 	//トレードイベントを発生させる
 	private void OccurTradeIdleEvent () {
+		Debug.Log ("トレードイベント");
 		//発生中だったら何もしない
 		if (tradeIdleEvent.occurring) {
 			TradeButtonObject.SetActive (true);
+			Debug.Log ("発生中");
 			return;
 		}
 		StageDao dao = DaoFactory.CreateStageDao ();
@@ -95,6 +108,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		Stage stage = stageList [rand];
 		//アイドルの数が1人以下だったら何もしない
 		if (stage.IdleCount <= 1) {
+			Debug.Log ("アイドルが1人以下なのでトレードを中止");
 			return;
 		}
 		tradeIdleEvent.idleID = stage.Id;
@@ -102,13 +116,16 @@ public class EventManager : MonoSingleton<EventManager> {
 		tradeIdleEvent.reward = stage.Id * tradeIdleEvent.idleCount * 100;
 		tradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);
+		Debug.Log ("トレードイベント開始");
 	}
 
 	//ニュースイベントを発生させる
 	private void OccurNewsEvent () {
+		Debug.Log ("ニュースイベント");
 		//発生中だったら何もしない
 		if (newsEvent.occurring) {
 			newsButtonObject.SetActive (true);
+			Debug.Log ("発生中");
 			return;
 		}
 		Entity_News entityNews = Resources.Load ("Data/News") as Entity_News;
@@ -118,6 +135,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		newsEvent.unit = entityNews.param [rand].unit;
 		newsEvent.occurring = true;
 		newsButtonObject.SetActive (true);
+		Debug.Log ("ニュースイベント開始");
 	}
 
 	void OnEnable () {

@@ -77,6 +77,12 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		stageManager.AddIdle (lostIdleEvent.lostIdleCount);
 	}
 
+	public int GetMaxGeneratePower(){
+		int maxGeneratePower = 0;
+
+		return maxGeneratePower;
+	}
+
 	private int CreateStageIndex (int idleId) {
 		int rand = Random.Range (0, StageGridManager.instance.StageCount);
 		while (rand + 1 == idleId) {
