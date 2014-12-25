@@ -23,14 +23,15 @@ public class EventManager : MonoSingleton<EventManager> {
 	private NewsEvent mNewsEvent;
 
 	public void Init () {
+		mLostIdleEvent = PrefsManager.instance.Read<LostIdleEvent> (PrefsManager.Kies.LostIdleEvent);
+		mTradeIdleEvent = PrefsManager.instance.Read<TradeIdleEvent>(PrefsManager.Kies.TradeIdleEvent);
+		mNewsEvent = PrefsManager.instance.Read<NewsEvent> (PrefsManager.Kies.NewsEvent);
+
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
 		if (stageList.Count <= 5) {
 			return;
 		}
-		mLostIdleEvent = PrefsManager.instance.Read<LostIdleEvent> (PrefsManager.Kies.LostIdleEvent);
-		mTradeIdleEvent = PrefsManager.instance.Read<TradeIdleEvent>(PrefsManager.Kies.TradeIdleEvent);
-		mNewsEvent = PrefsManager.instance.Read<NewsEvent> (PrefsManager.Kies.NewsEvent);
 		//	int[] eventIdArray = { -1, -1, -1, -1, -1, -1, -1, 0, 1, 2 };
 		int[] eventIdArray = { 0, 1, 2 };
 		int rand = UnityEngine.Random.Range (0, eventIdArray.Length);
@@ -255,7 +256,6 @@ public class EventManager : MonoSingleton<EventManager> {
 			unit = "コイン";
 		}
 		StringBuilder sb = new StringBuilder ();
-		sb.Append ("おめでとう！\n");
 		sb.Append (mNewsEvent.message + "\n");
 		sb.Append (mNewsEvent.reward + unit + "ゲットだ！");
 		ShowEventPanel (sb.ToString ());
