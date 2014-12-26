@@ -50,25 +50,32 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		List<Transform> childList = grid.GetChildList ();
 		for (int i = 0; i < childList.Count; i++) {
 			int clearedCount = mClearedPuzzleCountArray [i];
-			UILabel label = childList [i].Find ("Label").GetComponent<UILabel> ();
-			StringBuilder sb = new StringBuilder ();
-			sb.Append (mEntityArea.param [i].area_name + "\n");
+			UILabel areaLabel = childList [i].Find ("AreaLabel").GetComponent<UILabel> ();
+			UILabel descriptionLabel = childList [i].Find ("DescriptionLabel").GetComponent<UILabel> ();
+			UILabel costLabel = childList [i].Find ("CostLabel").GetComponent<UILabel> ();
+			GameObject coinObject = childList [i].Find ("Sprite").gameObject;
+			areaLabel.text = mEntityArea.param [i].area_name;
 			switch (clearedCount) {
 			//未購入の場合
 			case (int)AreaState.NotYetPurchased:
-				sb.Append ("未購入");
+				coinObject.SetActive (false);
+				descriptionLabel.text = "購入可能";
+				costLabel.text = "";
 				break;
 			//ロックの場合
 			case (int)AreaState.Lock:
-				sb.Append ("ロック");
+				coinObject.SetActive (false);
+				descriptionLabel.text = "ロック";
+				costLabel.text = "";
 				break;
 			//デフォルト
 			default:
 				int cost = AreaCostCaluculator.instance.CalcCost (i);
-				sb.Append (cost + "コイン");
+				costLabel.text = "" +cost;
+				coinObject.SetActive (true);
+				descriptionLabel.text = "";
 				break;
 			}
-			label.text = sb.ToString ();
 		}
 		ItweenEventPlayer.PlayMoveInDialogEvent (dialogObject);
 	}
