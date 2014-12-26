@@ -104,11 +104,11 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
- <Reference Include="P31RestKit">
- <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/P31RestKit.dll</HintPath>
- </Reference>
  <Reference Include="JsonFx.Json">
  <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/JsonFx.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="P31RestKit">
+ <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/P31RestKit.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

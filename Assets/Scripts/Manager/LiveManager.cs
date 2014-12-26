@@ -6,9 +6,9 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	public GameObject[] curtainArray;
 	public GameObject[] ballArray;
-	public GameObject label;
 	public GameObject ballParent;
 	public GameObject curtainHeadObject;
+	public GameObject logoObject;
 
 	private float mTime;
 	private bool mLive;
@@ -77,9 +77,9 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
-
-		label.GetComponent<UILabel> ().text = "会いたくて\n会いたくて\n君に逢いたくて\nこの胸が\nときめくの\n君のせいだから";
-		label.GetComponent<TypewriterEffect> ().ResetToBeginning ();
+		logoObject.SetActive (true);
+		logoObject.GetComponent<UISprite> ().alpha = 0;
+		TweenAlpha.Begin (logoObject,3.0f,1f);
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
 		Invoke ("OpenCurtain",12.3f);
 		Invoke ("OpenBall",7.0f);
@@ -89,6 +89,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		mLive = false;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
 		iTweenEvent.GetEvent (ballParent,"RotateEvent").Stop();
+		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Stop();
 		ballParent.transform.localEulerAngles = new Vector3 (0,0,0);
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
@@ -100,6 +101,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	private void OpenCurtain(){
+		logoObject.SetActive (false);
 		FenceManager.instance.HideFence ();
 		foreach(GameObject curtain in curtainArray){
 			iTweenEvent.GetEvent (curtain,"OpenEvent").Play();
@@ -124,7 +126,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 					foreach(GameObject ballObject in ballArray){
 						iTweenEvent.GetEvent (ballObject,"CenterEvent").Play();
 					}
-					label.GetComponent<UILabel> ().text = "";
 				}
 				break;
 			}

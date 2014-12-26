@@ -181,6 +181,9 @@
  <Reference Include="Prime31MenuItem">
  <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Editor/Prime31/Prime31MenuItem.dll</HintPath>
  </Reference>
+ <Reference Include="JsonFx.Json">
+ <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/JsonFx.Json.dll</HintPath>
+ </Reference>
  <Reference Include="P31RestKit">
  <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/P31RestKit.dll</HintPath>
  </Reference>
@@ -189,9 +192,6 @@
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="JsonFx.Json">
- <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/JsonFx.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
