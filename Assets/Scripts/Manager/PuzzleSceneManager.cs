@@ -7,9 +7,6 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	public bool FlagBackButtonClicked{ get; set; }
 
 	public GameObject puzzleTablePrefab;
-	public GameObject continueDialogObject;
-	public GameObject finishPuzzleDialogObject;
-	public GameObject getIdleDialogObject;
 	public Transform uiRoot;
 	public Transform puzzleTableParent;
 	public UILabel remainingTapCountLabel;
@@ -59,9 +56,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		targetGrid.repositionNow = true;
 		string id = targetTag.Remove (0, 5);
 		FenceManager.instance.ShowFence ();
-		getIdleDialogObject.SetActive (true);
-		GetIdleDialogManager getIdleManager = getIdleDialogObject.GetComponentInChildren<GetIdleDialogManager> ();
-		getIdleManager.Show (Convert.ToInt32 (id));
+		GetIdleDialogManager.instance.Show (Convert.ToInt32 (id));
 		//パズルクリアカウントを更新
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
@@ -78,14 +73,14 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 			FinishedAnswerCheckEvent ();
 		} else {
 			FenceManager.instance.ShowFence ();
-			continueDialogObject.SetActive (true);
+			ContinueDialogManager.instance.Show ();
 		}
 	}
 
 	//パズルを終了する
 	void FinishPuzzleEvent () {
 		FenceManager.instance.HideFence ();
-		continueDialogObject.SetActive (false);
+		ContinueDialogManager.instance.Dismiss ();
 		//答え合わせ
 		FenceManager.instance.ShowTransparentFence ();
 		PuzzleTable puzzleTable = puzzleTableParent.GetComponentInChildren<PuzzleTable> ();
@@ -96,14 +91,12 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	void FinishedAnswerCheckEvent () {
 		FenceManager.instance.HideTransparentFence ();
 		FenceManager.instance.ShowFence ();
-		finishPuzzleDialogObject.SetActive (true);
-		FinishPuzzleDialogManager manager = finishPuzzleDialogObject.GetComponentInChildren<FinishPuzzleDialogManager> ();
-		manager.Show ();
+		FinishPuzzleDialogManager.instance.Show ();
 	}
 
 	//リトライ
 	void RetryEvent (int coinCount) {
-		finishPuzzleDialogObject.SetActive (false);
+		FinishPuzzleDialogManager.instance.Dismiss ();
 		FenceManager.instance.HideFence ();
 		System.Collections.Generic.List<Transform> childList = targetGrid.GetChildList ();
 		foreach (Transform childTransform in childList) {
@@ -120,7 +113,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		mRemainingTapCount += 5;
 		mContinueCount++;
 		FenceManager.instance.HideFence ();
-		continueDialogObject.SetActive (false);
+		ContinueDialogManager.instance.Dismiss ();
 	}
 						
 	//ステージにもどる

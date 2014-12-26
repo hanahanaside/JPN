@@ -11,6 +11,18 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 
 	private int mCost;
 
+	private GameObject mDialogObject;
+
+	public override void OnInitialize (){
+		mDialogObject = transform.FindChild ("Dialog").gameObject;
+	}
+
+	void CompleteDismissEvent(){
+		FenceManager.instance.HideFence ();
+		mDialogObject.SetActive (false);
+		gameObject.transform.localScale = new Vector3 (1,1,1);
+	}
+
 	public void OnBackToStageClicked(){
 		BackToStageEvent();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
@@ -23,7 +35,13 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 	}
 
 	public void Show(){
+		mDialogObject.SetActive (true);
+		iTweenEvent.GetEvent (gameObject,"ShowEvent").Play();
 		mCost = AreaCostCaluculator.instance.CalcCost (ScoutStageManager.SelectedAreaId -1);
 		costLabel.text = "" + mCost;
+	}
+
+	public void Dismiss(){
+		iTweenEvent.GetEvent (gameObject,"DismissEvent").Play();
 	}
 }
