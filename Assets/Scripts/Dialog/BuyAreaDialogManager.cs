@@ -25,7 +25,7 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		mArea = area;
 		areaNameLabel.text = area.AreaName;
 		costLabel.text = "" + area.AreaOpen;
-		ticketCostLabel.text = "×" + (area.AreaOpen / 100);
+		ticketCostLabel.text = "×" + (area.AreaOpen / 4000);
 		iTweenEvent.GetEvent (gameObject, "ShowEvent").Play ();
 	}
 

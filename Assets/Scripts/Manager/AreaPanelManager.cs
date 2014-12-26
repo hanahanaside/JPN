@@ -61,12 +61,15 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 				coinObject.SetActive (false);
 				descriptionLabel.text = "購入可能";
 				costLabel.text = "";
+				childList [i].gameObject.collider.enabled = true;
 				break;
 			//ロックの場合
 			case (int)AreaState.Lock:
 				coinObject.SetActive (false);
 				descriptionLabel.text = "ロック";
 				costLabel.text = "";
+				childList [i].GetComponent<UIButton> ().state = UIButtonColor.State.Disabled;
+				childList [i].gameObject.collider.enabled = false;
 				break;
 			//デフォルト
 			default:
@@ -74,6 +77,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 				costLabel.text = "" +cost;
 				coinObject.SetActive (true);
 				descriptionLabel.text = "";
+				childList [i].gameObject.collider.enabled = true;
 				break;
 			}
 		}
