@@ -32,9 +32,11 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	public void Show (int id) {
 		mIdleId = id;
 		StageDao dao = DaoFactory.CreateStageDao ();
-		Stage	stage = dao.SelectById (id);
+		Stage	stage = dao.SelectById (mIdleId);
 		stage.IdleCount++;
-		stage.UpdatedDate = DateTime.Now.ToString ();
+		if(string.IsNullOrEmpty(stage.UpdatedDate)){
+			stage.UpdatedDate = DateTime.Now.ToString ();
+		}
 		dao.UpdateRecord (stage);
 		mDialogObject.SetActive (true);
 		mIdleSprite.spriteName = "idle_normal_" + id;

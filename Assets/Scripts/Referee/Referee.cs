@@ -40,30 +40,30 @@ public class Referee : MonoBehaviour {
 		string tag = puzzleObject.tag;
 		Debug.Log ("tag " +tag);
 		switch (tag) {
-		case "puzzle_blank":
+		case "blank":
 			UpdateGameEvent ();
 			break;
-		case "puzzle_coin_1":
+		case "coin_1":
 			PlayerDataKeeper.instance.IncreaseCoinCount (1);
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 			UpdateGameEvent ();
 			break;
-		case "puzzle_coin_5":
+		case "coin_5":
 			PlayerDataKeeper.instance.IncreaseCoinCount (5);
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 			UpdateGameEvent ();
 			break;
-		case "puzzle_coin_10":
+		case "coin_10":
 			PlayerDataKeeper.instance.IncreaseCoinCount (10);
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 			UpdateGameEvent ();
 			break;
-		case "puzzle_coin_100":
+		case "coin_100":
 			PlayerDataKeeper.instance.IncreaseCoinCount (100);
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 			UpdateGameEvent ();
 			break;
-		case "puzzle_ticket":
+		case "ticket":
 			PlayerDataKeeper.instance.IncreaseTicketCount (1);
 			UpdateGameEvent ();
 			break;

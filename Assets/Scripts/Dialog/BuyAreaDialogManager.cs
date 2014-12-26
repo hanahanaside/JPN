@@ -6,16 +6,22 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	public UILabel areaNameLabel;
 	public UILabel costLabel;
 	public UILabel ticketCostLabel;
+	private GameObject mDialogObject;
 
 	private Area mArea;
+
+	public override void OnInitialize(){
+		mDialogObject = transform.Find ("Dialog").gameObject;
+	}
 
 	void CompleteDismissEvent () {
 		FenceManager.instance.HideFence ();
 		gameObject.transform.localScale = new Vector3 (1, 1, 1);
-		gameObject.SetActive (false);
+		mDialogObject.SetActive (false);
 	}
 
 	public void Show (Area area) {
+		mDialogObject.SetActive (true);
 		mArea = area;
 		areaNameLabel.text = area.AreaName;
 		costLabel.text = "" + area.AreaOpen;

@@ -14,8 +14,7 @@ public class StageManager : MonoBehaviour {
 		Live,
 		Construction
 	}
-
-	public Transform[] idlePositionArray;
+		
 	public GameObject sleepObject;
 	public UILabel untilSleepLabel;
 	public UILabel generateCoinPowerLabel;
@@ -256,8 +255,9 @@ public class StageManager : MonoBehaviour {
 			GameObject workerObject = Instantiate (workerPrefab) as GameObject;
 			workerObject.transform.parent = gameObject.transform.parent;
 			workerObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			int rand = UnityEngine.Random.Range (0, idlePositionArray.Length);
-			workerObject.transform.localPosition = idlePositionArray [rand].localPosition;
+			float x = UnityEngine.Random.Range (-175.0f, 175.0f);
+			float y = UnityEngine.Random.Range (0, 300.0f);
+			workerObject.transform.localPosition = new Vector3 (x,y,0);
 			mCharacterList.Add (workerObject.GetComponent<Character> ());
 		}
 	}

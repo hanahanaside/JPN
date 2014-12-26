@@ -233,21 +233,21 @@ public class EventManager : MonoSingleton<EventManager> {
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
 		okButtonObject.SetActive (true);
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.LostIdol);
 	}
 
 	public void TransferButtonClicked () {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		Stage stage = dao.SelectById (mTradeIdleEvent.idleID);
 		StringBuilder sb = new StringBuilder ();
-		sb.Append (stage.AreaName + "はすごく人気だね！！\n");
+		sb.Append (stage.AreaName + "の子はすごく人気だね！！\n");
 		sb.Append (mTradeIdleEvent.idleCount + "人を" + mTradeIdleEvent.reward + "コインでうちの事務所に移籍させてくれないかな？\n");
 		ShowEventPanel (sb.ToString ());
 		coinLabel.text = "" + mTradeIdleEvent.reward;
 		yesButtonObject.SetActive (true);
 		noButtonObject.SetActive (true);
 		okButtonObject.SetActive (false);
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.TradeIdol);
 	}
 
 	public void NewsButtonClicked () {
@@ -268,7 +268,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
 		okButtonObject.SetActive (true);
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.News);
 	}
 
 	//移籍の時のみ発動

@@ -12,7 +12,10 @@ public class SoundManager : MonoSingleton<SoundManager> {
 		Hanauta,
 		Plane,
 		Cheer,
-		GenerateCoin}
+		GenerateCoin,
+		LostIdol,
+		TradeIdol,
+		News}
 
 	;
 
@@ -40,7 +43,7 @@ public class SoundManager : MonoSingleton<SoundManager> {
 	}
 
 	public void PlayBGM (BGM_CHANNEL bgmChannel) {
-		if(!PrefsManager.instance.BGM_ON){
+		if (!PrefsManager.instance.BGM_ON) {
 			return;
 		}
 		int channelId = (int)bgmChannel;
@@ -53,7 +56,7 @@ public class SoundManager : MonoSingleton<SoundManager> {
 	}
 
 	public void PlaySE (SE_CHANNEL seChannel) {
-		if(!PrefsManager.instance.SE_ON){
+		if (!PrefsManager.instance.SE_ON) {
 			return;
 		}
 		int seChannelId = (int)seChannel;
@@ -63,6 +66,9 @@ public class SoundManager : MonoSingleton<SoundManager> {
 			audioSource.volume = 0.5f;
 			break;
 		case SE_CHANNEL.Cheer:
+			audioSource.volume = 0.5f;
+			break;
+		case SE_CHANNEL.News:
 			audioSource.volume = 0.5f;
 			break;
 		}

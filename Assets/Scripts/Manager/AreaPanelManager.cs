@@ -27,7 +27,6 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 	public UIScrollView areaScrollView;
 	public UIGrid grid;
 	public GameObject dialogObject;
-	public GameObject buyAreaDialogObject;
 
 	private Entity_Area mEntityArea;
 	private int[] mClearedPuzzleCountArray;
@@ -129,7 +128,6 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		area.AreaId = mEntityArea.param [(int)areaName].area_id;
 		area.AreaName = mEntityArea.param[(int)areaName].area_name;
 		area.AreaOpen = mEntityArea.param [(int)areaName].area_open;
-		buyAreaDialogObject.SetActive (true);
 		BuyAreaDialogManager.instance.Show (area);
 	}
 
