@@ -213,10 +213,12 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	public void SleepButtonClicked () {
 		StageGridManager.instance.MoveToSleepStage ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void LiveButtonClicked () {
 		StageGridManager.instance.MoveToStage (1);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void LostButtonClicked () {
@@ -231,6 +233,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
 		okButtonObject.SetActive (true);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void TransferButtonClicked () {
@@ -244,6 +247,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		yesButtonObject.SetActive (true);
 		noButtonObject.SetActive (true);
 		okButtonObject.SetActive (false);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void NewsButtonClicked () {
@@ -264,6 +268,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
 		okButtonObject.SetActive (true);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	//移籍の時のみ発動
@@ -277,6 +282,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		TradeButtonObject.SetActive (false);
 		StageGridManager.instance.RemoveIdle (mTradeIdleEvent.idleID, mTradeIdleEvent.idleCount);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	//移籍の時のみ発動
@@ -284,10 +290,12 @@ public class EventManager : MonoSingleton<EventManager> {
 		mTradeIdleEvent.occurring = false;
 		TradeButtonObject.SetActive (false);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void OKButtonClicked () {
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	private void ShowEventPanel (string text) {

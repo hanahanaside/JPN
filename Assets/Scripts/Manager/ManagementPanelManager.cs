@@ -16,6 +16,17 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 	private int mTotalIdleCount;
 	private double mTotalCoinCount;
 
+	void CompleteDismissEvent(){
+		List<Transform> childList = grid.GetChildList ();
+		for(int i = 4; i<childList.Count;i++){
+			GameObject childObject = childList[i].gameObject;
+			Destroy (childObject);
+		}
+		FenceManager.instance.HideFence ();
+		dialogObject.SetActive (false);
+		dialogObject.transform.localScale = new Vector3 (1,1,1);
+	}
+
 	public void ShowManagementPanel(){
 		FenceManager.instance.ShowFence ();
 		//ダイアログを表示
@@ -55,13 +66,7 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 	}
 
 	public void OnCloseButtonClicked(){
-		List<Transform> childList = grid.GetChildList ();
-		for(int i = 4; i<childList.Count;i++){
-			GameObject childObject = childList[i].gameObject;
-			Destroy (childObject);
-		}
-		FenceManager.instance.HideFence ();
-		dialogObject.SetActive (false);
+		iTweenEvent.GetEvent (dialogObject,"DismissEvent").Play();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 

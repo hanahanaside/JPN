@@ -6,6 +6,12 @@ public class SleepTimeCoinDialogManager : MonoSingleton<SleepTimeCoinDialogManag
 	public UILabel coinCountLabel;
 	public GameObject dialogObject;
 
+	void CompleteDismissEvent(){
+		FenceManager.instance.HideFence ();
+		dialogObject.SetActive (false);
+		dialogObject.transform.localScale = new Vector3 (1,1,1);
+	}
+
 	public void Show(double coinCount){
 		dialogObject.SetActive (true);
 		iTweenEvent.GetEvent (dialogObject,"ShowEvent").Play();
@@ -13,7 +19,7 @@ public class SleepTimeCoinDialogManager : MonoSingleton<SleepTimeCoinDialogManag
 	}
 
 	public void OKClicked(){
-		FenceManager.instance.HideFence ();
-		dialogObject.SetActive (false);
+		iTweenEvent.GetEvent (dialogObject,"DismissEvent").Play();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 }
