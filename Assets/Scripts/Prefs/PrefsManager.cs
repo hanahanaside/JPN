@@ -12,7 +12,8 @@ public class PrefsManager :Singleton<PrefsManager> {
 		NotificationON,
 		LostIdleEvent,
 		TradeIdleEvent,
-		NewsEvent
+		NewsEvent,
+		TutorialFinished
 	}
 
 	public int DatabaseVersion {
@@ -67,6 +68,15 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 	}
 
+	public bool TutorialFinished{
+		get{
+			return PlayerPrefsX.GetBool (Kies.TutorialFinished.ToString(), false);
+		}
+		set{
+			PlayerPrefsX.SetBool (Kies.TutorialFinished.ToString(), value);
+		}
+	}
+
 	public void WriteData <T> (T data, Kies key)where T:class {
 		string json = JsonFx.Json.JsonWriter.Serialize (data);
 		PlayerPrefs.SetString (key.ToString (), json);
@@ -81,4 +91,5 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 		return data;
 	}
+		
 }

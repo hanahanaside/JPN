@@ -225,6 +225,7 @@
      <Compile Include="Assets\Scripts\Manager\SplashSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\TutorialManager.cs" />
      <Compile Include="Assets\Scripts\Math\GameMath.cs" />
      <Compile Include="Assets\Scripts\Model\Character.cs" />
      <Compile Include="Assets\Scripts\Model\Fan.cs" />
@@ -245,6 +246,7 @@
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_News.cs" />
+     <Compile Include="Assets\Terasurware\Classes\Entity_tutorial.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransform.cs" />

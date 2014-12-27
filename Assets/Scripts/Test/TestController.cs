@@ -4,17 +4,18 @@ using System.Collections;
 
 public class TestController : MonoBehaviour {
 
-	public class Data{
-		public int id;
-		public string name;
-	}
+	public GameObject labelObject;
+	private int mIndex;
 
 	void Start(){
-		Data data = new Data ();
-		data.id = 1;
-		data.name = "name";
-		string json = JsonFx.Json.JsonWriter.Serialize (data);
-		data = JsonFx.Json.JsonReader.Deserialize<Data> (json);
-		Debug.Log ("name " + data.name);
+
+
+	}
+
+	public void ButtonClicked(){
+		Entity_tutorial entityTutorial = Resources.Load<Entity_tutorial> ("Data/tutorial");
+		labelObject.GetComponent<TypewriterEffect> ().ResetToBeginning();
+		labelObject.GetComponent<UILabel> ().text = entityTutorial.param[mIndex].message;
+		mIndex++;
 	}
 }

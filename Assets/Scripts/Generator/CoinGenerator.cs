@@ -14,6 +14,9 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	}
 
 	void Update () {
+		if(!PrefsManager.instance.TutorialFinished){
+			return;
+		}
 		if(mStop){
 			return;
 		}
