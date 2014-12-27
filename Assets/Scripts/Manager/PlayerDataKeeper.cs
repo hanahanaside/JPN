@@ -12,10 +12,10 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 	private double mGenerateCoinPower;
 
 	void Update(){
-		if(Application.loadedLevelName == "Main"){
-			generateCoinSpeedLabel.text = GameMath.RoundOne(mGenerateCoinPower) + "/分";
-		}else {
+		if(Application.loadedLevelName == "Puzzle"){
 			generateCoinSpeedLabel.text = GameMath.RoundOne(mPlayerData.GenerateCoinPower) + "/分";
+		}else {
+			generateCoinSpeedLabel.text = GameMath.RoundOne(mGenerateCoinPower) + "/分";
 		}
 
 		coinCountLabel.text = "" + GameMath.RoundZero(mPlayerData.CoinCount);

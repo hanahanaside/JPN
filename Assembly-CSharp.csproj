@@ -216,16 +216,17 @@
      <Compile Include="Assets\Scripts\Manager\FinishPuzzleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Manager\LiveManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\MainTutorialManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ManagementPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MenuPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MoveStagePanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PlayerDataKeeper.cs" />
      <Compile Include="Assets\Scripts\Manager\PuzzleSceneManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\PuzzleTutorialManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ScoutStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SplashSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\TutorialManager.cs" />
      <Compile Include="Assets\Scripts\Math\GameMath.cs" />
      <Compile Include="Assets\Scripts\Model\Character.cs" />
      <Compile Include="Assets\Scripts\Model\Fan.cs" />
@@ -241,6 +242,7 @@
      <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
+     <Compile Include="Assets\Scripts\Table\PuzzleTableTutorial.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />

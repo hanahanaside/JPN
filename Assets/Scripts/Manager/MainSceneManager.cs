@@ -15,11 +15,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void Start () {
 		MyLog.LogDebug ("start");
-//		if(!PrefsManager.instance.TutorialFinished){
-//			FenceManager.instance.ShowFence ();
-//			TutorialManager.instance.StartTutorial ();
-//			return;
-//		}
 		EventManager.instance.Init ();
 		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();

@@ -14,11 +14,13 @@ public class Referee : MonoBehaviour {
 	void OnEnable () {
 		Puzzle.OpenedPuzzleEvent += OpenedPuzzleEvent;
 		PuzzleTable.CreatedPuzzleTableEvent += CreatedPuzzleTableEvent;
+		PuzzleTableTutorial.CreatedPuzzleTableEvent  += CreatedPuzzleTableEvent;
 	}
 
 	void OnDisable () {
 		Puzzle.OpenedPuzzleEvent -= OpenedPuzzleEvent;
 		PuzzleTable.CreatedPuzzleTableEvent -= CreatedPuzzleTableEvent;
+		PuzzleTableTutorial.CreatedPuzzleTableEvent  -= CreatedPuzzleTableEvent;
 	}
 
 	//パズルテーブルが作られた時に呼ばれる
