@@ -1,40 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
-public class Referee : MonoBehaviour {
+public class RefereeTutorial : MonoBehaviour {
 
 	public static event Action UpdateGameEvent;
 
-	public UIGrid targetGrid;
 	public GameObject openEffectPrefab;
-	private List<GameObject> mTargetObjectList;
+	public TargetTutorial target1;
+	public TargetTutorial target2;
 
 	void OnEnable () {
 		Puzzle.OpenedPuzzleEvent += OpenedPuzzleEvent;
-		PuzzleTable.CreatedPuzzleTableEvent += CreatedPuzzleTableEvent;
 	}
 
 	void OnDisable () {
 		Puzzle.OpenedPuzzleEvent -= OpenedPuzzleEvent;
-		PuzzleTable.CreatedPuzzleTableEvent -= CreatedPuzzleTableEvent;
 	}
 
-	//パズルテーブルが作られた時に呼ばれる
-	void CreatedPuzzleTableEvent (GameObject[] puzzleObjectArray) {
-		mTargetObjectList = new List<GameObject> ();
-		foreach (GameObject puzzleObject in puzzleObjectArray) {
-			string id = puzzleObject.tag.Remove (0, 5);
-			GameObject targetPrefab = Resources.Load ("Target/Target_" + id) as GameObject;
-			GameObject targetObject = Instantiate (targetPrefab) as GameObject;
-			targetGrid.AddChild (targetObject.transform);
-			targetObject.transform.localScale = new Vector3 (1, 1, 1);
-			mTargetObjectList.Add (targetObject);
-		}
-		targetGrid.repositionNow = true;
-	}
-		
 	//パズルオープン時に呼ばれる
 	void OpenedPuzzleEvent (GameObject puzzleObject) {
 		string tag = puzzleObject.tag;
@@ -67,18 +51,13 @@ public class Referee : MonoBehaviour {
 			PlayerDataKeeper.instance.IncreaseTicketCount (1);
 			UpdateGameEvent ();
 			break;
-		}
-		foreach (GameObject targetObject in mTargetObjectList) {
-			if(targetObject == null){
-				continue;
-			}
-			string targetTag = targetObject.tag;
-			//ターゲットと違う場合はコンティニュー
-			if (tag != targetTag) {
-				continue;
-			}
-			Target target = targetObject.GetComponent<Target> ();
-			target.Correct ();
+		case "idle_1":
+			target1.Correct ();
+			break;
+		case "idle_2":
+			target2.Correct ();
+			break;
 		}
 	}
+
 }

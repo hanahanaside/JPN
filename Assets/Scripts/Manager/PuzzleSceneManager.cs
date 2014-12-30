@@ -41,12 +41,6 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	}
 
 	void Start () {
-		if(!PrefsManager.instance.TutorialFinished){
-			PlayerDataKeeper.instance.Init ();
-			PuzzleTutorialManager.instance.StartTutorial ();
-			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
-			return;
-		}
 		Debug.Log ("level " + ScoutStageManager.SelectedAreaId);
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);

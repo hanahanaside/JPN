@@ -16,8 +16,9 @@ public class PuzzleTableTutorial : MonoBehaviour {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
 		//生成するパズルの種類の数を決める
-		int[] targetIdArray = new int[1];
+		int[] targetIdArray = new int[2];
 		targetIdArray [0] = 1;
+		targetIdArray [1] = 2;
 		GameObject[]	puzzleObjectArray = new GameObject[targetIdArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
 			int puzzleId = targetIdArray [i];
@@ -42,7 +43,6 @@ public class PuzzleTableTutorial : MonoBehaviour {
 		//テーブルを整列
 		table.Reposition ();
 
-		CreatedPuzzleTableEvent (puzzleObjectArray);
 	}
 
 	//答え合わせをする

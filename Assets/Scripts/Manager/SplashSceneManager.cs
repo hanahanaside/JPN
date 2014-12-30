@@ -21,6 +21,11 @@ public class SplashSceneManager : MonoBehaviour {
 	}
 
 	private void Move(){
-		Application.LoadLevel ("Main");
+		if(PrefsManager.instance.TutorialFinished){
+			Application.LoadLevel ("Main");
+		}else {
+			Application.LoadLevel ("MainTutorial");
+		}
+	
 	}
 }

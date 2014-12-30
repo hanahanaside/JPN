@@ -195,6 +195,7 @@
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\MapDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\SleepTimeCoinDialogManager.cs" />
      <Compile Include="Assets\Scripts\Entity\Area.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
@@ -215,6 +216,7 @@
      <Compile Include="Assets\Scripts\Manager\FenceManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FinishPuzzleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Manager\LiveManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\LiveManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MainTutorialManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ManagementPanelManager.cs" />
@@ -239,11 +241,13 @@
      <Compile Include="Assets\Scripts\Prefs\PrefsManager.cs" />
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
      <Compile Include="Assets\Scripts\Referee\Referee.cs" />
+     <Compile Include="Assets\Scripts\Referee\RefereeTutorial.cs" />
      <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTableTutorial.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
+     <Compile Include="Assets\Scripts\Target\TargetTutorial.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
