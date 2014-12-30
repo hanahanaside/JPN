@@ -193,7 +193,9 @@
      <Compile Include="Assets\Scripts\Dialog\BuyAreaDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\ContinueDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\MapDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Dialog\MapDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\SleepTimeCoinDialogManager.cs" />
@@ -245,7 +247,6 @@
      <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
-     <Compile Include="Assets\Scripts\Table\PuzzleTableTutorial.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Target\TargetTutorial.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />

@@ -22,7 +22,6 @@ public class TargetTutorial : MonoBehaviour {
 		}
 		mChildList = grid.GetChildList ();
 		UISprite sprite = GetComponent<UISprite> ();
-		sprite.depth = 2;
 		BoxCollider boxCollider =  gameObject.AddComponent<BoxCollider> ();
 		boxCollider.size = new Vector3 (sprite.width,sprite.height,0);
 		boxCollider.isTrigger = true;
@@ -39,7 +38,7 @@ public class TargetTutorial : MonoBehaviour {
 	void OnClick(){
 		string tag = gameObject.tag;
 		int id = Convert.ToInt32 (tag.Replace ("idle_",""));
-		MapDialogManager.instance.Show (id);
+		MapDialogManagerTutorial.instance.Show (id);
 		PuzzleTutorialManager.instance.TargetClicked ();
 	}
 
