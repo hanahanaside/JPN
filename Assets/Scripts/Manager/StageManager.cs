@@ -73,12 +73,12 @@ public class StageManager : MonoBehaviour {
 			//コイン生成時間を更新(10倍)
 			mUntilGenerateTime -= Time.deltaTime;
 			if (mUntilGenerateTime < 0) {
-				PlayerDataKeeper.instance.IncreaseCoinCount ((mTotalGenerateCoinPower * 10.0) / 100.0);
+				PlayerDataKeeper.instance.IncreaseCoinCount ((mTotalGenerateCoinPower * 2.0f) / 100.0);
 				mUntilGenerateTime = UNTIL_GENERATE_TIME;
 			}
 			//建設中の場合の処理
 			if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
-				mTimeSeconds -= Time.deltaTime * 10.0f;
+				mTimeSeconds -= Time.deltaTime * 2.0f;
 				if (mTimeSeconds >= 0) {
 					untilSleepLabel.text = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
 				}
@@ -126,8 +126,8 @@ public class StageManager : MonoBehaviour {
 
 	//喝ボタン押下時の処理
 	public void OnWakeupButtonClicked () {
-		//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-		mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+		mTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+	//	mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		sleepObject.SetActive (false);
@@ -182,8 +182,8 @@ public class StageManager : MonoBehaviour {
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 		} else {
-			//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-			mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+			mTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+		//	mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
 			mState = State.Normal;
 		}
 		foreach (Character character in mCharacterList) {
@@ -241,7 +241,7 @@ public class StageManager : MonoBehaviour {
 		idleSprite.spriteName = "worker_1";
 
 		//労働者の数をセット
-		idleCountLabel.text = "×4";
+		idleCountLabel.text = "";
 
 		//エリア名をセット
 		areaNameLabel.text = "建設中";
@@ -272,7 +272,7 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//ファンを生成
-		for (int i = 0; i < mStageData.IdleCount; i++) {
+		for (int i = 0; i < mStageData.IdleCount * 2; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
@@ -320,16 +320,16 @@ public class StageManager : MonoBehaviour {
 		
 	//建設中の時間をセット
 	private void SetConstructionTime () {
-		//	mUntilSleepTimeSeconds = areaParams.constructionTimeMInutes * 60;
-		float constructionTimeSeconds = (areaParams.constructionTimeMInutes * 60) / 10;
+		float constructionTimeSeconds = areaParams.constructionTimeMInutes * 60;
+	//	float constructionTimeSeconds = (areaParams.constructionTimeMInutes * 60) / 10;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 	}
 
 	//サボるまでの時間をセット
 	private void SetUntilSleepTime () {
-		//	mUntilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-		float untilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+		float untilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
+	//	float untilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = untilSleepTimeSeconds - timeSpanSeconds;
 	}

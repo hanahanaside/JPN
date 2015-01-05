@@ -22,11 +22,11 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		if (ScoutStageManager.FlagScouting) {
 			StageGridManager.instance.MoveToStage (0);
 			ScoutStageManager.instance.PlayMoveInPlaneAnimation ();
+			CheckNewUnlockArea ();
 		} else {
 			StageGridManager.instance.MoveToStage (1);
+			CalcSleepTimeCoin ();
 		}
-
-		CalcSleepTimeCoin ();
 
 		EventManager.instance.GenerateLostIdle ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
@@ -70,6 +70,29 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		if(addCoin >= 10){
 			FenceManager.instance.ShowFence ();
 			SleepTimeCoinDialogManager.instance.Show (addCoin);
+		}
+	}
+
+	private void CheckNewUnlockArea(){
+		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
+		for(int i = 0;i<clearedPuzzleCountArray.Length;i++){
+			int clearCount = clearedPuzzleCountArray [i];
+			if(clearCount != (int)AreaPanelManager.AreaState.NotYetPurchased){
+				continue;
+			}
+			//未購入のエリアがある場合は購入可能かをチェックする
+			Entity_Area entityArea = Resources.Load ("Data/Area") as Entity_Area;
+			Entity_Area.Param param = entityArea.param[i];
+			int totalIdleCount = 0;
+			StageDao dao = DaoFactory.CreateStageDao ();
+			List<Stage> stageList = dao.SelectAll ();
+			foreach(Stage stage in stageList){
+				totalIdleCount += stage.IdleCount;
+			}
+			if(totalIdleCount > param.minimum_amount){
+				FenceManager.instance.ShowFence ();
+				OKDialog.instance.Show (param.area_name + "が購入可能になりました");
+			}
 		}
 	}
 	

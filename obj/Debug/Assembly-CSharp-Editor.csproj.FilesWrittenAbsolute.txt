@@ -16,3 +16,4 @@
 /Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/NPOI.dll
 /Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/Prime31MenuItem.dll
 /Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/P31RestKit.dll
+/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Temp/bin/Debug/JsonFx.Json.dll

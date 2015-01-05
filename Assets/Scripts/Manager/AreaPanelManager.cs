@@ -17,7 +17,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		Kyushu}
 	;
 
-	private enum AreaState {
+	public enum AreaState {
 		NotYetPurchased = -1,
 		Lock = -2
 	}
@@ -139,6 +139,7 @@ public class AreaPanelManager : MonoSingleton<AreaPanelManager> {
 		area.AreaId = mEntityArea.param [(int)areaName].area_id;
 		area.AreaName = mEntityArea.param[(int)areaName].area_name;
 		area.AreaOpen = mEntityArea.param [(int)areaName].area_open;
+		area.MinimumAmount = mEntityArea.param [(int)areaName].minimum_amount;
 		BuyAreaDialogManager.instance.Show (area);
 	}
 

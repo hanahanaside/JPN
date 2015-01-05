@@ -65,7 +65,9 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 
 	public void OnGoScoutButtonClicked () {
-		if (!dartsObject.activeSelf) {
+		if(PlayerDataKeeper.instance.CoinCount < mCost){
+			FenceManager.instance.ShowFence ();
+			OKDialog.instance.Show ("コインが不足しています");
 			return;
 		}
 		goScoutButtonObject.SetActive (false);

@@ -6,6 +6,8 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 
 	public static event Action FinishPuzzleEvent;
 	public static event Action BuyTapCountEvent;
+	public GameObject buyTapButtonObject;
+	public UIGrid grid;
 	private GameObject mDialogObject;
 
 	public override void OnInitialize (){
@@ -13,7 +15,6 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 	}
 
 	void CompleteDismissEvent(){
-		FenceManager.instance.HideFence ();
 		mDialogObject.SetActive (false);
 		gameObject.transform.localScale = new Vector3 (1,1,1);
 	}
@@ -31,10 +32,16 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 
 	public void Show(){
 		mDialogObject.SetActive (true);
+		if(PlayerDataKeeper.instance.TicketCount < 1){
+			buyTapButtonObject.SetActive (false);
+			grid.Reposition ();
+		}
+
 		iTweenEvent.GetEvent (gameObject,"ShowEvent").Play();
 	}
 
 	public void Dismiss(){
+		FenceManager.instance.HideFence ();
 		iTweenEvent.GetEvent (gameObject,"DismissEvent").Play();
 	}
 }

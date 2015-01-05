@@ -7,7 +7,9 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 	public static event Action BackToStageEvent;
 	public static event Action<int> RetryEvent;
 
+	public GameObject retryButtonObject;
 	public UILabel costLabel;
+	public UIGrid grid;
 
 	private int mCost;
 
@@ -36,8 +38,12 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 
 	public void Show(){
 		mDialogObject.SetActive (true);
-		iTweenEvent.GetEvent (gameObject,"ShowEvent").Play();
 		mCost = AreaCostCaluculator.instance.CalcCost (ScoutStageManager.SelectedAreaId -1);
+		if(PlayerDataKeeper.instance.CoinCount < mCost){
+			retryButtonObject.SetActive (false);
+			grid.Reposition ();
+		}
+		iTweenEvent.GetEvent (gameObject,"ShowEvent").Play();
 		costLabel.text = "" + mCost;
 	}
 

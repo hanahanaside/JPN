@@ -54,6 +54,12 @@ public class PlayerDataKeeper : MonoSingleton<PlayerDataKeeper> {
 			return mPlayerData.GenerateCoinPower;
 		}
 	}
+
+	public int TicketCount{
+		get{
+			return mPlayerData.TicketCount;
+		}
+	}
 		
 	public void Init () {
 		mPlayerData = PrefsManager.instance.Read<PlayerData> (PrefsManager.Kies.PlayerData);

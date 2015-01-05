@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 
 	public UILabel areaNameLabel;
 	public UILabel costLabel;
 	public UILabel ticketCostLabel;
+	public UILabel descriptionLabel;
+	public GameObject buyButtonObject;
 	private GameObject mDialogObject;
 
 	private Area mArea;
 
-	public override void OnInitialize(){
+	public override void OnInitialize () {
 		mDialogObject = transform.Find ("Dialog").gameObject;
 	}
 
 	void CompleteDismissEvent () {
-		FenceManager.instance.HideFence ();
 		gameObject.transform.localScale = new Vector3 (1, 1, 1);
 		mDialogObject.SetActive (false);
 	}
@@ -25,7 +27,19 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		mArea = area;
 		areaNameLabel.text = area.AreaName;
 		costLabel.text = "" + area.AreaOpen;
-		ticketCostLabel.text = "×" + (area.AreaOpen / 4000);
+		ticketCostLabel.text = "×" + (area.AreaOpen / 100); 
+		int totalIdleCount = 0;
+		StageDao dao = DaoFactory.CreateStageDao ();
+		List<Stage> stageList = dao.SelectAll ();
+		foreach (Stage stage in stageList) {
+			totalIdleCount += stage.IdleCount;
+		}
+		if (totalIdleCount < area.MinimumAmount) {
+			descriptionLabel.text = "アイドルの数が" + (area.MinimumAmount - totalIdleCount) + "人不足しています";
+			buyButtonObject.SetActive (false);
+		} else {
+			descriptionLabel.text = "購入できます";
+		}
 		iTweenEvent.GetEvent (gameObject, "ShowEvent").Play ();
 	}
 
@@ -37,6 +51,9 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	public void BuyClicked () {
 		//所持金の確認
 		if (PlayerDataKeeper.instance.CoinCount < mArea.AreaOpen) {
+			Dismiss ();
+			FenceManager.instance.ShowFence ();
+			OKDialog.instance.Show ("コインが不足しています");
 			return;
 		}
 		BuyArea ();
@@ -46,13 +63,19 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	}
 
 	public void UseTicketClicked () {
+		if (PlayerDataKeeper.instance.TicketCount < mArea.AreaOpen / 100) {
+			Dismiss ();
+			FenceManager.instance.ShowFence ();
+			OKDialog.instance.Show ("チケットが不足しています");
+			return;
+		}
 		BuyArea ();
 		PlayerDataKeeper.instance.DecreaseTicketCount (mArea.AreaOpen / 100);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		Dismiss ();
 	}
 
-	private void BuyArea(){
+	private void BuyArea () {
 		//各ステージのクリア回数を取得
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		//購入したステージのクリア回数を-1から0にする
@@ -65,6 +88,7 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	}
 
 	private void Dismiss () {
+		FenceManager.instance.HideFence ();
 		iTweenEvent.GetEvent (gameObject, "DismissEvent").Play ();
 	}
 }
