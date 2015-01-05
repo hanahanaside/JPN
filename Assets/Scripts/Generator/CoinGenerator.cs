@@ -14,7 +14,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	}
 
 	void Update () {
-		if(mStop){
+		if (mStop) {
 			return;
 		}
 		mInterval -= Time.deltaTime;
@@ -25,8 +25,10 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 			mInterval = 5.0f;
 			return;
 		}
-		int rand = Random.Range (0, coinPrefabArray.Length);
-		GameObject coinPrefab = coinPrefabArray [rand];
+		int[] numbers = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4 };
+		int rand = Random.Range (0, numbers.Length);
+
+		GameObject coinPrefab = coinPrefabArray [numbers [rand]];
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
 		coinObject.transform.parent = mCenteredObject.transform;
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
@@ -38,11 +40,11 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		mCenteredObject = centeredObject;
 	}
 
-	public void StopGenerating(){
+	public void StopGenerating () {
 		mStop = true;
 	}
 
-	public void StartGenerating(){
+	public void StartGenerating () {
 		mStop = false;
 	}
 }

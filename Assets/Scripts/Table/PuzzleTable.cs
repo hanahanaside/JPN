@@ -100,7 +100,8 @@ public class PuzzleTable : MonoBehaviour {
 			if (child.childCount != 0) {
 				continue;
 			}
-			GameObject	puzzleObject = Instantiate (blankPuzzleArray [0])as GameObject;
+			int rand = UnityEngine.Random.Range (0,blankPuzzleArray.Length);
+			GameObject	puzzleObject = Instantiate (blankPuzzleArray [rand])as GameObject;
 			puzzleObject.transform.parent = child;
 			puzzleObject.transform.localPosition = new Vector3 (0, 0, 0);
 			puzzleObject.transform.localScale = new Vector3 (1, 1, 1);
