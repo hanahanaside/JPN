@@ -15,7 +15,7 @@ public class SleepTimeCoinDialogManager : MonoSingleton<SleepTimeCoinDialogManag
 	public void Show(double coinCount){
 		dialogObject.SetActive (true);
 		iTweenEvent.GetEvent (dialogObject,"ShowEvent").Play();
-		coinCountLabel.text = "" + GameMath.RoundZero (coinCount);
+		coinCountLabel.text = "あなたがいない間に\n" + GameMath.RoundZero (coinCount) + "コイン\n稼ぎました";
 	}
 
 	public void OKClicked(){

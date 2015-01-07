@@ -59,9 +59,9 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 	public void OnTweetButtonClicked(){
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		StringBuilder sb = new StringBuilder ();
-		sb.Append ("私の経営するアイドルグループの在籍人数が" + mTotalIdleCount +"人、\n");
+		sb.Append ("私の経営するアイドルプロジェクトの在籍人数が" + mTotalIdleCount +"人、\n");
 		sb.Append ("累計"+mTotalCoinCount +"円を稼ぎだしたよ！\n");
-		sb.Append ("このゲーム超面白いからやってみて！→http://tt5.us/jpn47");
+		sb.Append ("このゲーム超面白いからやってみて！→http://tt5.us/idolpro #あいぷろ");
 		TwitterClient.instance.Tweet (sb.ToString());
 	}
 

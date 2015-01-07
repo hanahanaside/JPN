@@ -37,6 +37,7 @@ public class Target : MonoBehaviour {
 	}
 
 	void OnClick(){
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		string tag = gameObject.tag;
 		int id = Convert.ToInt32 (tag.Replace ("idle_",""));
 		MapDialogManager.instance.Show (id);

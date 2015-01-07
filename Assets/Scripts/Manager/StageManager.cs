@@ -41,9 +41,9 @@ public class StageManager : MonoBehaviour {
 	}
 
 	void Start () {
-		generateCoinPowerLabel.color = Color.green;
+		generateCoinPowerLabel.color = new Color (0.19f, 0.58f, 0.78f, 1.0f);
 		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
-		idleCountLabel.color = new Color (0, 0.5f, 0.25f, 1.0f);
+		idleCountLabel.color = new Color (0.1f, 0.7f, 0.6f, 1.0f);
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			InitConstruction ();
