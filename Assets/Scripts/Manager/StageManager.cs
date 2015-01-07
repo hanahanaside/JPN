@@ -272,7 +272,7 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//ファンを生成
-		for (int i = 0; i < mStageData.IdleCount * 2; i++) {
+		for (int i = 0; i < mStageData.IdleCount * 3; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;

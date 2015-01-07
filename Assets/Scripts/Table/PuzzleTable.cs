@@ -25,7 +25,7 @@ public class PuzzleTable : MonoBehaviour {
 				break;
 			}
 		}
-		GameObject[]	puzzleObjectArray = new GameObject[targetIdArray.Length];
+		GameObject[] puzzleObjectArray = new GameObject[targetIdArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
 			int puzzleId = targetIdArray [i];
 			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + puzzleId) as GameObject;
@@ -57,7 +57,7 @@ public class PuzzleTable : MonoBehaviour {
 		yield return new WaitForSeconds (1.0f);
 		foreach (Transform childTransform in mChildList) {
 			GameObject grandChildObject = childTransform.GetChild (0).gameObject;
-			if(!grandChildObject.collider.enabled){
+			if (!grandChildObject.collider.enabled) {
 				continue;
 			}
 			grandChildObject.collider.enabled = false;
@@ -72,6 +72,7 @@ public class PuzzleTable : MonoBehaviour {
 
 	//パズルのキャラが被っているかをチェックする
 	private bool CheckNotDuplicate (int[] puzzleIdArray) {
+		Debug.Log ("check not duplicate");
 		int puzzleId = puzzleIdArray [0];
 		if (puzzleId == puzzleIdArray [1]) {
 			return false;
@@ -100,7 +101,7 @@ public class PuzzleTable : MonoBehaviour {
 			if (child.childCount != 0) {
 				continue;
 			}
-			int rand = UnityEngine.Random.Range (0,blankPuzzleArray.Length);
+			int rand = UnityEngine.Random.Range (0, blankPuzzleArray.Length);
 			GameObject	puzzleObject = Instantiate (blankPuzzleArray [rand])as GameObject;
 			puzzleObject.transform.parent = child;
 			puzzleObject.transform.localPosition = new Vector3 (0, 0, 0);
@@ -147,6 +148,7 @@ public class PuzzleTable : MonoBehaviour {
 
 	//パズルIDをを返す
 	private int[] CreatePuzzleIdArray () {
+		Debug.Log ("create puzzle id array");
 		int[] targetIdArray = new int[2];
 		for (int i = 0; i < targetIdArray.Length; i++) {
 			int rand = UnityEngine.Random.Range (1, 11);
