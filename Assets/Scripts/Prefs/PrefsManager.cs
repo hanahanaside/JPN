@@ -30,7 +30,7 @@ public class PrefsManager :Singleton<PrefsManager> {
 		get {
 			int[] clearedPuzzleCountArray = PlayerPrefsX.GetIntArray (Kies.ClearedPuzzleCountArray.ToString (), -2, 8);
 			if (clearedPuzzleCountArray [0] == -2) {
-				clearedPuzzleCountArray [0] = 0;
+				clearedPuzzleCountArray [0] = 1;
 				clearedPuzzleCountArray [1] = -1;
 				ClearedPuzzleCountArray = clearedPuzzleCountArray;
 			}

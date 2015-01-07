@@ -15,6 +15,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	public GameObject fadeOutSpriteObject;
 	public GameObject backGroundTextureObject;
 	public GameObject liveArrowObject;
+	public GameObject coinSpriteObject;
 	public UICenterOnChild centerOnChild;
 	public UIGrid grid;
 	private UILabel tutorialLabel;
@@ -92,12 +93,15 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		case 1:
 			sTutorialIndex++;
 			UpdateMessage ();
+			coinSpriteObject.SetActive (true);
 			break;
 		case 2:
 			PlayerDataKeeper.instance.IncreaseCoinCount (2500);
 			sTutorialIndex++;
 			UpdateMessage ();
-			break;
+			coinSpriteObject.SetActive (false);
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			return;
 		case 3:
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			scoutArrowObject.SetActive (true);
@@ -178,6 +182,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	}
 
 	public void SugekitaButtonClicked () {
+		PlayerDataKeeper.instance.DecreaseCoinCount (500);
 		iTweenEvent.GetEvent (areaDialogObject, "HideEvent").Play ();
 		natsumotoObject.SetActive (true);
 		iTweenEvent.GetEvent (natsumotoObject, "ShowEvent").Play ();
@@ -194,7 +199,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
 		GameObject.Find ("GoScoutButton").SetActive(false);
 		goScoutArrowObject.SetActive (false);
-		PlayerDataKeeper.instance.DecreaseCoinCount (500);
+		PlayerDataKeeper.instance.DecreaseCoinCount (100);
 		PlayerDataKeeper.instance.SaveData ();
 	}
 
