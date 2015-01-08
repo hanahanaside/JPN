@@ -12,6 +12,7 @@ public class EventManager : MonoSingleton<EventManager> {
 	public GameObject newsButtonObject;
 	public GameObject eventPanelObject;
 	public GameObject okButtonObject;
+	public GameObject newsOKButtonObject;
 	public GameObject yesButtonObject;
 	public GameObject noButtonObject;
 	public UILabel messageLabel;
@@ -24,7 +25,7 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	public void Init () {
 		mLostIdleEvent = PrefsManager.instance.Read<LostIdleEvent> (PrefsManager.Kies.LostIdleEvent);
-		mTradeIdleEvent = PrefsManager.instance.Read<TradeIdleEvent>(PrefsManager.Kies.TradeIdleEvent);
+		mTradeIdleEvent = PrefsManager.instance.Read<TradeIdleEvent> (PrefsManager.Kies.TradeIdleEvent);
 		mNewsEvent = PrefsManager.instance.Read<NewsEvent> (PrefsManager.Kies.NewsEvent);
 
 		StageDao dao = DaoFactory.CreateStageDao ();
@@ -64,16 +65,10 @@ public class EventManager : MonoSingleton<EventManager> {
 		//迷子のアイドルがいれば生成してアラートを表示
 		if (mLostIdleEvent.occurring) {
 			LostButtonObject.SetActive (true);
-			StageGridManager.instance.GenerateLostIdle (mLostIdleEvent.lostIdleID, mLostIdleEvent.lostIdleCount);
+			StageGridManager.instance.GenerateLostIdle (mLostIdleEvent.lostIdleID, mLostIdleEvent.lostIdleCount - mLostIdleEvent.foundIdleCount);
 		}
 	}
-
-	public void SaveEvent(){
-		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent,PrefsManager.Kies.LostIdleEvent);
-		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent,PrefsManager.Kies.TradeIdleEvent);
-		PrefsManager.instance.WriteData<NewsEvent> (mNewsEvent,PrefsManager.Kies.NewsEvent);
-	}
-
+		
 	//迷子イベントを発生させる
 	private void RaiseLostIdleEvent () {
 		MyLog.LogDebug ("迷子イベント");
@@ -87,11 +82,14 @@ public class EventManager : MonoSingleton<EventManager> {
 		List<Stage> stageList = dao.SelectAll ();
 		int rand = UnityEngine.Random.Range (0, stageList.Count);
 		Stage stage = stageList [rand];
-		if (stage.IdleCount <= 2) {
-			Debug.Log ("アイドルが2人以下なので迷子を中止");
+		if (stage.IdleCount <= 1) {
+			Debug.Log ("アイドルが1人以下なので迷子を中止");
 			return;
 		}
-		int count = UnityEngine.Random.Range (1, stage.IdleCount);
+		int count = UnityEngine.Random.Range (1, 16);
+		if (count >= stage.IdleCount) {
+			return;
+		}
 		stage.IdleCount -= count;
 		dao.UpdateRecord (stage);
 		mLostIdleEvent.lostIdleID = stage.Id;
@@ -99,6 +97,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		mLostIdleEvent.foundIdleCount = 0;
 		mLostIdleEvent.reward = stage.Id * count * 10;
 		mLostIdleEvent.occurring = true;
+		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
 		Debug.Log ("id " + stage.Id);
 		Debug.Log ("count " + count);
 		MyLog.LogDebug ("迷子イベント開始");
@@ -123,10 +122,14 @@ public class EventManager : MonoSingleton<EventManager> {
 			return;
 		}
 		mTradeIdleEvent.idleID = stage.Id;
-		mTradeIdleEvent.idleCount = UnityEngine.Random.Range (1, stage.IdleCount);
+		mTradeIdleEvent.idleCount = UnityEngine.Random.Range (1, 6);
+		if (mTradeIdleEvent.idleCount >= stage.IdleCount) {
+			return;
+		}
 		mTradeIdleEvent.reward = stage.Id * mTradeIdleEvent.idleCount * 100;
 		mTradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);
+		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);
 		Debug.Log ("トレードイベント開始");
 	}
 
@@ -146,6 +149,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		mNewsEvent.unit = entityNews.param [rand].unit;
 		mNewsEvent.occurring = true;
 		newsButtonObject.SetActive (true);
+		PrefsManager.instance.WriteData<NewsEvent> (mNewsEvent, PrefsManager.Kies.NewsEvent);
 		Debug.Log ("ニュースイベント開始");
 	}
 
@@ -203,6 +207,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			mLostIdleEvent.occurring = false;
 			LostButtonObject.SetActive (false);
 		}
+		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
 	}
 
 	void CompleteDismissEvent () { 
@@ -227,13 +232,14 @@ public class EventManager : MonoSingleton<EventManager> {
 		Stage stage = dao.SelectById (mLostIdleEvent.lostIdleID);
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("大変だ！\n");
-		sb.Append (stage.AreaName + "のアイドルが " + mLostIdleEvent.lostIdleCount + "人迷子になったぞ！\n");
+		sb.Append (stage.AreaName + "のアイドルが " + (mLostIdleEvent.lostIdleCount - mLostIdleEvent.foundIdleCount) + "人迷子になったぞ！\n");
 		sb.Append ("他の都道府県にまぎれこんでいるから、見つけたらタップしよう！\n");
 		sb.Append ("すべて見つけたらボーナスだ！");
 		ShowEventPanel (sb.ToString ());
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
 		okButtonObject.SetActive (true);
+		newsOKButtonObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.LostIdol);
 	}
 
@@ -248,27 +254,22 @@ public class EventManager : MonoSingleton<EventManager> {
 		yesButtonObject.SetActive (true);
 		noButtonObject.SetActive (true);
 		okButtonObject.SetActive (false);
+		newsOKButtonObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.TradeIdol);
 	}
 
 	public void NewsButtonClicked () {
-		string unit = "";
-		if (mNewsEvent.unit == "ticket") {
-			PlayerDataKeeper.instance.IncreaseTicketCount (mNewsEvent.reward);
-			unit = "チケット";
-		} else {
-			PlayerDataKeeper.instance.IncreaseCoinCount (mNewsEvent.reward);
-			unit = "コイン";
-		}
 		StringBuilder sb = new StringBuilder ();
 		sb.Append (mNewsEvent.message + "\n");
-		sb.Append (mNewsEvent.reward + unit + "ゲットだ！");
+		sb.Append (mNewsEvent.reward + "チケットゲットだ！");
 		ShowEventPanel (sb.ToString ());
 		mNewsEvent.occurring = false;
 		newsButtonObject.SetActive (false);
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
-		okButtonObject.SetActive (true);
+		okButtonObject.SetActive (false);
+		newsOKButtonObject.SetActive (true);
+		PrefsManager.instance.WriteData<NewsEvent> (mNewsEvent, PrefsManager.Kies.NewsEvent);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.News);
 	}
 
@@ -283,7 +284,8 @@ public class EventManager : MonoSingleton<EventManager> {
 		TradeButtonObject.SetActive (false);
 		StageGridManager.instance.RemoveIdle (mTradeIdleEvent.idleID, mTradeIdleEvent.idleCount);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);
 	}
 
 	//移籍の時のみ発動
@@ -292,11 +294,18 @@ public class EventManager : MonoSingleton<EventManager> {
 		TradeButtonObject.SetActive (false);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);
 	}
 
 	public void OKButtonClicked () {
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+	}
+
+	public void NewsOKButtonClicked () {
+		PlayerDataKeeper.instance.IncreaseTicketCount (1);
+		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 	}
 
 	private void ShowEventPanel (string text) {

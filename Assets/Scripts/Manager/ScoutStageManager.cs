@@ -67,7 +67,6 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
 		PlayerDataKeeper.instance.SaveData ();
 		LiveManager.instance.Save ();
-		EventManager.instance.SaveEvent ();
 		iTweenEvent.GetEvent (planeObject, "moveOut").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
 	}

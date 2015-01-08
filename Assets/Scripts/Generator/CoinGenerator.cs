@@ -21,7 +21,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		if (mInterval > 0) {
 			return;
 		}
-		if (mCenteredObject.tag == "sleep") {
+		if (mCenteredObject.tag == "sleep" || mCenteredObject.tag == "construction") {
 			mInterval = 5.0f;
 			return;
 		}

@@ -165,7 +165,7 @@ public class StageManager : MonoBehaviour {
 	//ライブを開始
 	public void StartLive () {
 		mState = State.Live;
-		untilSleepLabel.text = "ライブ中";
+		untilSleepLabel.text = "LIVE！！！！！！！！！！！";
 		transform.parent.gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);
@@ -183,6 +183,7 @@ public class StageManager : MonoBehaviour {
 			danceTeamObject.transform.localPosition = new Vector3 (20,10,0);
 			DanceTeamManager danceTeamManager = danceTeamObject.GetComponent<DanceTeamManager> ();
 			danceTeamManager.StartDancing (areaParams.stageId,mStageData.IdleCount);
+			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分";
 		} 
 	}
 
@@ -193,6 +194,7 @@ public class StageManager : MonoBehaviour {
 		} else {
 			mTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
 		//	mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
 			GameObject danceTeamObject = transform.parent.Find ("DanceTeam(Clone)").gameObject;
 			Destroy (danceTeamObject);
@@ -240,6 +242,8 @@ public class StageManager : MonoBehaviour {
 
 	//工事中の初期化処理
 	private void InitConstruction () {
+		transform.parent.gameObject.tag = "construction";
+
 		mCharacterList = new List<Character> ();
 		mState = State.Construction;
 		//背景を設置

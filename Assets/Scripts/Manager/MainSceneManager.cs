@@ -50,8 +50,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			#if !UNITY_EDITOR
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
-			//イベント情報をセーブ
-			EventManager.instance.SaveEvent ();
 			//ライブ情報をセーブ
 			LiveManager.instance.Save ();
 			#endif
