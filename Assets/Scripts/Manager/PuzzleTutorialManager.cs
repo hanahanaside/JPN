@@ -93,6 +93,7 @@ public class PuzzleTutorialManager : MonoSingleton<PuzzleTutorialManager> {
 
 	void CompleteTargetEvent (string targetTag) {
 		string id = targetTag.Remove (0, 5);
+		GetIdolSoundManager.instance.PlayVoice (Convert.ToInt32 (id) -1);
 		GetIdleDialogManager.instance.Show (Convert.ToInt32 (id));
 	}
 

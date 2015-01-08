@@ -175,6 +175,15 @@ public class StageManager : MonoBehaviour {
 		foreach (Character character in mCharacterList) {
 			character.StartLive ();
 		}
+		if (mStageData.FlagConstruction != Stage.IN_CONSTRUCTION) {
+			GameObject danceTeamPrefab = Resources.Load<GameObject> ("DanceTeam/DanceTeam");
+			GameObject danceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
+			danceTeamObject.transform.parent = transform.parent;
+			danceTeamObject.transform.localScale = new Vector3 (0.6f,0.6f,0.6f);
+			danceTeamObject.transform.localPosition = new Vector3 (20,10,0);
+			DanceTeamManager danceTeamManager = danceTeamObject.GetComponent<DanceTeamManager> ();
+			danceTeamManager.StartDancing (areaParams.stageId);
+		} 
 	}
 
 	//ライブを終了
@@ -185,6 +194,8 @@ public class StageManager : MonoBehaviour {
 			mTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
 		//	mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
 			mState = State.Normal;
+			GameObject danceTeamObject = transform.parent.Find ("DanceTeam(Clone)").gameObject;
+			Destroy (danceTeamObject);
 		}
 		foreach (Character character in mCharacterList) {
 			character.FinishLive ();

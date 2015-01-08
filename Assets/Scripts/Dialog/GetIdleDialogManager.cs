@@ -25,8 +25,8 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	}
 
 	public void DebutButtonClicked () {
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		iTweenEvent.GetEvent (gameObject,"DismissEvent").Play();
-		GetIdolSoundManager.instance.PlayVoice (mIdleId - 1);
 	}
 
 	public void Show (int id) {

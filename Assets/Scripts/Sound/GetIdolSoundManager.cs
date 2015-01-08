@@ -15,7 +15,9 @@ public class GetIdolSoundManager : MonoSingleton<GetIdolSoundManager> {
 	}
 
 	public void PlayVoice (int id) {
-		AudioSource audioSource = mSEsourceArray [id];
-		audioSource.Play ();
+		if(PrefsManager.instance.SE_ON){
+			AudioSource audioSource = mSEsourceArray [id];
+			audioSource.Play ();
+		}
 	}
 }

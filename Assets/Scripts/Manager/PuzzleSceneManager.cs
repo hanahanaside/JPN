@@ -61,6 +61,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
 		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
+		GetIdolSoundManager.instance.PlayVoice (Convert.ToInt32 (id) -1);
 	}
 		
 	//ゲームを更新する
@@ -71,7 +72,9 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		}
 		if (mContinueCount >= 3) {
 			FinishedAnswerCheckEvent ();
-		} else {
+		} else if(targetGrid.GetChildList().Count == 0){
+			FinishedAnswerCheckEvent ();
+		}else{
 			FenceManager.instance.ShowFence ();
 			ContinueDialogManager.instance.Show ();
 		}

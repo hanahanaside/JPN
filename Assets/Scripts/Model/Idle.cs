@@ -111,9 +111,11 @@ public class Idle : Character {
 		mRotateEvent.Play ();
 		mSprite.spriteName = "idle_normal_" + idleId;
 		ResizeSprite ();
+		mSprite.enabled = false;
 	}
 
 	public override void FinishLive () {
+		mSprite.enabled = true;
 		mState = State.Move;
 		mRotateEvent.Stop ();
 		mSprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
