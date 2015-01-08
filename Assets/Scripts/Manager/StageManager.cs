@@ -182,7 +182,7 @@ public class StageManager : MonoBehaviour {
 			danceTeamObject.transform.localScale = new Vector3 (0.6f,0.6f,0.6f);
 			danceTeamObject.transform.localPosition = new Vector3 (20,10,0);
 			DanceTeamManager danceTeamManager = danceTeamObject.GetComponent<DanceTeamManager> ();
-			danceTeamManager.StartDancing (areaParams.stageId);
+			danceTeamManager.StartDancing (areaParams.stageId,mStageData.IdleCount);
 		} 
 	}
 
