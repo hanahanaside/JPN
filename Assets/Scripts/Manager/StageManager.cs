@@ -40,7 +40,7 @@ public class StageManager : MonoBehaviour {
 		Idle.FoundEvent -= FoundIdleEvent;
 	}
 
-	void Start () {
+	public void Init () {
 		generateCoinPowerLabel.color = new Color (0.19f, 0.58f, 0.78f, 1.0f);
 		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
 		idleCountLabel.color = new Color (0.1f, 0.7f, 0.6f, 1.0f);
@@ -293,6 +293,7 @@ public class StageManager : MonoBehaviour {
 			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 			fanObject.transform.localPosition = new Vector3 (x, y, 0);
 			mCharacterList.Add (fanObject.GetComponent<Character> ());
+			fanObject.GetComponent<Fan> ().Init ();
 		}
 
 

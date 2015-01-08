@@ -27,9 +27,13 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			StageGridManager.instance.MoveToStage (1);
 			CalcSleepTimeCoin ();
 		}
-
+		if (PrefsManager.instance.IsLive) {
+			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
+			LiveManager.instance.ContinueLive ();
+		}else {
+			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
+		}
 		EventManager.instance.GenerateLostIdle ();
-		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
 	void Update () {
@@ -48,6 +52,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			PlayerDataKeeper.instance.SaveData ();
 			//イベント情報をセーブ
 			EventManager.instance.SaveEvent ();
+			//ライブ情報をセーブ
+			LiveManager.instance.Save ();
 			#endif
 		} else {
 			MyLog.LogDebug ("resume");
@@ -67,29 +73,29 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
 		Debug.Log ("addCoin " + addCoin);
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
-		if(addCoin >= 10){
+		if (addCoin >= 100) {
 			FenceManager.instance.ShowFence ();
 			SleepTimeCoinDialogManager.instance.Show (addCoin);
 		}
 	}
 
-	private void CheckNewUnlockArea(){
+	private void CheckNewUnlockArea () {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
-		for(int i = 0;i<clearedPuzzleCountArray.Length;i++){
+		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
 			int clearCount = clearedPuzzleCountArray [i];
-			if(clearCount != (int)AreaPanelManager.AreaState.NotYetPurchased){
+			if (clearCount != (int)AreaPanelManager.AreaState.NotYetPurchased) {
 				continue;
 			}
 			//未購入のエリアがある場合は購入可能かをチェックする
 			Entity_Area entityArea = Resources.Load ("Data/Area") as Entity_Area;
-			Entity_Area.Param param = entityArea.param[i];
+			Entity_Area.Param param = entityArea.param [i];
 			int totalIdleCount = 0;
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
-			foreach(Stage stage in stageList){
+			foreach (Stage stage in stageList) {
 				totalIdleCount += stage.IdleCount;
 			}
-			if(totalIdleCount > param.minimum_amount){
+			if (totalIdleCount > param.minimum_amount) {
 				FenceManager.instance.ShowFence ();
 				OKDialog.instance.Show (param.area_name + "が購入可能になりました");
 			}

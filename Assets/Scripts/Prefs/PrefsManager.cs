@@ -13,7 +13,9 @@ public class PrefsManager :Singleton<PrefsManager> {
 		LostIdleEvent,
 		TradeIdleEvent,
 		NewsEvent,
-		TutorialFinished
+		TutorialFinished,
+		RemainingLiveTime,
+		IsLive
 	}
 
 	public int DatabaseVersion {
@@ -23,6 +25,25 @@ public class PrefsManager :Singleton<PrefsManager> {
 		set {
 			PlayerPrefs.SetInt (Kies.DatabaseVersion.ToString (), value);
 			PlayerPrefs.Save ();
+		}
+	}
+
+	public float RemainingLiveTime {
+		get {
+			return PlayerPrefs.GetFloat (Kies.RemainingLiveTime.ToString ());
+		}
+		set {
+			PlayerPrefs.SetFloat (Kies.RemainingLiveTime.ToString (), value);
+			PlayerPrefs.Save ();
+		}
+	}
+
+	public bool IsLive {
+		get {
+			return PlayerPrefsX.GetBool (Kies.IsLive.ToString (), false);
+		}
+		set {
+			PlayerPrefsX.SetBool (Kies.IsLive.ToString (), value);
 		}
 	}
 
@@ -68,12 +89,12 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 	}
 
-	public bool TutorialFinished{
-		get{
-			return PlayerPrefsX.GetBool (Kies.TutorialFinished.ToString(), false);
+	public bool TutorialFinished {
+		get {
+			return PlayerPrefsX.GetBool (Kies.TutorialFinished.ToString (), false);
 		}
-		set{
-			PlayerPrefsX.SetBool (Kies.TutorialFinished.ToString(), value);
+		set {
+			PlayerPrefsX.SetBool (Kies.TutorialFinished.ToString (), value);
 		}
 	}
 

@@ -54,11 +54,11 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	public void StartLive (float time) {
+		PrefsManager.instance.IsLive = true;
 		mTime = time;
 		CoinGenerator.instance.StopGenerating ();
 		FenceManager.instance.ShowFence ();
 		EntranceStageManager.instance.StartLive ();
-		ScoutStageManager.instance.StartLive ();
 		ballParent.transform.localPosition = new Vector3 (0,0,0);
 		foreach(GameObject ballObject in ballArray){
 			ballObject.transform.localPosition = new Vector3 (0,0,0);
@@ -69,6 +69,20 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		SoundManager.instance.StopBGM ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Cheer);
 		Invoke ("StartLiveAnimation",3.0f);
+	}
+
+	public void ContinueLive(){
+		mTime = PrefsManager.instance.RemainingLiveTime;
+		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+		foreach (StageManager stageManager in stageManagerList) {
+			stageManager.StartLive ();
+		}
+		livePanelObject.SetActive (true);
+		OpenCurtain ();
+	}
+
+	public void Save(){
+		PrefsManager.instance.RemainingLiveTime = mTime;
 	}
 
 	private void StartLiveAnimation(){
@@ -87,6 +101,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	private void FinishLive(){
 		mLive = false;
+		PrefsManager.instance.IsLive = false;
+		PrefsManager.instance.RemainingLiveTime = 0;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
 		iTweenEvent.GetEvent (ballParent,"RotateEvent").Stop();
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Stop();
@@ -96,7 +112,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 			stageManager.FinishLive ();
 		}
 		EntranceStageManager.instance.FinishLive ();
-		ScoutStageManager.instance.FinishLive ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 

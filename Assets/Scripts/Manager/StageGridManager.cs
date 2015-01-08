@@ -34,6 +34,7 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 			stageGrid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
 			mStageManagerList.Add (stageObject.GetComponentInChildren<StageManager> ());
+			stageObject.GetComponentInChildren<StageManager> ().Init ();
 		}
 	}
 

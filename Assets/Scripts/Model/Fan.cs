@@ -9,7 +9,7 @@ public class Fan : Character {
 	private State mState;
 	private float mTime;
 
-	void Start () {
+	public void Init () {
 		mSpriteObject = characterTransform.FindChild ("Sprite").gameObject;
 		mRotateEvent = iTweenEvent.GetEvent (mSpriteObject, "RotateEvent");
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");

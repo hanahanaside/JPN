@@ -218,6 +218,7 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	public void LiveButtonClicked () {
 		StageGridManager.instance.MoveToStage (1);
+		EntranceStageManager.instance.OnLiveButtonClicked ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 

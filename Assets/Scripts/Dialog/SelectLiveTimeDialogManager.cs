@@ -38,7 +38,7 @@ public class SelectLiveTimeDialogManager : MonoSingleton<SelectLiveTimeDialogMan
 
 	public void On8HoursClicked(){
 		FenceManager.instance.HideFence ();
-		LiveManager.instance.StartLive (60.0f);
+		LiveManager.instance.StartLive (180.0f);
 		PlayerDataKeeper.instance.DecreaseTicketCount (3);
 		mDialogObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
