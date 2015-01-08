@@ -238,6 +238,11 @@ public class StageManager : MonoBehaviour {
 		BoxCollider boxCollider = lostIdleObject.AddComponent<BoxCollider> ();
 		boxCollider.isTrigger = true;
 		boxCollider.size = new Vector3 (150, 150, 0);
+		GameObject exPrefab = Resources.Load ("GUI/EX") as GameObject;
+		GameObject exObject = Instantiate (exPrefab) as GameObject;
+		exObject.transform.parent = lostIdleObject.transform;
+		exObject.transform.localScale = new Vector3 (1,1,1);
+		exObject.transform.localPosition = new Vector3 (0,80,0);
 	}
 
 	//工事中の初期化処理
