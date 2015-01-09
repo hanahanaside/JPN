@@ -61,7 +61,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
 		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
-		GetIdolSoundManager.instance.PlayVoice (Convert.ToInt32 (id) -1);
+		CharacterVoiceManager.instance.PlayVoice (Convert.ToInt32 (id) -1);
 	}
 		
 	//ゲームを更新する

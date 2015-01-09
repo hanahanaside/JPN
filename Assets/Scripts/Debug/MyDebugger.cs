@@ -5,11 +5,13 @@ using System;
 public class MyDebugger : MonoBehaviour {
 
 	public GameObject soundManagerPrefab;
+	public GameObject characterVoiceManagerPrefab;
 
 	#if UNITY_EDITOR
 	void Awake () {
 		if (GameObject.FindGameObjectWithTag ("SoundManager") == null) {
 			Instantiate (soundManagerPrefab);
+			Instantiate (characterVoiceManagerPrefab);
 		}
 	}
 

@@ -246,7 +246,7 @@
      <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
      <Compile Include="Assets\Scripts\Referee\Referee.cs" />
      <Compile Include="Assets\Scripts\Referee\RefereeTutorial.cs" />
-     <Compile Include="Assets\Scripts\Sound\GetIdolSoundManager.cs" />
+     <Compile Include="Assets\Scripts\Sound\CharacterVoiceManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />

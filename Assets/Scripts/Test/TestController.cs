@@ -8,7 +8,7 @@ public class TestController : MonoBehaviour {
 	private int mIndex;
 
 	void Start(){
-
+		CharacterVoiceManager.instance.PlayVoice (0);
 
 	}
 
