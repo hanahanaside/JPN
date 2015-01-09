@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
+	public GameObject moveStageCellPrefab;
 	public GameObject dialogObject;
 	public UIGrid grid;
 	public UIScrollView scrollView;
@@ -34,10 +35,10 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
 		foreach(Stage stage in stageList){
-			GameObject moveStageCellPrefab = Resources.Load ("MoveStageCell/MoveStageCell_" + stage.Id) as GameObject;
 			GameObject moveStageCellObject = Instantiate (moveStageCellPrefab) as GameObject;
 			grid.AddChild (moveStageCellObject.transform);
 			moveStageCellObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+			moveStageCellObject.GetComponent<MoveStageCell> ().Init(stage);
 		}
 	}
 
