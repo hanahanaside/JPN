@@ -10,7 +10,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	private bool mStop = false;
 
 	void Awake () {
-		uiCenterOnChild.onCenter = OnCenterCallBack;
+		uiCenterOnChild.onCenter += OnCenterCallBack;
 	}
 
 	void Update () {

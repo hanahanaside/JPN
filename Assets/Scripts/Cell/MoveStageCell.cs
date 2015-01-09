@@ -8,7 +8,6 @@ public class MoveStageCell : MonoBehaviour {
 
 	public void Init(Stage stage){
 		UIGrid grid = transform.parent.GetComponent<UIGrid> ();
-		int index = grid.GetIndex (transform);
 		UIButton button = GetComponent<UIButton> ();
 		button.normalSprite = "puzzle_idle_" + stage.Id;
 		UILabel label = transform.FindChild ("Label").GetComponent<UILabel>();
