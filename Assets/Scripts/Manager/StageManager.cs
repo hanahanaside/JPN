@@ -14,15 +14,13 @@ public class StageManager : MonoBehaviour {
 		Live,
 		Construction
 	}
-		
-	public GameObject sleepObject;
-	public GameObject completeConstructionButtonObject;
+
 	public UILabel untilSleepLabel;
 	public UILabel generateCoinPowerLabel;
 	public UILabel idleCountLabel;
 	public UILabel areaNameLabel;
 	public UISprite idleSprite;
-	public UITexture backGroundTexture;
+
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
 	private float mTimeSeconds;
@@ -31,6 +29,9 @@ public class StageManager : MonoBehaviour {
 	private State mState = State.Normal;
 	private Stage mStageData;
 	private List<Character> mCharacterList = new List<Character> ();
+	private GameObject mSkipConstructionButtonObject;
+	private GameObject sleepObject;
+	private UITexture backGroundTexture;
 
 	void OnEnable () {
 		Idle.FoundEvent += FoundIdleEvent;
@@ -42,6 +43,9 @@ public class StageManager : MonoBehaviour {
 
 	public void Init (Stage stage) {
 		mStageData = stage;
+		mSkipConstructionButtonObject = transform.FindChild ("SkipConstructionButton").gameObject;
+		sleepObject = transform.FindChild ("Sleep").gameObject;
+		backGroundTexture = GetComponentInChildren<UITexture> ();
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			InitConstruction ();
@@ -124,12 +128,12 @@ public class StageManager : MonoBehaviour {
 
 	//喝ボタン押下時の処理
 	public void OnWakeupButtonClicked () {
-		mTimeSeconds = GetUntilSleepTime() * 60;
+		mTimeSeconds = GetUntilSleepTime () * 60;
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		sleepObject.SetActive (false);
 		mState = State.Normal;
-		transform.parent.gameObject.tag = "default";
+		gameObject.tag = "default";
 		foreach (Character character in mCharacterList) {
 			character.Wakeup ();
 		}
@@ -144,7 +148,7 @@ public class StageManager : MonoBehaviour {
 
 	//サボりを開始
 	private void Sleep () {
-		transform.parent.gameObject.tag = "sleep";
+		gameObject.tag = "sleep";
 		sleepObject.SetActive (true);
 		mState = State.Sleep;
 		//コイン生成パワーをセット
@@ -163,7 +167,7 @@ public class StageManager : MonoBehaviour {
 	public void StartLive () {
 		mState = State.Live;
 		untilSleepLabel.text = "LIVE！！！！！！！！！！！";
-		transform.parent.gameObject.tag = "default";
+		gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);
 			WakeupEvent ();
@@ -175,11 +179,11 @@ public class StageManager : MonoBehaviour {
 		if (mStageData.FlagConstruction != Stage.IN_CONSTRUCTION) {
 			GameObject danceTeamPrefab = Resources.Load<GameObject> ("DanceTeam/DanceTeam");
 			GameObject danceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
-			danceTeamObject.transform.parent = transform.parent;
-			danceTeamObject.transform.localScale = new Vector3 (0.6f,0.6f,0.6f);
-			danceTeamObject.transform.localPosition = new Vector3 (20,10,0);
+			danceTeamObject.transform.parent = transform;
+			danceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
+			danceTeamObject.transform.localPosition = new Vector3 (20, 10, 0);
 			DanceTeamManager danceTeamManager = danceTeamObject.GetComponent<DanceTeamManager> ();
-			danceTeamManager.StartDancing (mStageData.Id,mStageData.IdleCount);
+			danceTeamManager.StartDancing (mStageData.Id, mStageData.IdleCount);
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分";
 		} 
 	}
@@ -189,10 +193,10 @@ public class StageManager : MonoBehaviour {
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 		} else {
-			mTimeSeconds = GetUntilSleepTime() * 60;
+			mTimeSeconds = GetUntilSleepTime () * 60;
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
-			GameObject danceTeamObject = transform.parent.Find ("DanceTeam(Clone)").gameObject;
+			GameObject danceTeamObject = transform.FindChild ("DanceTeam(Clone)").gameObject;
 			Destroy (danceTeamObject);
 		}
 		foreach (Character character in mCharacterList) {
@@ -228,8 +232,22 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//今すぐ完成させるボタン押下
-	public void CompleteConstructionClicked(){
-
+	public void SkipConstructionClicked () {
+		//20分で1枚
+		int ticketCount = (int)(mTimeSeconds / (20 * 60));
+		if(ticketCount <= 0){
+			ticketCount = 1;
+		}
+		SkipConstructionDialog.instance.Show (ticketCount);
+		SkipConstructionDialog.instance.positiveButtonClicked = () => {
+			if(PlayerDataKeeper.instance.TicketCount < ticketCount){
+				FenceManager.instance.ShowFence();
+				OKDialog.instance.Show("チケットが不足しています");
+				return;
+			}
+			mTimeSeconds = 0;
+			PlayerDataKeeper.instance.DecreaseTicketCount(ticketCount);
+		};
 	}
 		
 	//迷子のアイドルを生成
@@ -242,13 +260,13 @@ public class StageManager : MonoBehaviour {
 		GameObject exPrefab = Resources.Load ("GUI/EX") as GameObject;
 		GameObject exObject = Instantiate (exPrefab) as GameObject;
 		exObject.transform.parent = lostIdleObject.transform;
-		exObject.transform.localScale = new Vector3 (1,1,1);
-		exObject.transform.localPosition = new Vector3 (0,80,0);
+		exObject.transform.localScale = new Vector3 (1, 1, 1);
+		exObject.transform.localPosition = new Vector3 (0, 80, 0);
 	}
 
 	//工事中の初期化処理
 	private void InitConstruction () {
-		transform.parent.gameObject.tag = "construction";
+		gameObject.tag = "construction";
 
 		mCharacterList = new List<Character> ();
 		mState = State.Construction;
@@ -271,17 +289,17 @@ public class StageManager : MonoBehaviour {
 		generateCoinPowerLabel.text = "0/分";
 
 		//今すぐ完成させるボタンを表示
-		completeConstructionButtonObject.SetActive (true);
+		mSkipConstructionButtonObject.SetActive (true);
 
 		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
 			GameObject workerPrefab = Resources.Load ("Model/Worker/Worker_" + i) as GameObject;
 			GameObject workerObject = Instantiate (workerPrefab) as GameObject;
-			workerObject.transform.parent = gameObject.transform.parent;
+			workerObject.transform.parent = transform;
 			workerObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 			float x = UnityEngine.Random.Range (-175.0f, 175.0f);
 			float y = UnityEngine.Random.Range (0, 300.0f);
-			workerObject.transform.localPosition = new Vector3 (x,y,0);
+			workerObject.transform.localPosition = new Vector3 (x, y, 0);
 			mCharacterList.Add (workerObject.GetComponent<Character> ());
 		}
 	}
@@ -302,7 +320,7 @@ public class StageManager : MonoBehaviour {
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
 			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
 			float y = UnityEngine.Random.Range (-230.0f, -180.0f);
-			fanObject.transform.parent = transform.parent;
+			fanObject.transform.parent = transform;
 			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 			fanObject.transform.localPosition = new Vector3 (x, y, 0);
 			mCharacterList.Add (fanObject.GetComponent<Character> ());
@@ -325,7 +343,7 @@ public class StageManager : MonoBehaviour {
 		idleCountLabel.text = "×" + mStageData.IdleCount;
 
 		//今すぐ完成させるボタンを非表示
-		completeConstructionButtonObject.SetActive (false);
+		mSkipConstructionButtonObject.SetActive (false);
 
 		//背景をセット
 		backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
@@ -339,7 +357,7 @@ public class StageManager : MonoBehaviour {
 	//アイドルを生成
 	private GameObject GenerateIdle (GameObject idlePrefab) {
 		GameObject idleObject = Instantiate (idlePrefab) as GameObject;
-		idleObject.transform.parent = transform.parent;
+		idleObject.transform.parent = transform;
 		idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		float x = UnityEngine.Random.Range (-175.0f, 175.0f);
 		float y = UnityEngine.Random.Range (0, 300.0f);
@@ -352,27 +370,27 @@ public class StageManager : MonoBehaviour {
 	//建設中の時間をセット
 	private void SetConstructionTime () {
 		ConstructionTimeDao dao = DaoFactory.CreateConstructionTimeDao ();
-		float constructionTimeSeconds = dao.SelectById(mStageData.Id) * 60;
+		float constructionTimeSeconds = dao.SelectById (mStageData.Id) * 60;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 	}
 
 	//サボるまでの時間をセット
 	private void SetUntilSleepTime () {
-		float untilSleepTimeSeconds = GetUntilSleepTime() * 60;
+		float untilSleepTimeSeconds = GetUntilSleepTime () * 60;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = untilSleepTimeSeconds - timeSpanSeconds;
 	}
 
 	//サボるまでの時間をDBから取得
-	private int GetUntilSleepTime(){
+	private int GetUntilSleepTime () {
 		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
-		return dao.SelectById (mStageData.Id,mStageData.IdleCount);
+		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
 	}
 
 	//コイン生成パワーをDBから取得
-	private double GetGenerateCoinPower(){
+	private double GetGenerateCoinPower () {
 		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
-		return dao.SelectById (mStageData.Id,mStageData.IdleCount);
+		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
 	}
 }

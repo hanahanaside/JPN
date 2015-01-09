@@ -202,6 +202,7 @@
      <Compile Include="Assets\Scripts\Dialog\OKDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManagerTutorial.cs" />
+     <Compile Include="Assets\Scripts\Dialog\SkipConstructionDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\SleepTimeCoinDialogManager.cs" />
      <Compile Include="Assets\Scripts\Entity\Area.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
