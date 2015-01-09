@@ -187,6 +187,7 @@
      <Compile Include="Assets\Scripts\Converter\TimeConverter.cs" />
      <Compile Include="Assets\Scripts\DB\DaoFactory.cs" />
      <Compile Include="Assets\Scripts\DB\DatabaseHelper.cs" />
+     <Compile Include="Assets\Scripts\DB\GenerateCoinPowerDbDao.cs" />
      <Compile Include="Assets\Scripts\DB\StageDbDao.cs" />
      <Compile Include="Assets\Scripts\Debug\MyDebugger.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
@@ -211,6 +212,7 @@
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />
+     <Compile Include="Assets\Scripts\Interface\GenerateCoinPowerDao.cs" />
      <Compile Include="Assets\Scripts\Interface\StageDao.cs" />
      <Compile Include="Assets\Scripts\Log\MyLog.cs" />
      <Compile Include="Assets\Scripts\Manager\AreaPanelManager.cs" />
@@ -255,6 +257,7 @@
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
+     <Compile Include="Assets\Terasurware\Classes\Entity_GenerateCoinPower.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_News.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_tutorial.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />

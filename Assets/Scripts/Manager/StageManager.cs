@@ -138,7 +138,8 @@ public class StageManager : MonoBehaviour {
 			character.Wakeup ();
 		}
 		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount);
+		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
+		mTotalGenerateCoinPower = dao.SelectById (mStageData.Id,mStageData.IdleCount);
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		WakeupEvent ();
@@ -322,7 +323,8 @@ public class StageManager : MonoBehaviour {
 		SetUntilSleepTime ();
 
 		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = areaParams.GetGeneratePower (mStageData.IdleCount);
+		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
+		mTotalGenerateCoinPower = dao.SelectById (mStageData.Id,mStageData.IdleCount);
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 

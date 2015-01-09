@@ -132,6 +132,7 @@
      <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetInspector.cs" />
      <Compile Include="Assets\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
      <Compile Include="Assets\Terasurware\Classes\Editor\Area_importer.cs" />
+     <Compile Include="Assets\Terasurware\Classes\Editor\GenerateCoinPower_importer.cs" />
      <Compile Include="Assets\Terasurware\Classes\Editor\News_importer.cs" />
      <Compile Include="Assets\Terasurware\Classes\Editor\tutorial_importer.cs" />
      <Compile Include="Assets\Terasurware\Editor\ExcelImporterMaker.cs" />

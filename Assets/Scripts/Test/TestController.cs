@@ -8,8 +8,9 @@ public class TestController : MonoBehaviour {
 	private int mIndex;
 
 	void Start(){
-		CharacterVoiceManager.instance.PlayVoice (0);
-
+		Entity_GenerateCoinPower entityGenerateCoinPower = Resources.Load<Entity_GenerateCoinPower> ("Data/GenerateCoinPower");
+		Entity_GenerateCoinPower.Param param = entityGenerateCoinPower.param[1];
+		Debug.Log (""+ param.level_1);
 	}
 
 	public void ButtonClicked(){
