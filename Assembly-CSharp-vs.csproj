@@ -248,6 +248,7 @@
      <Compile Include="Assets\Scripts\Referee\RefereeTutorial.cs" />
      <Compile Include="Assets\Scripts\Sound\CharacterVoiceManager.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\StageVoicePlayer\StageVoicePlayer.cs" />
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Target\TargetTutorial.cs" />
