@@ -15,9 +15,9 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	void Start () {
 		MyLog.LogDebug ("start");
-		EventManager.instance.Init ();
 		PlayerDataKeeper.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
+		EventManager.instance.Init ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
 		if (ScoutStageManager.FlagScouting) {
 			StageGridManager.instance.MoveToStage (0);

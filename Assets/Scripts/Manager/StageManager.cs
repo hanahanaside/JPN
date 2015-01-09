@@ -70,7 +70,7 @@ public class StageManager : MonoBehaviour {
 			}
 			break;
 		case State.Live:
-			//コイン生成時間を更新(10倍)
+			//コイン生成時間を更新(2倍)
 			mUntilGenerateTime -= Time.deltaTime;
 			if (mUntilGenerateTime < 0) {
 				PlayerDataKeeper.instance.IncreaseCoinCount ((mTotalGenerateCoinPower * 2.0f) / 100.0);

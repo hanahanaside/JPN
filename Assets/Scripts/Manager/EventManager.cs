@@ -95,7 +95,11 @@ public class EventManager : MonoSingleton<EventManager> {
 		mLostIdleEvent.lostIdleID = stage.Id;
 		mLostIdleEvent.lostIdleCount = count;
 		mLostIdleEvent.foundIdleCount = 0;
-		mLostIdleEvent.reward = stage.Id * count * 10;
+		//迷子の報酬を算出
+		StageManager stageManager = StageGridManager.instance.StageManagerList [stage.Id - 1];
+		AreaParams areaParams = stageManager.areaParams;
+		double generateCoinPower = areaParams.GetGeneratePower (stage.IdleCount);
+		mLostIdleEvent.reward = (int)(generateCoinPower * 20 * mLostIdleEvent.lostIdleCount);
 		mLostIdleEvent.occurring = true;
 		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
 		Debug.Log ("id " + stage.Id);
@@ -125,8 +129,12 @@ public class EventManager : MonoSingleton<EventManager> {
 		mTradeIdleEvent.idleCount = UnityEngine.Random.Range (1, 6);
 		if (mTradeIdleEvent.idleCount >= stage.IdleCount) {
 			return;
-		}
-		mTradeIdleEvent.reward = stage.Id * mTradeIdleEvent.idleCount * 100;
+		} 
+		//トレードの金額を算出
+		StageManager stageManager = StageGridManager.instance.StageManagerList [stage.Id - 1];
+		AreaParams areaParams = stageManager.areaParams;
+		double generateCoinPower = areaParams.GetGeneratePower (stage.IdleCount);
+		mTradeIdleEvent.reward = (int)(generateCoinPower * 3000 * mTradeIdleEvent.idleCount);
 		mTradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);
