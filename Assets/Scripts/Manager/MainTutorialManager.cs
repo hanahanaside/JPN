@@ -231,7 +231,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			grid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
-			stageObject.GetComponentInChildren<StageManager> ().Init();
+			stageObject.GetComponentInChildren<StageManager> ().Init(stage);
 		}
 	}
 

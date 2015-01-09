@@ -14,4 +14,8 @@ public static class DaoFactory  {
 	public static UntilSleepTimeDao CreateUntilSleepTimeDao(){
 		return new UntilSleepTimeDbDao ();
 	}
+
+	public static ConstructionTimeDao CreateConstructionTimeDao(){
+		return new ConstructionTimeDbDao();
+	}
 }

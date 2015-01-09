@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class StageGridManager : MonoSingleton<StageGridManager> {
 
 	public UIGrid stageGrid;
+	public GameObject stagePrefab;
 	private UICenterOnChild mCenterOnChild;
 	private List<StageManager> mStageManagerList;
 
@@ -29,12 +30,11 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		List<Stage> stageList = dao.SelectAll ();
 		mStageManagerList = new List<StageManager> ();
 		foreach (Stage stage in stageList) {
-			GameObject stagePrefab = Resources.Load ("Stage/Stage_" + stage.Id) as GameObject;
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			stageGrid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
 			mStageManagerList.Add (stageObject.GetComponentInChildren<StageManager> ());
-			stageObject.GetComponentInChildren<StageManager> ().Init ();
+			stageObject.GetComponentInChildren<StageManager> ().Init (stage);
 		}
 	}
 

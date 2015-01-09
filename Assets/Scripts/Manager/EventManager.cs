@@ -90,16 +90,15 @@ public class EventManager : MonoSingleton<EventManager> {
 		if (count >= stage.IdleCount) {
 			return;
 		}
+		//迷子の報酬を算出
+		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
+		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
+		mLostIdleEvent.reward = (int)(generateCoinPower * 20 * mLostIdleEvent.lostIdleCount);
 		stage.IdleCount -= count;
 		dao.UpdateRecord (stage);
 		mLostIdleEvent.lostIdleID = stage.Id;
 		mLostIdleEvent.lostIdleCount = count;
 		mLostIdleEvent.foundIdleCount = 0;
-		//迷子の報酬を算出
-		StageManager stageManager = StageGridManager.instance.StageManagerList [stage.Id - 1];
-		AreaParams areaParams = stageManager.areaParams;
-		double generateCoinPower = areaParams.GetGeneratePower (stage.IdleCount);
-		mLostIdleEvent.reward = (int)(generateCoinPower * 20 * mLostIdleEvent.lostIdleCount);
 		mLostIdleEvent.occurring = true;
 		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
 		Debug.Log ("id " + stage.Id);
@@ -131,9 +130,8 @@ public class EventManager : MonoSingleton<EventManager> {
 			return;
 		} 
 		//トレードの金額を算出
-		StageManager stageManager = StageGridManager.instance.StageManagerList [stage.Id - 1];
-		AreaParams areaParams = stageManager.areaParams;
-		double generateCoinPower = areaParams.GetGeneratePower (stage.IdleCount);
+		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
+		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
 		mTradeIdleEvent.reward = (int)(generateCoinPower * 3000 * mTradeIdleEvent.idleCount);
 		mTradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);

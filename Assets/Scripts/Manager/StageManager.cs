@@ -23,7 +23,6 @@ public class StageManager : MonoBehaviour {
 	public UILabel areaNameLabel;
 	public UISprite idleSprite;
 	public UITexture backGroundTexture;
-	public AreaParams areaParams;
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
 	private float mTimeSeconds;
@@ -41,10 +40,8 @@ public class StageManager : MonoBehaviour {
 		Idle.FoundEvent -= FoundIdleEvent;
 	}
 
-	public void Init () {
-		generateCoinPowerLabel.color = new Color (0.19f, 0.58f, 0.78f, 1.0f);
-		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
-		idleCountLabel.color = new Color (0.1f, 0.7f, 0.6f, 1.0f);
+	public void Init (Stage stage) {
+		mStageData = stage;
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			InitConstruction ();
@@ -182,7 +179,7 @@ public class StageManager : MonoBehaviour {
 			danceTeamObject.transform.localScale = new Vector3 (0.6f,0.6f,0.6f);
 			danceTeamObject.transform.localPosition = new Vector3 (20,10,0);
 			DanceTeamManager danceTeamManager = danceTeamObject.GetComponent<DanceTeamManager> ();
-			danceTeamManager.StartDancing (areaParams.stageId,mStageData.IdleCount);
+			danceTeamManager.StartDancing (mStageData.Id,mStageData.IdleCount);
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分";
 		} 
 	}
@@ -211,7 +208,7 @@ public class StageManager : MonoBehaviour {
 		for (int i = 0; i < count; i++) {
 			GenerateIdle (idlePrefab);
 		}
-		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
+		mStageData = DaoFactory.CreateStageDao ().SelectById (mStageData.Id);
 		idleCountLabel.text = "×" + mStageData.IdleCount;
 		if (mState == State.Sleep) {
 			foreach (Character character in mCharacterList) {
@@ -226,7 +223,7 @@ public class StageManager : MonoBehaviour {
 			mCharacterList.Remove (character);
 			Destroy (character.gameObject);
 		}
-		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
+		mStageData = DaoFactory.CreateStageDao ().SelectById (mStageData.Id);
 		idleCountLabel.text = "×" + mStageData.IdleCount;
 	}
 
@@ -294,7 +291,7 @@ public class StageManager : MonoBehaviour {
 
 		//アイドルを生成
 		for (int i = 0; i < mStageData.IdleCount; i++) {
-			GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + areaParams.stageId) as GameObject;
+			GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject;
 			GenerateIdle (idlePrefab);
 		}
 
@@ -330,8 +327,11 @@ public class StageManager : MonoBehaviour {
 		//今すぐ完成させるボタンを非表示
 		completeConstructionButtonObject.SetActive (false);
 
+		//背景をセット
+		backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
+
 		//アイドルの画像をセット
-		idleSprite.spriteName = "idle_normal_" + areaParams.stageId;
+		idleSprite.spriteName = "idle_normal_" + mStageData.Id;
 		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
 		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 	}
@@ -351,7 +351,8 @@ public class StageManager : MonoBehaviour {
 		
 	//建設中の時間をセット
 	private void SetConstructionTime () {
-		float constructionTimeSeconds = areaParams.constructionTimeMInutes * 60;
+		ConstructionTimeDao dao = DaoFactory.CreateConstructionTimeDao ();
+		float constructionTimeSeconds = dao.SelectById(mStageData.Id) * 60;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 	}

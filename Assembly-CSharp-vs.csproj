@@ -185,6 +185,7 @@
      <Compile Include="Assets\Scripts\Cell\MoveStageCell.cs" />
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Converter\TimeConverter.cs" />
+     <Compile Include="Assets\Scripts\DB\ConstructionTimeDbDao.cs" />
      <Compile Include="Assets\Scripts\DB\DaoFactory.cs" />
      <Compile Include="Assets\Scripts\DB\DatabaseHelper.cs" />
      <Compile Include="Assets\Scripts\DB\GenerateCoinPowerDbDao.cs" />
@@ -213,6 +214,7 @@
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />
+     <Compile Include="Assets\Scripts\Interface\ConstructionTimeDao.cs" />
      <Compile Include="Assets\Scripts\Interface\GenerateCoinPowerDao.cs" />
      <Compile Include="Assets\Scripts\Interface\StageDao.cs" />
      <Compile Include="Assets\Scripts\Interface\UntilSleepTimeDao.cs" />
@@ -259,6 +261,7 @@
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
+     <Compile Include="Assets\Terasurware\Classes\Entity_ConstructionTime.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_GenerateCoinPower.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_News.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_UntilSleepTime.cs" />

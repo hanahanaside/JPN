@@ -8,9 +8,9 @@ public class TestController : MonoBehaviour {
 	private int mIndex;
 
 	void Start(){
-		Entity_UntilSleepTime entityGenerateCoinPower = Resources.Load<Entity_UntilSleepTime> ("Data/UntilSleepTime");
-		Entity_UntilSleepTime.Param param = entityGenerateCoinPower.param[1];
-		Debug.Log (""+ param.level_1);
+		Entity_ConstructionTime entityConstructionTime = Resources.Load<Entity_ConstructionTime> ("Data/ConstructionTime");
+		Entity_ConstructionTime.Param param = entityConstructionTime.param[0];
+		Debug.Log (""+ param.time);
 	}
 
 	public void ButtonClicked(){
