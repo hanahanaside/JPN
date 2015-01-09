@@ -234,7 +234,8 @@ public class StageManager : MonoBehaviour {
 	//今すぐ完成させるボタン押下
 	public void SkipConstructionClicked () {
 		//20分で1枚
-		int ticketCount = (int)(mTimeSeconds / (20 * 60));
+		//小数点以下を切り上げ
+		int ticketCount = (int)(Math.Ceiling (mTimeSeconds / (20 * 60)));
 		if(ticketCount <= 0){
 			ticketCount = 1;
 		}
