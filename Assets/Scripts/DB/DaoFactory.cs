@@ -10,4 +10,8 @@ public static class DaoFactory  {
 	public static GenerateCoinPowerDao CreateGenerateCoinPowerDao(){
 		return new GenerateCoinPowerDbDao ();
 	}
+
+	public static UntilSleepTimeDao CreateUntilSleepTimeDao(){
+		return new UntilSleepTimeDbDao ();
+	}
 }

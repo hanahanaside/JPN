@@ -8,8 +8,8 @@ public class TestController : MonoBehaviour {
 	private int mIndex;
 
 	void Start(){
-		Entity_GenerateCoinPower entityGenerateCoinPower = Resources.Load<Entity_GenerateCoinPower> ("Data/GenerateCoinPower");
-		Entity_GenerateCoinPower.Param param = entityGenerateCoinPower.param[1];
+		Entity_UntilSleepTime entityGenerateCoinPower = Resources.Load<Entity_UntilSleepTime> ("Data/UntilSleepTime");
+		Entity_UntilSleepTime.Param param = entityGenerateCoinPower.param[1];
 		Debug.Log (""+ param.level_1);
 	}
 

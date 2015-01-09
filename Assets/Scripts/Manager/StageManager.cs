@@ -127,8 +127,7 @@ public class StageManager : MonoBehaviour {
 
 	//喝ボタン押下時の処理
 	public void OnWakeupButtonClicked () {
-		mTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-	//	mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+		mTimeSeconds = GetUntilSleepTime() * 60;
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		sleepObject.SetActive (false);
@@ -138,8 +137,7 @@ public class StageManager : MonoBehaviour {
 			character.Wakeup ();
 		}
 		//コイン生成パワーを算出してセット
-		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
-		mTotalGenerateCoinPower = dao.SelectById (mStageData.Id,mStageData.IdleCount);
+		mTotalGenerateCoinPower = GetGenerateCoinPower ();
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		WakeupEvent ();
@@ -194,8 +192,7 @@ public class StageManager : MonoBehaviour {
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 		} else {
-			mTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-		//	mTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+			mTimeSeconds = GetUntilSleepTime() * 60;
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
 			GameObject danceTeamObject = transform.parent.Find ("DanceTeam(Clone)").gameObject;
@@ -323,8 +320,7 @@ public class StageManager : MonoBehaviour {
 		SetUntilSleepTime ();
 
 		//コイン生成パワーを算出してセット
-		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
-		mTotalGenerateCoinPower = dao.SelectById (mStageData.Id,mStageData.IdleCount);
+		mTotalGenerateCoinPower = GetGenerateCoinPower ();
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 
@@ -356,16 +352,26 @@ public class StageManager : MonoBehaviour {
 	//建設中の時間をセット
 	private void SetConstructionTime () {
 		float constructionTimeSeconds = areaParams.constructionTimeMInutes * 60;
-	//	float constructionTimeSeconds = (areaParams.constructionTimeMInutes * 60) / 10;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 	}
 
 	//サボるまでの時間をセット
 	private void SetUntilSleepTime () {
-		float untilSleepTimeSeconds = areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60;
-	//	float untilSleepTimeSeconds = (areaParams.GetUntilSleepTimeMinutes (mStageData.IdleCount) * 60) / 10;
+		float untilSleepTimeSeconds = GetUntilSleepTime() * 60;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = untilSleepTimeSeconds - timeSpanSeconds;
+	}
+
+	//サボるまでの時間をDBから取得
+	private int GetUntilSleepTime(){
+		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
+		return dao.SelectById (mStageData.Id,mStageData.IdleCount);
+	}
+
+	//コイン生成パワーをDBから取得
+	private double GetGenerateCoinPower(){
+		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
+		return dao.SelectById (mStageData.Id,mStageData.IdleCount);
 	}
 }
