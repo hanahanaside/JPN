@@ -16,6 +16,7 @@ public class StageManager : MonoBehaviour {
 	}
 		
 	public GameObject sleepObject;
+	public GameObject completeConstructionButtonObject;
 	public UILabel untilSleepLabel;
 	public UILabel generateCoinPowerLabel;
 	public UILabel idleCountLabel;
@@ -230,6 +231,11 @@ public class StageManager : MonoBehaviour {
 		mStageData = DaoFactory.CreateStageDao ().SelectById (areaParams.stageId);
 		idleCountLabel.text = "×" + mStageData.IdleCount;
 	}
+
+	//今すぐ完成させるボタン押下
+	public void CompleteConstructionClicked(){
+
+	}
 		
 	//迷子のアイドルを生成
 	public void GenerateLostIdle (int idleId) {
@@ -268,6 +274,9 @@ public class StageManager : MonoBehaviour {
 
 		//コイン生成パワーをセット
 		generateCoinPowerLabel.text = "0/分";
+
+		//今すぐ完成させるボタンを表示
+		completeConstructionButtonObject.SetActive (true);
 
 		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
@@ -319,6 +328,9 @@ public class StageManager : MonoBehaviour {
 
 		//アイドルの数をセット
 		idleCountLabel.text = "×" + mStageData.IdleCount;
+
+		//今すぐ完成させるボタンを非表示
+		completeConstructionButtonObject.SetActive (false);
 
 		//アイドルの画像をセット
 		idleSprite.spriteName = "idle_normal_" + areaParams.stageId;
