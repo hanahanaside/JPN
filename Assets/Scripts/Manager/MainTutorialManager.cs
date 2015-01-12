@@ -16,6 +16,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	public GameObject backGroundTextureObject;
 	public GameObject liveArrowObject;
 	public GameObject coinSpriteObject;
+	public GameObject stagePrefab;
 	public UICenterOnChild centerOnChild;
 	public UIGrid grid;
 	private UILabel tutorialLabel;
@@ -227,7 +228,6 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			dao.UpdateRecord (stage);
 		}
 		foreach (Stage stage in stageList) {
-			GameObject stagePrefab = Resources.Load <GameObject> ("Stage/Stage_" + stage.Id);
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			grid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);

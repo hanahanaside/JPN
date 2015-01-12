@@ -166,6 +166,7 @@ public class StageManager : MonoBehaviour {
 	//ライブを開始
 	public void StartLive () {
 		mState = State.Live;
+		mSkipConstructionButtonObject.SetActive (false);
 		untilSleepLabel.text = "LIVE！！！！！！！！！！！";
 		gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
@@ -192,6 +193,7 @@ public class StageManager : MonoBehaviour {
 	public void FinishLive () { 
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
+			mSkipConstructionButtonObject.SetActive (true);
 		} else {
 			mTimeSeconds = GetUntilSleepTime () * 60;
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";

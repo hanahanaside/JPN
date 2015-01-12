@@ -8,9 +8,19 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	private GameObject mCenteredObject;
 	private float mInterval = 5.0f;
 	private bool mStop = false;
+	private int mUnlockedStageCount;
 
 	void Awake () {
 		uiCenterOnChild.onCenter += OnCenterCallBack;
+		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
+		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
+			int clearedCount = clearedPuzzleCountArray [i];
+			if (clearedCount < 0) {
+				mUnlockedStageCount = i;
+				break;
+			}
+			mUnlockedStageCount = i;
+		}
 	}
 
 	void Update () {
@@ -27,8 +37,18 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		}
 		int[] numbers = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4 };
 		int rand = Random.Range (0, numbers.Length);
-
-		GameObject coinPrefab = coinPrefabArray [numbers [rand]];
+		int number = numbers[rand];
+		if (mUnlockedStageCount < 3) {
+			if (number >= 3) {
+				return;
+			}
+		}
+		if (mUnlockedStageCount < 4) {
+			if (number >= 4) {
+				return;
+			}
+		}
+		GameObject coinPrefab = coinPrefabArray [number];
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
 		coinObject.transform.parent = mCenteredObject.transform;
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
