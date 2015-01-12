@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 
@@ -15,6 +16,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	private int mRemainingTapCount = 10;
 	private int mContinueCount;
 	private GameObject mPuzzleTableObject;
+	private List<string> mGetItemTagList;
 
 	void OnEnable () {
 		Referee.UpdateGameEvent += UpdateGameEvent;
@@ -61,7 +63,8 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
 		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
-		CharacterVoiceManager.instance.PlayVoice (Convert.ToInt32 (id) -1);
+		CharacterVoiceManager.instance.PlayVoice (Convert.ToInt32 (id) - 1);
+		mGetItemTagList.Add (targetTag);
 	}
 		
 	//ゲームを更新する
@@ -72,9 +75,9 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		}
 		if (mContinueCount >= 3) {
 			FinishedAnswerCheckEvent ();
-		} else if(targetGrid.GetChildList().Count == 0){
+		} else if (targetGrid.GetChildList ().Count == 0) {
 			FinishedAnswerCheckEvent ();
-		}else{
+		} else {
 			FenceManager.instance.ShowFence ();
 			ContinueDialogManager.instance.Show ();
 		}
@@ -126,6 +129,13 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		Application.LoadLevel ("Main");
 	}
 
+	//獲得したアイテムのタグリストを返す
+	public List<string> GetItemTagList {
+		get {
+			return mGetItemTagList;
+		}
+	}
+
 	//パズルテーブルを作る
 	private void CreatePuzzleTable () {
 		#if UNITY_EDITOR
@@ -140,5 +150,6 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		mPuzzleTableObject.transform.localScale = new Vector3 (1, 1, 1);
 		PuzzleTable puzzleTable = mPuzzleTableObject.GetComponent<PuzzleTable> ();
 		puzzleTable.CreateTable ();
+		mGetItemTagList = new List<string> ();
 	}
 }
