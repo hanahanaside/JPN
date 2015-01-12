@@ -10,25 +10,21 @@ public class PuzzleTable : MonoBehaviour {
 
 	private List<Transform> mChildList;
 	public GameObject[] blankPuzzleArray;
-	public int[] puzzleIdArray;
+	public string[] puzzleTagArray;
 
 	//パズルテーブルを作成する
 	public void CreateTable () {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
 		//生成するパズルの種類の数を決める
-		int[] targetIdArray = null;
-		//被らないようにする
-		while (true) {
-			targetIdArray = CreatePuzzleIdArray ();
-			if (CheckNotDuplicate (targetIdArray)) {
-				break;
-			}
-		}
-		GameObject[] puzzleObjectArray = new GameObject[targetIdArray.Length];
+		string[] targetTagArray = null;
+		//ターゲットのリストを作成する
+		targetTagArray = CreatePuzzleTagArray ();
+		//パズルのリストを作成する
+		GameObject[] puzzleObjectArray = new GameObject[targetTagArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
-			int puzzleId = targetIdArray [i];
-			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + puzzleId) as GameObject;
+			string puzzleTag = targetTagArray [i];
+			GameObject puzzlePrefab = Resources.Load ("Puzzle/Puzzle_" + puzzleTag) as GameObject;
 			puzzleObjectArray [i] = puzzlePrefab;
 		}
 
@@ -69,17 +65,7 @@ public class PuzzleTable : MonoBehaviour {
 		}
 		FinishedAnswerCheckEvent ();
 	}
-
-	//パズルのキャラが被っているかをチェックする
-	private bool CheckNotDuplicate (int[] puzzleIdArray) {
-		Debug.Log ("check not duplicate");
-		int puzzleId = puzzleIdArray [0];
-		if (puzzleId == puzzleIdArray [1]) {
-			return false;
-		}
-		return true;
-	}
-
+		
 	//指定した配列の順番にパズルを設置する
 	private void AddPuzzle (int[] indexArray, GameObject puzzlePrefab) {
 		for (int i = 0; i < mChildList.Count; i++) {
@@ -117,7 +103,7 @@ public class PuzzleTable : MonoBehaviour {
 
 		while (true) {
 			//1つめのパズルを設置する場所をランダムで決定
-			int rand = UnityEngine.Random.Range (0, puzzle.firstIndexArray.Length - 1);
+			int rand = UnityEngine.Random.Range (0, puzzle.firstIndexArray.Length);
 			puzzleIndexArray [0] = puzzle.firstIndexArray [rand];
 
 			//2つめ以降のパズルを設置する場所を決定
@@ -147,38 +133,25 @@ public class PuzzleTable : MonoBehaviour {
 	}
 
 	//パズルIDをを返す
-	private int[] CreatePuzzleIdArray () {
-		Debug.Log ("create puzzle id array");
-		int[] targetIdArray = new int[2];
-		for (int i = 0; i < targetIdArray.Length; i++) {
-			int rand = UnityEngine.Random.Range (1, 11);
-			int puzzleId = 0;
-			switch (rand) {
-			case 1:
-			case 2:
-				puzzleId = puzzleIdArray [0];
-				break;
-			case 3:
-			case 4:
-				puzzleId = puzzleIdArray [1];
-				break;
-			case 5:
-			case 6:
-				puzzleId = puzzleIdArray [2];
-				break;
-			case 7:
-			case 8:
-				puzzleId = puzzleIdArray [3];
-				break;
-			case 9:
-				puzzleId = puzzleIdArray [4];
-				break;
-			case 10:
-				puzzleId = puzzleIdArray [5];
-				break;
-			}
-			targetIdArray [i] = puzzleId;
+	private string[] CreatePuzzleTagArray () {
+		string[] targetTagArray = new string[2];
+		int[] puzzleIndexArray = { 0, 1, 2, 3, 4, 5 };
+		List<int> puzzleIndexList = new List<int> (puzzleIndexArray);
+		for (int i = 0; i < targetTagArray.Length; i++) {
+			int rand = UnityEngine.Random.Range (0, puzzleIndexList.Count);
+			int puzzleIndex = puzzleIndexList [rand];
+			targetTagArray [i] = puzzleTagArray [puzzleIndex];
+			RemoveIndex (puzzleIndexList,puzzleIndex);
+			Debug.Log ("target " + targetTagArray [i]);
 		}
-		return targetIdArray;
+		return targetTagArray;
+	}
+
+	private void RemoveIndex (List<int> puzzleIndexList, int removeIndex) {
+		for (int i = 0; i < puzzleIndexList.Count; i++) {
+			if (puzzleIndexList [i] == removeIndex) {
+				puzzleIndexList.Remove (i);
+			}
+		}
 	}
 }
