@@ -8,9 +8,8 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 
 	public GameObject debutButton;
 	public GameObject tradeButton;
-	public UIGrid buttonGrid;
 
-	private UILabel mTitleLabel;
+	private UILabel mMessageLabel;
 	private UISprite mIdleSprite;
 	private int mIdleId;
 	private int mTradeCost;
@@ -26,19 +25,12 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	public override void OnInitialize () {
 		mDialogObject = transform.FindChild ("Dialog").gameObject;
 		mIdleSprite = mDialogObject.transform.FindChild ("IdleSprite").GetComponent<UISprite> ();
-		mTitleLabel = mDialogObject.transform.FindChild ("TitleLabel").GetComponent<UILabel> ();
+		mMessageLabel = mDialogObject.transform.FindChild ("MessageLabel").GetComponent<UILabel> ();
 	}
 
 	public void DebutButtonClicked () {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		iTweenEvent.GetEvent (gameObject, "DismissEvent").Play ();
-		StageDao dao = DaoFactory.CreateStageDao ();
-		Stage	stage = dao.SelectById (mIdleId);
-		stage.IdleCount++;
-		if (string.IsNullOrEmpty (stage.UpdatedDate)) {
-			stage.UpdatedDate = DateTime.Now.ToString ();
-		}
-		dao.UpdateRecord (stage);
 	}
 
 	public void TradeButtonClicked () {
@@ -68,14 +60,45 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		} else {
 			debutButton.SetActive (true);
 			tradeButton.SetActive (false);
+			stage.IdleCount++;
+			if (string.IsNullOrEmpty (stage.UpdatedDate)) {
+				stage.UpdatedDate = DateTime.Now.ToString ();
+			}
+			dao.UpdateRecord (stage);
 			sb.Append (stage.AreaName + "の子をスカウトした！");
 			sb.Append ("\n");
-			sb.Append (stage.IdleCount + " / 25");
-		}
+			sb.Append (stage.IdleCount + " / 25\n");
+			sb.Append (GetUntilLevelUpMessage (stage));
 
-		buttonGrid.Reposition ();
-		mTitleLabel.text = sb.ToString ();
+		}
+			
+		mMessageLabel.text = sb.ToString ();
 		iTweenEvent.GetEvent (gameObject, "ShowEvent").Play ();
 	}
-		
+
+	private string GetUntilLevelUpMessage (Stage stage) {
+		int untilLevelUpCount = 0;
+		string untilLevelUpMessage = "";
+		if (stage.IdleCount > 20) {
+			untilLevelUpCount = 25 - stage.IdleCount;
+			untilLevelUpMessage = "レベルMAXまであと" + untilLevelUpCount + "人";
+		} else if (stage.IdleCount > 15) {
+			untilLevelUpCount = 20 - stage.IdleCount;
+			untilLevelUpMessage = "レベル5まであと" + untilLevelUpCount + "人";
+		} else if (stage.IdleCount > 10) {
+			untilLevelUpCount = 15 - stage.IdleCount;
+			untilLevelUpMessage = "レベル4まであと" + untilLevelUpCount + "人";
+		} else if (stage.IdleCount > 5) {
+			untilLevelUpCount = 10 - stage.IdleCount;
+			untilLevelUpMessage = "レベル3まであと" + untilLevelUpCount + "人";
+		} else {
+			untilLevelUpCount = 5 - stage.IdleCount;
+			untilLevelUpMessage = "レベル2まであと" + untilLevelUpCount + "人";
+		}
+
+		if (untilLevelUpCount == 0) {
+			untilLevelUpMessage = "レベルアップ！！";
+		}
+		return untilLevelUpMessage;
+	}
 }
