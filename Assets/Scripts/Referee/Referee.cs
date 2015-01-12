@@ -25,8 +25,14 @@ public class Referee : MonoBehaviour {
 	void CreatedPuzzleTableEvent (GameObject[] puzzleObjectArray) {
 		mTargetObjectList = new List<GameObject> ();
 		foreach (GameObject puzzleObject in puzzleObjectArray) {
-			string id = puzzleObject.tag.Remove (0, 5);
-			GameObject targetPrefab = Resources.Load ("Target/Target_" + id) as GameObject;
+			string tag = "";
+			if (puzzleObject.tag == "ticket") {
+				tag = "Ticket";
+			} else {
+				tag = puzzleObject.tag.Remove (0, 5);
+			}
+
+			GameObject targetPrefab = Resources.Load ("Target/Target_" + tag) as GameObject;
 			GameObject targetObject = Instantiate (targetPrefab) as GameObject;
 			targetGrid.AddChild (targetObject.transform);
 			targetObject.transform.localScale = new Vector3 (1, 1, 1);
@@ -38,7 +44,7 @@ public class Referee : MonoBehaviour {
 	//パズルオープン時に呼ばれる
 	void OpenedPuzzleEvent (GameObject puzzleObject) {
 		string tag = puzzleObject.tag;
-		Debug.Log ("tag " +tag);
+		Debug.Log ("tag " + tag);
 		switch (tag) {
 		case "blank":
 			UpdateGameEvent ();
@@ -70,7 +76,7 @@ public class Referee : MonoBehaviour {
 			break;
 		}
 		foreach (GameObject targetObject in mTargetObjectList) {
-			if(targetObject == null){
+			if (targetObject == null) {
 				continue;
 			}
 			string targetTag = targetObject.tag;

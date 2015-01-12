@@ -8,9 +8,12 @@ public class TestController : MonoBehaviour {
 	private int mIndex;
 
 	void Start(){
-		Entity_ConstructionTime entityConstructionTime = Resources.Load<Entity_ConstructionTime> ("Data/ConstructionTime");
-		Entity_ConstructionTime.Param param = entityConstructionTime.param[0];
-		Debug.Log (""+ param.time);
+		for(int i =0;i <10;i++){
+			Debug.Log ("i " +i);
+			if(i == 5){
+				return;
+			}
+		}
 	}
 
 	public void ButtonClicked(){

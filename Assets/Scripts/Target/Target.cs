@@ -7,6 +7,7 @@ public class Target : MonoBehaviour {
 
 	public static event Action UpdateGameEvent;
 	public static event Action<string> CompleteTargetEvent;
+
 	public int symbolCount;
 	public GameObject symbolPrefab;
 
@@ -15,36 +16,39 @@ public class Target : MonoBehaviour {
 
 	void Start () {
 		UIGrid grid = GetComponentInChildren<UIGrid> ();
-		for(int i = 0;i<symbolCount;i++){
+		for (int i = 0; i < symbolCount; i++) {
 			GameObject symbolObject = Instantiate (symbolPrefab)as GameObject;
 			grid.AddChild (symbolObject.transform);
-			symbolObject.transform.localScale = new Vector3 (1,1,1);
+			symbolObject.transform.localScale = new Vector3 (1, 1, 1);
 		}
 		mChildList = grid.GetChildList ();
 		UISprite sprite = GetComponent<UISprite> ();
 		sprite.depth = 2;
-		BoxCollider boxCollider =  gameObject.AddComponent<BoxCollider> ();
-		boxCollider.size = new Vector3 (sprite.width,sprite.height,0);
+		BoxCollider boxCollider = gameObject.AddComponent<BoxCollider> ();
+		boxCollider.size = new Vector3 (sprite.width, sprite.height, 0);
 		boxCollider.isTrigger = true;
 		gameObject.AddComponent<UIButtonScale> ();
 	}
 
-	void CompleteExitEvent(){
+	void CompleteExitEvent () {
 		FenceManager.instance.HideTransparentFence ();
 		enabled = false;
 		Destroy (gameObject);
 		CompleteTargetEvent (tag);
 	}
 
-	void OnClick(){
+	void OnClick () {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		string tag = gameObject.tag;
-		int id = Convert.ToInt32 (tag.Replace ("idle_",""));
+		if (tag == "ticket") {
+			return;
+		}
+		int id = Convert.ToInt32 (tag.Replace ("idle_", ""));
 		MapDialogManager.instance.Show (id);
 	}
-		
+
 	public void Correct () {
-		if(!enabled){
+		if (!enabled) {
 			return;
 		}
 		mCorrectCount++;
@@ -54,7 +58,7 @@ public class Target : MonoBehaviour {
 			FenceManager.instance.ShowTransparentFence ();
 			iTweenEvent.GetEvent (gameObject, "ExitEvent").Play ();
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetIdol_1);
-		}else {
+		} else {
 			UpdateGameEvent ();
 		}
 	}

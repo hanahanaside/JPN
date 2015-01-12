@@ -16,10 +16,8 @@ public class PuzzleTable : MonoBehaviour {
 	public void CreateTable () {
 		UITable table = GetComponent<UITable> ();
 		mChildList = table.children;
-		//生成するパズルの種類の数を決める
-		string[] targetTagArray = null;
 		//ターゲットのリストを作成する
-		targetTagArray = CreatePuzzleTagArray ();
+		string[] targetTagArray = CreatePuzzleTagArray ();
 		//パズルのリストを作成する
 		GameObject[] puzzleObjectArray = new GameObject[targetTagArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
@@ -28,11 +26,20 @@ public class PuzzleTable : MonoBehaviour {
 			puzzleObjectArray [i] = puzzlePrefab;
 		}
 
-		foreach (GameObject puzzleObject in puzzleObjectArray) {
+		for (int i = 0; i < puzzleObjectArray.Length; i++) {
+			GameObject puzzleObject = puzzleObjectArray [i];
 			Puzzle puzzle = puzzleObject.GetComponent<Puzzle> ();
 
 			//パズルを設置するインデックスの配列を作成
 			int[] puzzleIndexArray = CreateIndexArray (puzzle);
+
+			//nullだったらチケットに変更する
+			if (puzzleIndexArray == null) {
+				Debug.Log ("nullなのでチケットに変更 " +puzzleObject.tag);
+				puzzleObject = Resources.Load<GameObject> ("Puzzle/Puzzle_Ticket");
+				puzzleObjectArray [i] = puzzleObject;
+				puzzleIndexArray = CreateIndexArray (puzzleObject.GetComponent<Puzzle>());
+			}
 
 			//作成した配列にパズルを設置
 			AddPuzzle (puzzleIndexArray, puzzleObject);
@@ -58,6 +65,11 @@ public class PuzzleTable : MonoBehaviour {
 			}
 			grandChildObject.collider.enabled = false;
 			if (0 <= grandChildObject.tag.IndexOf ("idle")) {
+				Puzzle puzzle = grandChildObject.GetComponent<Puzzle> ();
+				puzzle.Open ();
+				yield return new WaitForSeconds (0.3f);
+			}
+			if (0 <= grandChildObject.tag.IndexOf ("ticket")) {
 				Puzzle puzzle = grandChildObject.GetComponent<Puzzle> ();
 				puzzle.Open ();
 				yield return new WaitForSeconds (0.3f);
@@ -101,24 +113,25 @@ public class PuzzleTable : MonoBehaviour {
 		//パズルを設置するインデックスの配列を作成
 		int[] puzzleIndexArray = new int[puzzle.rangeArray.Length + 1];
 
-		while (true) {
+		//10回試して完成しなかったらnullを返す
+		for (int i = 0; i < 10; i++) {
 			//1つめのパズルを設置する場所をランダムで決定
 			int rand = UnityEngine.Random.Range (0, puzzle.firstIndexArray.Length);
 			puzzleIndexArray [0] = puzzle.firstIndexArray [rand];
 
 			//2つめ以降のパズルを設置する場所を決定
-			for (int i = 1; i < puzzleIndexArray.Length; i++) {
-				puzzleIndexArray [i] = puzzleIndexArray [0] + puzzle.rangeArray [i - 1];
+			for (int j = 1; j < puzzleIndexArray.Length; j++) {
+				puzzleIndexArray [j] = puzzleIndexArray [0] + puzzle.rangeArray [j - 1];
 			}
 
 			//子供がいなかったら作成を終了
 			if (!CheckChildExist (puzzleIndexArray)) {
-				break;
+				return puzzleIndexArray;
 			}
 
 		}
-			
-		return puzzleIndexArray;
+		return null;
+
 	}
 
 	//既に子供が存在していたらtrueを返す
@@ -135,23 +148,37 @@ public class PuzzleTable : MonoBehaviour {
 	//パズルIDをを返す
 	private string[] CreatePuzzleTagArray () {
 		string[] targetTagArray = new string[2];
-		int[] puzzleIndexArray = { 0, 1, 2, 3, 4, 5 };
-		List<int> puzzleIndexList = new List<int> (puzzleIndexArray);
-		for (int i = 0; i < targetTagArray.Length; i++) {
-			int rand = UnityEngine.Random.Range (0, puzzleIndexList.Count);
-			int puzzleIndex = puzzleIndexList [rand];
-			targetTagArray [i] = puzzleTagArray [puzzleIndex];
-			RemoveIndex (puzzleIndexList,puzzleIndex);
-			Debug.Log ("target " + targetTagArray [i]);
+		targetTagArray [0] = GetPuzzleIndex ();
+		while (true) {
+			targetTagArray [1] = GetPuzzleIndex ();
+			if (targetTagArray [0] != targetTagArray [1]) {
+				break;
+			}
 		}
+			
 		return targetTagArray;
 	}
 
-	private void RemoveIndex (List<int> puzzleIndexList, int removeIndex) {
-		for (int i = 0; i < puzzleIndexList.Count; i++) {
-			if (puzzleIndexList [i] == removeIndex) {
-				puzzleIndexList.Remove (i);
-			}
+	private string GetPuzzleIndex () {
+		int rand = UnityEngine.Random.Range (0, 100);
+		if (rand == 99) {
+			return puzzleTagArray [6];
 		}
+		if (rand >= 90) {
+			return puzzleTagArray [5];
+		}
+		if (rand >= 80) {
+			return puzzleTagArray [4];
+		}
+		if (rand >= 60) {
+			return puzzleTagArray [3];
+		}
+		if (rand >= 40) {
+			return puzzleTagArray [2];
+		}
+		if (rand >= 20) {
+			return puzzleTagArray [1];
+		} 
+		return puzzleTagArray [0];
 	}
 }

@@ -56,6 +56,10 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	//パズル完成アニメーション終了時に呼ばれる
 	void CompleteTargetEvent (string targetTag) {
 		targetGrid.repositionNow = true;
+		mGetItemTagList.Add (targetTag);
+		if(targetTag == "ticket"){
+			return;
+		}
 		string id = targetTag.Remove (0, 5);
 		FenceManager.instance.ShowFence ();
 		GetIdleDialogManager.instance.Show (Convert.ToInt32 (id));
@@ -64,7 +68,6 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
 		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
 		CharacterVoiceManager.instance.PlayVoice (Convert.ToInt32 (id) - 1);
-		mGetItemTagList.Add (targetTag);
 	}
 		
 	//ゲームを更新する
@@ -140,7 +143,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	private void CreatePuzzleTable () {
 		#if UNITY_EDITOR
 		if (ScoutStageManager.SelectedAreaId == 0) {
-			ScoutStageManager.SelectedAreaId = 1;
+			ScoutStageManager.SelectedAreaId = 2;
 		}
 		#endif
 		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_" + ScoutStageManager.SelectedAreaId) as GameObject;

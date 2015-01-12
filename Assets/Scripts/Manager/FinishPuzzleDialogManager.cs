@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager> {
 
@@ -60,5 +61,9 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 
 	public void Dismiss () {
 		iTweenEvent.GetEvent (gameObject, "DismissEvent").Play ();
+		List<Transform> childList = resultGrid.GetChildList ();
+		foreach(Transform child in childList){
+			Destroy (child.gameObject);
+		}
 	}
 }
