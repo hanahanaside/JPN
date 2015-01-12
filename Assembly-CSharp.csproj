@@ -194,6 +194,7 @@
      <Compile Include="Assets\Scripts\Debug\MyDebugger.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyAreaDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Dialog\BuyTicketDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\ContinueDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManagerTutorial.cs" />

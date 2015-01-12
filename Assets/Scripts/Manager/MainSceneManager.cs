@@ -144,4 +144,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		MenuPanelManager.instance.ShowMenuPanel ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
+
+	public void OnTicketClicked(){
+		BuyTicketDialog.instance.Show ();
+	}
 }

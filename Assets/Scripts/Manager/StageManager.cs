@@ -244,8 +244,7 @@ public class StageManager : MonoBehaviour {
 		SkipConstructionDialog.instance.Show (ticketCount);
 		SkipConstructionDialog.instance.positiveButtonClicked = () => {
 			if(PlayerDataKeeper.instance.TicketCount < ticketCount){
-				FenceManager.instance.ShowFence();
-				OKDialog.instance.Show("チケットが不足しています");
+				BuyTicketDialog.instance.Show();
 				return;
 			}
 			mTimeSeconds = 0;
