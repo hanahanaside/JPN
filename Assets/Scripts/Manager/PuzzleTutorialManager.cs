@@ -10,6 +10,7 @@ public class PuzzleTutorialManager : MonoSingleton<PuzzleTutorialManager> {
 	public GameObject natsumotoObject;
 	public UILabel tutorialLabel;
 	public TypewriterEffect typeWriterEffect;
+	public GameObject okButtonObject;
 	private Entity_tutorial mEntityTutorial;
 	private int mRemainingTapCount = 8;
 	private int mTutorialMessageIndex = 8;
@@ -46,6 +47,7 @@ public class PuzzleTutorialManager : MonoSingleton<PuzzleTutorialManager> {
 	}
 
 	void CompleteShowEvent () {
+		okButtonObject.SetActive (false);
 		UpdateMessage ();
 	}
 
@@ -97,7 +99,13 @@ public class PuzzleTutorialManager : MonoSingleton<PuzzleTutorialManager> {
 		GetIdleDialogManager.instance.Show (Convert.ToInt32 (id));
 	}
 
+	public void OnMessageFinished(){
+		okButtonObject.SetActive (true);
+	}
+
 	public void OKButtonClicked () {
+		okButtonObject.SetActive (false);
+		tutorialLabel.text = "";
 		Debug.Log ("index " + mTutorialMessageIndex);
 		switch (mTutorialMessageIndex) {
 		case 8:
@@ -116,6 +124,7 @@ public class PuzzleTutorialManager : MonoSingleton<PuzzleTutorialManager> {
 			Application.LoadLevel ("MainTutorial");
 			break;
 		}
+
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 

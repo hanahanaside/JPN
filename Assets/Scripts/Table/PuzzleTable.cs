@@ -9,12 +9,15 @@ public class PuzzleTable : MonoBehaviour {
 	public static event Action FinishedAnswerCheckEvent;
 
 	private List<Transform> mChildList;
-	public GameObject[] blankPuzzleArray;
+	private int mAreaLevel;
+	public GameObject blankPuzzle;
+	public GameObject[] coinPuzzlePrefabArray;
 	public string[] puzzleTagArray;
 
 	//パズルテーブルを作成する
-	public void CreateTable () {
+	public void CreateTable (int areaLevel) {
 		UITable table = GetComponent<UITable> ();
+		mAreaLevel = areaLevel;
 		mChildList = table.children;
 		//ターゲットのリストを作成する
 		string[] targetTagArray = CreatePuzzleTagArray ();
@@ -35,10 +38,10 @@ public class PuzzleTable : MonoBehaviour {
 
 			//nullだったらチケットに変更する
 			if (puzzleIndexArray == null) {
-				Debug.Log ("nullなのでチケットに変更 " +puzzleObject.tag);
+				Debug.Log ("nullなのでチケットに変更 " + puzzleObject.tag);
 				puzzleObject = Resources.Load<GameObject> ("Puzzle/Puzzle_Ticket");
 				puzzleObjectArray [i] = puzzleObject;
-				puzzleIndexArray = CreateIndexArray (puzzleObject.GetComponent<Puzzle>());
+				puzzleIndexArray = CreateIndexArray (puzzleObject.GetComponent<Puzzle> ());
 			}
 
 			//作成した配列にパズルを設置
@@ -99,12 +102,41 @@ public class PuzzleTable : MonoBehaviour {
 			if (child.childCount != 0) {
 				continue;
 			}
-			int rand = UnityEngine.Random.Range (0, blankPuzzleArray.Length);
-			GameObject	puzzleObject = Instantiate (blankPuzzleArray [rand])as GameObject;
+			GameObject	puzzleObject = null;
+			int rand = UnityEngine.Random.Range (0, 4);
+			if (rand == 0) {
+				puzzleObject = Instantiate (GetCoinPrefab())as GameObject;
+			} else {
+				puzzleObject = Instantiate (blankPuzzle)as GameObject;
+			}
 			puzzleObject.transform.parent = child;
 			puzzleObject.transform.localPosition = new Vector3 (0, 0, 0);
 			puzzleObject.transform.localScale = new Vector3 (1, 1, 1);
 		}
+	}
+
+	//コインのパズルを取得する
+	private GameObject GetCoinPrefab () {
+		int index = 0;
+		switch (mAreaLevel) {
+		case 1:
+		case 2:
+			index = CoinRate.GetCoinIndexLevel_1 ();
+			break;
+		case 3:
+		case 4:
+			index = CoinRate.GetCoinIndexLevel_2 ();
+			break;
+		case 5:
+		case 6:
+			index = CoinRate.GetCoinIndexLevel_3 ();
+			break;
+		case 7:
+		case 8:
+			index = CoinRate.GetCoinIndexLevel_4 ();
+			break;
+		}
+		return coinPuzzlePrefabArray [index];
 	}
 
 	//パズルを配置するインデックスの配列を生成して返す

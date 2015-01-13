@@ -61,71 +61,22 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		switch (unlockStageCount) {
 		case 1:
 		case 2:
-			coinIndex = GetCoinIndexLevel_1 ();
+			coinIndex = CoinRate.GetCoinIndexLevel_1 ();
 			break;
 		case 3:
 		case 4:
-			coinIndex = GetCoinIndexLevel_2();
+			coinIndex = CoinRate.GetCoinIndexLevel_2 ();
 			break;
 		case 5:
 		case 6:
-			coinIndex = GetCoinIndexLevel_3();
+			coinIndex = CoinRate.GetCoinIndexLevel_3 ();
 			break;
 		case 7:
 		case 8:
-			coinIndex = GetCoinIndexLevel_4();
+			coinIndex = CoinRate.GetCoinIndexLevel_4 ();
 			break;
 		}
 		return coinPrefabArray [coinIndex];
 	}
 
-	private int GetCoinIndexLevel_1 () { 
-		int rand = UnityEngine.Random.Range (0, 100);
-		if (rand < 50) {
-			return 0;
-		}
-		return 1;
-	}
-
-	private int GetCoinIndexLevel_2 () {
-		int rand = UnityEngine.Random.Range (0, 100);
-		if (rand < 30) {
-			return 0;
-		}
-		if (rand < 70) {
-			return 1;
-		}
-		return 2;
-	}
-
-	private int GetCoinIndexLevel_3 () {
-		int rand = UnityEngine.Random.Range (0, 100);
-		if (rand < 25) {
-			return 0;
-		}
-		if (rand < 50) {
-			return 1;
-		}
-		if (rand < 75) {
-			return 2;
-		}
-		return 3;
-	}
-
-	private int GetCoinIndexLevel_4 () {
-		int rand = UnityEngine.Random.Range (0, 100);
-		if (rand < 25) {
-			return 0;
-		}
-		if (rand < 50) {
-			return 1;
-		}
-		if (rand < 75) {
-			return 2;
-		}
-		if (rand < 95) {
-			return 3;
-		}
-		return 4;
-	}
 }

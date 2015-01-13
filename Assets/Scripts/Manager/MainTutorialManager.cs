@@ -17,6 +17,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	public GameObject liveArrowObject;
 	public GameObject coinSpriteObject;
 	public GameObject stagePrefab;
+	public GameObject okButtonObject;
 	public UICenterOnChild centerOnChild;
 	public UIGrid grid;
 	private UILabel tutorialLabel;
@@ -28,6 +29,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	void CompleteShowEvent () {
 		typeWriterEffect.ResetToBeginning ();
 		tutorialLabel.text = mEntityTutorial.param [sTutorialIndex].message;
+		okButtonObject.SetActive (false);
 	}
 
 	void CompleteHideEvent () {
@@ -84,8 +86,17 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
+	public void OnMessageFinished(){
+		if(tutorialLabel.text == ""){
+			return;
+		}
+		okButtonObject.SetActive (true);
+	}
+
 	public void OKButtonClicked () {
 		Debug.Log ("index " + sTutorialIndex);
+		okButtonObject.SetActive (false);
+		tutorialLabel.text = "";
 		switch (sTutorialIndex) {
 		case 0:
 			sTutorialIndex++;

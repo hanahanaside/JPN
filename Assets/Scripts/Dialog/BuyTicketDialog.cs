@@ -4,6 +4,20 @@ using System.Collections;
 public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 
 	private GameObject mDialogObject;
+	private GameObject mFenceObject;
+
+	void OnEnable(){
+		IAPManager.LoadFinishedEvent += LoadFinishedEvent;
+	}
+
+	void OnDisable(){
+		IAPManager.LoadFinishedEvent -= LoadFinishedEvent;
+	}
+
+	void LoadFinishedEvent(){
+		mFenceObject.SetActive (false);
+	}
+
 
 	void CompleteDismissEvent(){
 		mDialogObject.SetActive (false);
@@ -12,6 +26,7 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 
 	public override void OnInitialize(){
 		mDialogObject = transform.FindChild ("Dialog").gameObject;
+		mFenceObject = transform.FindChild ("Fence").gameObject;
 	}
 
 	public void Show(){
@@ -33,18 +48,22 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 	}
 
 	public void BuyItem1Clicked(){
+		mFenceObject.SetActive (true);
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_1);
 	}
 
 	public void BuyItem2Clicked(){
+		mFenceObject.SetActive (true);
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_2);
 	}
 
 	public void BuyItem3Clicked(){
+		mFenceObject.SetActive (true);
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_3);
 	}
 
 	public void BuyItem4Clicked(){
+		mFenceObject.SetActive (true);
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_4);
 	}
 }

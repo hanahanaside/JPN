@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class IAPManager : MonoSingleton<IAPManager> {
+
+	public static event Action LoadFinishedEvent;
 
 	public enum ProductId {
 		Coin_1,
@@ -59,6 +62,7 @@ public class IAPManager : MonoSingleton<IAPManager> {
 
 	void purchaseCancelledEvent (string error) {
 		Debug.Log ("purchaseCancelledEvent: " + error);
+		LoadFinishedEvent ();
 	}
 
 	void purchaseSuccessfulEvent (StoreKitTransaction transaction) {
@@ -88,6 +92,7 @@ public class IAPManager : MonoSingleton<IAPManager> {
 		if (productIdentifier == mProductIdentifiers [(int)ProductId.Ticket_4]) {
 			PlayerDataKeeper.instance.IncreaseTicketCount (500);
 		}
+		LoadFinishedEvent ();
 	}
 
 	public override void OnInitialize () {

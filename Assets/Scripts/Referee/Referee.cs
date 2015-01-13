@@ -69,6 +69,11 @@ public class Referee : MonoBehaviour {
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 			UpdateGameEvent ();
 			break;
+		case "coin_1000":
+			PlayerDataKeeper.instance.IncreaseCoinCount (1000);
+			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			UpdateGameEvent ();
+			break;
 		case "ticket":
 			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.TradeIdol);
 			PlayerDataKeeper.instance.IncreaseTicketCount (1);

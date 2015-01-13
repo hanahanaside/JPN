@@ -143,7 +143,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	private void CreatePuzzleTable () {
 		#if UNITY_EDITOR
 		if (ScoutStageManager.SelectedAreaId == 0) {
-			ScoutStageManager.SelectedAreaId = 2;
+			ScoutStageManager.SelectedAreaId = 1;
 		}
 		#endif
 		GameObject puzzleTablePrefab = Resources.Load ("PuzzleTable/PuzzleTable_" + ScoutStageManager.SelectedAreaId) as GameObject;
@@ -152,7 +152,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		mPuzzleTableObject.transform.localPosition = new Vector3 (0, 0, 0);
 		mPuzzleTableObject.transform.localScale = new Vector3 (1, 1, 1);
 		PuzzleTable puzzleTable = mPuzzleTableObject.GetComponent<PuzzleTable> ();
-		puzzleTable.CreateTable ();
+		puzzleTable.CreateTable (ScoutStageManager.SelectedAreaId);
 		mGetItemTagList = new List<string> ();
 	}
 }

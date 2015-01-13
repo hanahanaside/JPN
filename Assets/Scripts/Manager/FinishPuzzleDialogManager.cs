@@ -34,19 +34,19 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 	}
 
 	public void OnRetryClicked () {
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		if (PlayerDataKeeper.instance.CoinCount < mCost) {
+			BuyCoinDialog.instance.Show ();
+			return;
+		}
 		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
 		RetryEvent (0);
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+
 	}
 
 	public void Show () {
 		mDialogObject.SetActive (true);
 		mCost = AreaCostCaluculator.instance.CalcCost (ScoutStageManager.SelectedAreaId - 1);
-		if (PlayerDataKeeper.instance.CoinCount < mCost) {
-			retryButtonObject.SetActive (false);
-		} else {
-			retryButtonObject.SetActive (true);
-		}
 		buttonGrid.Reposition ();
 		costLabel.text = "" + mCost;
 		foreach (string itemTag in PuzzleSceneManager.instance.GetItemTagList) {

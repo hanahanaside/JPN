@@ -137,6 +137,10 @@ public class StageManager : MonoBehaviour {
 		foreach (Character character in mCharacterList) {
 			character.Wakeup ();
 		}
+		//画像を変更
+		idleSprite.spriteName = "idle_normal_" + mStageData.Id;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = GetGenerateCoinPower ();
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
@@ -155,6 +159,11 @@ public class StageManager : MonoBehaviour {
 		generateCoinPowerLabel.text = "0/分";
 		//サボるまでの時間をセット
 		untilSleepLabel.text = "サボり中";
+		//画像を変更
+		idleSprite.spriteName = "idle_sleep_" + mStageData.Id;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
+
 		foreach (Character character in mCharacterList) {
 			character.Sleep ();
 		}
@@ -171,6 +180,10 @@ public class StageManager : MonoBehaviour {
 		gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);
+			//画像を変更
+			idleSprite.spriteName = "idle_normal_" + mStageData.Id;
+			UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+			idleSprite.SetDimensions (spriteData.width, spriteData.height);
 			WakeupEvent ();
 			PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
