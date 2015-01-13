@@ -279,11 +279,13 @@ public class StageManager : MonoBehaviour {
 		//建設時間を設置(テストで10分の1)
 		SetConstructionTime ();
 
-		//労働者の画像をセット
-		idleSprite.spriteName = "worker_1";
+		//アイドルの画像をセット
+		idleSprite.spriteName = "idle_normal_" + mStageData.Id;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 
-		//労働者の数をセット
-		idleCountLabel.text = "";
+		//アイドルの数をセット
+		idleCountLabel.text = "×" + mStageData.IdleCount;
 
 		//エリア名をセット
 		areaNameLabel.text = "建設中";
@@ -373,7 +375,7 @@ public class StageManager : MonoBehaviour {
 	//建設中の時間をセット
 	private void SetConstructionTime () {
 		ConstructionTimeDao dao = DaoFactory.CreateConstructionTimeDao ();
-		float constructionTimeSeconds = dao.SelectById (mStageData.Id) * 60;
+		float constructionTimeSeconds = dao.SelectById (mStageData.Id) * 60 * 60;  
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 	}

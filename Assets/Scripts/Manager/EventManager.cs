@@ -131,7 +131,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		//トレードの金額を算出
 		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
 		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
-		mTradeIdleEvent.reward = (int)(generateCoinPower * 3000 * mTradeIdleEvent.idleCount);
+		mTradeIdleEvent.reward = (int)(generateCoinPower * 150 * mTradeIdleEvent.idleCount);
 		mTradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);

@@ -7,13 +7,10 @@ public class TestController : MonoBehaviour {
 	public GameObject labelObject;
 	private int mIndex;
 
+	enum Days{Sun = 5,Mon,Tue};
+
 	void Start(){
-		for(int i =0;i <10;i++){
-			Debug.Log ("i " +i);
-			if(i == 5){
-				return;
-			}
-		}
+		Debug.Log ("" + (int)Days.Sun);
 	}
 
 	public void ButtonClicked(){

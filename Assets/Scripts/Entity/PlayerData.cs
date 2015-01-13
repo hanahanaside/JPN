@@ -3,18 +3,23 @@ using System.Collections;
 
 public class PlayerData {
 
-	public int TicketCount = 100;
+	#if UNITY_EDITOR
+
+	public int TicketCount = 1000;
 
 	public double CoinCount = 10000;
 
 	public double TotalCoinCount = 10000;
 
-//	public int TicketCount;
-//
-//	public double CoinCount;
-//
-//	public double TotalCoinCount;
+	#else
 
+	public int TicketCount;
+
+	public double CoinCount;
+
+	public double TotalCoinCount;
+
+	#endif
 
 	public double GenerateCoinPower;
 

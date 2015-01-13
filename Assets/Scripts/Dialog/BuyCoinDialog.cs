@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
+public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 
 	private GameObject mDialogObject;
 
@@ -26,25 +26,25 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void BuyCoinButtonClicked(){
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+	public void BuyTicketButtonClicked(){
 		iTweenEvent.GetEvent (mDialogObject,"DismissEvent").Play();
-		BuyCoinDialog.instance.Show ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		BuyTicketDialog.instance.Show ();
 	}
 
 	public void BuyItem1Clicked(){
-		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_1);
+		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_1);
 	}
 
 	public void BuyItem2Clicked(){
-		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_2);
+		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_2);
 	}
 
 	public void BuyItem3Clicked(){
-		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_3);
+		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_3);
 	}
 
 	public void BuyItem4Clicked(){
-		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_4);
+		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_4);
 	}
 }

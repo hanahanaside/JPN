@@ -10,6 +10,7 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	public UILabel descriptionLabel;
 	public GameObject buyButtonObject;
 	private GameObject mDialogObject;
+	private int mCostTicket;
 
 	private Area mArea;
 
@@ -25,9 +26,10 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	public void Show (Area area) {
 		mDialogObject.SetActive (true);
 		mArea = area;
+		mCostTicket = area.AreaOpen / 2500;
 		areaNameLabel.text = area.AreaName;
 		costLabel.text = "" + area.AreaOpen;
-		ticketCostLabel.text = "×" + (area.AreaOpen / 100); 
+		ticketCostLabel.text = "×" + (mCostTicket); 
 		int totalIdleCount = 0;
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
@@ -63,14 +65,14 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	}
 
 	public void UseTicketClicked () {
-		if (PlayerDataKeeper.instance.TicketCount < mArea.AreaOpen / 100) {
+		if (PlayerDataKeeper.instance.TicketCount < mCostTicket) {
 			Dismiss ();
 			FenceManager.instance.ShowFence ();
 			OKDialog.instance.Show ("チケットが不足しています");
 			return;
 		}
 		BuyArea ();
-		PlayerDataKeeper.instance.DecreaseTicketCount (mArea.AreaOpen / 100);
+		PlayerDataKeeper.instance.DecreaseTicketCount (mCostTicket);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		Dismiss ();
 	}

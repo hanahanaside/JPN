@@ -67,12 +67,12 @@ public class PuzzleTable : MonoBehaviour {
 			if (0 <= grandChildObject.tag.IndexOf ("idle")) {
 				Puzzle puzzle = grandChildObject.GetComponent<Puzzle> ();
 				puzzle.Open ();
-				yield return new WaitForSeconds (0.3f);
+				yield return new WaitForSeconds (1.0f);
 			}
 			if (0 <= grandChildObject.tag.IndexOf ("ticket")) {
 				Puzzle puzzle = grandChildObject.GetComponent<Puzzle> ();
 				puzzle.Open ();
-				yield return new WaitForSeconds (0.3f);
+				yield return new WaitForSeconds (1.0f);
 			}
 		}
 		FinishedAnswerCheckEvent ();

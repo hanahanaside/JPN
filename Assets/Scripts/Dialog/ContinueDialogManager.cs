@@ -25,18 +25,18 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 	}
 
 	public void OnBuyTapCountClicked(){
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		if(PlayerDataKeeper.instance.TicketCount < 1){
+			BuyTicketDialog.instance.Show ();
+			return;
+		}
+
 		BuyTapCountEvent ();
 		PlayerDataKeeper.instance.DecreaseTicketCount (1);
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void Show(){
 		mDialogObject.SetActive (true);
-		if(PlayerDataKeeper.instance.TicketCount < 1){
-			buyTapButtonObject.SetActive (false);
-			grid.Reposition ();
-		}
-
 		iTweenEvent.GetEvent (gameObject,"ShowEvent").Play();
 	}
 

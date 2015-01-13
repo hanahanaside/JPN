@@ -194,6 +194,7 @@
      <Compile Include="Assets\Scripts\Debug\MyDebugger.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyAreaDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Dialog\BuyCoinDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyTicketDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\ContinueDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />
@@ -227,6 +228,7 @@
      <Compile Include="Assets\Scripts\Manager\EventManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FenceManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FinishPuzzleDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\IAPManager.cs" />
      <Compile Include="Assets\Scripts\Manager\LiveManager.cs" />
      <Compile Include="Assets\Scripts\Manager\LiveManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Manager\MainSceneManager.cs" />

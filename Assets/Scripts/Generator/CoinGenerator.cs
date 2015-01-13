@@ -8,19 +8,9 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	private GameObject mCenteredObject;
 	private float mInterval = 5.0f;
 	private bool mStop = false;
-	private int mUnlockedStageCount;
 
 	void Awake () {
 		uiCenterOnChild.onCenter += OnCenterCallBack;
-		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
-		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
-			int clearedCount = clearedPuzzleCountArray [i];
-			if (clearedCount < 0) {
-				mUnlockedStageCount = i;
-				break;
-			}
-			mUnlockedStageCount = i;
-		}
 	}
 
 	void Update () {
@@ -35,20 +25,8 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 			mInterval = 5.0f;
 			return;
 		}
-		int[] numbers = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4 };
-		int rand = Random.Range (0, numbers.Length);
-		int number = numbers[rand];
-		if (mUnlockedStageCount < 3) {
-			if (number >= 3) {
-				return;
-			}
-		}
-		if (mUnlockedStageCount < 4) {
-			if (number >= 4) {
-				return;
-			}
-		}
-		GameObject coinPrefab = coinPrefabArray [number];
+
+		GameObject coinPrefab = GetCoinPrefab ();
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
 		coinObject.transform.parent = mCenteredObject.transform;
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
@@ -66,5 +44,88 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 
 	public void StartGenerating () {
 		mStop = false;
+	}
+
+	private GameObject GetCoinPrefab () {
+		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
+		int unlockStageCount = 0;
+		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
+			int clearedCount = clearedPuzzleCountArray [i];
+			if (clearedCount < 0) {
+				unlockStageCount = i;
+				break;
+			}
+			unlockStageCount = i;
+		}
+		int coinIndex = 0;
+		switch (unlockStageCount) {
+		case 1:
+		case 2:
+			coinIndex = GetCoinIndexLevel_1 ();
+			break;
+		case 3:
+		case 4:
+			coinIndex = GetCoinIndexLevel_2();
+			break;
+		case 5:
+		case 6:
+			coinIndex = GetCoinIndexLevel_3();
+			break;
+		case 7:
+		case 8:
+			coinIndex = GetCoinIndexLevel_4();
+			break;
+		}
+		return coinPrefabArray [coinIndex];
+	}
+
+	private int GetCoinIndexLevel_1 () { 
+		int rand = UnityEngine.Random.Range (0, 100);
+		if (rand < 50) {
+			return 0;
+		}
+		return 1;
+	}
+
+	private int GetCoinIndexLevel_2 () {
+		int rand = UnityEngine.Random.Range (0, 100);
+		if (rand < 30) {
+			return 0;
+		}
+		if (rand < 70) {
+			return 1;
+		}
+		return 2;
+	}
+
+	private int GetCoinIndexLevel_3 () {
+		int rand = UnityEngine.Random.Range (0, 100);
+		if (rand < 25) {
+			return 0;
+		}
+		if (rand < 50) {
+			return 1;
+		}
+		if (rand < 75) {
+			return 2;
+		}
+		return 3;
+	}
+
+	private int GetCoinIndexLevel_4 () {
+		int rand = UnityEngine.Random.Range (0, 100);
+		if (rand < 25) {
+			return 0;
+		}
+		if (rand < 50) {
+			return 1;
+		}
+		if (rand < 75) {
+			return 2;
+		}
+		if (rand < 95) {
+			return 3;
+		}
+		return 4;
 	}
 }
