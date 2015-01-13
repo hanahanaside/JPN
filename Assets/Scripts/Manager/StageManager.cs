@@ -235,6 +235,7 @@ public class StageManager : MonoBehaviour {
 
 	//今すぐ完成させるボタン押下
 	public void SkipConstructionClicked () {
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		//20分で1枚
 		//小数点以下を切り上げ
 		int ticketCount = (int)(Math.Ceiling (mTimeSeconds / (20 * 60)));

@@ -38,7 +38,6 @@ public class EventManager : MonoSingleton<EventManager> {
 		int rand = UnityEngine.Random.Range (0, eventIdArray.Length);
 		int eventId = eventIdArray [rand];
 		Debug.Log ("event " + eventId);
-		//	eventId = 1;
 		switch (eventId) {
 		case 0:
 			//迷子
@@ -90,16 +89,16 @@ public class EventManager : MonoSingleton<EventManager> {
 		if (count >= stage.IdleCount) {
 			return;
 		}
-		//迷子の報酬を算出
-		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
-		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
-		mLostIdleEvent.reward = (int)(generateCoinPower * 20 * mLostIdleEvent.lostIdleCount);
 		stage.IdleCount -= count;
 		dao.UpdateRecord (stage);
 		mLostIdleEvent.lostIdleID = stage.Id;
 		mLostIdleEvent.lostIdleCount = count;
 		mLostIdleEvent.foundIdleCount = 0;
 		mLostIdleEvent.occurring = true;
+		//迷子の報酬を算出
+		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
+		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
+		mLostIdleEvent.reward = (int)(generateCoinPower * 20 * mLostIdleEvent.lostIdleCount);
 		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
 		Debug.Log ("id " + stage.Id);
 		Debug.Log ("count " + count);
@@ -204,6 +203,10 @@ public class EventManager : MonoSingleton<EventManager> {
 			sb.Append (mLostIdleEvent.reward + "コインゲット!!");
 			ShowEventPanel (sb.ToString ());
 			TradeButtonObject.SetActive (false);
+			yesButtonObject.SetActive (false);
+			noButtonObject.SetActive (false);
+			okButtonObject.SetActive (true);
+			newsOKButtonObject.SetActive (false);
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
 			Stage stage = stageList [mLostIdleEvent.lostIdleID - 1];
@@ -255,6 +258,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		StringBuilder sb = new StringBuilder ();
 		sb.Append (stage.AreaName + "の子はすごく人気だね！！\n");
 		sb.Append (mTradeIdleEvent.idleCount + "人を" + mTradeIdleEvent.reward + "コインでうちの事務所に移籍させてくれないかな？\n");
+		sb.Append ("（現在" +stage.IdleCount +"人）");
 		ShowEventPanel (sb.ToString ());
 		coinLabel.text = "" + mTradeIdleEvent.reward;
 		yesButtonObject.SetActive (true);

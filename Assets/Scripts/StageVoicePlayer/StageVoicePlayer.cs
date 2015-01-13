@@ -13,6 +13,9 @@ public class StageVoicePlayer : MonoSingleton<StageVoicePlayer> {
 
 	void OnCenterCallBack (GameObject centeredObject) {
 		CancelInvoke ();
+		if(centeredObject.tag == "sleep" || centeredObject.tag == "construction"){
+			return;
+		}
 		int index = stageGrid.GetIndex (centeredObject.transform);
 		if (index >= 2) {
 			mVoiceIndex = index - 2;

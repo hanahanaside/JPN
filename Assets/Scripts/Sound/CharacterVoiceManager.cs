@@ -10,7 +10,7 @@ public class CharacterVoiceManager : MonoSingleton<CharacterVoiceManager> {
 		DontDestroyOnLoad (gameObject);
 		mIdolVoiceList = new List<AudioSource> ();
 		for (int i = 0; i < 49; i++) {
-			AudioClip audioClip = Resources.Load<AudioClip> ("Audios/Voice/Idol/20" + (i + 1));
+			AudioClip audioClip = Resources.Load<AudioClip> ("Audios/Voice/Idol/2" + (i + 1));
 			AudioSource audioSource = gameObject.AddComponent<AudioSource> ();
 			audioSource.clip = audioClip;
 			mIdolVoiceList.Add(audioSource);    
