@@ -142,6 +142,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		case 14:
 			PlayerDataKeeper.instance.SaveData ();
 			PrefsManager.instance.TutorialFinished = true;
+			ScoutStageManager.FlagScouting = true;
 			Application.LoadLevel ("Main");
 			break;
 		}
@@ -210,8 +211,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		}
 		liveArrowObject.SetActive (false);
 		UIButton.current.gameObject.SetActive (false);
-		FenceManager.instance.ShowFence ();
-		SelectLiveTimeDialogManagerTutorial.instance.Show ();
+		LiveManagerTutorial.instance.StartLive (30.0f);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
