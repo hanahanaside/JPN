@@ -21,6 +21,9 @@ public class PuzzleTable : MonoBehaviour {
 		mChildList = table.children;
 		//ターゲットのリストを作成する
 		string[] targetTagArray = CreatePuzzleTagArray ();
+		foreach(string a in targetTagArray){
+			Debug.Log (a);
+		}
 		//パズルのリストを作成する
 		GameObject[] puzzleObjectArray = new GameObject[targetTagArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
@@ -193,24 +196,24 @@ public class PuzzleTable : MonoBehaviour {
 
 	private string GetPuzzleIndex () {
 		int rand = UnityEngine.Random.Range (0, 100);
-		if (rand == 99) {
+		if (rand == 0) {
 			return puzzleTagArray [6];
 		}
-		if (rand >= 90) {
-			return puzzleTagArray [5];
+		if(rand <= 18){
+			return puzzleTagArray [0];
 		}
-		if (rand >= 80) {
-			return puzzleTagArray [4];
+		if(rand <= 36){
+			return puzzleTagArray [1];
 		}
-		if (rand >= 60) {
-			return puzzleTagArray [3];
-		}
-		if (rand >= 40) {
+		if(rand <= 54){
 			return puzzleTagArray [2];
 		}
-		if (rand >= 20) {
-			return puzzleTagArray [1];
-		} 
-		return puzzleTagArray [0];
+		if(rand <= 72){
+			return puzzleTagArray [3];
+		}
+		if(rand <= 86){
+			return puzzleTagArray [4];
+		}
+		return puzzleTagArray [5];
 	}
 }
