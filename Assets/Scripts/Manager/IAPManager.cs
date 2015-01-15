@@ -69,16 +69,16 @@ public class IAPManager : MonoSingleton<IAPManager> {
 		Debug.Log ("purchaseSuccessfulEvent: " + transaction);
 		string productIdentifier = transaction.productIdentifier;
 		if (productIdentifier == mProductIdentifiers [(int)ProductId.Coin_1]) {
-			PlayerDataKeeper.instance.IncreaseCoinCount (10000);
+			PlayerDataKeeper.instance.IncreaseCoinCount (30000);
 		}
 		if (productIdentifier == mProductIdentifiers [(int)ProductId.Coin_2]) {
-			PlayerDataKeeper.instance.IncreaseCoinCount (75000);
-		}
-		if (productIdentifier == mProductIdentifiers [(int)ProductId.Coin_3]) {
 			PlayerDataKeeper.instance.IncreaseCoinCount (200000);
 		}
-		if (productIdentifier == mProductIdentifiers [(int)ProductId.Coin_4]) {
+		if (productIdentifier == mProductIdentifiers [(int)ProductId.Coin_3]) {
 			PlayerDataKeeper.instance.IncreaseCoinCount (500000);
+		}
+		if (productIdentifier == mProductIdentifiers [(int)ProductId.Coin_4]) {
+			PlayerDataKeeper.instance.IncreaseCoinCount (1600000);
 		}
 		if (productIdentifier == mProductIdentifiers [(int)ProductId.Ticket_1]) {
 			PlayerDataKeeper.instance.IncreaseTicketCount (10);

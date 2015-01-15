@@ -15,6 +15,7 @@ public class EventManager : MonoSingleton<EventManager> {
 	public GameObject newsOKButtonObject;
 	public GameObject yesButtonObject;
 	public GameObject noButtonObject;
+	public GameObject buttonParentObject;
 	public UILabel messageLabel;
 	public UILabel coinLabel;
 
@@ -58,6 +59,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		if (mNewsEvent.occurring) {
 			newsButtonObject.SetActive (true);
 		}
+		buttonParentObject.SetActive (false);
 	}
 
 	public void GenerateLostIdle () {
@@ -227,6 +229,13 @@ public class EventManager : MonoSingleton<EventManager> {
 		FenceManager.instance.HideFence ();
 		eventPanelObject.transform.localPosition = new Vector3 (0, 0, 0);
 		eventPanelObject.SetActive (false);
+	} 
+
+	public void FinishedTypeWriter(){ 
+		if(string.IsNullOrEmpty(messageLabel.text)){
+			return;
+		}
+		buttonParentObject.SetActive (true);
 	}
 
 	public void SleepButtonClicked () {
