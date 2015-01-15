@@ -5,6 +5,7 @@ using System;
 
 public class IAPManager : MonoSingleton<IAPManager> {
 
+	#if UNITY_IPHONE
 	public static event Action LoadFinishedEvent;
 
 	public enum ProductId {
@@ -113,4 +114,5 @@ public class IAPManager : MonoSingleton<IAPManager> {
 		StoreKitProduct product = mProductsList [index];
 		StoreKitBinding.purchaseProduct (product.productIdentifier, 1);
 	}
+	#endif
 }

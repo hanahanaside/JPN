@@ -71,7 +71,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
 		Debug.Log ("addCoin " + addCoin);
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
-		if (addCoin >= 100) {
+		if (addCoin >= 1 ) {
 			FenceManager.instance.ShowFence ();
 			SleepTimeCoinDialogManager.instance.Show (addCoin);
 		}

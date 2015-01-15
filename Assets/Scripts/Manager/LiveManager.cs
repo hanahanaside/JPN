@@ -34,7 +34,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 			return;
 		}	
 		mTime -= Time.deltaTime;
-		mRemainingLiveTimeLabel.text = "" + (int)mTime;
+	//	mRemainingLiveTimeLabel.text = "" + (int)mTime;
+		mRemainingLiveTimeLabel.text = TimeConverter.Convert(mTime);
 		if (mTime > 0) {
 			return;
 		}

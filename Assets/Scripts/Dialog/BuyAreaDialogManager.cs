@@ -7,6 +7,7 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	public UILabel areaNameLabel;
 	public UILabel costLabel;
 	public UILabel ticketCostLabel;
+	public UILabel conditionLabel;
 	public UILabel descriptionLabel;
 	public GameObject buyButtonObject;
 	private GameObject mDialogObject;
@@ -31,7 +32,8 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 			mCostTicket = 1;
 		}
 		areaNameLabel.text = area.AreaName;
-		costLabel.text = "" + area.AreaOpen;
+		costLabel.text = "" + area.AreaOpen; 
+		descriptionLabel.text = area.AreaName + "でスカウトするには、\n入場料を払う必要があります";
 		ticketCostLabel.text = "×" + (mCostTicket); 
 		int totalIdleCount = 0;
 		StageDao dao = DaoFactory.CreateStageDao ();
@@ -40,10 +42,10 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 			totalIdleCount += stage.IdleCount;
 		}
 		if (totalIdleCount < area.MinimumAmount) {
-			descriptionLabel.text = "アイドルの数が" + (area.MinimumAmount - totalIdleCount) + "人不足しています";
+			conditionLabel.text = "アイドルの数が" + (area.MinimumAmount - totalIdleCount) + "人不足しています";
 			buyButtonObject.SetActive (false);
 		} else {
-			descriptionLabel.text = "購入できます";
+			conditionLabel.text = "購入できます";
 		}
 		iTweenEvent.GetEvent (gameObject, "ShowEvent").Play ();
 	}

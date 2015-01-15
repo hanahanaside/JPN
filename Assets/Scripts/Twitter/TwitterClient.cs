@@ -31,7 +31,7 @@ public class TwitterClient : MonoSingleton<TwitterClient> {
 		#endif
 	
 #if UNITY_ANDROID
-		SocialConnector.Share(sb.ToString(),"",imagePath);
+//		SocialConnector.Share(sb.ToString(),"",imagePath);
 #endif
 	}
 

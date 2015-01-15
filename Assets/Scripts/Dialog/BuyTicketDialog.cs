@@ -7,11 +7,15 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 	private GameObject mFenceObject;
 
 	void OnEnable(){
+		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent += LoadFinishedEvent;
+		#endif
 	}
 
 	void OnDisable(){
+		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent -= LoadFinishedEvent;
+		#endif
 	}
 
 	void LoadFinishedEvent(){
@@ -49,21 +53,29 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 
 	public void BuyItem1Clicked(){
 		mFenceObject.SetActive (true);
+		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_1);
+		#endif
 	}
 
 	public void BuyItem2Clicked(){
 		mFenceObject.SetActive (true);
+		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_2);
+		#endif
 	}
 
 	public void BuyItem3Clicked(){
 		mFenceObject.SetActive (true);
+		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_3);
+		#endif
 	}
 
 	public void BuyItem4Clicked(){
 		mFenceObject.SetActive (true);
+		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_4);
+		#endif
 	}
 }

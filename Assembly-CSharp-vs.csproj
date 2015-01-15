@@ -197,6 +197,7 @@
      <Compile Include="Assets\Scripts\Dialog\BuyAreaDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyCoinDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyTicketDialog.cs" />
+     <Compile Include="Assets\Scripts\Dialog\ConfirmLiveDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\ContinueDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManagerTutorial.cs" />
@@ -379,6 +380,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />

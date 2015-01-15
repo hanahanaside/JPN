@@ -25,32 +25,68 @@ public class SelectLiveTimeDialogManager : MonoSingleton<SelectLiveTimeDialogMan
 		mDialogObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		if(PlayerDataKeeper.instance.TicketCount >=1){
-			LiveManager.instance.StartLive (10.0f);
+			LiveManager.instance.StartLive (60);
 			PlayerDataKeeper.instance.DecreaseTicketCount (1);
 		}else {
 			BuyTicketDialog.instance.Show ();
 		}
 	}
 
-	public void On1HourClicked(){ 
+	public void On5MinuteClicked(){ 
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		FenceManager.instance.HideFence ();
 		mDialogObject.SetActive (false);
-		if(PlayerDataKeeper.instance.TicketCount >= 2){
-			LiveManager.instance.StartLive (30.0f);
-			PlayerDataKeeper.instance.DecreaseTicketCount (2);
+		if(PlayerDataKeeper.instance.TicketCount >= 3){
+			LiveManager.instance.StartLive (300);
+			PlayerDataKeeper.instance.DecreaseTicketCount (3);
 		}else {
 			BuyTicketDialog.instance.Show ();
 		}
 	}
 
-	public void On8HoursClicked(){
+	public void On10MinuteClicked(){
 		FenceManager.instance.HideFence ();
 		mDialogObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
-		if(PlayerDataKeeper.instance.TicketCount >= 3){
-			LiveManager.instance.StartLive (180.0f);
-			PlayerDataKeeper.instance.DecreaseTicketCount (3);
+		if(PlayerDataKeeper.instance.TicketCount >= 5){
+			LiveManager.instance.StartLive (600);
+			PlayerDataKeeper.instance.DecreaseTicketCount (5);
+		}else {
+			BuyTicketDialog.instance.Show ();
+		}
+	}
+
+	public void On30MinuteClicked(){
+		FenceManager.instance.HideFence ();
+		mDialogObject.SetActive (false);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		if(PlayerDataKeeper.instance.TicketCount >= 8){
+			LiveManager.instance.StartLive (1800);
+			PlayerDataKeeper.instance.DecreaseTicketCount (8);
+		}else {
+			BuyTicketDialog.instance.Show ();
+		}
+	}
+
+	public void On60MinuteClicked(){
+		FenceManager.instance.HideFence ();
+		mDialogObject.SetActive (false);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		if(PlayerDataKeeper.instance.TicketCount >=10){
+			LiveManager.instance.StartLive (3600);
+			PlayerDataKeeper.instance.DecreaseTicketCount (10);
+		}else {
+			BuyTicketDialog.instance.Show ();
+		}
+	}
+
+	public void On600MinuteClicked(){
+		FenceManager.instance.HideFence ();
+		mDialogObject.SetActive (false);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		if(PlayerDataKeeper.instance.TicketCount >= 50){
+			LiveManager.instance.StartLive (36000);
+			PlayerDataKeeper.instance.DecreaseTicketCount (50);
 		}else {
 			BuyTicketDialog.instance.Show ();
 		}
