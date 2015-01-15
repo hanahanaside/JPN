@@ -21,9 +21,6 @@ public class PuzzleTable : MonoBehaviour {
 		mChildList = table.children;
 		//ターゲットのリストを作成する
 		string[] targetTagArray = CreatePuzzleTagArray ();
-		foreach(string a in targetTagArray){
-			Debug.Log (a);
-		}
 		//パズルのリストを作成する
 		GameObject[] puzzleObjectArray = new GameObject[targetTagArray.Length];
 		for (int i = 0; i < puzzleObjectArray.Length; i++) {
