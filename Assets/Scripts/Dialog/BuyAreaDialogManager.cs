@@ -27,6 +27,9 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		mDialogObject.SetActive (true);
 		mArea = area;
 		mCostTicket = area.AreaOpen / 2500;
+		if(mCostTicket == 0){
+			mCostTicket = 1;
+		}
 		areaNameLabel.text = area.AreaName;
 		costLabel.text = "" + area.AreaOpen;
 		ticketCostLabel.text = "×" + (mCostTicket); 

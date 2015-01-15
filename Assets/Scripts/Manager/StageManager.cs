@@ -388,7 +388,7 @@ public class StageManager : MonoBehaviour {
 	//建設中の時間をセット
 	private void SetConstructionTime () {
 		ConstructionTimeDao dao = DaoFactory.CreateConstructionTimeDao ();
-		float constructionTimeSeconds = dao.SelectById (mStageData.Id) * 60 * 60;  
+		float constructionTimeSeconds = dao.SelectById (mStageData.Id) * 60;  
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 	}

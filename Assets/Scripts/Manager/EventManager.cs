@@ -85,6 +85,10 @@ public class EventManager : MonoSingleton<EventManager> {
 			Debug.Log ("アイドルが1人以下なので迷子を中止");
 			return;
 		}
+		if(stage.FlagConstruction == Stage.IN_CONSTRUCTION){
+			Debug.Log ("工事中のアイドルなので迷子を中止");
+			return;
+		}
 		int count = UnityEngine.Random.Range (1, 16);
 		if (count >= stage.IdleCount) {
 			return;
