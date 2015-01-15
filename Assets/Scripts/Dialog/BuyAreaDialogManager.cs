@@ -9,7 +9,8 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 	public UILabel ticketCostLabel;
 	public UILabel conditionLabel;
 	public UILabel descriptionLabel;
-	public GameObject buyButtonObject;
+	public GameObject buyButtonFilterObject;
+	public GameObject useTicketFilterObject;
 	private GameObject mDialogObject;
 	private int mCostTicket;
 
@@ -43,9 +44,12 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		}
 		if (totalIdleCount < area.MinimumAmount) {
 			conditionLabel.text = "アイドルの数が" + (area.MinimumAmount - totalIdleCount) + "人不足しています";
-			buyButtonObject.SetActive (false);
+			buyButtonFilterObject.SetActive (true);
+			useTicketFilterObject.SetActive (true);
 		} else {
 			conditionLabel.text = "購入できます";
+			buyButtonFilterObject.SetActive (false);
+			useTicketFilterObject.SetActive (false);
 		}
 		iTweenEvent.GetEvent (gameObject, "ShowEvent").Play ();
 	}
