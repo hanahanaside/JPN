@@ -33,9 +33,9 @@ public class Target : MonoBehaviour {
 	void CompleteExitEvent () {
 		FenceManager.instance.HideTransparentFence ();
 		enabled = false;
-		Destroy (gameObject);
 		CompleteTargetEvent (tag);
-	}
+		Destroy (gameObject);
+	} 
 
 	void OnClick () {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
