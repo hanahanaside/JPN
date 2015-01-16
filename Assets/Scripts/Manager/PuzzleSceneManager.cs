@@ -47,6 +47,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		PlayerDataKeeper.instance.Init ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Puzzle);
 		CreatePuzzleTable ();
+		SuruPassInterstitial.instance.Show ();
 	}
 
 	void Update () {

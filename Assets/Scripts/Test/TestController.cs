@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class TestController : MonoBehaviour {
+public class TestController : TestParent {
 
 	public GameObject labelObject;
 	private int mIndex;
@@ -10,7 +10,7 @@ public class TestController : MonoBehaviour {
 	enum Days{Sun = 5,Mon,Tue};
 
 	void Start(){
-		Debug.Log ("" + (int)Days.Sun);
+		Debug.Log ("start child");
 	}
 
 	public void ButtonClicked(){
