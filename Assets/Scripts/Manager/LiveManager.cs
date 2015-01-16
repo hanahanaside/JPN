@@ -78,6 +78,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
+		EntranceStageManager.instance.StartLive ();
+		ScoutStageManager.instance.StartLive ();
 		livePanelObject.SetActive (true);
 		OpenCurtain ();
 	}
@@ -92,6 +94,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
+		EntranceStageManager.instance.StartLive ();
+		ScoutStageManager.instance.StartLive ();
 		logoObject.SetActive (true);
 		logoObject.GetComponent<UISprite> ().alpha = 0;
 		TweenAlpha.Begin (logoObject,3.0f,1f);
@@ -113,6 +117,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 			stageManager.FinishLive ();
 		}
 		EntranceStageManager.instance.FinishLive ();
+		ScoutStageManager.instance.FinishLive ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 

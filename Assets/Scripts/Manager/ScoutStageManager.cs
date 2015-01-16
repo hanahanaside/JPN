@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 
@@ -10,6 +11,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public GameObject goScoutButtonObject;
 	public UILabel costLabel;
 	private int mCost;
+	private List<Fan> mFanList = new List<Fan> ();
 
 	public static bool FlagScouting{ get; set; }
 
@@ -31,7 +33,19 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		dartsObject.SetActive (true);
 		mCost = AreaCostCaluculator.instance.CalcCost (SelectedAreaId - 1);
 		costLabel.text = "" + mCost;
-		
+
+		for (int i = 0; i < 20; i++) {
+			int rand = UnityEngine.Random.Range (1, 14);
+			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
+			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
+			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
+			float y = UnityEngine.Random.Range (-220.0f, -160.0f);
+			fanObject.transform.parent = transform;
+			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+			fanObject.transform.localPosition = new Vector3 (x, y, 0);
+			mFanList.Add (fanObject.GetComponent<Fan> ());
+			fanObject.GetComponent<Fan> ().Init ();
+		}
 	}
 
 
@@ -74,4 +88,17 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public void PlayMoveInPlaneAnimation () {
 		iTweenEvent.GetEvent (planeObject, "moveIn").Play ();
 	}
+
+	public void StartLive(){
+		foreach(Fan fan in mFanList){
+			fan.StartLive ();
+		}
+	}
+
+	public void FinishLive(){
+		foreach(Fan fan in mFanList){
+			fan.FinishLive ();
+		}
+	}
+
 }
