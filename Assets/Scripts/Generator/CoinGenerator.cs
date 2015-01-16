@@ -24,19 +24,18 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 			return;
 		}
 		int rand = UnityEngine.Random.Range (0,StageGridManager.instance.StageManagerList.Count);
-		rand = 1;
 		mCenteredObject = StageGridManager.instance.StageManagerList [rand].gameObject;
 
 		if (mCenteredObject.tag == "sleep" || mCenteredObject.tag == "construction") {
 			mInterval = 5.0f;
 			return;
 		}
+
 		GameObject coinPrefab = GetCoinPrefab ();
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
 		coinObject.transform.parent = mCenteredObject.transform;
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		mInterval = 5.0f;
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GenerateCoin);
 	}
 
 	void OnCenterCallBack (GameObject centeredObject) {
