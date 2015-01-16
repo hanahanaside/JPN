@@ -47,6 +47,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		for(int i = 0;i < curtainArray.Length;i++){
 			curtainArray [i].transform.localPosition = mStartCurtainPosition [i];
 		}
+		EntranceStageManager.instance.FinishLive ();
 	}
 
 	void OpenedCurtainEvent(){
@@ -58,6 +59,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		mTime = time;
 		CoinGenerator.instance.StopGenerating ();
 		FenceManager.instance.ShowFence ();
+		EntranceStageManager.instance.StartLive ();
 		ballParent.transform.localPosition = new Vector3 (0,0,0);
 		foreach(GameObject ballObject in ballArray){
 			ballObject.transform.localPosition = new Vector3 (0,0,0);
@@ -72,9 +74,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	public void ContinueLive(){
 		mTime = PrefsManager.instance.RemainingLiveTime;
-		List<Transform> stageManagerList = StageGridManager.instance.StageChildList;
-		foreach (Transform stageChild in stageManagerList) {
-			StageManagerBase stageManager = stageChild.GetComponent<StageManagerBase> ();
+		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
 		livePanelObject.SetActive (true);
@@ -87,9 +88,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	private void StartLiveAnimation(){
 		SoundManager.instance.FadeoutSE (SoundManager.SE_CHANNEL.Cheer);
-		List<Transform> stageManagerList = StageGridManager.instance.StageChildList;
-		foreach (Transform stageChild in stageManagerList) {
-			StageManagerBase stageManager = stageChild.GetComponent<StageManagerBase> ();
+		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
 		}
 		logoObject.SetActive (true);
@@ -108,11 +108,11 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		iTweenEvent.GetEvent (ballParent,"RotateEvent").Stop();
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Stop();
 		ballParent.transform.localEulerAngles = new Vector3 (0,0,0);
-		List<Transform> stageManagerList = StageGridManager.instance.StageChildList;
-		foreach (Transform stageChild in stageManagerList) {
-			StageManagerBase stageManager = stageChild.GetComponent<StageManagerBase> ();
+		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.FinishLive ();
 		}
+		EntranceStageManager.instance.FinishLive ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 

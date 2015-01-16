@@ -64,26 +64,10 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	public void GenerateLostIdle () {
 		//迷子のアイドルがいれば生成してアラートを表示
-		if (!mLostIdleEvent.occurring) {
-			return;
+		if (mLostIdleEvent.occurring) {
+			LostButtonObject.SetActive (true);
+			StageGridManager.instance.GenerateLostIdle (mLostIdleEvent.lostIdleID, mLostIdleEvent.lostIdleCount - mLostIdleEvent.foundIdleCount);
 		}
-		LostButtonObject.SetActive (true);
-		//迷子のアイドルを生成
-		int count = mLostIdleEvent.lostIdleCount - mLostIdleEvent.foundIdleCount;
-		List<Transform> stageChildList = StageGridManager.instance.StageChildList;
-		for (int i = 0; i < count; i++) {
-			int stageIndex = CreateStageIndex (mLostIdleEvent.lostIdleID);
-			StageManager stageManager = stageChildList [stageIndex].GetComponent<StageManager>();
-			stageManager.GenerateLostIdle (mLostIdleEvent.lostIdleID);
-		}
-	}
-
-	private int CreateStageIndex (int idleId) {
-		int rand = Random.Range (2, StageGridManager.instance.StageCount);
-		while (rand + 1 == idleId) {
-			rand = Random.Range (2, StageGridManager.instance.StageCount);
-		}
-		return rand;
 	}
 		
 	//迷子イベントを発生させる

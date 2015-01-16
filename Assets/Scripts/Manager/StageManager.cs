@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class StageManager : StageManagerBase {
+public class StageManager : MonoBehaviour {
 
 	public static event Action SleepEvent;
 	public static event Action WakeupEvent;
@@ -173,7 +173,7 @@ public class StageManager : StageManagerBase {
 	}
 
 	//ライブを開始
-	public override void StartLive () {
+	public void StartLive () {
 		mState = State.Live;
 		mSkipConstructionButtonObject.SetActive (false);
 		untilSleepLabel.text = "LIVE！！！！！！！！！！！";
@@ -203,7 +203,7 @@ public class StageManager : StageManagerBase {
 	}
 
 	//ライブを終了
-	public override void FinishLive () { 
+	public void FinishLive () { 
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 			mSkipConstructionButtonObject.SetActive (true);

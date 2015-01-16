@@ -67,6 +67,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
 		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
+	//	CharacterVoiceManager.instance.PlayVoice (Convert.ToInt32 (id) - 1);
 		StartCoroutine ("PlayVoiceCoroutine",Convert.ToInt32 (id) - 1);
 	}
 

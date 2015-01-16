@@ -23,8 +23,8 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		if (mInterval > 0) {
 			return;
 		}
-		int rand = UnityEngine.Random.Range (0,StageGridManager.instance.StageChildList.Count);
-		mCenteredObject = StageGridManager.instance.StageChildList [rand].gameObject;
+		int rand = UnityEngine.Random.Range (0,StageGridManager.instance.StageManagerList.Count);
+		mCenteredObject = StageGridManager.instance.StageManagerList [rand].gameObject;
 
 		if (mCenteredObject.tag == "sleep" || mCenteredObject.tag == "construction") {
 			mInterval = 5.0f;

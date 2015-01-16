@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class ScoutStageManager : StageManagerBase {
+public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 
 	public Transform[] areaPositionArray;
 	public GameObject dartsObject;
@@ -11,8 +10,6 @@ public class ScoutStageManager : StageManagerBase {
 	public GameObject goScoutButtonObject;
 	public UILabel costLabel;
 	private int mCost;
-	private List<Fan> mFanList = new List<Fan> ();
-	private static ScoutStageManager sInstance;
 
 	public static bool FlagScouting{ get; set; }
 
@@ -27,7 +24,6 @@ public class ScoutStageManager : StageManagerBase {
 	}
 
 	void Awake () {
-		sInstance = this;
 		if (SelectedAreaId == 0) {
 			SelectedAreaId = 1;
 		}
@@ -35,19 +31,7 @@ public class ScoutStageManager : StageManagerBase {
 		dartsObject.SetActive (true);
 		mCost = AreaCostCaluculator.instance.CalcCost (SelectedAreaId - 1);
 		costLabel.text = "" + mCost;
-
-		for (int i = 0; i < 20; i++) {
-			int rand = UnityEngine.Random.Range (1, 14);
-			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
-			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
-			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
-			float y = UnityEngine.Random.Range (-220.0f, -160.0f);
-			fanObject.transform.parent = transform;
-			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			fanObject.transform.localPosition = new Vector3 (x, y, 0);
-			mFanList.Add (fanObject.GetComponent<Fan> ());
-			fanObject.GetComponent<Fan> ().Init ();
-		}
+		
 	}
 
 
@@ -59,16 +43,10 @@ public class ScoutStageManager : StageManagerBase {
 		costLabel.text = "" + mCost; 
 	}
 
-	public static ScoutStageManager instance{
-		get{
-			return sInstance;
-		}
-	}
-
 	void OnPlaneEventCompleted () {
 		fadeOutSpriteObject.SetActive (true);
 	}
-
+		
 	public void OnFadeOutFinished () {
 		Application.LoadLevel ("Puzzle");
 	}
@@ -78,18 +56,8 @@ public class ScoutStageManager : StageManagerBase {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public override void StartLive () {
-		foreach(Fan fan in mFanList){
-			fan.StartLive ();
-		}
-	}
-
-	public override void FinishLive(){
-
-	}
-
 	public void OnGoScoutButtonClicked () {
-		if (PlayerDataKeeper.instance.CoinCount < mCost) {
+		if(PlayerDataKeeper.instance.CoinCount < mCost){
 			FenceManager.instance.ShowFence ();
 			OKDialog.instance.Show ("コインが不足しています");
 			return;
