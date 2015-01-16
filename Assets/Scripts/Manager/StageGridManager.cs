@@ -7,33 +7,30 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	public UIGrid stageGrid;
 	public GameObject stagePrefab;
 	private UICenterOnChild mCenterOnChild;
-	private List<StageManager> mStageManagerList;
 
 	public override void OnInitialize () {
 		mCenterOnChild = stageGrid.GetComponent<UICenterOnChild> ();
 	}
 
-	public List<StageManager> StageManagerList {
+	public List<Transform> StageChildList{
 		get {
-			return mStageManagerList;
+			return stageGrid.GetChildList ();
 		}
 	}
 
 	public int StageCount {
 		get {
-			return mStageManagerList.Count;
+			return stageGrid.GetChildList ().Count;
 		}
 	}
 
 	public  void CreateStageGrid () {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
-		mStageManagerList = new List<StageManager> ();
 		foreach (Stage stage in stageList) {
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			stageGrid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
-			mStageManagerList.Add (stageObject.GetComponentInChildren<StageManager> ());
 			stageObject.GetComponentInChildren<StageManager> ().Init (stage);
 		}
 	}
@@ -54,27 +51,31 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	}
 
 	public void Resume () {
-		foreach (StageManager stageManager in mStageManagerList) {
-			stageManager.Resume ();
+		List<Transform> stageChildList = StageChildList; 
+		foreach (Transform stageChild in stageChildList) {
+			StageManager stageManager = stageChild.GetComponent<StageManager> ();
+			if(stageManager != null){
+				stageManager.Resume ();
+			}
 		}
 	}
 
 	public void GenerateLostIdle (int idleId, int count) {
 		for (int i = 0; i < count; i++) {
 			int stageIndex = CreateStageIndex (idleId);
-			StageManager stageManager = mStageManagerList [stageIndex];
-			stageManager.GenerateLostIdle (idleId);
+//			StageManager stageManager = mStageManagerList [stageIndex];
+//			stageManager.GenerateLostIdle (idleId);
 		}
 	}
 
 	public void RemoveIdle(int stageId,int count){
-		StageManager stageManager = mStageManagerList[stageId-1];
-		stageManager.RemoveIdle (count);
+//		StageManager stageManager = mStageManagerList[stageId-1];
+//		stageManager.RemoveIdle (count);
 	}
 
 	public void GenerateIdle (int idleID) {
-		StageManager stageManager = mStageManagerList [idleID - 1];
-		stageManager.AddIdle (idleID);
+//		StageManager stageManager = mStageManagerList [idleID - 1];
+//		stageManager.AddIdle (idleID);
 	}
 
 	public int GetMaxGeneratePower(){
