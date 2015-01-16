@@ -225,6 +225,7 @@
      <Compile Include="Assets\Scripts\Interface\StageDao.cs" />
      <Compile Include="Assets\Scripts\Interface\UntilSleepTimeDao.cs" />
      <Compile Include="Assets\Scripts\Log\MyLog.cs" />
+     <Compile Include="Assets\Scripts\Manager\AdManager.cs" />
      <Compile Include="Assets\Scripts\Manager\AreaPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\DanceTeamManager.cs" />
      <Compile Include="Assets\Scripts\Manager\EntranceStageManager.cs" />
