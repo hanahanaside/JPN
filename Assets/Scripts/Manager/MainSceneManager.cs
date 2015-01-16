@@ -19,20 +19,17 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		StageGridManager.instance.CreateStageGrid ();
 		EventManager.instance.Init ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
+
+		//パズル終わりであればスカウト画面から再開
 		if (ScoutStageManager.FlagScouting) {
 			StageGridManager.instance.MoveToStage (0);
 			ScoutStageManager.instance.PlayMoveInPlaneAnimation ();
-			CheckNewUnlockArea ();
 		} else {
 			StageGridManager.instance.MoveToStage (1);
-			CalcSleepTimeCoin ();
 		}
-		if (PrefsManager.instance.IsLive) {
-			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
-			LiveManager.instance.ContinueLive ();
-		}else {
-			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
-		}
+
+		Resume ();
+			
 		EventManager.instance.GenerateLostIdle ();
 	}
 
@@ -50,34 +47,56 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			#if !UNITY_EDITOR
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
-			//ライブ情報をセーブ
-			LiveManager.instance.Save ();
 			#endif
 		} else {
 			MyLog.LogDebug ("resume");
+
 			#if !UNITY_EDITOR
-			CalcSleepTimeCoin ();
+			Resume();
 			//時間関係の処理の指令を出す
 			StageGridManager.instance.Resume ();
 			#endif
 		}
 	}
 
-	private void CalcSleepTimeCoin () {
+	private void Resume(){
+		//中断中に稼いだコインを取得
+		double addCoin = CalcSleepTimeCoin ();
+
+		//ライブの途中であれば再開
+		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds();
+		if (remainingLiveTimeSeconds > 0) {
+			LiveManager.instance.ContinueLive (remainingLiveTimeSeconds);
+			addCoin = addCoin * 2;
+		} else {
+			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
+		}
+		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
+
+		//新規でエリア解放可能なモノがあればそれを表示
+		string newUnlockAreaName = CheckNewUnlockAreaExist ();
+		if (!string.IsNullOrEmpty (newUnlockAreaName)) {
+			FenceManager.instance.ShowFence ();
+			OKDialog.instance.Show (newUnlockAreaName + "が購入可能になりました");
+		} else if (addCoin >= 1) {
+			FenceManager.instance.ShowFence ();
+			SleepTimeCoinDialogManager.instance.Show (addCoin);
+		}
+	}
+
+	//中断中に稼いだコインを計算して返す
+	private double CalcSleepTimeCoin () {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
 		TimeSpan ts = dtNow - dtExit;
 		Debug.Log ("ts " + ts.TotalSeconds);
 		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
 		Debug.Log ("addCoin " + addCoin);
-		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
-		if (addCoin >= 100 ) {
-			FenceManager.instance.ShowFence ();
-			SleepTimeCoinDialogManager.instance.Show (addCoin);
-		}
+		return addCoin;
 	}
 
-	private void CheckNewUnlockArea () {
+	//新規でアンロック可能なエリアの名前を返す
+	private string CheckNewUnlockAreaExist () {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
 			int clearCount = clearedPuzzleCountArray [i];
@@ -94,10 +113,10 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 				totalIdleCount += stage.IdleCount;
 			}
 			if (totalIdleCount > param.minimum_amount) {
-				FenceManager.instance.ShowFence ();
-				OKDialog.instance.Show (param.area_name + "が購入可能になりました");
+				return param.area_name;
 			}
 		}
+		return "";
 	}
 	
 		
@@ -145,7 +164,16 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void OnTicketClicked(){
+	public void OnTicketClicked () {
 		BuyTicketDialog.instance.Show ();
+	}
+
+	private float GetRemainingLiveTimeSeconds(){
+		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
+		DateTime dtNow = DateTime.Now;
+		DateTime dtLive = DateTime.Parse (liveData.startDate);
+		TimeSpan timeSpan = dtNow - dtLive;
+		float remainingLiveTimeSeconds = (float)(liveData.time - timeSpan.TotalSeconds);
+		return remainingLiveTimeSeconds;
 	}
 }

@@ -187,6 +187,8 @@ public class StageManager : MonoBehaviour {
 			WakeupEvent ();
 			PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
+		//ライブ時は2倍
+		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		foreach (Character character in mCharacterList) {
 			character.StartLive ();
 		}
@@ -217,6 +219,7 @@ public class StageManager : MonoBehaviour {
 		foreach (Character character in mCharacterList) {
 			character.FinishLive ();
 		}
+		PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 	}

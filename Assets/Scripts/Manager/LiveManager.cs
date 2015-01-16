@@ -55,7 +55,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	public void StartLive (float time) {
-		PrefsManager.instance.IsLive = true;
 		mTime = time;
 		CoinGenerator.instance.StopGenerating ();
 		FenceManager.instance.ShowFence ();
@@ -72,8 +71,12 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		Invoke ("StartLiveAnimation",3.0f);
 	}
 
-	public void ContinueLive(){
-		mTime = PrefsManager.instance.RemainingLiveTime;
+	public void ContinueLive(float time){
+		mTime = time;
+		if(mLive){
+			return;
+		}
+		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.StartLive ();
@@ -83,11 +86,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		livePanelObject.SetActive (true);
 		OpenCurtain ();
 	}
-
-	public void Save(){
-		PrefsManager.instance.RemainingLiveTime = mTime;
-	}
-
+		
 	private void StartLiveAnimation(){
 		SoundManager.instance.FadeoutSE (SoundManager.SE_CHANNEL.Cheer);
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
@@ -106,8 +105,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	private void FinishLive(){
 		mLive = false;
-		PrefsManager.instance.IsLive = false;
-		PrefsManager.instance.RemainingLiveTime = 0;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
 		iTweenEvent.GetEvent (ballParent,"RotateEvent").Stop();
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Stop();
@@ -132,6 +129,10 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		}
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Play();
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveStartEvent").Play();
+		LiveData liveData = new LiveData ();
+		liveData.startDate = System.DateTime.Now.ToString ();
+		liveData.time = mTime;
+		PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
 		mLive = true;
 		CoinGenerator.instance.StartGenerating ();
 	}

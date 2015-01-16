@@ -27,7 +27,6 @@ public class MyDebugger : MonoBehaviour {
 		bool clickedPause = GUI.Button (pauseRect, "save pref");
 		if (clickedPause) {
 			PlayerDataKeeper.instance.SaveData ();
-			LiveManager.instance.Save ();
 		}
 		Rect deleteDBRect = new Rect (10, 60, 80, 20);
 		bool clickedDeleteDB = GUI.Button (deleteDBRect, "reset DB");
