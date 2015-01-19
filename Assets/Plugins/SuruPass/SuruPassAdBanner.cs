@@ -6,20 +6,30 @@ using System;
 using ObjC = ObjCMessage;
 
 
-public interface SuruPassAdBannerCallback 
+public interface SuruPassAdBannerCallback
 {
 }
 
-public class SuruPassAdBanner : SuruPassAd 
-{
+public class SuruPassAdBanner : SuruPassAd {
+
+	public static SuruPassAdBanner sInstance;
+
+	public static SuruPassAdBanner instance{
+		get{
+			return sInstance;
+		}
+	}
+
+	public override void OnInitialize(){
+		sInstance = this;
+	}
 
 	[SerializeField]
 	protected Metrics androidMetrics;
 	[SerializeField]
 	protected Metrics iOSMetrics;
 
-	public override void Show()
-	{
+	public override void Show () {
 #if UNITY_IPHONE && !UNITY_EDITOR
 		ObjC.sruPassPrepare(account.iOS.media_id,account.debug);
 		int[] result = Array.ConvertAll(iOSMetrics.gravity, value => (int) value);
@@ -29,7 +39,8 @@ public class SuruPassAdBanner : SuruPassAd
 #endif
 	}
 
-#if UNITY_IPHONE && !UNITY_EDITOR
+	#if UNITY_IPHONE && !UNITY_EDITOR
+	
 
 #elif UNITY_ANDROID && !UNITY_EDITOR
 	private void _ShowBanner(string gameObject,  Gravity[] gravity) {

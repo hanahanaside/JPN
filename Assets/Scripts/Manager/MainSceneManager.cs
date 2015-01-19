@@ -24,6 +24,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		if (ScoutStageManager.FlagScouting) {
 			StageGridManager.instance.MoveToStage (0);
 			ScoutStageManager.instance.PlayMoveInPlaneAnimation ();
+			SuruPassInterstitial.instance.Show ();
 		} else {
 			StageGridManager.instance.MoveToStage (1);
 		}
@@ -31,6 +32,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		Resume ();
 			
 		EventManager.instance.GenerateLostIdle ();
+		SuruPassAdBanner.instance.Show ();
 	}
 
 	void Update () {
