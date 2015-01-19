@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Text;
 using System.Collections.Generic;
+using System;
 
 public class EventManager : MonoSingleton<EventManager> {
+
+	public event Action okButtonClickedEvent;
 
 	public GameObject sleepButtonObject;
 	public GameObject liveButtonObject;
@@ -70,6 +73,11 @@ public class EventManager : MonoSingleton<EventManager> {
 			LostButtonObject.SetActive (true);
 			StageGridManager.instance.GenerateLostIdle (mLostIdleEvent.lostIdleID, mLostIdleEvent.lostIdleCount - mLostIdleEvent.foundIdleCount);
 		}
+	}
+
+	public void ShowNatsumoto(string message){
+		okButtonObject.SetActive (true);
+		ShowEventPanel (message);
 	}
 		
 	//迷子イベントを発生させる
@@ -230,9 +238,6 @@ public class EventManager : MonoSingleton<EventManager> {
 	} 
 
 	public void FinishedTypeWriter(){ 
-		if(string.IsNullOrEmpty(messageLabel.text)){
-			return;
-		}
 		buttonParentObject.SetActive (true);
 	}
 
@@ -323,6 +328,9 @@ public class EventManager : MonoSingleton<EventManager> {
 		HideButtons ();
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		if(okButtonClickedEvent != null){
+			okButtonClickedEvent ();
+		}
 	}
 
 	public void NewsOKButtonClicked () {

@@ -14,7 +14,8 @@ public class PrefsManager :Singleton<PrefsManager> {
 		TradeIdleEvent,
 		NewsEvent,
 		TutorialFinished,
-		LiveData
+		LiveData,
+		AnnouncedUnlockAreaCount
 	}
 
 	public int DatabaseVersion {
@@ -23,6 +24,16 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 		set {
 			PlayerPrefs.SetInt (Kies.DatabaseVersion.ToString (), value);
+			PlayerPrefs.Save ();
+		}
+	}
+
+	public int AnnouncedUnlockAreaCount{
+		get{
+			return PlayerPrefs.GetInt (Kies.AnnouncedUnlockAreaCount.ToString(), 1);
+		}
+		set{
+			PlayerPrefs.SetInt (Kies.AnnouncedUnlockAreaCount.ToString(), value);
 			PlayerPrefs.Save ();
 		}
 	}

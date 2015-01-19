@@ -10,13 +10,16 @@ public class TestController : TestParent {
 	enum Days{Sun = 5,Mon,Tue};
 
 	void Start(){
-		Debug.Log ("start child");
+		Entity_Area entityArea = Resources.Load ("Data/Area") as Entity_Area;
+		Entity_Area.Param param = entityArea.param [0];
+	//	param.area_name = "aaaa";
+		Debug.Log (param.area_name);
 	}
 
 	public void ButtonClicked(){
-		label.text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-		label.GetComponent<TypewriterEffect> ().ResetToBeginning ();
-
+		Entity_Area entityArea = Resources.Load ("Data/Area") as Entity_Area;
+		Entity_Area.Param param = entityArea.param [0];
+		Debug.Log (param.area_name);
 	}
 
 	public void FinishedTypeWriter(){

@@ -19,7 +19,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		StageGridManager.instance.CreateStageGrid ();
 		EventManager.instance.Init ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
-
 		//パズル終わりであればスカウト画面から再開
 		if (ScoutStageManager.FlagScouting) {
 			StageGridManager.instance.MoveToStage (0);
@@ -27,10 +26,12 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			//新規でエリア解放可能なモノがあればそれを表示
 			string newUnlockAreaName = CheckNewUnlockAreaExist ();
 			if (!string.IsNullOrEmpty (newUnlockAreaName)) {
-				FenceManager.instance.ShowFence ();
-				OKDialog.instance.Show (newUnlockAreaName + "が購入可能になりました");
+				EventManager.instance.okButtonClickedEvent += EventOKButtonClicked;
+				EventManager.instance.ShowNatsumoto (newUnlockAreaName + "が購入可能になりました");
 			}
+			#if !UNITY_EDITOR
 			SuruPassInterstitial.instance.Show ();
+			#endif
 		} else {
 			StageGridManager.instance.MoveToStage (1);
 			double addCoin = CalcSleepTimeCoin ();
@@ -74,6 +75,11 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		}
 	}
 
+	void EventOKButtonClicked(){
+		EventManager.instance.okButtonClickedEvent -= EventOKButtonClicked;
+		AreaPanelManager.instance.ShowAreaPanel ();
+	}
+
 	private void Resume () {
 		//中断中に稼いだコインを取得
 		double addCoin = CalcSleepTimeCoin ();
@@ -114,6 +120,11 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			//未購入のエリアがある場合は購入可能かをチェックする
 			Entity_Area entityArea = Resources.Load ("Data/Area") as Entity_Area;
 			Entity_Area.Param param = entityArea.param [i];
+			//既にアナウンス済みの場合はbreak
+			int announcedUnlockAreaCount = PrefsManager.instance.AnnouncedUnlockAreaCount;
+			if(announcedUnlockAreaCount >= param.area_id){
+				break;
+			}
 			int totalIdleCount = 0;
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
@@ -121,6 +132,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 				totalIdleCount += stage.IdleCount;
 			}
 			if (totalIdleCount > param.minimum_amount) {
+				PrefsManager.instance.AnnouncedUnlockAreaCount = param.area_id;
 				return param.area_name;
 			}
 		}
