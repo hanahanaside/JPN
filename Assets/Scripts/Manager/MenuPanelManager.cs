@@ -75,6 +75,10 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 			ChangeButtonToON (notificationButton);
 		}
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+	} 
+
+	public void MailButtonClicked(){
+		Debug.Log ("lllllll");
 	}
 
 	private void ChangeButtonToON(UIButton button){
