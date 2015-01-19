@@ -24,13 +24,24 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		if (ScoutStageManager.FlagScouting) {
 			StageGridManager.instance.MoveToStage (0);
 			ScoutStageManager.instance.PlayMoveInPlaneAnimation ();
+			//新規でエリア解放可能なモノがあればそれを表示
+			string newUnlockAreaName = CheckNewUnlockAreaExist ();
+			if (!string.IsNullOrEmpty (newUnlockAreaName)) {
+				FenceManager.instance.ShowFence ();
+				OKDialog.instance.Show (newUnlockAreaName + "が購入可能になりました");
+			}
 			SuruPassInterstitial.instance.Show ();
 		} else {
 			StageGridManager.instance.MoveToStage (1);
+			double addCoin = CalcSleepTimeCoin ();
+			if (addCoin >= 1) {
+				FenceManager.instance.ShowFence ();
+				SleepTimeCoinDialogManager.instance.Show (addCoin);
+			}
 		}
-
-		Resume ();
 			
+		Resume ();
+
 		EventManager.instance.GenerateLostIdle ();
 		#if !UNITY_EDITOR
 		SuruPassAdBanner.instance.Show ();
@@ -63,29 +74,18 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		}
 	}
 
-	private void Resume(){
+	private void Resume () {
 		//中断中に稼いだコインを取得
 		double addCoin = CalcSleepTimeCoin ();
 
 		//ライブの途中であれば再開
-		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds();
+		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
 		if (remainingLiveTimeSeconds > 0) {
 			LiveManager.instance.ContinueLive (remainingLiveTimeSeconds);
-			addCoin = addCoin * 2;
 		} else {
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 		}
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
-
-		//新規でエリア解放可能なモノがあればそれを表示
-		string newUnlockAreaName = CheckNewUnlockAreaExist ();
-		if (!string.IsNullOrEmpty (newUnlockAreaName)) {
-			FenceManager.instance.ShowFence ();
-			OKDialog.instance.Show (newUnlockAreaName + "が購入可能になりました");
-		} else if (addCoin >= 1) {
-			FenceManager.instance.ShowFence ();
-			SleepTimeCoinDialogManager.instance.Show (addCoin);
-		}
 	}
 
 	//中断中に稼いだコインを計算して返す
@@ -95,6 +95,10 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		TimeSpan ts = dtNow - dtExit;
 		Debug.Log ("ts " + ts.TotalSeconds);
 		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
+		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
+		if (remainingLiveTimeSeconds > 0) {
+			addCoin = addCoin * 2;
+		}
 		Debug.Log ("addCoin " + addCoin);
 		return addCoin;
 	}
@@ -172,7 +176,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		BuyTicketDialog.instance.Show ();
 	}
 
-	private float GetRemainingLiveTimeSeconds(){
+	private float GetRemainingLiveTimeSeconds () {
 		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
 		DateTime dtNow = DateTime.Now;
 		DateTime dtLive = DateTime.Parse (liveData.startDate);
