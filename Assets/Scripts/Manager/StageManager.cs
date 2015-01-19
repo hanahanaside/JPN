@@ -231,7 +231,7 @@ public class StageManager : MonoBehaviour {
 			GenerateIdle (idlePrefab);
 		}
 		mStageData = DaoFactory.CreateStageDao ().SelectById (mStageData.Id);
-		idleCountLabel.text = "×" + mStageData.IdleCount;
+		SetIdolCount ();
 		if (mState == State.Sleep) {
 			foreach (Character character in mCharacterList) {
 				character.Sleep ();
@@ -246,7 +246,7 @@ public class StageManager : MonoBehaviour {
 			Destroy (character.gameObject);
 		}
 		mStageData = DaoFactory.CreateStageDao ().SelectById (mStageData.Id);
-		idleCountLabel.text = "×" + mStageData.IdleCount;
+		SetIdolCount ();
 	}
 
 	//今すぐ完成させるボタン押下
@@ -301,7 +301,7 @@ public class StageManager : MonoBehaviour {
 		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 
 		//アイドルの数をセット
-		idleCountLabel.text = "×" + mStageData.IdleCount;
+		SetIdolCount ();
 
 		//エリア名をセット
 		areaNameLabel.text = "建設中";
@@ -335,7 +335,7 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//ファンを生成
-		for (int i = 0; i < mStageData.IdleCount * 3; i++) {
+		for (int i = 0; i < mStageData.IdleCount * 5; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
@@ -361,7 +361,7 @@ public class StageManager : MonoBehaviour {
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 
 		//アイドルの数をセット
-		idleCountLabel.text = "×" + mStageData.IdleCount;
+		SetIdolCount ();
 
 		//今すぐ完成させるボタンを非表示
 		mSkipConstructionButtonObject.SetActive (false);
@@ -413,5 +413,14 @@ public class StageManager : MonoBehaviour {
 	private double GetGenerateCoinPower () {
 		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
 		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
+	}
+
+	//アイドルの人数をセット
+	private void SetIdolCount(){
+		if(mStageData.IdleCount >= 25){
+			idleCountLabel.text = "MAX";
+		}else {
+			idleCountLabel.text = "×" + mStageData.IdleCount;
+		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Collections;
 
 public class TestController : TestParent {
 
-	public GameObject labelObject;
+	public GameObject adObject;
 	private int mIndex;
 
 	enum Days{Sun = 5,Mon,Tue};
@@ -14,9 +14,7 @@ public class TestController : TestParent {
 	}
 
 	public void ButtonClicked(){
-		Entity_tutorial entityTutorial = Resources.Load<Entity_tutorial> ("Data/tutorial");
-		labelObject.GetComponent<TypewriterEffect> ().ResetToBeginning();
-		labelObject.GetComponent<UILabel> ().text = entityTutorial.param[mIndex].message;
-		mIndex++;
+		Debug.Log ("click");
+		Destroy (adObject);
 	}
 }

@@ -11,19 +11,23 @@ public class AreaCostCaluculator {
 			if (sInstance == null) {
 				sInstance = new AreaCostCaluculator ();
 			}
-			if(mEntityArea== null){
+			if (mEntityArea == null) {
 				mEntityArea = Resources.Load ("Data/Area") as Entity_Area; //=> Resourcesからデータファイルの読み込み
 			}
 			return sInstance;
 		}
 	}
 
-	public int CalcCost(int areaIndex){
+	public int CalcCost (int areaIndex) {
+		Entity_Area.Param param = mEntityArea.param [areaIndex];
 		int[] clearedCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
-		int costStart = mEntityArea.param [areaIndex].cost_start;
-		int costAdd = mEntityArea.param [areaIndex].cost_add;
+		int costStart = param.cost_start;
+		int costAdd = param.cost_add;
 		int clearedCount = clearedCountArray [areaIndex];
 		int cost = costStart + (costAdd * clearedCount);
+		if (cost > param.cost_end) {
+			cost = param.cost_end;
+		}
 		return cost;
 	}
 }

@@ -108,7 +108,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			coinSpriteObject.SetActive (true);
 			break;
 		case 2:
-			PlayerDataKeeper.instance.IncreaseCoinCount (2500);
+			PlayerDataKeeper.instance.IncreaseCoinCount (10000);
 			sTutorialIndex++;
 			UpdateMessage ();
 			coinSpriteObject.SetActive (false);

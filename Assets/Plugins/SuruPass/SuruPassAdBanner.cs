@@ -51,4 +51,5 @@ public class SuruPassAdBanner : SuruPassAd {
 		adUtil.CallStatic("showBanner",  account.android.frame_id, g_sum, androidMetrics.margin.left, androidMetrics.margin.top, androidMetrics.margin.right, androidMetrics.margin.bottom); 
 	}
 #endif
+
 }

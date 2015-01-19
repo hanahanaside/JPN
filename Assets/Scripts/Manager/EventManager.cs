@@ -16,8 +16,10 @@ public class EventManager : MonoSingleton<EventManager> {
 	public GameObject yesButtonObject;
 	public GameObject noButtonObject;
 	public GameObject buttonParentObject;
+	public GameObject lostIdolOKButtonObject;
 	public UILabel messageLabel;
 	public UILabel coinLabel;
+	public UILabel lostIdolRewardLabel;
 
 	private int mSleepStageCount;
 	private LostIdleEvent mLostIdleEvent;
@@ -104,7 +106,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		//迷子の報酬を算出
 		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
 		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
-		mLostIdleEvent.reward = (int)(generateCoinPower * 20 * mLostIdleEvent.lostIdleCount);
+		mLostIdleEvent.reward = (int)(generateCoinPower * 100 * mLostIdleEvent.lostIdleCount);
 		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
 		Debug.Log ("id " + stage.Id);
 		Debug.Log ("count " + count);
@@ -202,7 +204,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		mLostIdleEvent.foundIdleCount++;
 		Debug.Log ("find count " + mLostIdleEvent.foundIdleCount);
 		if (mLostIdleEvent.foundIdleCount >= mLostIdleEvent.lostIdleCount) {
-			PlayerDataKeeper.instance.IncreaseCoinCount (mLostIdleEvent.reward);
+			lostIdolRewardLabel.text = "" + mLostIdleEvent.reward;
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("すごい！\n");
 			sb.Append ("すべて見つけたんだね！\n");
@@ -211,7 +213,8 @@ public class EventManager : MonoSingleton<EventManager> {
 			TradeButtonObject.SetActive (false);
 			yesButtonObject.SetActive (false);
 			noButtonObject.SetActive (false);
-			okButtonObject.SetActive (true);
+			okButtonObject.SetActive (false);
+			lostIdolOKButtonObject.SetActive (true);
 			newsOKButtonObject.SetActive (false);
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
@@ -261,6 +264,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		ShowEventPanel (sb.ToString ());
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
+		lostIdolOKButtonObject.SetActive (false);
 		okButtonObject.SetActive (true);
 		newsOKButtonObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.LostIdol);
@@ -292,6 +296,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
 		okButtonObject.SetActive (false);
+		lostIdolOKButtonObject.SetActive (false);
 		newsOKButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<NewsEvent> (mNewsEvent, PrefsManager.Kies.NewsEvent);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.News);
@@ -319,6 +324,13 @@ public class EventManager : MonoSingleton<EventManager> {
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);
+	}
+
+	//迷子を全員発見
+	public void LostIdolOKButtonClicked(){
+		PlayerDataKeeper.instance.IncreaseCoinCount (mLostIdleEvent.reward);
+		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 	}
 
 	public void OKButtonClicked () {
