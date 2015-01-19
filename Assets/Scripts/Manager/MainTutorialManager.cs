@@ -87,16 +87,12 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	}
 
 	public void OnMessageFinished(){
-		if(tutorialLabel.text == ""){
-			return;
-		}
 		okButtonObject.SetActive (true);
 	}
 
 	public void OKButtonClicked () {
 		Debug.Log ("index " + sTutorialIndex);
 		okButtonObject.SetActive (false);
-		tutorialLabel.text = "";
 		switch (sTutorialIndex) {
 		case 0:
 			sTutorialIndex++;

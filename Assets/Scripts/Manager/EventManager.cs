@@ -210,12 +210,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			sb.Append ("すべて見つけたんだね！\n");
 			sb.Append (mLostIdleEvent.reward + "コインゲット!!");
 			ShowEventPanel (sb.ToString ());
-			TradeButtonObject.SetActive (false);
-			yesButtonObject.SetActive (false);
-			noButtonObject.SetActive (false);
-			okButtonObject.SetActive (false);
 			lostIdolOKButtonObject.SetActive (true);
-			newsOKButtonObject.SetActive (false);
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<Stage> stageList = dao.SelectAll ();
 			Stage stage = stageList [mLostIdleEvent.lostIdleID - 1];
@@ -262,11 +257,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		sb.Append ("他の都道府県にまぎれこんでいるから、見つけたらタップしよう！\n");
 		sb.Append ("すべて見つけたらボーナスだ！");
 		ShowEventPanel (sb.ToString ());
-		yesButtonObject.SetActive (false);
-		noButtonObject.SetActive (false);
-		lostIdolOKButtonObject.SetActive (false);
 		okButtonObject.SetActive (true);
-		newsOKButtonObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.LostIdol);
 	}
 
@@ -281,8 +272,6 @@ public class EventManager : MonoSingleton<EventManager> {
 		coinLabel.text = "" + mTradeIdleEvent.reward;
 		yesButtonObject.SetActive (true);
 		noButtonObject.SetActive (true);
-		okButtonObject.SetActive (false);
-		newsOKButtonObject.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.TradeIdol);
 	}
 
@@ -292,11 +281,6 @@ public class EventManager : MonoSingleton<EventManager> {
 		sb.Append (mNewsEvent.reward + "チケットゲットだ！");
 		ShowEventPanel (sb.ToString ());
 		mNewsEvent.occurring = false;
-		newsButtonObject.SetActive (false);
-		yesButtonObject.SetActive (false);
-		noButtonObject.SetActive (false);
-		okButtonObject.SetActive (false);
-		lostIdolOKButtonObject.SetActive (false);
 		newsOKButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<NewsEvent> (mNewsEvent, PrefsManager.Kies.NewsEvent);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.News);
@@ -319,6 +303,7 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	//移籍の時のみ発動
 	public void NoButtonClicked () {
+		HideButtons ();
 		mTradeIdleEvent.occurring = false;
 		TradeButtonObject.SetActive (false);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
@@ -328,17 +313,20 @@ public class EventManager : MonoSingleton<EventManager> {
 
 	//迷子を全員発見
 	public void LostIdolOKButtonClicked(){
+		HideButtons ();
 		PlayerDataKeeper.instance.IncreaseCoinCount (mLostIdleEvent.reward);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
 	}
 
 	public void OKButtonClicked () {
+		HideButtons ();
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
 	public void NewsOKButtonClicked () {
+		HideButtons ();
 		PlayerDataKeeper.instance.IncreaseTicketCount (1);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
@@ -348,8 +336,8 @@ public class EventManager : MonoSingleton<EventManager> {
 		FenceManager.instance.ShowFence ();
 		eventPanelObject.SetActive (true);
 		iTweenEvent.GetEvent (eventPanelObject, "ShowEvent").Play ();
-		messageLabel.gameObject.GetComponent<TypewriterEffect> ().ResetToBeginning ();
 		messageLabel.text = text;
+		messageLabel.gameObject.GetComponent<TypewriterEffect> ().ResetToBeginning ();
 	}
 
 	private void StartScaleEvent (GameObject buttonObject) {
@@ -359,5 +347,14 @@ public class EventManager : MonoSingleton<EventManager> {
 	private void StopScaleEvent (GameObject buttonObject) {
 		iTweenEvent.GetEvent (buttonObject, "ScaleEvent").Stop ();
 		buttonObject.transform.localScale = new Vector3 (1, 1, 1);
+	}
+
+	private void HideButtons(){
+		yesButtonObject.SetActive (false);
+		noButtonObject.SetActive (false);
+		okButtonObject.SetActive (false);
+		lostIdolOKButtonObject.SetActive (false);
+		newsOKButtonObject.SetActive (false);
+		buttonParentObject.SetActive (false);
 	}
 }

@@ -8,57 +8,69 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 	public UIButton bgmButton;
 	public UIButton notificationButton;
 
-	void CompleteDismissEvent(){
-		FenceManager.instance.HideFence ();
-		dialogObject.SetActive (false);
-		dialogObject.transform.localScale = new Vector3 (1,1,1);
+	void OnEnable () {
+		EtceteraManager.mailComposerFinishedEvent += mailComposerFinished;
 	}
 
-	public void ShowMenuPanel(){
+	void OnDisable () {
+		EtceteraManager.mailComposerFinishedEvent -= mailComposerFinished;
+	}
+
+	void CompleteDismissEvent () {
+		FenceManager.instance.HideFence ();
+		dialogObject.SetActive (false);
+		dialogObject.transform.localScale = new Vector3 (1, 1, 1);
+	}
+
+	void mailComposerFinished (string result) {
+		Debug.Log ("mailComposerFinished : " + result);
+	}
+
+	public void ShowMenuPanel () {
 		dialogObject.SetActive (true);
 		//SEボタンのラベルをセット
-		if(PrefsManager.instance.SE_ON){
+		if (PrefsManager.instance.SE_ON) {
 			ChangeButtonToON (seButton);
-		}else {
+		} else {
 			ChangeButtonToOFF (seButton);
 		}
 		//BGMボタンのラベルをセット
-		if(PrefsManager.instance.BGM_ON){
+		if (PrefsManager.instance.BGM_ON) {
 			ChangeButtonToON (bgmButton);
-		}else {
+		} else {
 			ChangeButtonToOFF (bgmButton);
 		}
 		//通知のラベルをセット
-		if(PrefsManager.instance.NotificationON){
+		if (PrefsManager.instance.NotificationON) {
 			ChangeButtonToON (notificationButton);
-		}else {
+		} else {
 			ChangeButtonToOFF (notificationButton);
 		}
-		iTweenEvent.GetEvent (dialogObject,"ShowEvent").Play();
+		iTweenEvent.GetEvent (dialogObject, "ShowEvent").Play ();
 	}
 
-	public void OnCloseButtonClicked(){
-		iTweenEvent.GetEvent (dialogObject,"DismissEvent").Play();
+	public void OnCloseButtonClicked () {
+		iTweenEvent.GetEvent (dialogObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void SEButtonClicked(){
-		if(PrefsManager.instance.SE_ON){
+	public void SEButtonClicked () {
+		if (PrefsManager.instance.SE_ON) {
 			PrefsManager.instance.SE_ON = false;
 			ChangeButtonToOFF (seButton);
-		}else {
+		} else {
 			PrefsManager.instance.SE_ON = true;
 			ChangeButtonToON (seButton);
 		}
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void BGMButtonClicked(){
-		if(PrefsManager.instance.BGM_ON){
+	public void BGMButtonClicked () {
+		if (PrefsManager.instance.BGM_ON) {
 			PrefsManager.instance.BGM_ON = false;
 			ChangeButtonToOFF (bgmButton);
 			SoundManager.instance.StopBGM ();
-		}else {
+		} else {
 			PrefsManager.instance.BGM_ON = true;
 			ChangeButtonToON (bgmButton);
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
@@ -66,28 +78,31 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void NotificationClicked(){
-		if(PrefsManager.instance.NotificationON){
+	public void NotificationClicked () {
+		if (PrefsManager.instance.NotificationON) {
 			PrefsManager.instance.NotificationON = false;
 			ChangeButtonToOFF (notificationButton);
-		}else {
+		} else {
 			PrefsManager.instance.NotificationON = true;
 			ChangeButtonToON (notificationButton);
 		}
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
-	} 
-
-	public void MailButtonClicked(){
-		Debug.Log ("lllllll");
 	}
 
-	private void ChangeButtonToON(UIButton button){
+	public void MailButtonClicked () {
+		string adress = "app@hnut.co.jp";
+		string title = "title";
+		string message = "message";
+		EtceteraBinding.showMailComposer (adress,title,message,false);
+	}
+
+	private void ChangeButtonToON (UIButton button) {
 		button.normalSprite = "cell_green";
 		UILabel label = button.GetComponentInChildren<UILabel> ();
 		label.text = "ON";
 	}
 
-	private void ChangeButtonToOFF(UIButton button){
+	private void ChangeButtonToOFF (UIButton button) {
 		button.normalSprite = "cell_red";
 		UILabel label = button.GetComponentInChildren<UILabel> ();
 		label.text = "OFF";
