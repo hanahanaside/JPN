@@ -62,6 +62,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 		
 	public void OnFadeOutFinished () {
+		SuruPassAdBanner.instance.Hide ();
 		Application.LoadLevel ("Puzzle");
 	}
 

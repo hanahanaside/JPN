@@ -7,7 +7,7 @@ public class PlayerData {
 
 	public int TicketCount = 0;
 
-	public double CoinCount = 0;
+	public double CoinCount = 1000;
 
 	public double TotalCoinCount = 10000;
 

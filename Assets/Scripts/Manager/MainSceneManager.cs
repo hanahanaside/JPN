@@ -44,9 +44,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		Resume ();
 
 		EventManager.instance.GenerateLostIdle ();
-		#if !UNITY_EDITOR
-		SuruPassAdBanner.instance.Show ();
-		#endif
 	}
 
 	void Update () {

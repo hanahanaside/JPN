@@ -12,10 +12,14 @@ public class ObjCMessage
 	private static extern void sruPassInterstitialN (int param);
 
 	[DllImport("__Internal")]
-	private static extern void sruPassBannerN (int frame_id, int[] gravity, int top, int bottom, int left, int right);
+	private static extern void sruPassBannerN (int tag, int frame_id, int[] gravity,int grav_length, int top, int bottom, int left, int right);
 	
 	[DllImport("__Internal")]
-	private static extern void sruPassIconN (int frame_id, int[] gravity, int top, int bottom, int left, int right);
+	private static extern void sruPassIconN (int tag, int frame_id, int[] gravity,int grav_length, int top, int bottom, int left, int right);
+	
+	[DllImport("__Internal")]
+	private static extern void destroyAdN (int tag);
+
 	
 	public static void sruPassPrepare(string media_id,bool debug){
 		sruPassPrepareN(media_id,debug);
@@ -25,12 +29,15 @@ public class ObjCMessage
 		sruPassInterstitialN(frame_id);
 	}
 
-	public static void sruPassBanner(int frame_id, int[] gravity, int top, int bottom, int left, int right){
-		sruPassBannerN(frame_id, gravity, top, bottom, left, right);
+	public static void sruPassBanner(int tag, int frame_id, int[] gravity, int top, int bottom, int left, int right){
+		sruPassBannerN(tag, frame_id, gravity, gravity.Length, top, bottom, left, right);
 	}
 
-	public static void sruPassIcon(int frame_id, int[] gravity, int top, int bottom, int left, int right){
-		sruPassIconN(frame_id, gravity, top, bottom, left, right);
+	public static void sruPassIcon(int tag, int frame_id, int[] gravity, int top, int bottom, int left, int right){
+		sruPassIconN(tag, frame_id, gravity, gravity.Length, top, bottom, left, right);
 	}
 
+	public static void destroyAd(int tag){
+		destroyAdN(tag);
+	}
 }

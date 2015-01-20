@@ -6,9 +6,14 @@ using ObjC = ObjCMessage;
 using System;
 
 
-public class SuruPassInterstitial : SuruPassAd {
+public class SuruPassInterstitial : SuruPassAd 
+{
 
-	public static SuruPassInterstitial sInstance;
+	private static SuruPassInterstitial sInstance;
+
+	public override void OnInitialize(){
+		sInstance = this;
+	}
 
 	public static SuruPassInterstitial instance{
 		get{
@@ -16,11 +21,8 @@ public class SuruPassInterstitial : SuruPassAd {
 		}
 	}
 
-	public override void OnInitialize(){
-		sInstance = this;
-	}
-
-	public override void Show () {
+	public override void Show()
+	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
 		ObjC.sruPassPrepare(account.iOS.media_id,account.debug);
 		ObjC.sruPassInterstitial(account.iOS.frame_id);
@@ -29,12 +31,4 @@ public class SuruPassInterstitial : SuruPassAd {
 		#endif
 	}
 	
-	#if UNITY_IPHONE && !UNITY_EDITOR
-	
-	
-#elif UNITY_ANDROID && !UNITY_EDITOR
-	private void _ShowBanner(string gameObject) { 
-		adUtil.CallStatic("showBanner",  account.android.frame_id); 
-	}
-	#endif
 }

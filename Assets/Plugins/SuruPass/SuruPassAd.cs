@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System;
 using System.Text;
+using ObjC = ObjCMessage;
 
 public abstract class SuruPassAd : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public abstract class SuruPassAd : MonoBehaviour
 	protected bool automaticDisplay = true;
 	[SerializeField]
 	protected bool outputLog = false;
-
+	[SerializeField]
+	protected int tagNumber = 0;
 
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -27,7 +29,7 @@ public abstract class SuruPassAd : MonoBehaviour
 		RIGHT = 5,
 		BOTTOM = 80,
 		CENTER_VERTICAL = 16,
-		CENTER_HORIZONTAL = 8
+		CENTER_HORIZONTAL = 1
 	}
 
 	[System.SerializableAttribute]
@@ -66,21 +68,21 @@ public abstract class SuruPassAd : MonoBehaviour
 	/// </summary>
 	public abstract void Show();
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-	protected static AndroidJavaClass _plugin;
-#endif
-
 	void Awake()
 	{
+
+		#if !UNITY_EDITOR
 		gameObject.hideFlags = HideFlags.HideAndDontSave;
 		DontDestroyOnLoad(gameObject);
+		#endif
 
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 		adUtil = new AndroidJavaClass("tokyo.aid.unity.Adutil");
-		adUtil.CallStatic<AndroidJavaObject>("init", activity, account.android.media_id, account.debug);
+		adUtil.CallStatic("init", activity, account.android.media_id, account.debug);
 		#endif
+
 		OnInitialize ();
 	}
 	
@@ -90,7 +92,9 @@ public abstract class SuruPassAd : MonoBehaviour
 
 		if ( automaticDisplay ) 
 		{
+			#if !UNITY_EDITOR
 			Show();
+			#endif
 		}
 
 	}
@@ -102,7 +106,12 @@ public abstract class SuruPassAd : MonoBehaviour
 
 	void OnDestroy()
 	{
-
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		ObjC.destroyAd(tagNumber);
+		#elif UNITY_ANDROID && !UNITY_EDITOR
+		adUtil.CallStatic("destroyAd", tagNumber);
+		#endif
+		Debug.Log ("tag number " +tagNumber);
 	}
 	
 	protected int GetBitGravity(Gravity[] gravity)
@@ -114,8 +123,10 @@ public abstract class SuruPassAd : MonoBehaviour
 		}
 		return bit;
 	}
-
-	public virtual void OnInitialize () {
+		
+	public void Hide(){
+		Destroy (gameObject);
 	}
 
+	public virtual void OnInitialize(){}
 }
