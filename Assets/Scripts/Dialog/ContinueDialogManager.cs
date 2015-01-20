@@ -36,7 +36,7 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 			OKDialog.instance.Show ("チケットが不足しています");
 			return;
 		}
-
+		mFenceObject.SetActive (false);
 		BuyTapCountEvent ();
 		PlayerDataKeeper.instance.DecreaseTicketCount (1);
 	}
