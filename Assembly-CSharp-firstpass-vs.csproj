@@ -53,6 +53,10 @@
      <Compile Include="Assets\Plugins\Etcetera\demo\EtceteraGUIManager.cs" />
      <Compile Include="Assets\Plugins\Etcetera\demo\EtceteraGUIManagerThree.cs" />
      <Compile Include="Assets\Plugins\Etcetera\demo\EtceteraGUIManagerTwo.cs" />
+     <Compile Include="Assets\Plugins\FlurryIntegration\FlurryAgent.cs" />
+     <Compile Include="Assets\Plugins\FlurryIntegration\FlurryAgentAndroid.cs" />
+     <Compile Include="Assets\Plugins\FlurryIntegration\FlurryAgentIOS.cs" />
+     <Compile Include="Assets\Plugins\FlurryIntegration\FlurryManager.cs" />
      <Compile Include="Assets\Plugins\MiniJSON.cs" />
      <Compile Include="Assets\Plugins\MonoSingleton.cs" />
      <Compile Include="Assets\Plugins\PlayerPrefsX.cs" />
@@ -95,6 +99,7 @@
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
+     <None Include="Assets\Plugins\Android\res\values\version.xml" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
      <None Include="Assets\sqlitekit\Readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />

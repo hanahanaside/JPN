@@ -192,6 +192,9 @@ public class EventManager : MonoSingleton<EventManager> {
 			sleepButtonObject.SetActive (true);
 			StartScaleEvent (sleepButtonObject);
 		}
+		if(mSleepStageCount >= 10){
+			liveButtonObject.SetActive (true);
+		}
 		if (mSleepStageCount >= StageGridManager.instance.StageCount) {
 			liveButtonObject.SetActive (true);
 		}
