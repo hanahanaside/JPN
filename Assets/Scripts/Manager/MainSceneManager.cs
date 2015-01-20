@@ -66,16 +66,28 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			#endif
 		} else {
 			MyLog.LogDebug ("resume");
-
 			#if !UNITY_EDITOR
 			Resume();
 			//時間関係の処理の指令を出す
 			StageGridManager.instance.Resume ();
+			//レビューダイアログを表示
+			int resumeCount = PrefsManager.instance.ResumeCount;
+			resumeCount++;
+			PrefsManager.instance.ResumeCount = resumeCount;
+			if (resumeCount < 10) {
+			return;
+			}
+			if (PrefsManager.instance.IsReviewed) {
+			return;
+			}
+			if (resumeCount % 5 == 0) {
+			ReviewDialog.instance.Show ();
+			}
 			#endif
 		}
 	}
 
-	void EventOKButtonClicked(){
+	void EventOKButtonClicked () {
 		EventManager.instance.okButtonClickedEvent -= EventOKButtonClicked;
 		AreaPanelManager.instance.ShowAreaPanel ();
 	}
@@ -122,7 +134,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			Entity_Area.Param param = entityArea.param [i];
 			//既にアナウンス済みの場合はbreak
 			int announcedUnlockAreaCount = PrefsManager.instance.AnnouncedUnlockAreaCount;
-			if(announcedUnlockAreaCount >= param.area_id){
+			if (announcedUnlockAreaCount >= param.area_id) {
 				break;
 			}
 			int totalIdleCount = 0;

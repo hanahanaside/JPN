@@ -204,6 +204,7 @@
      <Compile Include="Assets\Scripts\Dialog\MapDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\MapDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\OKDialog.cs" />
+     <Compile Include="Assets\Scripts\Dialog\ReviewDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\SkipConstructionDialog.cs" />

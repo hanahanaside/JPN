@@ -15,7 +15,9 @@ public class PrefsManager :Singleton<PrefsManager> {
 		NewsEvent,
 		TutorialFinished,
 		LiveData,
-		AnnouncedUnlockAreaCount
+		AnnouncedUnlockAreaCount,
+		IsReviewed,
+		ResumeCount
 	}
 
 	public int DatabaseVersion {
@@ -28,12 +30,22 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 	}
 
-	public int AnnouncedUnlockAreaCount{
+	public int AnnouncedUnlockAreaCount {
+		get {
+			return PlayerPrefs.GetInt (Kies.AnnouncedUnlockAreaCount.ToString (), 1);
+		}
+		set {
+			PlayerPrefs.SetInt (Kies.AnnouncedUnlockAreaCount.ToString (), value);
+			PlayerPrefs.Save ();
+		}
+	}
+
+	public int ResumeCount{
 		get{
-			return PlayerPrefs.GetInt (Kies.AnnouncedUnlockAreaCount.ToString(), 1);
+			return PlayerPrefs.GetInt (Kies.ResumeCount.ToString(), 0);
 		}
 		set{
-			PlayerPrefs.SetInt (Kies.AnnouncedUnlockAreaCount.ToString(), value);
+			PlayerPrefs.SetInt (Kies.ResumeCount.ToString(), value);
 			PlayerPrefs.Save ();
 		}
 	}
@@ -86,6 +98,15 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 		set {
 			PlayerPrefsX.SetBool (Kies.TutorialFinished.ToString (), value);
+		}
+	}
+
+	public bool IsReviewed {
+		get {
+			return PlayerPrefsX.GetBool (Kies.IsReviewed.ToString (), false);
+		}
+		set {
+			PlayerPrefsX.SetBool (Kies.IsReviewed.ToString (), value);
 		}
 	}
 
