@@ -5,7 +5,7 @@ public class PlayerData {
 
 	#if UNITY_EDITOR
 
-	public int TicketCount = 1000;
+	public int TicketCount = 0;
 
 	public double CoinCount = 10000;
 

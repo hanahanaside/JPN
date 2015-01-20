@@ -24,7 +24,7 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		gameObject.transform.localScale = new Vector3 (1, 1, 1);
 		mDialogObject.SetActive (false);
 	}
-
+		
 	public void Show (Area area) {
 		mDialogObject.SetActive (true);
 		mArea = area;
@@ -77,6 +77,9 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		if (PlayerDataKeeper.instance.TicketCount < mCostTicket) {
 			Dismiss ();
 			FenceManager.instance.ShowFence ();
+			OKDialog.instance.OnOKButtonClicked = () => {
+				BuyTicketDialog.instance.Show();
+			};
 			OKDialog.instance.Show ("チケットが不足しています");
 			return;
 		}
