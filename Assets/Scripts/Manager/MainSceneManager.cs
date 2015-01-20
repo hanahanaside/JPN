@@ -77,10 +77,12 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			if (resumeCount < 10) {
 			return;
 			}
-			if (PrefsManager.instance.IsReviewed) {
+			if (resumeCount % 5 != 0) {
 			return;
 			}
-			if (resumeCount % 5 == 0) {
+			if (PrefsManager.instance.IsReviewed) {
+			RecommendAppDialog.instance.Show ();
+			} else {
 			ReviewDialog.instance.Show ();
 			}
 			#endif

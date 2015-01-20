@@ -204,6 +204,7 @@
      <Compile Include="Assets\Scripts\Dialog\MapDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\MapDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\OKDialog.cs" />
+     <Compile Include="Assets\Scripts\Dialog\RecommendAppDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\ReviewDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManagerTutorial.cs" />
@@ -212,6 +213,7 @@
      <Compile Include="Assets\Scripts\Entity\Area.cs" />
      <Compile Include="Assets\Scripts\Entity\LiveData.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
+     <Compile Include="Assets\Scripts\Entity\RecommendApp.cs" />
      <Compile Include="Assets\Scripts\Entity\Stage.cs" />
      <Compile Include="Assets\Scripts\Event\LostIdleEvent.cs" />
      <Compile Include="Assets\Scripts\Event\NewsEvent.cs" />

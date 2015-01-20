@@ -87,6 +87,7 @@
      <Compile Include="Assets\Plugins\SuruPass\SuruPassAdBanner.cs" />
      <Compile Include="Assets\Plugins\SuruPass\SuruPassAdIcon.cs" />
      <Compile Include="Assets\Plugins\SuruPass\SuruPassInterstitial.cs" />
+     <Compile Include="Assets\Plugins\WWWClient.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.6.8.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
