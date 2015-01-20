@@ -64,6 +64,9 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		if (PlayerDataKeeper.instance.CoinCount < mArea.AreaOpen) {
 			Dismiss ();
 			FenceManager.instance.ShowFence ();
+			OKDialog.instance.OnOKButtonClicked = () => {
+				BuyCoinDialog.instance.Show();
+			};
 			OKDialog.instance.Show ("コインが不足しています");
 			return;
 		}

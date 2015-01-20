@@ -150,7 +150,9 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			PlayerDataKeeper.instance.SaveData ();
 			PrefsManager.instance.TutorialFinished = true;
 			ScoutStageManager.FlagScouting = true;
+			#if UNITY_IPHONE
 			APNsRegister.instance.RegisterForRemoteNotifcations ();
+			#endif
 			Application.LoadLevel ("Main");
 			break;
 		}

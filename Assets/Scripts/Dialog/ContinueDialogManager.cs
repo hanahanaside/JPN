@@ -9,9 +9,11 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 	public GameObject buyTapButtonObject;
 	public UIGrid grid;
 	private GameObject mDialogObject;
+	private GameObject mFenceObject;
 
 	public override void OnInitialize (){
 		mDialogObject = transform.FindChild ("Dialog").gameObject;
+		mFenceObject = transform.FindChild ("Fence").gameObject;
 	}
 
 	void CompleteDismissEvent(){
@@ -20,6 +22,7 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 	}
 
 	public void OnFinishPuzzleClicked(){
+		mFenceObject.SetActive (false);
 		FinishPuzzleEvent ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
@@ -27,7 +30,10 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 	public void OnBuyTapCountClicked(){
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		if(PlayerDataKeeper.instance.TicketCount < 1){
-			BuyTicketDialog.instance.Show ();
+			OKDialog.instance.OnOKButtonClicked = () => {
+				BuyTicketDialog.instance.Show ();
+			};
+			OKDialog.instance.Show ("チケットが不足しています");
 			return;
 		}
 
@@ -37,6 +43,7 @@ public class ContinueDialogManager : MonoSingleton<ContinueDialogManager> {
 
 	public void Show(){
 		mDialogObject.SetActive (true);
+		mFenceObject.SetActive (true);
 		iTweenEvent.GetEvent (gameObject,"ShowEvent").Play();
 	}
 

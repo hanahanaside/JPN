@@ -73,6 +73,9 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public void OnGoScoutButtonClicked () {
 		if(PlayerDataKeeper.instance.CoinCount < mCost){
 			FenceManager.instance.ShowFence ();
+			OKDialog.instance.OnOKButtonClicked = () => {
+				BuyCoinDialog.instance.Show();
+			};
 			OKDialog.instance.Show ("コインが不足しています");
 			return;
 		}

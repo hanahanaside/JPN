@@ -36,7 +36,10 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 	public void OnRetryClicked () {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		if (PlayerDataKeeper.instance.CoinCount < mCost) {
-			BuyCoinDialog.instance.Show ();
+			OKDialog.instance.OnOKButtonClicked = () => {
+				BuyCoinDialog.instance.Show();
+			};
+			OKDialog.instance.Show ("コインが不足しています");
 			return;
 		}
 		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
