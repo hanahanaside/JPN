@@ -150,6 +150,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			PlayerDataKeeper.instance.SaveData ();
 			PrefsManager.instance.TutorialFinished = true;
 			ScoutStageManager.FlagScouting = true;
+			APNsRegister.instance.RegisterForRemoteNotifcations ();
 			Application.LoadLevel ("Main");
 			break;
 		}

@@ -17,7 +17,8 @@ public class PrefsManager :Singleton<PrefsManager> {
 		LiveData,
 		AnnouncedUnlockAreaCount,
 		IsReviewed,
-		ResumeCount
+		ResumeCount,
+		APNsRegisted
 	}
 
 	public int DatabaseVersion {
@@ -40,12 +41,12 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 	}
 
-	public int ResumeCount{
-		get{
-			return PlayerPrefs.GetInt (Kies.ResumeCount.ToString(), 0);
+	public int ResumeCount {
+		get {
+			return PlayerPrefs.GetInt (Kies.ResumeCount.ToString (), 0);
 		}
-		set{
-			PlayerPrefs.SetInt (Kies.ResumeCount.ToString(), value);
+		set {
+			PlayerPrefs.SetInt (Kies.ResumeCount.ToString (), value);
 			PlayerPrefs.Save ();
 		}
 	}
@@ -98,6 +99,15 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 		set {
 			PlayerPrefsX.SetBool (Kies.TutorialFinished.ToString (), value);
+		}
+	}
+
+	public bool APNsRegisted {
+		get {
+			return PlayerPrefsX.GetBool (Kies.APNsRegisted.ToString (), false);
+		}
+		set {
+			PlayerPrefsX.SetBool (Kies.APNsRegisted.ToString (), value);
 		}
 	}
 
