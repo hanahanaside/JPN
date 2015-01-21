@@ -9,7 +9,8 @@ public class PrefsManager :Singleton<PrefsManager> {
 		ClearedPuzzleCountArray,
 		BGM_ON,
 		SE_ON,
-		NotificationON,
+		FirstIdolSleepNotificationON,
+		LastIdolSleepNotificationON,
 		LostIdleEvent,
 		TradeIdleEvent,
 		NewsEvent,
@@ -84,12 +85,21 @@ public class PrefsManager :Singleton<PrefsManager> {
 		}
 	}
 
-	public bool NotificationON {
+	public bool FirstIdolSleepNotificationON {
 		get {
-			return PlayerPrefsX.GetBool (Kies.NotificationON.ToString (), true);
+			return PlayerPrefsX.GetBool (Kies.FirstIdolSleepNotificationON.ToString (), true);
 		}
 		set {
-			PlayerPrefsX.SetBool (Kies.NotificationON.ToString (), value);
+			PlayerPrefsX.SetBool (Kies.FirstIdolSleepNotificationON.ToString (), value);
+		}
+	}
+
+	public bool LastIdolSleepNotificationON {
+		get {
+			return PlayerPrefsX.GetBool (Kies.LastIdolSleepNotificationON.ToString(), true);
+		}
+		set {
+			PlayerPrefsX.SetBool (Kies.LastIdolSleepNotificationON.ToString(), value);
 		}
 	}
 

@@ -8,7 +8,7 @@ public class StageManager : MonoBehaviour {
 	public static event Action SleepEvent;
 	public static event Action WakeupEvent;
 
-	enum State {
+	public enum State {
 		Normal,
 		Sleep,
 		Live,
@@ -123,6 +123,27 @@ public class StageManager : MonoBehaviour {
 		} else {
 			//サボるまでの時間をセット(テストで10分の1)
 			SetUntilSleepTime ();
+		}
+	}
+
+	//ステージデータを返す
+	public Stage Stage {
+		get {
+			return mStageData;
+		}
+	}
+
+	//ステートを返す
+	public State GetState{
+		get{
+			return mState;
+		}
+	}
+
+	//サボるか工事完了までの時間を返す
+	public float UntilTime{
+		get{
+			return mTimeSeconds;
 		}
 	}
 
@@ -255,17 +276,17 @@ public class StageManager : MonoBehaviour {
 		//20分で1枚
 		//小数点以下を切り上げ
 		int ticketCount = (int)(Math.Ceiling (mTimeSeconds / (20 * 60)));
-		if(ticketCount <= 0){
+		if (ticketCount <= 0) {
 			ticketCount = 1;
 		}
 		SkipConstructionDialog.instance.Show (ticketCount);
 		SkipConstructionDialog.instance.positiveButtonClicked = () => {
-			if(PlayerDataKeeper.instance.TicketCount < ticketCount){
-				BuyTicketDialog.instance.Show();
+			if (PlayerDataKeeper.instance.TicketCount < ticketCount) {
+				BuyTicketDialog.instance.Show ();
 				return;
 			}
 			mTimeSeconds = 0;
-			PlayerDataKeeper.instance.DecreaseTicketCount(ticketCount);
+			PlayerDataKeeper.instance.DecreaseTicketCount (ticketCount);
 		};
 	}
 		
@@ -416,10 +437,10 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//アイドルの人数をセット
-	private void SetIdolCount(){
-		if(mStageData.IdleCount >= 25){
+	private void SetIdolCount () {
+		if (mStageData.IdleCount >= 25) {
 			idleCountLabel.text = "MAX";
-		}else {
+		} else {
 			idleCountLabel.text = "×" + mStageData.IdleCount;
 		}
 	}

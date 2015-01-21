@@ -6,7 +6,8 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 	public GameObject dialogObject;
 	public UIButton seButton;
 	public UIButton bgmButton;
-	public UIButton notificationButton;
+	public UIButton firstIdolSleepNotificationButton;
+	public UIButton lastIdolSleepNotificationButton;
 
 	void OnEnable () {
 		EtceteraManager.mailComposerFinishedEvent += mailComposerFinished;
@@ -40,11 +41,17 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 		} else {
 			ChangeButtonToOFF (bgmButton);
 		}
-		//通知のラベルをセット
-		if (PrefsManager.instance.NotificationON) {
-			ChangeButtonToON (notificationButton);
+		//最初のアイドルがサボる通知のラベルをセット
+		if (PrefsManager.instance.FirstIdolSleepNotificationON) {
+			ChangeButtonToON (firstIdolSleepNotificationButton);
 		} else {
-			ChangeButtonToOFF (notificationButton);
+			ChangeButtonToOFF (firstIdolSleepNotificationButton);
+		}
+		//最後のアイドルがサボる通知のラベルをセット
+		if (PrefsManager.instance.LastIdolSleepNotificationON) {
+			ChangeButtonToON (lastIdolSleepNotificationButton);
+		} else {
+			ChangeButtonToOFF (lastIdolSleepNotificationButton);
 		}
 		iTweenEvent.GetEvent (dialogObject, "ShowEvent").Play ();
 	}
@@ -78,32 +85,43 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void NotificationClicked () {
-		if (PrefsManager.instance.NotificationON) {
-			PrefsManager.instance.NotificationON = false;
-			ChangeButtonToOFF (notificationButton);
+	public void FirstIdolSleepNotificationClicked () {
+		if (PrefsManager.instance.FirstIdolSleepNotificationON) {
+			PrefsManager.instance.FirstIdolSleepNotificationON = false;
+			ChangeButtonToOFF (firstIdolSleepNotificationButton);
 		} else {
-			PrefsManager.instance.NotificationON = true;
-			ChangeButtonToON (notificationButton);
+			PrefsManager.instance.FirstIdolSleepNotificationON = true;
+			ChangeButtonToON (firstIdolSleepNotificationButton);
 		}
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+	}
+
+	public void  LastIdolSleepNotificationClicked () {
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
+		if (PrefsManager.instance.LastIdolSleepNotificationON) {
+			PrefsManager.instance.LastIdolSleepNotificationON = false;
+			ChangeButtonToOFF (lastIdolSleepNotificationButton);
+		} else {
+			PrefsManager.instance.LastIdolSleepNotificationON = true;
+			ChangeButtonToON (lastIdolSleepNotificationButton);
+		}
 	}
 
 	public void MailButtonClicked () {
 		string adress = "app@hnut.co.jp";
 		string title = "title";
 		string message = "message";
-		EtceteraBinding.showMailComposer (adress,title,message,false);
+		EtceteraBinding.showMailComposer (adress, title, message, false);
 	}
 
 	private void ChangeButtonToON (UIButton button) {
-		button.normalSprite = "cell_green";
+		button.normalSprite = "bt_green";
 		UILabel label = button.GetComponentInChildren<UILabel> ();
 		label.text = "ON";
 	}
 
 	private void ChangeButtonToOFF (UIButton button) {
-		button.normalSprite = "cell_red";
+		button.normalSprite = "bt_red";
 		UILabel label = button.GetComponentInChildren<UILabel> ();
 		label.text = "OFF";
 	}

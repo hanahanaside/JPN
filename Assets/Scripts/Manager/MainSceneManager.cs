@@ -58,8 +58,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		if (pauseStatus) {
 			MyLog.LogDebug ("pause");
 			#if !UNITY_EDITOR
-			//プレイヤーデータをセーブ
-			PlayerDataKeeper.instance.SaveData ();
+			Pause();
 			#endif
 		} else {
 			MyLog.LogDebug ("resume");
@@ -86,12 +85,37 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		}
 	}
 
+	//中断時に呼ばれる
+	private void Pause () {
+		//ローカル通知をキャンセル
+		NotificationServices.CancelAllLocalNotifications ();
+
+		//プレイヤーデータをセーブ
+		PlayerDataKeeper.instance.SaveData ();
+
+		//最初のアイドルがサボった時の通知をスケジューリング
+		if (PrefsManager.instance.FirstIdolSleepNotificationON) {
+			MyLocalNotification myLocalNotification = new MyLocalNotification ();
+			myLocalNotification.ScheduleFirstIdolFallsSleep ();
+		}
+
+		//最後のアイドルがサボった時の通知をスケジューリング
+		if (PrefsManager.instance.LastIdolSleepNotificationON) {
+			MyLocalNotification myLocalNotification = new MyLocalNotification ();
+			myLocalNotification.ScheduleLastIdolFallsSleep ();
+		}
+	}
+
 	void EventOKButtonClicked () {
 		EventManager.instance.okButtonClickedEvent -= EventOKButtonClicked;
 		AreaPanelManager.instance.ShowAreaPanel ();
 	}
 
+	//起動時に呼ばれる
 	private void Resume () {
+		//ローカル通知をキャンセル
+		NotificationServices.CancelAllLocalNotifications ();
+
 		//中断中に稼いだコインを取得
 		double addCoin = CalcSleepTimeCoin ();
 
