@@ -75,7 +75,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		LiveData liveData = new LiveData ();
 		liveData.startDate = System.DateTime.Now.ToString ();
 		liveData.time = mTime;
-		liveData.flagLive = true;
 		PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
 		mLive = true;
 		Invoke ("StartLiveAnimation",3.0f);
@@ -112,9 +111,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 
 	private void FinishLive(){
 		mLive = false;
-		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
-		liveData.flagLive = false;
-		PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
 		iTweenEvent.GetEvent (ballParent,"RotateEvent").Stop();
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Stop();
