@@ -119,6 +119,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		//中断中に稼いだコインを取得
 		double addCoin = CalcSleepTimeCoin ();
 
+		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
+
 		//ライブの途中であれば再開
 		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
 		if (remainingLiveTimeSeconds > 0) {
@@ -126,7 +128,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		} else {
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 		}
-		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
+
 	}
 
 	//中断中に稼いだコインを計算して返す

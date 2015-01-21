@@ -55,7 +55,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	public void StartLive (float time) {
-		mTime = time;
+		mTime = time +17;
 		CoinGenerator.instance.StopGenerating ();
 		FenceManager.instance.ShowFence ();
 		EntranceStageManager.instance.StartLive ();
@@ -68,6 +68,15 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		spinTextureObject.transform.localEulerAngles = new Vector3 (0,0,0);
 		SoundManager.instance.StopBGM ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Cheer);
+		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+		foreach (StageManager stageManager in stageManagerList) {
+			stageManager.StartLive ();
+		}
+		LiveData liveData = new LiveData ();
+		liveData.startDate = System.DateTime.Now.ToString ();
+		liveData.time = mTime;
+		PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
+		mLive = true;
 		Invoke ("StartLiveAnimation",3.0f);
 	}
 
@@ -75,7 +84,8 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		mTime = time;
 		if(mLive){
 			return;
-		}
+		} 
+		mLive = true;
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		foreach (StageManager stageManager in stageManagerList) {
@@ -89,10 +99,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		
 	private void StartLiveAnimation(){
 		SoundManager.instance.FadeoutSE (SoundManager.SE_CHANNEL.Cheer);
-		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
-		foreach (StageManager stageManager in stageManagerList) {
-			stageManager.StartLive ();
-		}
 		EntranceStageManager.instance.StartLive ();
 		ScoutStageManager.instance.StartLive ();
 		logoObject.SetActive (true);
@@ -129,11 +135,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		}
 		iTweenEvent.GetEvent (spinTextureObject,"LiveStartEvent").Play();
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveStartEvent").Play();
-		LiveData liveData = new LiveData ();
-		liveData.startDate = System.DateTime.Now.ToString ();
-		liveData.time = mTime;
-		PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
-		mLive = true;
 		CoinGenerator.instance.StartGenerating ();
 	}
 

@@ -289,6 +289,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		sb.Append (mNewsEvent.reward + "チケットゲットだ！");
 		ShowEventPanel (sb.ToString ());
 		mNewsEvent.occurring = false;
+		newsButtonObject.SetActive (false);
 		newsOKButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<NewsEvent> (mNewsEvent, PrefsManager.Kies.NewsEvent);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.News);

@@ -45,8 +45,8 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		Stage	stage = dao.SelectById (mIdleId);
 		mDialogObject.SetActive (true);
 		mIdleSprite.spriteName = "idle_normal_" + id;
-		mIdleSprite.width = mIdleSprite.GetAtlasSprite ().width * 2;
-		mIdleSprite.height = mIdleSprite.GetAtlasSprite ().height * 2;
+		UISpriteData spriteData = mIdleSprite.GetAtlasSprite ();
+		mIdleSprite.SetDimensions (spriteData.width, spriteData.height);
 
 		System.Text.StringBuilder sb = new System.Text.StringBuilder ();
 		if (stage.IdleCount >= 25) {
