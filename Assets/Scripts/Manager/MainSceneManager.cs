@@ -114,7 +114,14 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	//起動時に呼ばれる
 	private void Resume () {
 		//ローカル通知をキャンセル
+		//バッジをクリア
+		#if UNITY_IPHONE
+		LocalNotification clearBadgeNotification = new LocalNotification();
+		clearBadgeNotification.applicationIconBadgeNumber = -1;
+		NotificationServices.PresentLocalNotificationNow(clearBadgeNotification);
 		NotificationServices.CancelAllLocalNotifications ();
+		NotificationServices.ClearLocalNotifications();
+		#endif
 
 		//中断中に稼いだコインを取得
 		double addCoin = CalcSleepTimeCoin ();
@@ -222,6 +229,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	public void OnTicketClicked () {
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		BuyTicketDialog.instance.Show ();
 	}
 

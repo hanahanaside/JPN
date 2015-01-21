@@ -81,19 +81,19 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		string untilLevelUpMessage = "";
 		if (stage.IdleCount > 20) {
 			untilLevelUpCount = 25 - stage.IdleCount;
-			untilLevelUpMessage = "レベルMAXまであと" + untilLevelUpCount + "人";
+			untilLevelUpMessage = "(レベルMAXまであと" + untilLevelUpCount + "人)";
 		} else if (stage.IdleCount > 15) {
 			untilLevelUpCount = 20 - stage.IdleCount;
-			untilLevelUpMessage = "レベル5まであと" + untilLevelUpCount + "人";
+			untilLevelUpMessage = "(レベル5まであと" + untilLevelUpCount + "人)";
 		} else if (stage.IdleCount > 10) {
 			untilLevelUpCount = 15 - stage.IdleCount;
-			untilLevelUpMessage = "レベル4まであと" + untilLevelUpCount + "人";
+			untilLevelUpMessage = "(レベル4まであと" + untilLevelUpCount + "人)";
 		} else if (stage.IdleCount > 5) {
 			untilLevelUpCount = 10 - stage.IdleCount;
-			untilLevelUpMessage = "レベル3まであと" + untilLevelUpCount + "人";
+			untilLevelUpMessage = "(レベル3まであと" + untilLevelUpCount + "人)";
 		} else {
 			untilLevelUpCount = 5 - stage.IdleCount;
-			untilLevelUpMessage = "レベル2まであと" + untilLevelUpCount + "人";
+			untilLevelUpMessage = "(レベル2まであと" + untilLevelUpCount + "人)";
 		}
 
 		if (untilLevelUpCount == 0) {

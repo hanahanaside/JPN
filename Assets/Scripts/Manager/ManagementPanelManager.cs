@@ -18,7 +18,7 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 
 	void CompleteDismissEvent(){
 		List<Transform> childList = grid.GetChildList ();
-		for(int i = 4; i<childList.Count;i++){
+		for(int i = 3; i<childList.Count;i++){
 			GameObject childObject = childList[i].gameObject;
 			Destroy (childObject);
 		}

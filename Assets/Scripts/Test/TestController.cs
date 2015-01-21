@@ -11,7 +11,9 @@ public class TestController : TestParent {
 	enum Days{Sun = 5,Mon,Tue};
 
 	void Start(){
-		SuruPassInterstitial.instance.Show ();
+		string dateString = "2014/10/12";
+		System.DateTime dt = System.DateTime.Parse (dateString);
+		Debug.Log ("aaa " +dt);
 	}
 
 	public void ButtonClicked(){
