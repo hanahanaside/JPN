@@ -123,13 +123,15 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		NotificationServices.ClearLocalNotifications();
 		#endif
 
+		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
+
 		//中断中に稼いだコインを取得
-		double addCoin = CalcSleepTimeCoin ();
+		double addCoin = CalcSleepTimeCoin (liveData);
 
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
 
 		//ライブの途中であれば再開
-		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
+		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds (liveData);
 		if (remainingLiveTimeSeconds > 0) {
 			LiveManager.instance.ContinueLive (remainingLiveTimeSeconds);
 		} else {
@@ -139,13 +141,13 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	//中断中に稼いだコインを計算して返す
-	private double CalcSleepTimeCoin () {
+	private double CalcSleepTimeCoin (LiveData liveData) {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
 		TimeSpan ts = dtNow - dtExit;
 		Debug.Log ("ts " + ts.TotalSeconds);
 		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
-		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
+		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds (liveData);
 		if (remainingLiveTimeSeconds > 0) {
 			addCoin = addCoin * 2;
 		}
@@ -233,8 +235,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		BuyTicketDialog.instance.Show ();
 	}
 
-	private float GetRemainingLiveTimeSeconds () {
-		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
+	private float GetRemainingLiveTimeSeconds (LiveData liveData) {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtLive = DateTime.Parse (liveData.startDate);
 		TimeSpan timeSpan = dtNow - dtLive;
