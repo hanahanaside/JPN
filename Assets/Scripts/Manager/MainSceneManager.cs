@@ -116,11 +116,11 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		//ローカル通知をキャンセル
 		//バッジをクリア
 		#if UNITY_IPHONE
-		LocalNotification clearBadgeNotification = new LocalNotification();
+		LocalNotification clearBadgeNotification = new LocalNotification ();
 		clearBadgeNotification.applicationIconBadgeNumber = -1;
-		NotificationServices.PresentLocalNotificationNow(clearBadgeNotification);
+		NotificationServices.PresentLocalNotificationNow (clearBadgeNotification);
 		NotificationServices.CancelAllLocalNotifications ();
-		NotificationServices.ClearLocalNotifications();
+		NotificationServices.ClearLocalNotifications ();
 		#endif
 
 		//中断中に稼いだコインを取得
@@ -130,9 +130,10 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 		//ライブの途中であれば再開
 		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
+		Debug.Log ("remainin time " +remainingLiveTimeSeconds);
 		if (remainingLiveTimeSeconds > 0) {
 			LiveManager.instance.ContinueLive (remainingLiveTimeSeconds);
-		} else {
+		}  else {
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 		}
 
@@ -239,6 +240,14 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		DateTime dtLive = DateTime.Parse (liveData.startDate);
 		TimeSpan timeSpan = dtNow - dtLive;
 		float remainingLiveTimeSeconds = (float)(liveData.time - timeSpan.TotalSeconds);
+		if(remainingLiveTimeSeconds > 0){
+			return remainingLiveTimeSeconds;
+		}
+		if(liveData.flagLive){
+			remainingLiveTimeSeconds = 5;
+			liveData.flagLive = false;
+			PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
+		}
 		return remainingLiveTimeSeconds;
 	}
 }
