@@ -34,7 +34,8 @@ public class ReviewDialog : MonoSingleton<ReviewDialog> {
 	public void GoReviewButtonClicked(){
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		PrefsManager.instance.IsReviewed = true;
-		FenceManager.instance.ShowFence ();
+		FenceManager.instance.HideFence ();
+		PlayerDataKeeper.instance.IncreaseCoinCount (10000);
 		mDialogObject.SetActive (false);
 		#if UNITY_IPHONE
 		Application.OpenURL ("https://itunes.apple.com/us/app/aidorupurojekuto-aidoru-yu/id955378244?l=ja&ls=1&mt=8");
