@@ -343,6 +343,7 @@ public class StageManager : MonoBehaviour {
 			float y = UnityEngine.Random.Range (0, 300.0f);
 			workerObject.transform.localPosition = new Vector3 (x, y, 0);
 			mCharacterList.Add (workerObject.GetComponent<Character> ());
+			workerObject.GetComponent<Worker> ().Init();
 		}
 	}
 

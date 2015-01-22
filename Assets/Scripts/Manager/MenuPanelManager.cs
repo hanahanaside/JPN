@@ -108,9 +108,9 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 	}
 
 	public void MailButtonClicked () {
-		string adress = "app@hnut.co.jp";
-		string title = "title";
-		string message = "message";
+		string adress = "hanauta.app@gmail.com";
+		string title = "アイプロ(i)について";
+		string message = "問い合わせ内容を書いてください";
 		EtceteraBinding.showMailComposer (adress, title, message, false);
 	}
 

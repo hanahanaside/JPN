@@ -23,7 +23,7 @@ public class MyLocalNotification {
 			return;
 		}
 
-		ScheduleLocalNotification ("first idol sleep",addSeconds);
+		ScheduleLocalNotification ("一組サボりがでました、カツを入れましょう",addSeconds);
 
 		MyLog.LogDebug ("最初のアイドルがサボる通知まで　" + addSeconds);
 	}
@@ -43,7 +43,7 @@ public class MyLocalNotification {
 			return;
 		}
 
-		ScheduleLocalNotification ("last idol sleep",addSeconds);
+		ScheduleLocalNotification ("全組がサボりました、カツを入れましょう",addSeconds);
 
 		MyLog.LogDebug ("最後のアイドルがサボる通知まで　" + addSeconds);
 	}

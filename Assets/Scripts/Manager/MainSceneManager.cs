@@ -116,10 +116,12 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		//ローカル通知をキャンセル
 		//バッジをクリア
 		#if UNITY_IPHONE
+		MyLog.LogDebug("バッジをクリア");
 		LocalNotification clearBadgeNotification = new LocalNotification();
 		clearBadgeNotification.applicationIconBadgeNumber = -1;
 		NotificationServices.PresentLocalNotificationNow(clearBadgeNotification);
 		NotificationServices.CancelAllLocalNotifications ();
+		NotificationServices.ClearRemoteNotifications();
 		NotificationServices.ClearLocalNotifications();
 		#endif
 

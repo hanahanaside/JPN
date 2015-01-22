@@ -45,31 +45,21 @@ public class EventManager : MonoSingleton<EventManager> {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtLastUpdate = DateTime.Parse (mLostIdleEvent.LastUpdateDate);
 		TimeSpan timeSpan = dtNow - dtLastUpdate;
-//		if(timeSpan.TotalHours >= 12){
-//			RaiseLostIdleEvent ();
-//		}
-		if(timeSpan.TotalMinutes >= 3){
+		if(timeSpan.TotalHours >= 12){
 			RaiseLostIdleEvent ();
 		}
 
 		//トレードイベント
 		dtLastUpdate = DateTime.Parse (mTradeIdleEvent.LastUpdateDate);
 		timeSpan = dtNow - dtLastUpdate;
-//		if(timeSpan.TotalHours >= 12){
-//			OccurTradeIdleEvent ();
-//		}
-		if(timeSpan.TotalMinutes >= 3){
+		if(timeSpan.TotalHours >= 12){
 			OccurTradeIdleEvent ();
 		}
 
 		//ニュースイベント
 		dtLastUpdate = DateTime.Parse (mNewsEvent.LastUpdateDate);
 		timeSpan = dtNow - dtLastUpdate;
-//		if(timeSpan.TotalHours >= 12){
-//			OccurNewsEvent ();
-//		}
-
-		if(timeSpan.TotalMinutes >= 3){
+		if(timeSpan.TotalHours >= 12){
 			OccurNewsEvent ();
 		}
 			
