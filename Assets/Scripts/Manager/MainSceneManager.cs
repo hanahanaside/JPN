@@ -58,7 +58,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		if (pauseStatus) {
 			MyLog.LogDebug ("pause");
 			#if !UNITY_EDITOR
-			Pause();
+			//プレイヤーデータをセーブ
+			PlayerDataKeeper.instance.SaveData ();
 			#endif
 		} else {
 			MyLog.LogDebug ("resume");
@@ -85,27 +86,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		}
 	}
 
-	//中断時に呼ばれる
-	private void Pause () {
-		//ローカル通知をキャンセル
-		NotificationServices.CancelAllLocalNotifications ();
-
-		//プレイヤーデータをセーブ
-		PlayerDataKeeper.instance.SaveData ();
-
-		//最初のアイドルがサボった時の通知をスケジューリング
-		if (PrefsManager.instance.FirstIdolSleepNotificationON) {
-			MyLocalNotification myLocalNotification = new MyLocalNotification ();
-			myLocalNotification.ScheduleFirstIdolFallsSleep ();
-		}
-
-		//最後のアイドルがサボった時の通知をスケジューリング
-		if (PrefsManager.instance.LastIdolSleepNotificationON) {
-			MyLocalNotification myLocalNotification = new MyLocalNotification ();
-			myLocalNotification.ScheduleLastIdolFallsSleep ();
-		}
-	}
-
 	void EventOKButtonClicked () {
 		EventManager.instance.okButtonClickedEvent -= EventOKButtonClicked;
 		AreaPanelManager.instance.ShowAreaPanel ();
@@ -113,18 +93,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	//起動時に呼ばれる
 	private void Resume () {
-		//ローカル通知をキャンセル
-		//バッジをクリア
-		#if UNITY_IPHONE
-		MyLog.LogDebug("バッジをクリア");
-		LocalNotification clearBadgeNotification = new LocalNotification();
-		clearBadgeNotification.applicationIconBadgeNumber = -1;
-		NotificationServices.PresentLocalNotificationNow(clearBadgeNotification);
-		NotificationServices.CancelAllLocalNotifications ();
-		NotificationServices.ClearRemoteNotifications();
-		NotificationServices.ClearLocalNotifications();
-		#endif
-
 		//中断中に稼いだコインを取得
 		double addCoin = CalcSleepTimeCoin ();
 
