@@ -45,21 +45,26 @@ public class EventManager : MonoSingleton<EventManager> {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtLastUpdate = DateTime.Parse (mLostIdleEvent.LastUpdateDate);
 		TimeSpan timeSpan = dtNow - dtLastUpdate;
-		if(timeSpan.TotalHours >= 12){
+//		if(timeSpan.TotalHours >= 12){
+//			RaiseLostIdleEvent ();
+//		}
+
+		if (timeSpan.TotalSeconds >= 12) {
 			RaiseLostIdleEvent ();
 		}
+
 
 		//トレードイベント
 		dtLastUpdate = DateTime.Parse (mTradeIdleEvent.LastUpdateDate);
 		timeSpan = dtNow - dtLastUpdate;
-		if(timeSpan.TotalHours >= 12){
+		if (timeSpan.TotalHours >= 12) {
 			OccurTradeIdleEvent ();
 		}
 
 		//ニュースイベント
 		dtLastUpdate = DateTime.Parse (mNewsEvent.LastUpdateDate);
 		timeSpan = dtNow - dtLastUpdate;
-		if(timeSpan.TotalHours >= 12){
+		if (timeSpan.TotalHours >= 12) {
 			OccurNewsEvent ();
 		}
 			
@@ -81,7 +86,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		}
 	}
 
-	public void ShowNatsumoto(string message){
+	public void ShowNatsumoto (string message) {
 		okButtonObject.SetActive (true);
 		ShowEventPanel (message);
 	}
@@ -103,7 +108,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			Debug.Log ("アイドルが1人以下なので迷子を中止");
 			return;
 		}
-		if(stage.FlagConstruction == Stage.IN_CONSTRUCTION){
+		if (stage.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			Debug.Log ("工事中のアイドルなので迷子を中止");
 			return;
 		}
@@ -119,7 +124,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		mLostIdleEvent.occurring = true;
 		//迷子の報酬を算出
 		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
-		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
+		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id, stage.IdleCount);
 		mLostIdleEvent.reward = (int)(generateCoinPower * 100 * mLostIdleEvent.lostIdleCount);
 		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
 		Debug.Log ("id " + stage.Id);
@@ -152,7 +157,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		} 
 		//トレードの金額を算出
 		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
-		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id,stage.IdleCount);
+		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id, stage.IdleCount);
 		mTradeIdleEvent.reward = (int)(generateCoinPower * 150 * mTradeIdleEvent.idleCount);
 		mTradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);
@@ -198,7 +203,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			sleepButtonObject.SetActive (true);
 			StartScaleEvent (sleepButtonObject);
 		}
-		if(mSleepStageCount >= 10){
+		if (mSleepStageCount >= 10) {
 			liveButtonObject.SetActive (true);
 		}
 		if (mSleepStageCount >= StageGridManager.instance.StageCount) {
@@ -234,7 +239,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			Stage stage = stageList [mLostIdleEvent.lostIdleID - 1];
 			stage.IdleCount += mLostIdleEvent.lostIdleCount;
 			dao.UpdateRecord (stage);
-			StageGridManager.instance.GenerateIdle (mLostIdleEvent.lostIdleID);
+			StageGridManager.instance.GenerateIdle (mLostIdleEvent.lostIdleID, mLostIdleEvent.lostIdleCount);
 			mLostIdleEvent.occurring = false;
 			mLostIdleEvent.LastUpdateDate = DateTime.Now.ToString ();
 			LostButtonObject.SetActive (false);
@@ -246,9 +251,9 @@ public class EventManager : MonoSingleton<EventManager> {
 		FenceManager.instance.HideFence ();
 		eventPanelObject.transform.localPosition = new Vector3 (0, 0, 0);
 		eventPanelObject.SetActive (false);
-	} 
+	}
 
-	public void FinishedTypeWriter(){ 
+	public void FinishedTypeWriter () { 
 		buttonParentObject.SetActive (true);
 	}
 
@@ -283,7 +288,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		StringBuilder sb = new StringBuilder ();
 		sb.Append (stage.AreaName + "の子はすごく人気だね！！\n");
 		sb.Append (mTradeIdleEvent.idleCount + "人を" + mTradeIdleEvent.reward + "コインでうちの事務所に移籍させてくれないかな？\n");
-		sb.Append ("（現在" +stage.IdleCount +"人）");
+		sb.Append ("（現在" + stage.IdleCount + "人）");
 		ShowEventPanel (sb.ToString ());
 		coinLabel.text = "" + mTradeIdleEvent.reward;
 		yesButtonObject.SetActive (true);
@@ -332,7 +337,7 @@ public class EventManager : MonoSingleton<EventManager> {
 	}
 
 	//迷子を全員発見
-	public void LostIdolOKButtonClicked(){
+	public void LostIdolOKButtonClicked () {
 		HideButtons ();
 		PlayerDataKeeper.instance.IncreaseCoinCount (mLostIdleEvent.reward);
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
@@ -343,7 +348,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		HideButtons ();
 		iTweenEvent.GetEvent (eventPanelObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
-		if(okButtonClickedEvent != null){
+		if (okButtonClickedEvent != null) {
 			okButtonClickedEvent ();
 		}
 	}
@@ -372,7 +377,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		buttonObject.transform.localScale = new Vector3 (1, 1, 1);
 	}
 
-	private void HideButtons(){
+	private void HideButtons () {
 		yesButtonObject.SetActive (false);
 		noButtonObject.SetActive (false);
 		okButtonObject.SetActive (false);

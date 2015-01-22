@@ -247,16 +247,24 @@ public class StageManager : MonoBehaviour {
 
 	//アイドル発見時に追加する処理
 	public void AddIdle (int count) {
+		Debug.Log ("Add " +count);
 		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject; 
 		for (int i = 0; i < count; i++) {
 			GenerateIdle (idlePrefab);
 		}
 		mStageData = DaoFactory.CreateStageDao ().SelectById (mStageData.Id);
 		SetIdolCount ();
-		if (mState == State.Sleep) {
+		switch(mState){
+		case State.Sleep:
 			foreach (Character character in mCharacterList) {
 				character.Sleep ();
 			}
+			break;
+		case State.Live:
+			foreach (Character character in mCharacterList) {
+				character.StartLive ();
+			}
+			break;
 		}
 	}
 

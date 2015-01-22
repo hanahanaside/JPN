@@ -16,8 +16,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	void Start () {
 		MyLog.LogDebug ("start");
 		PlayerDataKeeper.instance.Init ();
-		StageGridManager.instance.CreateStageGrid ();
 		EventManager.instance.Init ();
+		StageGridManager.instance.CreateStageGrid ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
 		//パズル終わりであればスカウト画面から再開
 		if (ScoutStageManager.FlagScouting) {

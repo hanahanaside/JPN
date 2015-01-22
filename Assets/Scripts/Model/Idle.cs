@@ -111,7 +111,10 @@ public class Idle : Character {
 		mRotateEvent.Play ();
 		mSprite.spriteName = "idle_normal_" + idleId;
 		ResizeSprite ();
-		mSprite.enabled = false;
+		//迷子中でなかったらSpriteを消す
+		if(collider == null){
+			mSprite.enabled = false;
+		}
 	}
 
 	public override void FinishLive () {
