@@ -221,6 +221,7 @@
      <Compile Include="Assets\Scripts\Event\TradeIdleEvent.cs" />
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
+     <Compile Include="Assets\Scripts\Hanauta\GUI\HanautaUIButton.cs" />
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />

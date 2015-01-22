@@ -36,7 +36,7 @@ public class TestController : TestParent {
 
 	public void ButtonClicked(){
 		Debug.Log ("click");
-		SuruPassAdBanner.instance.Hide ();
+//		SuruPassAdBanner.instance.Hide ();
 	}
 
 	public void FinishedTypeWriter(){
