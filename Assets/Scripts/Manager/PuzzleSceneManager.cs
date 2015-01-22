@@ -133,7 +133,6 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 						
 	//ステージにもどる
 	void BackToStageEvent () {
-		PlayerDataKeeper.instance.SaveData ();
 		FlagBackButtonClicked = true;
 		Application.LoadLevel ("Main");
 	}

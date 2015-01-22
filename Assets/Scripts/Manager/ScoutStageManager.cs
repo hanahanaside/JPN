@@ -83,7 +83,6 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		goScoutButtonObject.SetActive (false);
 		FlagScouting = true;
 		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
-		PlayerDataKeeper.instance.SaveData ();
 		iTweenEvent.GetEvent (planeObject, "moveOut").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
 	}

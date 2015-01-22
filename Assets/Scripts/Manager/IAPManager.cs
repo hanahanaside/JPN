@@ -93,6 +93,7 @@ public class IAPManager : MonoSingleton<IAPManager> {
 		if (productIdentifier == mProductIdentifiers [(int)ProductId.Ticket_4]) {
 			PlayerDataKeeper.instance.IncreaseTicketCount (500);
 		}
+		PlayerDataKeeper.instance.SaveData ();
 		LoadFinishedEvent ();
 	}
 
