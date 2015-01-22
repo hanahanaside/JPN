@@ -53,7 +53,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	}
 
 	public void StartLive(){
-		interval = 1f;
+		interval = 2.5f;
 	}
 
 	public void FinishLive(){

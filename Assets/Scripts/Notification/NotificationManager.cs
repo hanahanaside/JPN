@@ -62,22 +62,18 @@ public class NotificationManager : MonoBehaviour {
 	}
 
 	private void Pause () {
-		LocalNotification notification = new LocalNotification ();
-		notification.applicationIconBadgeNumber = 1;
-		notification.alertBody = "title";
-		notification.fireDate = System.DateTime.Now.AddSeconds (5);
-		NotificationServices.ScheduleLocalNotification (notification);
+		if (Application.loadedLevelName == "Main") {
+			//最初のアイドルがサボった時の通知をスケジューリング
+			if (PrefsManager.instance.FirstIdolSleepNotificationON) {
+				MyLocalNotification myLocalNotification = new MyLocalNotification ();
+				myLocalNotification.ScheduleFirstIdolFallsSleep ();
+			}
 
-//		//最初のアイドルがサボった時の通知をスケジューリング
-//		if (PrefsManager.instance.FirstIdolSleepNotificationON) {
-//			MyLocalNotification myLocalNotification = new MyLocalNotification ();
-//			myLocalNotification.ScheduleFirstIdolFallsSleep ();
-//		}
-//
-//		//最後のアイドルがサボった時の通知をスケジューリング
-//		if (PrefsManager.instance.LastIdolSleepNotificationON) {
-//			MyLocalNotification myLocalNotification = new MyLocalNotification ();
-//			myLocalNotification.ScheduleLastIdolFallsSleep ();
-//		}
+			//最後のアイドルがサボった時の通知をスケジューリング
+			if (PrefsManager.instance.LastIdolSleepNotificationON) {
+				MyLocalNotification myLocalNotification = new MyLocalNotification ();
+				myLocalNotification.ScheduleLastIdolFallsSleep ();
+			}
+		}
 	}
 }

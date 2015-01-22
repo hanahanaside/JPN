@@ -227,6 +227,10 @@ public class StageManager : MonoBehaviour {
 
 	//ライブを終了
 	public void FinishLive () { 
+		//ライブ中で終了した場合は倍になっている数字を元に戻す
+		if(mState == State.Live){
+			PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
+		}
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 			mSkipConstructionButtonObject.SetActive (true);
@@ -242,7 +246,6 @@ public class StageManager : MonoBehaviour {
 		foreach (Character character in mCharacterList) {
 			character.FinishLive ();
 		}
-		PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 	}

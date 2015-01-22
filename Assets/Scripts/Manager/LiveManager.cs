@@ -97,6 +97,12 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		CoinGenerator.instance.StartLive ();
 		OpenCurtain ();
 	}
+
+	public bool IsLive{
+		get{
+			return mLive;
+		}
+	}
 		
 	private void StartLiveAnimation(){
 		SoundManager.instance.FadeoutSE (SoundManager.SE_CHANNEL.Cheer);
@@ -110,7 +116,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		Invoke ("OpenBall",7.0f);
 	}
 
-	private void FinishLive(){
+	public void FinishLive(){
 		mLive = false;
 		iTweenEvent.GetEvent (mirrorBallSpriteObject,"LiveFinishEvent").Play();
 		iTweenEvent.GetEvent (ballParent,"RotateEvent").Stop();

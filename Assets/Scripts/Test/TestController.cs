@@ -15,28 +15,13 @@ public class TestController : TestParent {
 		System.DateTime dt = System.DateTime.Parse (dateString);
 		Debug.Log ("aaa " +dt);
 	}
-
-	void OnApplicationPause(bool pauseStatus){
-		Debug.Log ("ssss");
-		if (pauseStatus) {
-			LocalNotification notification = new LocalNotification ();
-			notification.applicationIconBadgeNumber = 1;
-			notification.alertBody = "title";
-			notification.fireDate = System.DateTime.Now.AddSeconds (5);
-			NotificationServices.ScheduleLocalNotification (notification);
-		} else {
-			LocalNotification clearBadgeNotification = new LocalNotification();
-			clearBadgeNotification.applicationIconBadgeNumber = -1;
-			NotificationServices.PresentLocalNotificationNow(clearBadgeNotification);
-			NotificationServices.CancelAllLocalNotifications ();
-			NotificationServices.ClearRemoteNotifications();
-			NotificationServices.ClearLocalNotifications();
-		}
-	}
-
+		
 	public void ButtonClicked(){
-		Debug.Log ("click");
-//		SuruPassAdBanner.instance.Hide ();
+		if(!UnityAdsManager.instance.IsReady()){
+			Debug.Log ("not ready");
+			return;
+		}
+		UnityAdsManager.instance.ShowAd ();
 	}
 
 	public void FinishedTypeWriter(){

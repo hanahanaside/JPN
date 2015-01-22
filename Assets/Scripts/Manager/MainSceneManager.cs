@@ -103,10 +103,12 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
 		if (remainingLiveTimeSeconds > 0) {
 			LiveManager.instance.ContinueLive (remainingLiveTimeSeconds);
-		}else if(liveData.time > 0){
+		} else if (LiveManager.instance.IsLive) {
+			LiveManager.instance.FinishLive ();
+		} else if (liveData.time > 0) {
 			//ライブデータをリセット
 			liveData = new LiveData ();
-			PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
+			PrefsManager.instance.WriteData<LiveData> (liveData, PrefsManager.Kies.LiveData);
 			//全てのステージのアップデート履歴を更新
 			List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 			foreach (StageManager stageManager in stageManagerList) {
@@ -114,8 +116,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			}
 			CoinGenerator.instance.FinishLive ();
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
-		}
-		else {
+		} else {
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 		}
 
@@ -219,7 +220,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	private float GetRemainingLiveTimeSeconds () {
 		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
 		//ライブが始まっていなければ0を返す
-		if(liveData.time <= 0){
+		if (liveData.time <= 0) {
 			return 0;
 		}
 		DateTime dtNow = DateTime.Now;
