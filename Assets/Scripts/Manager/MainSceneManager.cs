@@ -35,7 +35,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		} else {
 			StageGridManager.instance.MoveToStage (1);
 			double addCoin = CalcSleepTimeCoin ();
-			if (addCoin >= 1) {
+			if (addCoin >= 100) {
 				FenceManager.instance.ShowFence ();
 				SleepTimeCoinDialogManager.instance.Show (addCoin);
 			}
@@ -100,9 +100,22 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 		//ライブの途中であれば再開
 		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
+		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
 		if (remainingLiveTimeSeconds > 0) {
 			LiveManager.instance.ContinueLive (remainingLiveTimeSeconds);
-		} else {
+		}else if(liveData.time > 0){
+			//ライブデータをリセット
+			liveData = new LiveData ();
+			PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
+			//全てのステージのアップデート履歴を更新
+			List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+			foreach (StageManager stageManager in stageManagerList) {
+				stageManager.FinishLive ();
+			}
+			CoinGenerator.instance.FinishLive ();
+			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
+		}
+		else {
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 		}
 
@@ -205,6 +218,10 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 
 	private float GetRemainingLiveTimeSeconds () {
 		LiveData liveData = PrefsManager.instance.Read<LiveData> (PrefsManager.Kies.LiveData);
+		//ライブが始まっていなければ0を返す
+		if(liveData.time <= 0){
+			return 0;
+		}
 		DateTime dtNow = DateTime.Now;
 		DateTime dtLive = DateTime.Parse (liveData.startDate);
 		TimeSpan timeSpan = dtNow - dtLive;

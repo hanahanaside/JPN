@@ -34,7 +34,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 			return;
 		}	
 		mTime -= Time.deltaTime;
-	//	mRemainingLiveTimeLabel.text = "" + (int)mTime;
 		mRemainingLiveTimeLabel.text = TimeConverter.Convert(mTime);
 		if (mTime > 0) {
 			return;
@@ -77,6 +76,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		liveData.time = mTime;
 		PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
 		mLive = true;
+		CoinGenerator.instance.StartLive ();
 		Invoke ("StartLiveAnimation",3.0f);
 	}
 
@@ -94,6 +94,7 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		EntranceStageManager.instance.StartLive ();
 		ScoutStageManager.instance.StartLive ();
 		livePanelObject.SetActive (true);
+		CoinGenerator.instance.StartLive ();
 		OpenCurtain ();
 	}
 		
@@ -119,8 +120,12 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.FinishLive ();
 		}
+		//ライブデータをリセット
+		LiveData liveData = new LiveData ();
+		PrefsManager.instance.WriteData<LiveData> (liveData,PrefsManager.Kies.LiveData);
 		EntranceStageManager.instance.FinishLive ();
 		ScoutStageManager.instance.FinishLive ();
+		CoinGenerator.instance.FinishLive ();
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 

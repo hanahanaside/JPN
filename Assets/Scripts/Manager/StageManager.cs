@@ -234,8 +234,10 @@ public class StageManager : MonoBehaviour {
 			mTimeSeconds = GetUntilSleepTime () * 60;
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
-			GameObject danceTeamObject = transform.FindChild ("DanceTeam(Clone)").gameObject;
-			Destroy (danceTeamObject);
+			Transform danceTeamTransform = transform.FindChild ("DanceTeam(Clone)");
+			if(danceTeamTransform != null){
+				Destroy (danceTeamTransform.gameObject);
+			}
 		}
 		foreach (Character character in mCharacterList) {
 			character.FinishLive ();

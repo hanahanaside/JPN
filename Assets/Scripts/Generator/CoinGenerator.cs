@@ -8,26 +8,28 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	public UICenterOnChild uiCenterOnChild; 
 	public UIGrid stageGrid;
 	private GameObject mCenteredObject;
-	private float mInterval = 5.0f;
+	private float interval = 5.0f;
+	private float mUntilGenerateTimeSeconds;
 	private bool mStop = false;
 
 	void Awake () {
 		uiCenterOnChild.onCenter += OnCenterCallBack;
+		mUntilGenerateTimeSeconds = interval;
 	}
 
 	void Update () {
 		if (mStop) {
 			return;
 		}
-		mInterval -= Time.deltaTime;
-		if (mInterval > 0) {
+		mUntilGenerateTimeSeconds -= Time.deltaTime;
+		if (mUntilGenerateTimeSeconds > 0) {
 			return;
 		}
 		int rand = UnityEngine.Random.Range (0,stageGrid.GetChildList().Count);
 		mCenteredObject = stageGrid.GetChildList () [rand].gameObject;
 
 		if (mCenteredObject.tag == "sleep" || mCenteredObject.tag == "construction") {
-			mInterval = 5.0f;
+			mUntilGenerateTimeSeconds = interval;
 			return;
 		}
 
@@ -35,7 +37,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
 		coinObject.transform.parent = mCenteredObject.transform;
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-		mInterval = 5.0f;
+		mUntilGenerateTimeSeconds = interval;
 	}
 
 	void OnCenterCallBack (GameObject centeredObject) {
@@ -48,6 +50,14 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 
 	public void StartGenerating () {
 		mStop = false;
+	}
+
+	public void StartLive(){
+		interval = 1f;
+	}
+
+	public void FinishLive(){
+		interval = 5.0f;
 	}
 
 	private GameObject GetCoinPrefab () {
