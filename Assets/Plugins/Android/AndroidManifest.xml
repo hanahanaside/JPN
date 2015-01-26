@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" android:installLocation="preferExternal" android:theme="@android:style/Theme.NoTitleBar" android:versionCode="1" android:versionName="1.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="jp.co.hnut.idol" android:installLocation="preferExternal" android:theme="@android:style/Theme.NoTitleBar" android:versionCode="1" android:versionName="1.0">
 	<!-- PERMISSIONS -->
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.GET_TASKS" />
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+	<permission android:name="jp.co.hnut.idol.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+	<uses-permission android:name="jp.co.hnut.idol.permission.C2D_MESSAGE" />
 	<!-- SUPPORTS SCREENS -->
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
 	<!-- APPLICATION -->
@@ -21,7 +26,7 @@
 		<activity android:name="com.unity3d.player.UnityPlayerNativeActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
 			<meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
 		</activity>
-		<!-- PRIME_31 ACTIVITIES -->
+		<!-- ETCETERA ACTIVITIES -->
 		<activity android:name="com.prime31.EtceteraProxyActivity" android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize">
 		</activity>
 		<activity android:name="com.prime31.WebViewActivity" android:configChanges="keyboardHidden|orientation|screenSize">
@@ -30,6 +35,15 @@
 		</activity>
 		<receiver android:name="com.prime31.AlarmManagerReceiver">
 		</receiver>
+		<!-- GCM ACTIVITIES -->
+		<receiver android:name="com.prime31.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+				<category android:name="jp.co.hnut.idol" />
+			</intent-filter>
+		</receiver>
+		<meta-data android:name="com.prime31.GoogleCloudMessagingPlugin" android:value="UnityPlayerActivityProxy" />
 		<!-- GOOGLE PLAY SERVICE -->
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 	</application>

@@ -62,6 +62,10 @@
      <Compile Include="Assets\Plugins\FlurryIntegration\FlurryAgentAndroid.cs" />
      <Compile Include="Assets\Plugins\FlurryIntegration\FlurryAgentIOS.cs" />
      <Compile Include="Assets\Plugins\FlurryIntegration\FlurryManager.cs" />
+     <Compile Include="Assets\Plugins\GoogleCloudMessaging\GoogleCloudMessaging.cs" />
+     <Compile Include="Assets\Plugins\GoogleCloudMessaging\GoogleCloudMessagingManager.cs" />
+     <Compile Include="Assets\Plugins\GoogleCloudMessaging\demo\GoogleCloudMessagingEventListener.cs" />
+     <Compile Include="Assets\Plugins\GoogleCloudMessaging\demo\GoogleCloudMessagingUI.cs" />
      <Compile Include="Assets\Plugins\MiniJSON.cs" />
      <Compile Include="Assets\Plugins\MonoSingleton.cs" />
      <Compile Include="Assets\Plugins\PlayerPrefsX.cs" />
@@ -165,6 +169,7 @@
      <None Include="Assets\sqlitekit\license.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
+     <None Include="Assets\Plugins\GoogleCloudMessaging\Manifest.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
      <None Include="Assets\Terasurware\Editor\ExportTemplate.txt" />

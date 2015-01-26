@@ -222,6 +222,7 @@
      <Compile Include="Assets\Scripts\Event\NewsEvent.cs" />
      <Compile Include="Assets\Scripts\Event\TradeIdleEvent.cs" />
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />
+     <Compile Include="Assets\Scripts\GCM\GCMRegister.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
      <Compile Include="Assets\Scripts\Hanauta\GUI\HanautaUIButton.cs" />
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
@@ -412,6 +413,7 @@
      <None Include="Assets\sqlitekit\license.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
+     <None Include="Assets\Plugins\GoogleCloudMessaging\Manifest.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
      <None Include="Assets\Terasurware\Editor\ExportTemplate.txt" />
