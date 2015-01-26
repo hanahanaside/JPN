@@ -98,10 +98,12 @@ public class MyLocalNotification {
 
 	//通知をスケジューリングする
 	private void ScheduleLocalNotification(string message , double addSeconds){
+		#if UNITY_IPHONE
 		LocalNotification localNotification = new LocalNotification ();
 		localNotification.applicationIconBadgeNumber = 1;
 		localNotification.fireDate = DateTime.Now.AddSeconds (addSeconds);
 		localNotification.alertBody = message;
 		NotificationServices.ScheduleLocalNotification (localNotification);
+		#endif
 	}
 }

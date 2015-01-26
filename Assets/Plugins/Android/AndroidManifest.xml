@@ -1,47 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.unity3d.player"
-	android:installLocation="preferExternal"
-	android:theme="@android:style/Theme.NoTitleBar"
-    android:versionCode="1"
-    android:versionName="1.0">
-    <supports-screens
-        android:smallScreens="true"
-        android:normalScreens="true"
-        android:largeScreens="true"
-        android:xlargeScreens="true"
-        android:anyDensity="true"/>
-
-    <application
-		android:icon="@drawable/app_icon"
-        android:label="@string/app_name"
-        android:debuggable="true">
-        <activity android:name="com.unity3d.player.UnityPlayerProxyActivity"
-                  android:launchMode="singleTask"
-                  android:label="@string/app_name"
-                  android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.unity3d.player.UnityPlayerActivity"
-                  android:launchMode="singleTask"
-                  android:label="@string/app_name"
-                  android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
-        </activity>
-        <activity android:name="com.unity3d.player.UnityPlayerNativeActivity"
-                  android:launchMode="singleTask"
-                  android:label="@string/app_name"
-                  android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
-            <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
-        </activity>
-
-        <!-- Flurry Plugin -->
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-    </application>
-
-    <!-- Flurry Plugin -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" android:installLocation="preferExternal" android:theme="@android:style/Theme.NoTitleBar" android:versionCode="1" android:versionName="1.0">
+	<!-- PERMISSIONS -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.GET_TASKS" />
+	<!-- SUPPORTS SCREENS -->
+	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
+	<!-- APPLICATION -->
+	<application android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
+		<!-- UNITY ACTIVITIES -->
+		<activity android:name="com.unity3d.player.UnityPlayerProxyActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name="com.unity3d.player.UnityPlayerActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
+		</activity>
+		<activity android:name="com.unity3d.player.UnityPlayerNativeActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
+			<meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
+		</activity>
+		<!-- PRIME_31 ACTIVITIES -->
+		<activity android:name="com.prime31.EtceteraProxyActivity" android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize">
+		</activity>
+		<activity android:name="com.prime31.WebViewActivity" android:configChanges="keyboardHidden|orientation|screenSize">
+		</activity>
+		<activity android:name="com.prime31.P31VideoPlayerActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
+		</activity>
+		<receiver android:name="com.prime31.AlarmManagerReceiver">
+		</receiver>
+		<!-- GOOGLE PLAY SERVICE -->
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+	</application>
 </manifest>

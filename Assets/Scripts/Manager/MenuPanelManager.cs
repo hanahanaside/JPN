@@ -10,11 +10,15 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 	public UIButton lastIdolSleepNotificationButton;
 
 	void OnEnable () {
+		#if UNITY_IPHONE
 		EtceteraManager.mailComposerFinishedEvent += mailComposerFinished;
+		#endif
 	}
 
 	void OnDisable () {
+		#if UNITY_IPHONE
 		EtceteraManager.mailComposerFinishedEvent -= mailComposerFinished;
+		#endif
 	}
 
 	void CompleteDismissEvent () {
@@ -108,10 +112,19 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 	}
 
 	public void MailButtonClicked () {
+
 		string adress = "hanauta.app@gmail.com";
-		string title = "アイプロ(i)について";
 		string message = "問い合わせ内容を書いてください";
+
+		#if UNITY_IPHONE
+		string title = "アイプロ(i)について";
 		EtceteraBinding.showMailComposer (adress, title, message, false);
+		#endif
+
+		#if UNITY_ANDROID
+		string title = "アイプロ(A)について";
+		EtceteraAndroid.showEmailComposer (adress, title, message, false);
+		#endif
 	}
 
 	private void ChangeButtonToON (UIButton button) {
