@@ -78,6 +78,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\Plugins\Android\res\values\version.xml" />
+     <None Include="Assets\Plugins\InAppBillingAndroid\Manifest.xml" />
      <None Include="Assets\Plugins\EtceteraAndroid\Manifest.xml" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
      <None Include="Assets\sqlitekit\Readme.txt" />

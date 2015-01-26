@@ -10,6 +10,7 @@
 	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
 	<permission android:name="jp.co.hnut.idol.permission.C2D_MESSAGE" android:protectionLevel="signature" />
 	<uses-permission android:name="jp.co.hnut.idol.permission.C2D_MESSAGE" />
+	<uses-permission android:name="com.android.vending.BILLING" />
 	<!-- SUPPORTS SCREENS -->
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
 	<!-- APPLICATION -->
@@ -44,6 +45,9 @@
 			</intent-filter>
 		</receiver>
 		<meta-data android:name="com.prime31.GoogleCloudMessagingPlugin" android:value="UnityPlayerActivityProxy" />
+		<!-- IAB ACTIVITIES -->
+		<activity android:name="com.prime31.GoogleIABProxyActivity" android:configChanges="orientation|layoutDirection|keyboard|keyboardHidden|screenLayout|uiMode|screenSize">
+		</activity>
 		<!-- GOOGLE PLAY SERVICE -->
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 	</application>

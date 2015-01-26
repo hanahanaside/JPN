@@ -225,6 +225,7 @@
      <Compile Include="Assets\Scripts\GCM\GCMRegister.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
      <Compile Include="Assets\Scripts\Hanauta\GUI\HanautaUIButton.cs" />
+     <Compile Include="Assets\Scripts\IAB\IABManager.cs" />
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />
@@ -398,6 +399,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\Plugins\Android\res\values\version.xml" />
+     <None Include="Assets\Plugins\InAppBillingAndroid\Manifest.xml" />
      <None Include="Assets\Plugins\EtceteraAndroid\Manifest.xml" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
      <None Include="Assets\sqlitekit\Readme.txt" />
