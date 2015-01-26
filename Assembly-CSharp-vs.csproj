@@ -199,6 +199,7 @@
      <Compile Include="Assets\Scripts\Dialog\BuyAreaDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyCoinDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyTicketDialog.cs" />
+     <Compile Include="Assets\Scripts\Dialog\CheckQuitDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\ConfirmLiveDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\ContinueDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\GetIdleDialogManager.cs" />

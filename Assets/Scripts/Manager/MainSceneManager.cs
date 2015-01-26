@@ -49,7 +49,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	void Update () {
 		#if UNITY_ANDROID
 		if (Input.GetKey (KeyCode.Escape)) {
-			Application.Quit ();
+			CheckQuitDialog.instance.Show();
 		}
 		#endif
 	}
