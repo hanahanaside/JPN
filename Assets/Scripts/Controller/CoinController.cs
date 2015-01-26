@@ -7,7 +7,7 @@ public class CoinController : MonoBehaviour {
 	public static event Action<string> OnClickedEvent;
 
 	public GameObject getCoinEffectPrefab;
-	private float mLifeTime = 3.0f;
+	private float mLifeTime = 6.0f;
 
 	void Start () {
 		float x = UnityEngine.Random.Range (-220.0f, 220.0f);
