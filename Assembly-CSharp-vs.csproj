@@ -223,6 +223,7 @@
      <Compile Include="Assets\Scripts\Event\TradeIdleEvent.cs" />
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />
      <Compile Include="Assets\Scripts\GCM\GCMRegister.cs" />
+     <Compile Include="Assets\Scripts\GUI\FooterGrid.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
      <Compile Include="Assets\Scripts\Hanauta\GUI\HanautaUIButton.cs" />
      <Compile Include="Assets\Scripts\IAB\IABManager.cs" />

@@ -10,18 +10,23 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent += LoadFinishedEvent;
 		#endif
+		#if UNITY_ANDROID
+		IABManager.LoadFinishedEvent += LoadFinishedEvent;
+		#endif
 	}
 
 	void OnDisable(){
 		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent -= LoadFinishedEvent;
 		#endif
+		#if UNITY_ANDROID
+		IABManager.LoadFinishedEvent -= LoadFinishedEvent;
+		#endif
 	}
 
 	void LoadFinishedEvent(){
 		mFenceObject.SetActive (false);
 	}
-
 
 	void CompleteDismissEvent(){
 		mDialogObject.SetActive (false);
@@ -56,12 +61,18 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_1);
 		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Ticket_1);
+		#endif
 	}
 
 	public void BuyItem2Clicked(){
 		mFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_2);
+		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Ticket_2);
 		#endif
 	}
 
@@ -70,12 +81,18 @@ public class BuyTicketDialog : MonoSingleton<BuyTicketDialog> {
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_3);
 		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Ticket_3);
+		#endif
 	}
 
 	public void BuyItem4Clicked(){
 		mFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Ticket_4);
+		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Ticket_4);
 		#endif
 	}
 }

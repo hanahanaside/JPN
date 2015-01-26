@@ -10,11 +10,17 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent += LoadFinishedEvent;
 		#endif
+		#if UNITY_ANDROID
+		IABManager.LoadFinishedEvent += LoadFinishedEvent;
+		#endif
 	}
 
 	void OnDisable(){
 		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent -= LoadFinishedEvent;
+		#endif
+		#if UNITY_ANDROID
+		IABManager.LoadFinishedEvent -= LoadFinishedEvent;
 		#endif
 	}
 
@@ -55,12 +61,18 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_1);
 		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Coin_1);
+		#endif
 	}
 
 	public void BuyItem2Clicked(){
 		mFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_2);
+		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Coin_2);
 		#endif
 	}
 
@@ -69,12 +81,18 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_3);
 		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Coin_3);
+		#endif
 	}
 
 	public void BuyItem4Clicked(){
 		mFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_4);
+		#endif
+		#if UNITY_ANDROID
+		IABManager.instance.PurchaseSku(IABManager.ProductId.Coin_4);
 		#endif
 	}
 }

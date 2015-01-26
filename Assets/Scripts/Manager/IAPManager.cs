@@ -58,6 +58,7 @@ public class IAPManager : MonoSingleton<IAPManager> {
 
 	void purchaseFailedEvent (string error) {
 		Debug.Log ("purchaseFailedEvent: " + error);
+		LoadFinishedEvent ();
 	}
 
 

@@ -36,6 +36,7 @@ public class ConfirmLiveDialog : MonoSingleton<ConfirmLiveDialog> {
 	}
 
 	public void CloseButtonClicked(){
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button); 
 		Dissmiss ();
 	}
 }
