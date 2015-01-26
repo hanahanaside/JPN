@@ -76,6 +76,8 @@
      <Compile Include="Assets\Plugins\MonoSingleton.cs" />
      <Compile Include="Assets\Plugins\PlayerPrefsX.cs" />
      <Compile Include="Assets\Plugins\Singleton.cs" />
+     <Compile Include="Assets\Plugins\SocialConnector\Sample\Sample.cs" />
+     <Compile Include="Assets\Plugins\SocialConnector\SocialConnector.cs" />
      <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\Facebook.cs" />
      <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\FacebookBatchRequest.cs" />
      <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\FacebookDataTypes.cs" />
