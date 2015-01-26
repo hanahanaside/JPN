@@ -59,6 +59,10 @@ public class NotificationManager : MonoBehaviour {
 		NotificationServices.ClearRemoteNotifications ();
 		NotificationServices.ClearLocalNotifications ();
 		#endif
+
+		#if UNITY_ANDROID
+		EtceteraAndroid.cancelAllNotifications();
+		#endif
 	}
 
 	private void Pause () {

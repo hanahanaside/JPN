@@ -105,5 +105,14 @@ public class MyLocalNotification {
 		localNotification.alertBody = message;
 		NotificationServices.ScheduleLocalNotification (localNotification);
 		#endif
+
+		#if UNITY_ANDROID
+		long secondsFromNow =  (long)addSeconds;
+		string title = "アイプロ";
+		string subTitle = message;
+		string tickerText = message;
+		string extraData = "extraData";
+		EtceteraAndroid.scheduleNotification(secondsFromNow,title,subTitle,tickerText,extraData);
+		#endif
 	}
 }
