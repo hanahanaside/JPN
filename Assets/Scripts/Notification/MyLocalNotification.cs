@@ -30,7 +30,13 @@ public class MyLocalNotification {
 			return;
 		}
 
+		#if UNITY_IPHONE
+		ScheduleLocalNotification ("一組サボりがでました、カツを入れましょう", addSeconds);
+		#endif
+
+		#if UNITY_ANDROID
 		ScheduleLocalNotification ("一組サボりがでました、カツを入れましょう", addSeconds, RequestCode.FIRST_TEAM);
+		#endif
 
 		MyLog.LogDebug ("最初のアイドルがサボる通知まで　" + addSeconds);
 	}
@@ -50,7 +56,13 @@ public class MyLocalNotification {
 			return;
 		}
 
+		#if UNITY_IPHONE
+		ScheduleLocalNotification ("全組がサボりました、カツを入れましょう", addSeconds);
+		#endif
+
+		#if UNITY_ANDROID
 		ScheduleLocalNotification ("全組がサボりました、カツを入れましょう", addSeconds, RequestCode.LAST_TEAM);
+		#endif
 
 		MyLog.LogDebug ("最後のアイドルがサボる通知まで　" + addSeconds);
 	}

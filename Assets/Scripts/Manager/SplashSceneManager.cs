@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SplashSceneManager : MonoBehaviour {
 
+	public GameObject fadeoutObject;
+
 	void OnEnable(){
 		DatabaseHelper.CreatedDatabaseEvent += CreatedDatabaseEvent;
 	}
@@ -17,15 +19,14 @@ public class SplashSceneManager : MonoBehaviour {
 	}
 
 	void CreatedDatabaseEvent(){
-		Invoke ("Move",2.0f);
+		fadeoutObject.SetActive (true);
 	}
 
-	private void Move(){
+	public void FinishedFadeoutEvent(){
 		if(PrefsManager.instance.TutorialFinished){
 			Application.LoadLevel ("Main");
 		}else {
 			Application.LoadLevel ("MainTutorial");
 		}
-	
 	}
 }

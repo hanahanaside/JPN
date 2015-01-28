@@ -42,9 +42,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		}
 			
 		Resume ();
-
 		EventManager.instance.GenerateLostIdle ();
-		SuruPassAdBanner.instance.Show ();
 	}
 
 	void Update () {
@@ -86,7 +84,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			#endif
 		}
 	}
-
+		
 	void EventOKButtonClicked () {
 		EventManager.instance.okButtonClickedEvent -= EventOKButtonClicked;
 		AreaPanelManager.instance.ShowAreaPanel ();

@@ -5,15 +5,12 @@ using System.Collections.Generic;
 public class CoinGenerator : MonoSingleton<CoinGenerator> {
 
 	public GameObject[] coinPrefabArray;
-	public UICenterOnChild uiCenterOnChild; 
 	public UIGrid stageGrid;
-	private GameObject mCenteredObject;
 	private float interval = 5.0f;
 	private float mUntilGenerateTimeSeconds;
 	private bool mStop = false;
 
 	void Awake () {
-		uiCenterOnChild.onCenter += OnCenterCallBack;
 		mUntilGenerateTimeSeconds = interval;
 	}
 
@@ -26,22 +23,18 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 			return;
 		}
 		int rand = UnityEngine.Random.Range (0,stageGrid.GetChildList().Count);
-		mCenteredObject = stageGrid.GetChildList () [rand].gameObject;
+		GameObject stageObject = stageGrid.GetChildList () [rand].gameObject;
 
-		if (mCenteredObject.tag == "sleep" || mCenteredObject.tag == "construction") {
+		if (stageObject.tag == "sleep" || stageObject.tag == "construction") {
 			mUntilGenerateTimeSeconds = interval;
 			return;
 		}
 
 		GameObject coinPrefab = GetCoinPrefab ();
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
-		coinObject.transform.parent = mCenteredObject.transform;
+		coinObject.transform.parent = stageObject.transform;
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		mUntilGenerateTimeSeconds = interval;
-	}
-
-	void OnCenterCallBack (GameObject centeredObject) {
-	//	mCenteredObject = centeredObject;
 	}
 
 	public void StopGenerating () {

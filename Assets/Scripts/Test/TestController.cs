@@ -4,17 +4,28 @@ using System.Collections;
 
 public class TestController : TestParent {
 
-	void Start(){
-		EtceteraAndroid.cancelAllNotifications();
+	public GameObject iconAdPrefab;
+	private GameObject mIconAd;
+
+	void Start () {
+	//	mIconAd = Instantiate (iconAdPrefab) as GameObject;
 	}
-		
-	void OnApplicationPause (bool pauseStatus) {
-		if(pauseStatus){
-			Debug.Log ("pause");
-			EtceteraAndroid.scheduleNotification(20,"title","subTitle","tickerText","",0);
-		}else {
-			Debug.Log ("resume");
-			EtceteraAndroid.cancelAllNotifications();
+
+	void Update()
+	{
+		if(Input.GetKey(KeyCode.Escape)){
+			Application.Quit ();
+		}
+
+	}
+
+	public void OnButtonClicked () {
+		if (mIconAd == null) {
+			mIconAd = Instantiate (iconAdPrefab) as GameObject;
+			Debug.Log ("instantiate");
+		} else {
+			Destroy (mIconAd);
+			Debug.Log ("destroy");
 		}
 	}
 }

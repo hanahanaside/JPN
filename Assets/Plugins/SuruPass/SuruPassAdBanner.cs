@@ -12,7 +12,7 @@ public interface SuruPassAdBannerCallback
 
 public class SuruPassAdBanner : SuruPassAd 
 {
-	private static int sTagNumber = 2;
+//	private static int sTagNumber = 2;
 
 	[SerializeField]
 	protected Metrics androidMetrics;
@@ -23,8 +23,8 @@ public class SuruPassAdBanner : SuruPassAd
 
 	public override void OnInitialize(){
 		sInstance = this;
-		sTagNumber++;
-		tagNumber = sTagNumber;
+	//	sTagNumber++;
+	//	tagNumber = sTagNumber;
 	}
 
 	public static SuruPassAdBanner instance{

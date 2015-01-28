@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-#if UNITY_ANDROID
+
 public class CheckQuitDialog : MonoSingleton<CheckQuitDialog> {
 
-
+	#if UNITY_ANDROID
 	private GameObject mDialogObject;
 
 	public override void OnInitialize () {
@@ -39,5 +39,5 @@ public class CheckQuitDialog : MonoSingleton<CheckQuitDialog> {
 		FenceManager.instance.HideFence ();
 		iTweenEvent.GetEvent (mDialogObject, "DismissEvent").Play ();
 	}
+	#endif
 }
-#endif

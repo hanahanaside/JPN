@@ -167,6 +167,8 @@ public class StageManager : MonoBehaviour {
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		WakeupEvent ();
+		//アイコン広告を非表示にする
+		AdManager.instance.HideIconAd ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
 		MyLog.LogDebug ("wake up stage " + mStageData.Id);
 	}
