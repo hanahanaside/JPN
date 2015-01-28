@@ -5,13 +5,20 @@ using System.Collections.Generic;
 
 public class MyLocalNotification {
 
+	#if UNITY_ANDROID
+	private enum RequestCode : int {
+		FIRST_TEAM,
+		LAST_TEAM
+	}
+	#endif
+
 	public MyLocalNotification () {
 
 	}
 
 	//最初のアイドルがサボった通知をスケジューリングする処理
 	public void ScheduleFirstIdolFallsSleep () {
-		if (CheckLiving()) {
+		if (CheckLiving ()) {
 			return;
 		}
 		//1番小さいモノをスケジューリングの時間にセットする
@@ -23,14 +30,14 @@ public class MyLocalNotification {
 			return;
 		}
 
-		ScheduleLocalNotification ("一組サボりがでました、カツを入れましょう",addSeconds);
+		ScheduleLocalNotification ("一組サボりがでました、カツを入れましょう", addSeconds, RequestCode.FIRST_TEAM);
 
 		MyLog.LogDebug ("最初のアイドルがサボる通知まで　" + addSeconds);
 	}
 
 	//最後のアイドルがサボった通知をスケジューリングする処理
 	public void ScheduleLastIdolFallsSleep () {
-		if (CheckLiving()) {
+		if (CheckLiving ()) {
 			return;
 		}
 
@@ -43,7 +50,7 @@ public class MyLocalNotification {
 			return;
 		}
 
-		ScheduleLocalNotification ("全組がサボりました、カツを入れましょう",addSeconds);
+		ScheduleLocalNotification ("全組がサボりました、カツを入れましょう", addSeconds, RequestCode.LAST_TEAM);
 
 		MyLog.LogDebug ("最後のアイドルがサボる通知まで　" + addSeconds);
 	}
@@ -96,23 +103,26 @@ public class MyLocalNotification {
 		return false;
 	}
 
-	//通知をスケジューリングする
-	private void ScheduleLocalNotification(string message , double addSeconds){
-		#if UNITY_IPHONE
+	#if UNITY_IPHONE
+	//通知をスケジューリングする(iOS)
+	private void ScheduleLocalNotification (string message, double addSeconds) {
 		LocalNotification localNotification = new LocalNotification ();
 		localNotification.applicationIconBadgeNumber = 1;
 		localNotification.fireDate = DateTime.Now.AddSeconds (addSeconds);
 		localNotification.alertBody = message;
 		NotificationServices.ScheduleLocalNotification (localNotification);
-		#endif
+	}
+	#endif
 
-		#if UNITY_ANDROID
-		long secondsFromNow =  (long)addSeconds;
+	#if UNITY_ANDROID
+	//通知をスケジューリングする(Android)
+	private void ScheduleLocalNotification (string message, double addSeconds, RequestCode requestCode) {
+		long secondsFromNow = (long)addSeconds;
 		string title = "アイプロ";
 		string subTitle = message;
 		string tickerText = message;
 		string extraData = "extraData";
-		EtceteraAndroid.scheduleNotification(secondsFromNow,title,subTitle,tickerText,extraData);
-		#endif
+		EtceteraAndroid.scheduleNotification (secondsFromNow, title, subTitle, tickerText, extraData, (int)requestCode);
 	}
+	#endif
 }

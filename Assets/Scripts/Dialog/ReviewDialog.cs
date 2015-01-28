@@ -41,7 +41,7 @@ public class ReviewDialog : MonoSingleton<ReviewDialog> {
 		Application.OpenURL ("https://itunes.apple.com/us/app/aidorupurojekuto-aidoru-yu/id955378244?l=ja&ls=1&mt=8");
 		#endif
 		#if UNITY_ANDROID
-
+		Application.OpenURL ("https://play.google.com/store/apps/details?id=jp.co.hnut.idol");
 		#endif
 	}
 
