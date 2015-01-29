@@ -73,7 +73,6 @@ public abstract class SuruPassAd : MonoBehaviour
 
 		#if !UNITY_EDITOR
 		gameObject.hideFlags = HideFlags.HideAndDontSave;
-		DontDestroyOnLoad(gameObject);
 		#endif
 
 		#if UNITY_ANDROID && !UNITY_EDITOR
@@ -111,7 +110,6 @@ public abstract class SuruPassAd : MonoBehaviour
 		#elif UNITY_ANDROID && !UNITY_EDITOR
 		adUtil.CallStatic("destroyAd", tagNumber);
 		#endif
-		Debug.Log ("tag number " +tagNumber);
 	}
 	
 	protected int GetBitGravity(Gravity[] gravity)

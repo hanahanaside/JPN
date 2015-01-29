@@ -5,7 +5,7 @@ using System.Collections;
 public class TestController : TestParent {
 
 	public GameObject iconAdPrefab;
-	private GameObject mIconAd;
+	private bool mShowing = false;
 
 	void Start () {
 	//	mIconAd = Instantiate (iconAdPrefab) as GameObject;
@@ -20,12 +20,14 @@ public class TestController : TestParent {
 	}
 
 	public void OnButtonClicked () {
-		if (mIconAd == null) {
-			mIconAd = Instantiate (iconAdPrefab) as GameObject;
-			Debug.Log ("instantiate");
-		} else {
-			Destroy (mIconAd);
-			Debug.Log ("destroy");
+	
+		if(mShowing){
+				iconAdPrefab.SendMessage ("OnDestroy");
+			mShowing = false;
+		}else {
+			iconAdPrefab.SendMessage ("Show");
+			mShowing = true;
 		}
+
 	}
 }

@@ -13,6 +13,7 @@ public class SuruPassInterstitial : SuruPassAd
 
 	public override void OnInitialize(){
 		sInstance = this;
+		DontDestroyOnLoad(gameObject);
 	}
 
 	public static SuruPassInterstitial instance{
