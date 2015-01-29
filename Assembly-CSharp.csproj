@@ -194,7 +194,9 @@
      <Compile Include="Assets\Scripts\DB\GenerateCoinPowerDbDao.cs" />
      <Compile Include="Assets\Scripts\DB\StageDbDao.cs" />
      <Compile Include="Assets\Scripts\DB\UntilSleepTimeDbDao.cs" />
+     <Compile Include="Assets\Scripts\Debug\AllocMem.cs" />
      <Compile Include="Assets\Scripts\Debug\MyDebugger.cs" />
+     <Compile Include="Assets\Scripts\Debug\MyLog.cs" />
      <Compile Include="Assets\Scripts\Destroyer\EffectDestroyer.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyAreaDialogManager.cs" />
      <Compile Include="Assets\Scripts\Dialog\BuyCoinDialog.cs" />
@@ -234,7 +236,6 @@
      <Compile Include="Assets\Scripts\Interface\GenerateCoinPowerDao.cs" />
      <Compile Include="Assets\Scripts\Interface\StageDao.cs" />
      <Compile Include="Assets\Scripts\Interface\UntilSleepTimeDao.cs" />
-     <Compile Include="Assets\Scripts\Log\MyLog.cs" />
      <Compile Include="Assets\Scripts\Manager\AdManager.cs" />
      <Compile Include="Assets\Scripts\Manager\AreaPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\DanceTeamManager.cs" />

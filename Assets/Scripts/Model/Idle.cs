@@ -15,16 +15,14 @@ public class Idle : Character {
 	private iTweenEvent mRotateEvent;
 	private iTweenEvent mIdleEvent;
 	private bool jump;
-	private UISprite mSprite;
 
 	public void Init () {
 		idleId = name.Replace ("Idle_", "");
 		idleId = idleId.Replace ("(Clone)", "");
-		mSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		mIdleEvent = iTweenEvent.GetEvent (gameObject, "IdleEvent");
-		mScaleEvent = iTweenEvent.GetEvent (mSprite.gameObject, "ScaleEvent");
-		mRotateEvent = iTweenEvent.GetEvent (mSprite.gameObject, "RotateEvent");
+		mScaleEvent = iTweenEvent.GetEvent (sprite.gameObject, "ScaleEvent");
+		mRotateEvent = iTweenEvent.GetEvent (sprite.gameObject, "RotateEvent");
 		characterTransform.localScale = new Vector3 (0.8f,0.8f,0.8f);
 		ResizeSprite ();
 		StartMoving ();
@@ -68,7 +66,7 @@ public class Idle : Character {
 		mTime = stopTimeSeconds;
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
-		mSprite.transform.localScale = new Vector3 (1f, 1f, 1f);
+		sprite.transform.localScale = new Vector3 (1f, 1f, 1f);
 		mIdleEvent.Play ();
 	}
 
@@ -93,8 +91,8 @@ public class Idle : Character {
 		mIdleEvent.Stop ();
 		mJumpEvent.Stop ();
 		mScaleEvent.Stop ();
-		mSprite.spriteName = "idle_sleep_" + idleId;
-		mSprite.transform.localScale = new Vector3 (1f, 1f, 1f);
+		sprite.spriteName = "idle_sleep_" + idleId;
+		sprite.transform.localScale = new Vector3 (1f, 1f, 1f);
 		transform.localEulerAngles = new Vector3 (0, 0, 0);
 		ResizeSprite ();
 	}
@@ -109,24 +107,24 @@ public class Idle : Character {
 		mJumpEvent.Play ();
 		mScaleEvent.Play ();
 		mRotateEvent.Play ();
-		mSprite.spriteName = "idle_normal_" + idleId;
+		sprite.spriteName = "idle_normal_" + idleId;
 		ResizeSprite ();
 		//迷子中でなかったらSpriteを消す
 		if(collider == null){
-			mSprite.enabled = false;
+			sprite.enabled = false;
 		}
 	}
 
 	public override void FinishLive () {
-		mSprite.enabled = true;
+		sprite.enabled = true;
 		mState = State.Move;
 		mRotateEvent.Stop ();
-		mSprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
+		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 	}
 
 	public override void StartMoving () {
 		mState = State.Move;
-		mSprite.spriteName = "idle_normal_" + idleId;
+		sprite.spriteName = "idle_normal_" + idleId;
 		ResizeSprite ();
 		mTime = moveTimeSeconds;
 		ChangeDirection (CheckDirection ());
@@ -146,8 +144,8 @@ public class Idle : Character {
 	}
 
 	private void ResizeSprite () {
-		UISpriteData spriteData = mSprite.GetAtlasSprite ();
-		mSprite.width = (int)(spriteData.width / 1.3);
-		mSprite.height = (int)(spriteData.height / 1.3);
+		UISpriteData spriteData = sprite.GetAtlasSprite ();
+		sprite.width = (int)(spriteData.width / 1.3);
+		sprite.height = (int)(spriteData.height / 1.3);
 	}
 }

@@ -12,6 +12,7 @@ public abstract class Character : MonoBehaviour {
 	public MoveSpeed moveSpeed;
 
 	protected Transform characterTransform;
+	protected UISprite sprite;
 
 	protected enum Direction {
 		Left,
@@ -29,6 +30,7 @@ public abstract class Character : MonoBehaviour {
 
 	void Awake () {
 		characterTransform = transform;
+		sprite = characterTransform.FindChild ("Sprite").GetComponent<UISprite> ();
 	}
 
 	public abstract void StartLive ();
@@ -43,28 +45,38 @@ public abstract class Character : MonoBehaviour {
 
 	public abstract void Wakeup ();
 
+	//フレームの中に入った
+	public void IntoFrame(){
+		sprite.enabled = true;
+	}
+
+	//フレームの外に出た
+	public void OutOfFrame(){
+		sprite.enabled = false;
+	}
+
 	//移動方向を変更
 	protected void ChangeDirection (Direction direction) {
-		float speedX = Random.Range (0,maxSpeedX);
-		float speedY = Random.Range (0,maxSpeedY);
-		if(moveSpeed.speedX < 0){
+		float speedX = Random.Range (0, maxSpeedX);
+		float speedY = Random.Range (0, maxSpeedY);
+		if (moveSpeed.speedX < 0) {
 			speedX = -speedX;
 		}
-		if(moveSpeed.speedY < 0){
+		if (moveSpeed.speedY < 0) {
 			speedY = -speedY;
 		}
 		moveSpeed.speedX = speedX;
 		moveSpeed.speedY = speedY;
 		switch (direction) {
 		case Direction.Left:
-			characterTransform.localScale = new Vector3 (0.8f,0.8f,0.8f);
-			if(moveSpeed.speedX > 0){
+			characterTransform.localScale = new Vector3 (0.8f, 0.8f, 0.8f);
+			if (moveSpeed.speedX > 0) {
 				moveSpeed.speedX = -moveSpeed.speedX;
 			}
 			break;
 		case Direction.Right:
 			characterTransform.localScale = new Vector3 (-0.8f, 0.8f, 0.8f);
-			if(moveSpeed.speedX < 0){
+			if (moveSpeed.speedX < 0) {
 				moveSpeed.speedX = -moveSpeed.speedX;
 			}
 			break;

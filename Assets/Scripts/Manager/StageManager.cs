@@ -288,10 +288,7 @@ public class StageManager : MonoBehaviour {
 			return;
 		}
 		foreach (Character character in mCharacterList) {
-			if(character.gameObject.activeSelf){
-				break;
-			}
-			character.gameObject.SetActive (true);
+			character.IntoFrame ();
 		}
 	}
 
@@ -301,10 +298,7 @@ public class StageManager : MonoBehaviour {
 			return;
 		}
 		foreach (Character character in mCharacterList) {
-			if(!character.gameObject.activeSelf){
-				break;
-			}
-			character.gameObject.SetActive (false);
+			character.OutOfFrame ();
 		}
 	}
 

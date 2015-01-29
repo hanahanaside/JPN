@@ -3,15 +3,13 @@ using System.Collections;
 
 public class Worker : Character {
 
-	private GameObject mSpriteObject;
 	private iTweenEvent mRotateEvent;
 	private iTweenEvent mJumpEvent;
 	private State mState;
 	private float mTime;
 
 	public void Init () {
-		mSpriteObject = characterTransform.FindChild ("Sprite").gameObject;
-		mRotateEvent = iTweenEvent.GetEvent (mSpriteObject, "RotateEvent");
+		mRotateEvent = iTweenEvent.GetEvent (sprite.gameObject, "RotateEvent");
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		StartMoving ();
 	}
@@ -49,7 +47,7 @@ public class Worker : Character {
 	public override void StartLive () {
 		mState = State.Live;
 		mRotateEvent.Stop ();
-		mSpriteObject.transform.localEulerAngles = new Vector3 (0, 0, 0);
+		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 		mJumpEvent.Play ();
 	}
 
@@ -67,7 +65,7 @@ public class Worker : Character {
 	}
 
 	public override void Stop () {
-		mSpriteObject.transform.localEulerAngles = new Vector3 (0, 0, 0);
+		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 		mState = State.Stop;
 		mTime = stopTimeSeconds;
 		mRotateEvent.Stop ();
