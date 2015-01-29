@@ -91,7 +91,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		MyLog.LogDebug ("迷子イベント");
 		//迷子のアイドルが0人だったらイベント開始
 		if (mLostIdleEvent.occurring) {
-			Debug.Log ("発生中");
+			MyLog.LogDebug ("発生中");
 			return;
 		}
 
@@ -100,11 +100,11 @@ public class EventManager : MonoSingleton<EventManager> {
 		int rand = UnityEngine.Random.Range (0, stageList.Count);
 		Stage stage = stageList [rand];
 		if (stage.IdleCount <= 1) {
-			Debug.Log ("アイドルが1人以下なので迷子を中止");
+			MyLog.LogDebug ("アイドルが1人以下なので迷子を中止");
 			return;
 		}
 		if (stage.FlagConstruction == Stage.IN_CONSTRUCTION) {
-			Debug.Log ("工事中のアイドルなので迷子を中止");
+			MyLog.LogDebug ("工事中のアイドルなので迷子を中止");
 			return;
 		}
 		int count = UnityEngine.Random.Range (1, 16);
@@ -122,18 +122,18 @@ public class EventManager : MonoSingleton<EventManager> {
 		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id, stage.IdleCount);
 		mLostIdleEvent.reward = (int)(generateCoinPower * 100 * mLostIdleEvent.lostIdleCount);
 		PrefsManager.instance.WriteData<LostIdleEvent> (mLostIdleEvent, PrefsManager.Kies.LostIdleEvent);
-		Debug.Log ("id " + stage.Id);
-		Debug.Log ("count " + count);
+		MyLog.LogDebug ("id " + stage.Id);
+		MyLog.LogDebug ("count " + count);
 		MyLog.LogDebug ("迷子イベント開始");
 	}
 
 	//トレードイベントを発生させる
 	private void OccurTradeIdleEvent () {
-		Debug.Log ("トレードイベント");
+		MyLog.LogDebug ("トレードイベント");
 		//発生中だったら何もしない
 		if (mTradeIdleEvent.occurring) {
 			TradeButtonObject.SetActive (true);
-			Debug.Log ("発生中");
+			MyLog.LogDebug ("発生中");
 			return;
 		}
 		StageDao dao = DaoFactory.CreateStageDao ();
@@ -142,7 +142,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		Stage stage = stageList [rand];
 		//アイドルの数が1人以下だったら何もしない
 		if (stage.IdleCount <= 1) {
-			Debug.Log ("アイドルが1人以下なのでトレードを中止");
+			MyLog.LogDebug ("アイドルが1人以下なのでトレードを中止");
 			return;
 		}
 		mTradeIdleEvent.idleID = stage.Id;
@@ -157,16 +157,16 @@ public class EventManager : MonoSingleton<EventManager> {
 		mTradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);
-		Debug.Log ("トレードイベント開始");
+		MyLog.LogDebug ("トレードイベント開始");
 	}
 
 	//ニュースイベントを発生させる
 	private void OccurNewsEvent () {
-		Debug.Log ("ニュースイベント");
+		MyLog.LogDebug ("ニュースイベント");
 		//発生中だったら何もしない
 		if (mNewsEvent.occurring) {
 			newsButtonObject.SetActive (true);
-			Debug.Log ("発生中");
+			MyLog.LogDebug ("発生中");
 			return;
 		}
 		Entity_News entityNews = Resources.Load ("Data/News") as Entity_News;
@@ -177,7 +177,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		mNewsEvent.occurring = true;
 		newsButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<NewsEvent> (mNewsEvent, PrefsManager.Kies.NewsEvent);
-		Debug.Log ("ニュースイベント開始");
+		MyLog.LogDebug ("ニュースイベント開始");
 	}
 
 	void OnEnable () {

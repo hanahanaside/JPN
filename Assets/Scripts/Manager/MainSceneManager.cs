@@ -126,13 +126,13 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
 		TimeSpan ts = dtNow - dtExit;
-		Debug.Log ("ts " + ts.TotalSeconds);
+		MyLog.LogDebug ("ts " + ts.TotalSeconds);
 		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
 		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
 		if (remainingLiveTimeSeconds > 0) {
 			addCoin = addCoin * 2;
 		}
-		Debug.Log ("addCoin " + addCoin);
+		MyLog.LogDebug ("addCoin " + addCoin);
 		return addCoin;
 	}
 

@@ -66,7 +66,7 @@ public class Fan : Character {
 	public override void Wakeup () {
 		StartMoving ();
 	}
-
+		
 	public override void Stop () {
 		mSpriteObject.transform.localEulerAngles = new Vector3 (0, 0, 0);
 		mState = State.Stop;

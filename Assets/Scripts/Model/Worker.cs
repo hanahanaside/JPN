@@ -79,5 +79,5 @@ public class Worker : Character {
 		mTime = moveTimeSeconds;
 		ChangeDirection (CheckDirection ());
 	}
-
+		
 }

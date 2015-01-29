@@ -275,6 +275,26 @@ public class StageManager : MonoBehaviour {
 		}
 	}
 
+	//フレームの中に入った
+	public void IntoFrame(){
+		foreach (Character character in mCharacterList) {
+			if(character.gameObject.activeSelf){
+				break;
+			}
+			character.gameObject.SetActive (true);
+		}
+	}
+
+	//フレームの外に出た
+	public void OutOfFrame(){
+		foreach (Character character in mCharacterList) {
+			if(!character.gameObject.activeSelf){
+				break;
+			}
+			character.gameObject.SetActive (false);
+		}
+	}
+
 	public void RemoveIdle (int count) {
 		for (int i = 0; i < count; i++) {
 			Character character = mCharacterList [0];
