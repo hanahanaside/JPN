@@ -197,6 +197,13 @@ public class StageManager : MonoBehaviour {
 
 	//ライブを開始
 	public void StartLive () {
+		//キャラクターが非アクティブになっていたらアクティブに
+		foreach (Character character in mCharacterList) {
+			if(character.gameObject.activeSelf){
+				break;
+			}
+			character.gameObject.SetActive (true);
+		}
 		mState = State.Live;
 		mSkipConstructionButtonObject.SetActive (false);
 		untilSleepLabel.text = "LIVE！！！！！！！！！！！";
@@ -277,6 +284,9 @@ public class StageManager : MonoBehaviour {
 
 	//フレームの中に入った
 	public void IntoFrame(){
+		if(mState == State.Live){
+			return;
+		}
 		foreach (Character character in mCharacterList) {
 			if(character.gameObject.activeSelf){
 				break;
@@ -287,6 +297,9 @@ public class StageManager : MonoBehaviour {
 
 	//フレームの外に出た
 	public void OutOfFrame(){
+		if(mState == State.Live){
+			return;
+		}
 		foreach (Character character in mCharacterList) {
 			if(!character.gameObject.activeSelf){
 				break;
