@@ -25,7 +25,7 @@ public class Idle : Character {
 		ResizeSprite ();
 		StartMoving ();
 	}
-		
+
 	void Update () {
 		mTime -= Time.deltaTime;
 		switch (mState) {
@@ -111,14 +111,22 @@ public class Idle : Character {
 		gameObject.SetActive (false);
 	}
 
+	//フレームイン
 	public override void IntoFrame () {
-		if (mState != State.Live) {
+		if (mState == State.Live) {
+			return;
+		}
+		if (!gameObject.activeSelf) {
 			gameObject.SetActive (true);
 		}
 	}
 
+	//フレームアウト
 	public override void OutOfFrame () {
-		if (mState != State.Live) {
+		if (mState == State.Live) {
+			return;
+		}
+		if (gameObject.activeSelf) {
 			gameObject.SetActive (false);
 		}
 	}

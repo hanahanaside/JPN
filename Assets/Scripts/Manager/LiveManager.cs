@@ -54,7 +54,6 @@ public class LiveManager : MonoSingleton<LiveManager> {
 	}
 
 	public void StartLive (float time) {
-		time = 10;
 		livePanelObject.SetActive (true);
 		curtainHeadObject.SetActive (true);
 		spinTextureObject.transform.localEulerAngles = new Vector3 (0, 0, 0);

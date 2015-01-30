@@ -20,7 +20,7 @@ public class StageManager : MonoBehaviour {
 	public UILabel idleCountLabel;
 	public UILabel areaNameLabel;
 	public UISprite idleSprite;
-
+	public GameObject danceTeamPrefab;
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
 	private float mTimeSeconds;
@@ -217,7 +217,6 @@ public class StageManager : MonoBehaviour {
 			character.StartLive ();
 		}
 		if (mStageData.FlagConstruction != Stage.IN_CONSTRUCTION) {
-			GameObject danceTeamPrefab = Resources.Load<GameObject> ("DanceTeam/DanceTeam");
 			mDanceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
 			mDanceTeamObject.transform.parent = transform;
 			mDanceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
@@ -241,9 +240,8 @@ public class StageManager : MonoBehaviour {
 			mTimeSeconds = GetUntilSleepTime () * 60;
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
-			Transform danceTeamTransform = transform.FindChild ("DanceTeam(Clone)");
-			if (danceTeamTransform != null) {
-				Destroy (danceTeamTransform.gameObject);
+			if (mDanceTeamObject != null) {
+				Destroy (mDanceTeamObject);
 			}
 		}
 		foreach (Character character in mCharacterList) {
@@ -386,9 +384,9 @@ public class StageManager : MonoBehaviour {
 	//通常時の初期化処理
 	private void InitNormal () {
 
+		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject;
 		//アイドルを生成
 		for (int i = 0; i < mStageData.IdleCount; i++) {
-			GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject;
 			GenerateIdle (idlePrefab);
 		}
 
