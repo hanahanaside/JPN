@@ -81,6 +81,7 @@ public class PuzzleTutorialManager : MonoSingleton<PuzzleTutorialManager> {
 		case 8:
 			arrowObjectArray [mTutorialIndex].SetActive (false);
 			mTutorialMessageIndex++;
+			FenceManager.instance.ShowFence ();
 			natsumotoObject.SetActive (true);
 			iTweenEvent.GetEvent (natsumotoObject, "ShowEvent").Play ();
 			break;

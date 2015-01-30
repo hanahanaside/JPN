@@ -72,6 +72,7 @@ public class Idle : Character {
 		mIdleEvent.Play ();
 	}
 
+	//ジャンプ終了時に呼ばれる
 	void OnCompleteJumpEvent () {
 		jump = !jump;
 		if (mState != State.Move) {
