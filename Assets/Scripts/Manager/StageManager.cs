@@ -32,7 +32,9 @@ public class StageManager : MonoBehaviour {
 	private GameObject mSkipConstructionButtonObject;
 	private GameObject sleepObject;
 	private GameObject mDanceTeamObject;
+	private GameObject mStatusObject;
 	private UITexture backGroundTexture;
+	private Transform mTransform;
 
 	void OnEnable () {
 		Idle.FoundEvent += FoundIdleEvent;
@@ -44,7 +46,9 @@ public class StageManager : MonoBehaviour {
 
 	public void Init (Stage stage) {
 		mStageData = stage;
+		mTransform = transform;
 		mSkipConstructionButtonObject = transform.FindChild ("SkipConstructionButton").gameObject;
+		mStatusObject = transform.FindChild ("Status").gameObject;
 		sleepObject = transform.FindChild ("Sleep").gameObject;
 		backGroundTexture = GetComponentInChildren<UITexture> ();
 		//工事中かをチェック
@@ -109,6 +113,14 @@ public class StageManager : MonoBehaviour {
 			InitNormal ();
 			MyLog.LogDebug ("finish construction stage " + mStageData.Id);
 			break;
+		}
+
+		//画面内・画面外の処理
+		float distance = Vector3.Distance (mTransform.position,HanautaCamera.instance.Postision);
+		if(distance > 2){
+			OutOfFrame ();
+		}else {
+			IntoFrame ();
 		}
 	}
 
@@ -275,7 +287,9 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//フレームの中に入った
-	public void IntoFrame () {
+	private void IntoFrame () {
+		backGroundTexture.gameObject.SetActive (true);
+		mStatusObject.SetActive (true);
 		foreach (Character character in mCharacterList) {
 			character.IntoFrame ();
 		}
@@ -285,7 +299,9 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//フレームの外に出た
-	public void OutOfFrame () {
+	private void OutOfFrame () {
+		backGroundTexture.gameObject.SetActive (false);
+		mStatusObject.SetActive (false);
 		foreach (Character character in mCharacterList) {
 			character.OutOfFrame ();
 		}
@@ -391,18 +407,18 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//ファンを生成
-		for (int i = 0; i < mStageData.IdleCount * 5; i++) {
-			int rand = UnityEngine.Random.Range (1, 14);
-			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
-			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
-			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
-			float y = UnityEngine.Random.Range (-230.0f, -180.0f);
-			fanObject.transform.parent = transform;
-			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			fanObject.transform.localPosition = new Vector3 (x, y, 0);
-			mCharacterList.Add (fanObject.GetComponent<Character> ());
-			fanObject.GetComponent<Fan> ().Init ();
-		}
+//		for (int i = 0; i < mStageData.IdleCount * 5; i++) {
+//			int rand = UnityEngine.Random.Range (1, 14);
+//			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
+//			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
+//			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
+//			float y = UnityEngine.Random.Range (-230.0f, -180.0f);
+//			fanObject.transform.parent = transform;
+//			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+//			fanObject.transform.localPosition = new Vector3 (x, y, 0);
+//			mCharacterList.Add (fanObject.GetComponent<Character> ());
+//			fanObject.GetComponent<Fan> ().Init ();
+//		}
 
 
 		//エリア名をセット

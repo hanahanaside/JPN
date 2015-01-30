@@ -12,45 +12,7 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	public override void OnInitialize () {
 		mCenterOnChild = stageGrid.GetComponent<UICenterOnChild> ();
 	}
-
-	void OnCenterCallBack (GameObject centeredObject) {
-		for (int i = 0; i < mIdolStageManagerList.Count; i++) {
-			StageManager stageManager = mIdolStageManagerList [i];
-			if (centeredObject == stageManager.gameObject) {
-				stageManager.IntoFrame ();
-				SetActiveCharactor (i);
-				SetInActiveCharactor (i);
-				break;
-			} else {
-				stageManager.OutOfFrame ();
-			}
-		}
-	}
-		
-	//現在の位置から左右のキャラクターをアクティブにする
-	private void SetActiveCharactor (int currentIndex) {
-		//左をアクティブにする
-		if (currentIndex > 0) {
-			mIdolStageManagerList [currentIndex - 1].IntoFrame ();
-		}
-		//右をアクティブにする
-		if (currentIndex < mIdolStageManagerList.Count - 1) {
-			mIdolStageManagerList [currentIndex + 1].IntoFrame ();
-		}
-	}
-
-	//現在の位置からアクティブにしたキャラクター以外を非アクティブにする
-	private void SetInActiveCharactor (int currentIndex) {
-		currentIndex += 2;
-		if (currentIndex >= mIdolStageManagerList.Count) {
-			return;
-		}
-		for (int i = currentIndex; i < mIdolStageManagerList.Count; i++) {
-			StageManager stageManager = mIdolStageManagerList [i];
-			stageManager.OutOfFrame ();
-		}
-	}
-
+				
 	public List<StageManager> StageManagerList {
 		get {
 			return mIdolStageManagerList;
@@ -75,7 +37,6 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 			mIdolStageManagerList.Add (stageManager);
 			stageManager.Init (stage);
 		}
-		mCenterOnChild.onCenter += OnCenterCallBack;
 	}
 
 	public void MoveToStage (int stageIndex) {

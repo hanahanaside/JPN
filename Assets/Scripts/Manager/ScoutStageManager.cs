@@ -12,6 +12,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	public UILabel costLabel;
 	private int mCost;
 	private List<Fan> mFanList = new List<Fan> ();
+	private GameObject mContainerObject;
 
 	public static bool FlagScouting{ get; set; }
 
@@ -25,13 +26,14 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		AreaPanelManager.instance.OnAreaClickedEvent -= OnAreaClickedEvent;
 	}
 
-	void Awake () {
+	public override void OnInitialize () {
 		if (SelectedAreaId == 0) {
 			SelectedAreaId = 1;
 		}
 		dartsObject.transform.localPosition = areaPositionArray [SelectedAreaId - 1].localPosition;
 		dartsObject.SetActive (true);
 		mCost = AreaCostCaluculator.instance.CalcCost (SelectedAreaId - 1);
+		mContainerObject = transform.FindChild ("Container").gameObject;
 		costLabel.text = "" + mCost;
 
 		for (int i = 0; i < 20; i++) {
@@ -40,12 +42,29 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
 			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
 			float y = UnityEngine.Random.Range (-220.0f, -160.0f);
-			fanObject.transform.parent = transform;
+			fanObject.transform.parent = mContainerObject.transform;
 			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 			fanObject.transform.localPosition = new Vector3 (x, y, 0);
 			mFanList.Add (fanObject.GetComponent<Fan> ());
 			fanObject.GetComponent<Fan> ().Init ();
 		}
+	}
+
+	void Update(){
+		float distance = Vector3.Distance (transform.position,HanautaCamera.instance.Postision);
+		if(distance > 2){
+			HideFanObject ();
+		}else {
+			ShowFanObject ();
+		}
+	}
+
+	private void HideFanObject(){
+		mContainerObject.SetActive (false);
+	}
+
+	private void ShowFanObject(){
+		mContainerObject.SetActive (true);
 	}
 
 	void OnAreaClickedEvent (int areaIndexNumber) {

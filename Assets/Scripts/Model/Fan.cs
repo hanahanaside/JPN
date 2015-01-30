@@ -79,6 +79,7 @@ public class Fan : Character {
 	}
 
 	public override void StartMoving () {
+		mState = State.Move;
 		mRotateEvent.Play ();
 		mTime = moveTimeSeconds;
 		ChangeDirection (CheckDirection ());

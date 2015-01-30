@@ -6,15 +6,17 @@ public class EntranceStageManager : MonoSingleton<EntranceStageManager>{
 
 	public GameObject startLiveButton;
 	private List<Fan> mFanList = new List<Fan> ();
+	private GameObject mContainerObject;
 
-	void Awake () {
+	public override void OnInitialize () {
+		mContainerObject = transform.FindChild ("Container").gameObject;
 		for (int i = 0; i < 30; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
 			float x = UnityEngine.Random.Range (-200.0f, 200.0f);
 			float y = UnityEngine.Random.Range (-210.0f, 70.0f);
-			fanObject.transform.parent = transform;
+			fanObject.transform.parent = mContainerObject.transform;
 			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 			fanObject.transform.localPosition = new Vector3 (x, y, 0);
 			Fan fan = fanObject.GetComponent<Fan> ();
@@ -25,6 +27,23 @@ public class EntranceStageManager : MonoSingleton<EntranceStageManager>{
 			mFanList.Add (fan);
 			fanObject.GetComponent<Fan> ().Init ();
 		}
+	}
+
+	void Update(){
+		float distance = Vector3.Distance (transform.position,HanautaCamera.instance.Postision);
+		if(distance > 2){
+			HideFanObject ();
+		}else {
+			ShowFanObject ();
+		}
+	}
+
+	private void HideFanObject(){
+		mContainerObject.SetActive (false);
+	}
+
+	private void ShowFanObject(){
+		mContainerObject.SetActive (true);
 	}
 
 	public void OnLiveButtonClicked(){
