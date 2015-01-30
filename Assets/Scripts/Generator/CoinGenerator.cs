@@ -32,7 +32,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 
 		GameObject coinPrefab = GetCoinPrefab ();
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
-		coinObject.transform.parent = stageObject.transform;
+		coinObject.transform.parent = stageObject.transform.FindChild("Container");
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		mUntilGenerateTimeSeconds = interval;
 	}

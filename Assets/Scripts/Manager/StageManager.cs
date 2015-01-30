@@ -116,11 +116,15 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//画面内・画面外の処理
-		float distance = Vector3.Distance (mTransform.position,HanautaCamera.instance.Postision);
-		if(distance > 2){
-			mContainerObject.SetActive (false);
-		}else {
-			mContainerObject.SetActive (true);
+		float distance = Vector3.Distance (mTransform.position, HanautaCamera.instance.Postision);
+		if (distance > 2) {
+			if (mContainerObject.activeSelf) {
+				mContainerObject.SetActive (false);
+			}
+		} else {
+			if (!mContainerObject.activeSelf) {
+				mContainerObject.SetActive (true);
+			}
 		}
 	}
 
@@ -285,7 +289,7 @@ public class StageManager : MonoBehaviour {
 			break;
 		}
 	}
-		
+
 	public void RemoveIdle (int count) {
 		for (int i = 0; i < count; i++) {
 			Character character = mCharacterList [0];
@@ -383,7 +387,7 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//ファンを生成
-		for (int i = 0; i < mStageData.IdleCount * 5; i++) {
+		for (int i = 0; i < mStageData.IdleCount * 3; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;

@@ -8,8 +8,7 @@ public class SleepTimeCoinDialogManager : MonoSingleton<SleepTimeCoinDialogManag
 
 	void CompleteDismissEvent(){
 		FenceManager.instance.HideFence ();
-		dialogObject.SetActive (false);
-		dialogObject.transform.localScale = new Vector3 (1,1,1);
+		Destroy (gameObject);
 	}
 
 	public void Show(double coinCount){
