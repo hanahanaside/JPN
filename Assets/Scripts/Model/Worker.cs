@@ -46,14 +46,18 @@ public class Worker : Character {
 
 	public override void StartLive () {
 		mState = State.Live;
+		gameObject.SetActive (true);
 		mRotateEvent.Stop ();
 		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 		mJumpEvent.Play ();
+		gameObject.SetActive (false);
 	}
 
 	public override void FinishLive () {
+		gameObject.SetActive (true);
 		mJumpEvent.Stop ();
 		StartMoving ();
+		gameObject.SetActive (false);
 	}
 
 	public override void Sleep () {
@@ -78,4 +82,12 @@ public class Worker : Character {
 		ChangeDirection (CheckDirection ());
 	}
 		
+	public override void IntoFrame (){
+		gameObject.SetActive (true);
+	}
+
+	public override void OutOfFrame (){
+		gameObject.SetActive (false);
+	}
+
 }

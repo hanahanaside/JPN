@@ -12,7 +12,7 @@ public abstract class Character : MonoBehaviour {
 	public MoveSpeed moveSpeed;
 
 	protected Transform characterTransform;
-	protected UISprite sprite;
+	protected UISprite uiSprite = null;
 
 	protected enum Direction {
 		Left,
@@ -30,7 +30,6 @@ public abstract class Character : MonoBehaviour {
 
 	void Awake () {
 		characterTransform = transform;
-		sprite = characterTransform.FindChild ("Sprite").GetComponent<UISprite> ();
 	}
 
 	public abstract void StartLive ();
@@ -45,15 +44,9 @@ public abstract class Character : MonoBehaviour {
 
 	public abstract void Wakeup ();
 
-	//フレームの中に入った
-	public void IntoFrame(){
-		sprite.enabled = true;
-	}
+	public abstract void IntoFrame ();
 
-	//フレームの外に出た
-	public void OutOfFrame(){
-		sprite.enabled = false;
-	}
+	public abstract void  OutOfFrame ();
 
 	//移動方向を変更
 	protected void ChangeDirection (Direction direction) {
@@ -128,5 +121,12 @@ public abstract class Character : MonoBehaviour {
 		return (Direction)rand;
 	}
 
-
+	protected UISprite sprite {
+		get {
+			if (uiSprite == null) {
+				uiSprite = transform.FindChild ("Sprite").GetComponent<UISprite> ();
+			}
+			return uiSprite;
+		}
+	}
 }

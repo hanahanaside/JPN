@@ -14,9 +14,14 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	}
 
 	void OnCenterCallBack (GameObject centeredObject) {
+
+		StartCoroutine ("Hoge",centeredObject);
+	}
+
+	private IEnumerator Hoge(GameObject fuga){
 		for (int i = 0; i < mIdolStageManagerList.Count; i++) {
 			StageManager stageManager = mIdolStageManagerList [i];
-			if (centeredObject == stageManager.gameObject) {
+			if (fuga == stageManager.gameObject) {
 				stageManager.IntoFrame ();
 				SetActiveCharactor (i);
 				SetInActiveCharactor (i);
@@ -25,6 +30,7 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 				stageManager.OutOfFrame ();
 			}
 		}
+		yield return null;
 	}
 
 	//現在の位置から左右のキャラクターをアクティブにする

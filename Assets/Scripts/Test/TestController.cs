@@ -4,8 +4,7 @@ using System.Collections;
 
 public class TestController : TestParent {
 
-	public GameObject iconAdPrefab;
-	private bool mShowing = false;
+	public TestController2 hoge;
 
 	void Start () {
 	//	mIconAd = Instantiate (iconAdPrefab) as GameObject;
@@ -20,14 +19,6 @@ public class TestController : TestParent {
 	}
 
 	public void OnButtonClicked () {
-	
-		if(mShowing){
-				iconAdPrefab.SendMessage ("OnDestroy");
-			mShowing = false;
-		}else {
-			iconAdPrefab.SendMessage ("Show");
-			mShowing = true;
-		}
-
+		hoge.Hoge ();
 	}
 }

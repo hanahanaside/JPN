@@ -48,7 +48,6 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 		}
 	}
 
-
 	void OnAreaClickedEvent (int areaIndexNumber) {
 		mCost = AreaCostCaluculator.instance.CalcCost (areaIndexNumber);
 		SelectedAreaId = areaIndexNumber + 1;

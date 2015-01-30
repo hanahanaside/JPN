@@ -31,6 +31,7 @@ public class StageManager : MonoBehaviour {
 	private List<Character> mCharacterList = new List<Character> ();
 	private GameObject mSkipConstructionButtonObject;
 	private GameObject sleepObject;
+	private GameObject mDanceTeamObject;
 	private UITexture backGroundTexture;
 
 	void OnEnable () {
@@ -134,15 +135,15 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//ステートを返す
-	public State GetState{
-		get{
+	public State GetState {
+		get {
 			return mState;
 		}
 	}
 
 	//サボるか工事完了までの時間を返す
-	public float UntilTime{
-		get{
+	public float UntilTime {
+		get {
 			return mTimeSeconds;
 		}
 	}
@@ -197,13 +198,6 @@ public class StageManager : MonoBehaviour {
 
 	//ライブを開始
 	public void StartLive () {
-		//キャラクターが非アクティブになっていたらアクティブに
-		foreach (Character character in mCharacterList) {
-			if(character.gameObject.activeSelf){
-				break;
-			}
-			character.gameObject.SetActive (true);
-		}
 		mState = State.Live;
 		mSkipConstructionButtonObject.SetActive (false);
 		untilSleepLabel.text = "LIVE！！！！！！！！！！！";
@@ -224,11 +218,11 @@ public class StageManager : MonoBehaviour {
 		}
 		if (mStageData.FlagConstruction != Stage.IN_CONSTRUCTION) {
 			GameObject danceTeamPrefab = Resources.Load<GameObject> ("DanceTeam/DanceTeam");
-			GameObject danceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
-			danceTeamObject.transform.parent = transform;
-			danceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
-			danceTeamObject.transform.localPosition = new Vector3 (20, 10, 0);
-			DanceTeamManager danceTeamManager = danceTeamObject.GetComponent<DanceTeamManager> ();
+			mDanceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
+			mDanceTeamObject.transform.parent = transform;
+			mDanceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
+			mDanceTeamObject.transform.localPosition = new Vector3 (20, 10, 0);
+			DanceTeamManager danceTeamManager = mDanceTeamObject.GetComponent<DanceTeamManager> ();
 			danceTeamManager.StartDancing (mStageData.Id, mStageData.IdleCount);
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分";
 		} 
@@ -237,7 +231,7 @@ public class StageManager : MonoBehaviour {
 	//ライブを終了
 	public void FinishLive () { 
 		//ライブ中で終了した場合は倍になっている数字を元に戻す
-		if(mState == State.Live){
+		if (mState == State.Live) {
 			PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
@@ -248,7 +242,7 @@ public class StageManager : MonoBehaviour {
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
 			Transform danceTeamTransform = transform.FindChild ("DanceTeam(Clone)");
-			if(danceTeamTransform != null){
+			if (danceTeamTransform != null) {
 				Destroy (danceTeamTransform.gameObject);
 			}
 		}
@@ -261,14 +255,14 @@ public class StageManager : MonoBehaviour {
 
 	//アイドル発見時に追加する処理
 	public void AddIdle (int count) {
-		Debug.Log ("Add " +count);
+		Debug.Log ("Add " + count);
 		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject; 
 		for (int i = 0; i < count; i++) {
 			GenerateIdle (idlePrefab);
 		}
 		mStageData = DaoFactory.CreateStageDao ().SelectById (mStageData.Id);
 		SetIdolCount ();
-		switch(mState){
+		switch (mState) {
 		case State.Sleep:
 			foreach (Character character in mCharacterList) {
 				character.Sleep ();
@@ -283,22 +277,22 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//フレームの中に入った
-	public void IntoFrame(){
-		if(mState == State.Live){
-			return;
-		}
+	public void IntoFrame () {
 		foreach (Character character in mCharacterList) {
 			character.IntoFrame ();
+		}
+		if(mState == State.Live){
+			mDanceTeamObject.SetActive (true);
 		}
 	}
 
 	//フレームの外に出た
-	public void OutOfFrame(){
-		if(mState == State.Live){
-			return;
-		}
+	public void OutOfFrame () {
 		foreach (Character character in mCharacterList) {
 			character.OutOfFrame ();
+		}
+		if(mState == State.Live){
+			mDanceTeamObject.SetActive (false);
 		}
 	}
 
@@ -385,7 +379,7 @@ public class StageManager : MonoBehaviour {
 			float y = UnityEngine.Random.Range (0, 300.0f);
 			workerObject.transform.localPosition = new Vector3 (x, y, 0);
 			mCharacterList.Add (workerObject.GetComponent<Character> ());
-			workerObject.GetComponent<Worker> ().Init();
+			workerObject.GetComponent<Worker> ().Init ();
 		}
 	}
 

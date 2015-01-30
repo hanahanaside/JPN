@@ -12,7 +12,6 @@ public class Idle : Character {
 	private State mState = State.Move;
 	private iTweenEvent mJumpEvent;
 	private iTweenEvent mScaleEvent;
-	private iTweenEvent mRotateEvent;
 	private iTweenEvent mIdleEvent;
 	private bool jump;
 
@@ -22,12 +21,11 @@ public class Idle : Character {
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
 		mIdleEvent = iTweenEvent.GetEvent (gameObject, "IdleEvent");
 		mScaleEvent = iTweenEvent.GetEvent (sprite.gameObject, "ScaleEvent");
-		mRotateEvent = iTweenEvent.GetEvent (sprite.gameObject, "RotateEvent");
-		characterTransform.localScale = new Vector3 (0.8f,0.8f,0.8f);
+		characterTransform.localScale = new Vector3 (0.8f, 0.8f, 0.8f);
 		ResizeSprite ();
 		StartMoving ();
 	}
-
+		
 	void Update () {
 		mTime -= Time.deltaTime;
 		switch (mState) {
@@ -50,9 +48,6 @@ public class Idle : Character {
 			break;
 		//ライブ
 		case State.Live:
-			if (CheckLimit ()) {
-				ChangeDirection (CheckDirection ());
-			}
 			characterTransform.Translate (new Vector3 (moveSpeed.speedX, moveSpeed.speedY, 0));
 			break;
 		//スリープ
@@ -103,23 +98,29 @@ public class Idle : Character {
 
 	public override void StartLive () {
 		mState = State.Live;
-		ChangeDirection (CheckDirection ());
-		mJumpEvent.Play ();
-		mScaleEvent.Play ();
-		mRotateEvent.Play ();
-		sprite.spriteName = "idle_normal_" + idleId;
-		ResizeSprite ();
 		//迷子中でなかったらSpriteを消す
-		if(collider == null){
-			sprite.enabled = false;
+		if (collider == null) {
+			gameObject.SetActive (false);
 		}
 	}
 
 	public override void FinishLive () {
-		sprite.enabled = true;
 		mState = State.Move;
-		mRotateEvent.Stop ();
-		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
+		gameObject.SetActive (true);
+		StartMoving ();
+		gameObject.SetActive (false);
+	}
+
+	public override void IntoFrame () {
+		if (mState != State.Live) {
+			gameObject.SetActive (true);
+		}
+	}
+
+	public override void OutOfFrame () {
+		if (mState != State.Live) {
+			gameObject.SetActive (false);
+		}
 	}
 
 	public override void StartMoving () {
@@ -137,7 +138,7 @@ public class Idle : Character {
 		GameObject effectPrefab = Resources.Load ("Effect/GetCoinEffect") as GameObject;
 		GameObject effectObject = Instantiate (effectPrefab) as GameObject;
 		effectObject.transform.parent = characterTransform.parent;
-		effectObject.transform.localScale = new Vector3 (1,1,1);
+		effectObject.transform.localScale = new Vector3 (1, 1, 1);
 		effectObject.transform.localPosition = characterTransform.localPosition;
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Katsu);
 		Destroy (gameObject);
