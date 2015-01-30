@@ -8,11 +8,17 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	public GameObject stagePrefab;
 	private UICenterOnChild mCenterOnChild;
 	private List<StageManager> mIdolStageManagerList;
+	private GameObject mCenteredObject;
 
 	public override void OnInitialize () {
 		mCenterOnChild = stageGrid.GetComponent<UICenterOnChild> ();
+		mCenterOnChild.onCenter += OnCenter;
 	}
-				
+
+	void OnCenter (GameObject centerdObject) {
+		mCenteredObject = centerdObject;
+	}
+
 	public List<StageManager> StageManagerList {
 		get {
 			return mIdolStageManagerList;
@@ -22,6 +28,20 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 	public int StageCount {
 		get {
 			return mIdolStageManagerList.Count;
+		}
+	}
+
+	public int GetCenterdObjectIndex {
+		get {
+			int index = 0;
+			for (int i = 0; i < mIdolStageManagerList.Count; i++) {
+				GameObject idolStageObject = mIdolStageManagerList [i].gameObject;
+				if (mCenteredObject == idolStageObject) {
+					index = i;
+					break;
+				}
+			}
+			return index;
 		}
 	}
 

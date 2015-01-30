@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
 	public GameObject moveStageCellPrefab;
 	public GameObject dialogObject;
-	public UIGrid grid;
-	public UIScrollView scrollView;
+	public UIGrid moveStagegrid;
+	private UICenterOnChild mMoveStageCenterOnChild;
 
 	void OnEnable () {
 		MoveStageCell.OnMoveStageCellClickedEvent += OnMoveAreaClickedEvent;
@@ -32,11 +33,12 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 
 	//グリッドを作成する
 	public void CreateMoveStageGrid () {
+		mMoveStageCenterOnChild = moveStagegrid.GetComponent<UICenterOnChild> ();
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<Stage> stageList = dao.SelectAll ();
 		foreach(Stage stage in stageList){
 			GameObject moveStageCellObject = Instantiate (moveStageCellPrefab) as GameObject;
-			grid.AddChild (moveStageCellObject.transform);
+			moveStagegrid.AddChild (moveStageCellObject.transform);
 			moveStageCellObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 			moveStageCellObject.GetComponent<MoveStageCell> ().Init(stage);
 		}
@@ -48,7 +50,10 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 		}
 		FenceManager.instance.ShowFence ();
 		dialogObject.SetActive (true);
-		scrollView.ResetPosition ();
+		List<Transform> childList = moveStagegrid.GetChildList ();
+		int centerdObjectIndex = StageGridManager.instance.GetCenterdObjectIndex;
+		Transform targetChildTransform = childList[centerdObjectIndex];
+		mMoveStageCenterOnChild.CenterOn (targetChildTransform);
 		ItweenEventPlayer.PlayMoveInDialogEvent (dialogObject);
 	}
 
