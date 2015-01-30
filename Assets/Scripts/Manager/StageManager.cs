@@ -240,15 +240,15 @@ public class StageManager : MonoBehaviour {
 			mTimeSeconds = GetUntilSleepTime () * 60;
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
+			//ダンスチームのインスタンスを削除
 			if (mDanceTeamObject != null) {
 				Destroy (mDanceTeamObject);
+				mDanceTeamObject = null;
 			}
 		}
 		foreach (Character character in mCharacterList) {
 			character.FinishLive ();
 		}
-		mStageData.UpdatedDate = DateTime.Now.ToString ();
-		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 	}
 
 	//アイドル発見時に追加する処理

@@ -10,4 +10,6 @@ public interface StageDao
 	Stage SelectById (int id);
 
 	void UpdateRecord (Stage stage);
+
+	void UpdateAllUpdateDate(string updateDate);
 }

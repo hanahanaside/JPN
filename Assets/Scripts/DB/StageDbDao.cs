@@ -62,6 +62,19 @@ public class StageDbDao : StageDao {
 		sqliteDB.Close ();
 	}
 
+	//全てのレコードのアップデートデートを統一する
+	public void UpdateAllUpdateDate(string updateDate){
+		SQLiteDB sqliteDB = OpenDatabase ();
+		StringBuilder sb = new StringBuilder ();
+		sb.Append ("update " + TABLE_NAME + " set ");
+		sb.Append (FIELD_UPDATED_DATE + " = '" + updateDate + "' ");
+		MyLog.LogDebug ("sql " + sb.ToString());
+		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
+		sqliteQuery.Step ();
+		sqliteQuery.Release ();
+		sqliteDB.Close ();
+	}
+
 	//クエリからステージデータを生成して返す
 	private Stage GetStage (SQLiteQuery sqliteQuery) {
 		Stage stage = new Stage ();

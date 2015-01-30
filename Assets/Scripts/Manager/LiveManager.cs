@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class LiveManager : MonoSingleton<LiveManager> {
 
@@ -126,6 +127,10 @@ public class LiveManager : MonoSingleton<LiveManager> {
 		foreach (StageManager stageManager in stageManagerList) {
 			stageManager.FinishLive ();
 		}
+		//全てのアップデートデートを統一する
+		StageDao dao = DaoFactory.CreateStageDao ();
+		dao.UpdateAllUpdateDate (DateTime.Now.ToString ());
+
 		//ライブデータをリセット
 		LiveData liveData = new LiveData ();
 		PrefsManager.instance.WriteData<LiveData> (liveData, PrefsManager.Kies.LiveData);
