@@ -32,7 +32,7 @@ public class StageManager : MonoBehaviour {
 	private GameObject mSkipConstructionButtonObject;
 	private GameObject sleepObject;
 	private GameObject mDanceTeamObject;
-	private GameObject mStatusObject;
+	private GameObject mContainerObject;
 	private UITexture backGroundTexture;
 	private Transform mTransform;
 
@@ -47,9 +47,9 @@ public class StageManager : MonoBehaviour {
 	public void Init (Stage stage) {
 		mStageData = stage;
 		mTransform = transform;
-		mSkipConstructionButtonObject = transform.FindChild ("SkipConstructionButton").gameObject;
-		mStatusObject = transform.FindChild ("Status").gameObject;
-		sleepObject = transform.FindChild ("Sleep").gameObject;
+		mSkipConstructionButtonObject = transform.Find ("Container/SkipConstructionButton").gameObject;
+		mContainerObject = transform.FindChild ("Container").gameObject;
+		sleepObject = transform.Find ("Container/Sleep").gameObject;
 		backGroundTexture = GetComponentInChildren<UITexture> ();
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
@@ -118,9 +118,9 @@ public class StageManager : MonoBehaviour {
 		//画面内・画面外の処理
 		float distance = Vector3.Distance (mTransform.position,HanautaCamera.instance.Postision);
 		if(distance > 2){
-			OutOfFrame ();
+			mContainerObject.SetActive (false);
 		}else {
-			IntoFrame ();
+			mContainerObject.SetActive (true);
 		}
 	}
 
@@ -230,7 +230,7 @@ public class StageManager : MonoBehaviour {
 		}
 		if (mStageData.FlagConstruction != Stage.IN_CONSTRUCTION) {
 			mDanceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
-			mDanceTeamObject.transform.parent = transform;
+			mDanceTeamObject.transform.parent = mContainerObject.transform;
 			mDanceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
 			mDanceTeamObject.transform.localPosition = new Vector3 (20, 10, 0);
 			DanceTeamManager danceTeamManager = mDanceTeamObject.GetComponent<DanceTeamManager> ();
@@ -285,31 +285,7 @@ public class StageManager : MonoBehaviour {
 			break;
 		}
 	}
-
-	//フレームの中に入った
-	private void IntoFrame () {
-		backGroundTexture.gameObject.SetActive (true);
-		mStatusObject.SetActive (true);
-		foreach (Character character in mCharacterList) {
-			character.IntoFrame ();
-		}
-		if(mState == State.Live){
-			mDanceTeamObject.SetActive (true);
-		}
-	}
-
-	//フレームの外に出た
-	private void OutOfFrame () {
-		backGroundTexture.gameObject.SetActive (false);
-		mStatusObject.SetActive (false);
-		foreach (Character character in mCharacterList) {
-			character.OutOfFrame ();
-		}
-		if(mState == State.Live){
-			mDanceTeamObject.SetActive (false);
-		}
-	}
-
+		
 	public void RemoveIdle (int count) {
 		for (int i = 0; i < count; i++) {
 			Character character = mCharacterList [0];
@@ -407,20 +383,19 @@ public class StageManager : MonoBehaviour {
 		}
 
 		//ファンを生成
-//		for (int i = 0; i < mStageData.IdleCount * 5; i++) {
-//			int rand = UnityEngine.Random.Range (1, 14);
-//			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
-//			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
-//			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
-//			float y = UnityEngine.Random.Range (-230.0f, -180.0f);
-//			fanObject.transform.parent = transform;
-//			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-//			fanObject.transform.localPosition = new Vector3 (x, y, 0);
-//			mCharacterList.Add (fanObject.GetComponent<Character> ());
-//			fanObject.GetComponent<Fan> ().Init ();
-//		}
-
-
+		for (int i = 0; i < mStageData.IdleCount * 5; i++) {
+			int rand = UnityEngine.Random.Range (1, 14);
+			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
+			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
+			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
+			float y = UnityEngine.Random.Range (-230.0f, -180.0f);
+			fanObject.transform.parent = mContainerObject.transform;
+			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+			fanObject.transform.localPosition = new Vector3 (x, y, 0);
+			mCharacterList.Add (fanObject.GetComponent<Character> ());
+			fanObject.GetComponent<Fan> ().Init ();
+		}
+			
 		//エリア名をセット
 		areaNameLabel.text = mStageData.AreaName;
 
@@ -450,7 +425,7 @@ public class StageManager : MonoBehaviour {
 	//アイドルを生成
 	private GameObject GenerateIdle (GameObject idlePrefab) {
 		GameObject idleObject = Instantiate (idlePrefab) as GameObject;
-		idleObject.transform.parent = transform;
+		idleObject.transform.parent = mContainerObject.transform;
 		idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		float x = UnityEngine.Random.Range (-175.0f, 175.0f);
 		float y = UnityEngine.Random.Range (0, 300.0f);

@@ -90,22 +90,9 @@ public class Fan : Character {
 			characterTransform.localPosition = new Vector3 (characterTransform.localPosition.x,movableArea.limitBottom +  5.0f,0);
 		}
 	}
-		
-	//フレームイン
-	public override void IntoFrame (){
-		gameObject.SetActive (true);
-	}
-
-	//フレームアウト
-	public override void OutOfFrame (){
-		gameObject.SetActive (false);
-	}
-		
+				
 	//踊りを開始
 	private void StartDancing(){
-		if(!gameObject.activeSelf){
-			return;
-		}
 		mRotateEvent.Stop ();
 		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 		mJumpEvent.Play ();
@@ -114,9 +101,6 @@ public class Fan : Character {
 
 	//踊りを中止
 	private void StopDancing(){
-		if(!gameObject.activeSelf){
-			return;
-		}
 		mJumpEvent.Stop ();
 		mDancing = false;
 	}

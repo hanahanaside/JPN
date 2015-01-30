@@ -82,12 +82,4 @@ public class Worker : Character {
 		ChangeDirection (CheckDirection ());
 	}
 		
-	public override void IntoFrame (){
-		gameObject.SetActive (true);
-	}
-
-	public override void OutOfFrame (){
-		gameObject.SetActive (false);
-	}
-
 }

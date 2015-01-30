@@ -44,10 +44,6 @@ public abstract class Character : MonoBehaviour {
 
 	public abstract void Wakeup ();
 
-	public abstract void IntoFrame ();
-
-	public abstract void  OutOfFrame ();
-
 	//移動方向を変更
 	protected void ChangeDirection (Direction direction) {
 		float speedX = Random.Range (0, maxSpeedX);

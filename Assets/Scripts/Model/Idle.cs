@@ -119,28 +119,9 @@ public class Idle : Character {
 	//ライブを終了
 	public override void FinishLive () {
 		mState = State.Move;
+		gameObject.SetActive (true);
 	}
-
-	//フレームイン
-	public override void IntoFrame () {
-		if (mState == State.Live) {
-			return;
-		}
-		if (!gameObject.activeSelf) {
-			gameObject.SetActive (true);
-		}
-	}
-
-	//フレームアウト
-	public override void OutOfFrame () {
-		if (mState == State.Live) {
-			return;
-		}
-		if (gameObject.activeSelf) {
-			gameObject.SetActive (false);
-		}
-	}
-
+		
 	//動き出す
 	public override void StartMoving () {
 		sprite.spriteName = "idle_normal_" + idleId;
