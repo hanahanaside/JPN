@@ -215,6 +215,7 @@
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\SkipConstructionDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\SleepTimeCoinDialogManager.cs" />
+     <Compile Include="Assets\Scripts\Effect\OpenPuzzleEffect.cs" />
      <Compile Include="Assets\Scripts\Entity\Area.cs" />
      <Compile Include="Assets\Scripts\Entity\LiveData.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />

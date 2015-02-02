@@ -8,7 +8,7 @@ public class Referee : MonoBehaviour {
 	public static event Action UpdateGameEvent;
 
 	public UIGrid targetGrid;
-	public GameObject openEffectPrefab;
+	public GameObject openCoinPuzzleEffectPrefab;
 	private List<GameObject> mTargetObjectList;
 
 	void OnEnable () {
@@ -50,28 +50,23 @@ public class Referee : MonoBehaviour {
 			UpdateGameEvent ();
 			break;
 		case "coin_1":
-			PlayerDataKeeper.instance.IncreaseCoinCount (1);
-			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			InstantiateOpenCoinEffect (1, "coin_1", puzzleObject);
 			UpdateGameEvent ();
 			break;
 		case "coin_5":
-			PlayerDataKeeper.instance.IncreaseCoinCount (5);
-			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			InstantiateOpenCoinEffect (5, "coin_2", puzzleObject);
 			UpdateGameEvent ();
 			break;
 		case "coin_10":
-			PlayerDataKeeper.instance.IncreaseCoinCount (10);
-			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			InstantiateOpenCoinEffect (10, "coin_3", puzzleObject);
 			UpdateGameEvent ();
 			break;
 		case "coin_100":
-			PlayerDataKeeper.instance.IncreaseCoinCount (100);
-			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			InstantiateOpenCoinEffect (100, "coin_4", puzzleObject);
 			UpdateGameEvent ();
 			break;
 		case "coin_1000":
-			PlayerDataKeeper.instance.IncreaseCoinCount (1000);
-			SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+			InstantiateOpenCoinEffect (1000, "coin_5", puzzleObject);
 			UpdateGameEvent ();
 			break;
 		case "ticket":
@@ -92,5 +87,13 @@ public class Referee : MonoBehaviour {
 			Target target = targetObject.GetComponent<Target> ();
 			target.Correct ();
 		}
+	}
+
+	private void InstantiateOpenCoinEffect (double addCoin, string spriteName, GameObject targetObject) {
+		GameObject openCoinPuzzleObject = Instantiate (openCoinPuzzleEffectPrefab) as GameObject;
+		openCoinPuzzleObject.transform.parent = targetObject.transform.parent;
+		openCoinPuzzleObject.transform.localScale = new Vector3 (1,1,1);
+		openCoinPuzzleObject.transform.position = targetObject.transform.position;
+		openCoinPuzzleObject.GetComponent<OpenPuzzleEffect> ().StartAnimation (addCoin, spriteName);
 	}
 }
