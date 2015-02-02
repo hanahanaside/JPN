@@ -19,6 +19,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		EventManager.instance.Init ();
 		StageGridManager.instance.CreateStageGrid ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
+		Resume ();
 		//パズル終わりであればスカウト画面から再開
 		if (ScoutStageManager.FlagScouting) {
 			StageGridManager.instance.MoveToStage (0);
@@ -41,7 +42,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			}
 		}
 			
-		Resume ();
+	
 		EventManager.instance.GenerateLostIdle ();
 	}
 
@@ -127,7 +128,12 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
 		TimeSpan ts = dtNow - dtExit;
 		MyLog.LogDebug ("ts " + ts.TotalSeconds);
-		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
+	//	double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
+		double addCoin = 0;
+		List<StageManager> stagemanagerList = StageGridManager.instance.StageManagerList;
+		foreach(StageManager stageManager in stagemanagerList){
+			addCoin += stageManager.GeneratedCoinWhilePausing;
+		}
 		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
 		if (remainingLiveTimeSeconds > 0) {
 			addCoin = addCoin * 2;

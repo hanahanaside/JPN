@@ -26,6 +26,7 @@ public class StageManager : MonoBehaviour {
 	private float mTimeSeconds;
 	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
+	private double mGeneratedCoinWhilePausing;
 	private State mState = State.Normal;
 	private Stage mStageData;
 	private List<Character> mCharacterList = new List<Character> ();
@@ -166,7 +167,7 @@ public class StageManager : MonoBehaviour {
 
 	//喝ボタン押下時の処理
 	public void OnWakeupButtonClicked () {
-		mTimeSeconds = GetUntilSleepTime () * 60;
+		mTimeSeconds = GetUntilSleepTimeMin () * 60;
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		sleepObject.SetActive (false);
@@ -180,7 +181,7 @@ public class StageManager : MonoBehaviour {
 		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
 		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = GetGenerateCoinPower ();
+		mTotalGenerateCoinPower = GetGenerateCoinPowerByMin ();
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		WakeupEvent ();
@@ -253,7 +254,7 @@ public class StageManager : MonoBehaviour {
 			mState = State.Construction;
 			mSkipConstructionButtonObject.SetActive (true);
 		} else {
-			mTimeSeconds = GetUntilSleepTime () * 60;
+			mTimeSeconds = GetUntilSleepTimeMin () * 60;
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
 			//ダンスチームのインスタンスを削除
@@ -319,6 +320,14 @@ public class StageManager : MonoBehaviour {
 			PlayerDataKeeper.instance.DecreaseTicketCount (ticketCount);
 		};
 	}
+
+	//ゲーム中断中に稼いだ金額を返す
+	public double GeneratedCoinWhilePausing {
+		get {
+			Debug.Log (" " + mGeneratedCoinWhilePausing);
+			return mGeneratedCoinWhilePausing;
+		}
+	}
 		
 	//迷子のアイドルを生成
 	public void GenerateLostIdle (int idleId) {
@@ -343,7 +352,7 @@ public class StageManager : MonoBehaviour {
 		//背景を設置
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
 
-		//建設時間を設置(テストで10分の1)
+		//建設時間を設置
 		SetConstructionTime ();
 
 		//アイドルの画像をセット
@@ -375,6 +384,22 @@ public class StageManager : MonoBehaviour {
 			mCharacterList.Add (workerObject.GetComponent<Character> ());
 			workerObject.GetComponent<Worker> ().Init ();
 		}
+
+		//中断中に工事が完了していた場合
+		if (mTimeSeconds > 0) {
+			return;
+		}
+		int untilSleepTimeSec = GetUntilSleepTimeMin () * 60;
+		double generateCoinPowerBySec = (double)(GetGenerateCoinPowerByMin() * 60.0);
+		//中断時間がサボるまでの時間を超えていたら
+		//最大時間まで生成してスリープにする
+		if (mTimeSeconds + untilSleepTimeSec < 0) {
+			mGeneratedCoinWhilePausing = generateCoinPowerBySec * untilSleepTimeSec;
+			Sleep ();
+		}else {
+			mGeneratedCoinWhilePausing = generateCoinPowerBySec * (-mTimeSeconds);
+			mTimeSeconds += untilSleepTimeSec;
+		}
 	}
 
 	//通常時の初期化処理
@@ -403,11 +428,11 @@ public class StageManager : MonoBehaviour {
 		//エリア名をセット
 		areaNameLabel.text = mStageData.AreaName;
 
-		//サボるまでの時間をセット(テストで10分の1)
+		//サボるまでの時間をセット
 		SetUntilSleepTime ();
 
 		//コイン生成パワーを算出してセット
-		mTotalGenerateCoinPower = GetGenerateCoinPower ();
+		mTotalGenerateCoinPower = GetGenerateCoinPowerByMin ();
 		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 
@@ -424,6 +449,21 @@ public class StageManager : MonoBehaviour {
 		idleSprite.spriteName = "idle_normal_" + mStageData.Id;
 		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
 		idleSprite.SetDimensions (spriteData.width, spriteData.height);
+
+		//中断中に稼いだ金額を計算
+		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
+		double generateCoinPowerBySec = (double)(GetGenerateCoinPowerByMin() * 60.0);
+		Debug.Log ("time " +timeSpanSeconds);
+		Debug.Log ("gfe " +generateCoinPowerBySec);
+		mGeneratedCoinWhilePausing = generateCoinPowerBySec * timeSpanSeconds;
+		//中断中にサボった分をマイナスする
+		if (mTimeSeconds < 0) {
+			mGeneratedCoinWhilePausing = 0;
+		}
+		//トータルがマイナスになってしまったら0にする
+		if(mGeneratedCoinWhilePausing < 0){
+			mGeneratedCoinWhilePausing = 0;
+		}
 	}
 
 	//アイドルを生成
@@ -449,19 +489,19 @@ public class StageManager : MonoBehaviour {
 
 	//サボるまでの時間をセット
 	private void SetUntilSleepTime () {
-		float untilSleepTimeSeconds = GetUntilSleepTime () * 60;
+		float untilSleepTimeSeconds = GetUntilSleepTimeMin () * 60;
 		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
 		mTimeSeconds = untilSleepTimeSeconds - timeSpanSeconds;
 	}
 
 	//サボるまでの時間をDBから取得
-	private int GetUntilSleepTime () {
+	private int GetUntilSleepTimeMin () {
 		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
 		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
 	}
 
 	//コイン生成パワーをDBから取得
-	private double GetGenerateCoinPower () {
+	private double GetGenerateCoinPowerByMin () {
 		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
 		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
 	}
