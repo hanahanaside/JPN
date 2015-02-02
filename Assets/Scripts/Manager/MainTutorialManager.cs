@@ -24,7 +24,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	private TypewriterEffect typeWriterEffect;
 	private Entity_tutorial mEntityTutorial;
 
-	private static int sTutorialIndex;
+	private static int sTutorialIndex = 12;
 
 	void CompleteShowEvent () {
 		typeWriterEffect.ResetToBeginning ();
@@ -141,12 +141,17 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			UpdateMessage ();
 			break;
 		case 13:
+			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
+			break;
+		case 14:
+			break;
+		case 15:
 			PlayerDataKeeper.instance.IncreaseTicketCount (10);
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			StartTweenColor ("LiveButton", new Color (0.7f, 0.5f, 0.5f, 1));
 			liveArrowObject.SetActive (true);
 			break;
-		case 14:
+		case 16:
 			PlayerDataKeeper.instance.SaveData ();
 			PrefsManager.instance.TutorialFinished = true;
 			ScoutStageManager.FlagScouting = true;
