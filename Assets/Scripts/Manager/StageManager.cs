@@ -132,6 +132,21 @@ public class StageManager : MonoBehaviour {
 		mCharacterList.Remove (character);
 	}
 
+	//工事をチケットでスキップする際に呼ばれる
+	void SkipConstructionEvent(int needTicketCount){
+		if (PlayerDataKeeper.instance.TicketCount < needTicketCount) {
+			BuyTicketDialog.instance.Show ();
+			return;
+		}
+		mTimeSeconds = 0;
+		PlayerDataKeeper.instance.DecreaseTicketCount (needTicketCount);
+		SkipConstructionDialog.instance.PositiveButtonClickedEvent -= SkipConstructionEvent;
+	}
+
+	void SkipConstructionCancelEvent(){
+		SkipConstructionDialog.instance.PositiveButtonClickedEvent -= SkipConstructionEvent;
+	}
+
 	//再開時の処理
 	public void Resume () {
 		//工事中かをチェック
@@ -165,7 +180,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//喝ボタン押下時の処理
-	public void OnWakeupButtonClicked () {
+	public virtual void OnWakeupButtonClicked () {
 		mTimeSeconds = GetUntilSleepTime () * 60;
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
@@ -309,15 +324,8 @@ public class StageManager : MonoBehaviour {
 		if (ticketCount <= 0) {
 			ticketCount = 1;
 		}
+		SkipConstructionDialog.instance.PositiveButtonClickedEvent += SkipConstructionEvent;
 		SkipConstructionDialog.instance.Show (ticketCount);
-		SkipConstructionDialog.instance.positiveButtonClicked = () => {
-			if (PlayerDataKeeper.instance.TicketCount < ticketCount) {
-				BuyTicketDialog.instance.Show ();
-				return;
-			}
-			mTimeSeconds = 0;
-			PlayerDataKeeper.instance.DecreaseTicketCount (ticketCount);
-		};
 	}
 		
 	//迷子のアイドルを生成

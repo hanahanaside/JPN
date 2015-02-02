@@ -24,7 +24,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	private TypewriterEffect typeWriterEffect;
 	private Entity_tutorial mEntityTutorial;
 
-	private static int sTutorialIndex = 12;
+	private static int sTutorialIndex;
 
 	void CompleteShowEvent () {
 		typeWriterEffect.ResetToBeginning ();
@@ -50,7 +50,18 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	}
 
 	void WakeupEvent(){
-	
+		sTutorialIndex++;
+		natsumotoObject.SetActive (true);
+		iTweenEvent.GetEvent (natsumotoObject, "ShowEvent").Play ();
+		UpdateMessage ();
+	}
+
+	//工事をチケットでスキップする際に呼ばれる
+	void SkipConstructionEvent(int needTicketCount){
+		sTutorialIndex++;
+		natsumotoObject.SetActive (true);
+		iTweenEvent.GetEvent (natsumotoObject, "ShowEvent").Play ();
+		UpdateMessage ();
 	}
 
 	public void OnFadeOutFinished () {
@@ -141,11 +152,18 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			UpdateMessage ();
 			break;
 		case 13:
+			List<Transform> childList = grid.GetChildList ();
+			centerOnChild.CenterOn (childList [3]);
+			SkipConstructionDialog.instance.PositiveButtonClickedEvent += SkipConstructionEvent;
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			break;
 		case 14:
+			grid.GetChildList () [2].SendMessage ("Sleep");
+			centerOnChild.CenterOn (grid.GetChildList ()[2]);
+			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			break;
 		case 15:
+			centerOnChild.CenterOn (grid.GetChildList ()[1]);
 			PlayerDataKeeper.instance.IncreaseTicketCount (10);
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			StartTweenColor ("LiveButton", new Color (0.7f, 0.5f, 0.5f, 1));
@@ -155,7 +173,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			PlayerDataKeeper.instance.SaveData ();
 			PrefsManager.instance.TutorialFinished = true;
 			ScoutStageManager.FlagScouting = true;
-			#if UNITY_IPHONE
+			#if !UNITY_EDITOR && UNITY_IPHONE
 			APNsRegister.instance.RegisterForRemoteNotifcations ();
 			#endif
 			Application.LoadLevel ("Main");
@@ -164,11 +182,16 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
+	void SkipConstructionClicked(){
+		natsumotoObject.SetActive (true);
+		iTweenEvent.GetEvent (natsumotoObject, "ShowEvent").Play ();
+		UpdateMessage ();
+	}
+
 	public void ScoutButtonClicked () {
 		if (sTutorialIndex != 3) {
 			return;
 		}
-
 		List<Transform> childList = grid.GetChildList ();
 		centerOnChild.CenterOn (childList [0]);
 		natsumotoObject.SetActive (true);
@@ -221,7 +244,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	}
 
 	public void LiveButtonClicked(){
-		if (sTutorialIndex != 13) {
+		if (sTutorialIndex != 15) {
 			return;
 		}
 		liveArrowObject.SetActive (false);
