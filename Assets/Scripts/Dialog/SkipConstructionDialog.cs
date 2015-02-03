@@ -4,14 +4,11 @@ using System;
 
 public class SkipConstructionDialog : MonoSingleton<SkipConstructionDialog> {
 
-	public event Action<int> PositiveButtonClickedEvent;
-	public event Action NegativeButtonClickedEvent;
 	public delegate void PositiveButtonClickedDelegate();
 	public PositiveButtonClickedDelegate positiveButtonClicked;
 	public UILabel messageLabel;
 	public UILabel countLabel;
 	private GameObject mDialogObject;
-	private int mNeedTicketCount;
 
 	void CompleteDismissEvent(){
 		mDialogObject.SetActive (false);
@@ -23,7 +20,6 @@ public class SkipConstructionDialog : MonoSingleton<SkipConstructionDialog> {
 	}
 
 	public void Show(int ticketCount){
-		mNeedTicketCount = ticketCount;
 		FenceManager.instance.ShowFence ();
 		mDialogObject.SetActive (true);
 		iTweenEvent.GetEvent (mDialogObject,"ShowEvent").Play();
@@ -35,13 +31,12 @@ public class SkipConstructionDialog : MonoSingleton<SkipConstructionDialog> {
 		FenceManager.instance.HideFence ();
 		iTweenEvent.GetEvent (mDialogObject,"DismissEvent").Play();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
-		NegativeButtonClickedEvent ();
 	}
 
 	public void PositiveButtonClicked(){
 		FenceManager.instance.HideFence ();
 		iTweenEvent.GetEvent (mDialogObject,"DismissEvent").Play();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
-		PositiveButtonClickedEvent (mNeedTicketCount);
+		positiveButtonClicked ();
 	}
 }

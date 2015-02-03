@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public class StageManagerTutorial : StageManager {
 
-	public GameObject skipConstructionButtonObject;
-
+	// Use this for initialization
+	void Start () {
+	
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
 }

@@ -29,7 +29,6 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	}
 
 	public void DebutButtonClicked () {
-		debutButton.SetActive (false);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		iTweenEvent.GetEvent (gameObject, "DismissEvent").Play ();
 	}
@@ -42,7 +41,6 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 
 	public void Show (int id) {
 		mIdleId = id;
-		debutButton.SetActive (true);
 		StageDao dao = DaoFactory.CreateStageDao ();
 		Stage	stage = dao.SelectById (mIdleId);
 		mDialogObject.SetActive (true);
