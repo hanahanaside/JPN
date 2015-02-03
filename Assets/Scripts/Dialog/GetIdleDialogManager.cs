@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Text;
 
 public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 
@@ -48,7 +49,7 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		UISpriteData spriteData = mIdleSprite.GetAtlasSprite ();
 		mIdleSprite.SetDimensions (spriteData.width, spriteData.height);
 
-		System.Text.StringBuilder sb = new System.Text.StringBuilder ();
+		StringBuilder sb = new System.Text.StringBuilder ();
 		if (stage.IdleCount >= 25) {
 			debutButton.SetActive (false);
 			tradeButton.SetActive (true);
@@ -79,26 +80,41 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	private string GetUntilLevelUpMessage (Stage stage) {
 		int untilLevelUpCount = 0;
 		string untilLevelUpMessage = "";
-		if (stage.IdleCount > 20) {
+		if(stage.IdleCount >= 25){
+			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, 0, "レベルMAX");
+		}else if (stage.IdleCount > 21) {
 			untilLevelUpCount = 25 - stage.IdleCount;
-			untilLevelUpMessage = "(レベルMAXまであと" + untilLevelUpCount + "人)";
-		} else if (stage.IdleCount > 15) {
-			untilLevelUpCount = 20 - stage.IdleCount;
-			untilLevelUpMessage = "(レベル5まであと" + untilLevelUpCount + "人)";
-		} else if (stage.IdleCount > 10) {
-			untilLevelUpCount = 15 - stage.IdleCount;
-			untilLevelUpMessage = "(レベル4まであと" + untilLevelUpCount + "人)";
-		} else if (stage.IdleCount > 5) {
-			untilLevelUpCount = 10 - stage.IdleCount;
-			untilLevelUpMessage = "(レベル3まであと" + untilLevelUpCount + "人)";
+			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベルMAX");
+		} else if (stage.IdleCount > 16) {
+			untilLevelUpCount = 21 - stage.IdleCount;
+			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル5");
+		} else if (stage.IdleCount > 11) {
+			untilLevelUpCount = 16 - stage.IdleCount;
+			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル4");
+		} else if (stage.IdleCount > 6) {
+			untilLevelUpCount = 11 - stage.IdleCount;
+			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル3");
 		} else {
-			untilLevelUpCount = 5 - stage.IdleCount;
-			untilLevelUpMessage = "(レベル2まであと" + untilLevelUpCount + "人)";
-		}
-
-		if (untilLevelUpCount == 0) {
-			untilLevelUpMessage = "レベルアップ！！";
+			untilLevelUpCount = 6 - stage.IdleCount;
+			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル2");
 		}
 		return untilLevelUpMessage;
+	}
+
+	//CreateUntilLevelUpMessage(対象のステージデータ, 次のレベルまでのカウント, 次のレベルの名前)
+	private string CreateUntilLevelUpMessage (Stage stage, int untilLevelUpCount, string level) {
+		StringBuilder sb = new StringBuilder ();
+		if (untilLevelUpCount <= 0) {
+			GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
+			UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
+			double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id, stage.IdleCount);
+			int untilSleepTimeMin = untilSleepTimeDao.SelectById (stage.Id, stage.IdleCount);
+			sb.Append ("(" + level + "にアップ！)\n");
+			sb.Append ("収入ペースが" + generateCoinPower + "にUP!!\n");
+			sb.Append ("サボるまでの時間が" + untilSleepTimeMin + "分にUP!!");
+			return sb.ToString ();
+		}
+		sb.Append (level + "まであと" + untilLevelUpCount + "人");
+		return sb.ToString ();
 	}
 }

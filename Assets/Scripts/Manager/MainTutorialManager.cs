@@ -23,8 +23,9 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	private UILabel tutorialLabel;
 	private TypewriterEffect typeWriterEffect;
 	private Entity_tutorial mEntityTutorial;
+	private List<Transform> mChildList;
 
-	private static int sTutorialIndex = 12;
+	private static int sTutorialIndex;
 
 	void CompleteShowEvent () {
 		typeWriterEffect.ResetToBeginning ();
@@ -44,39 +45,41 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	void OnPlaneEventCompleted () {
 		fadeOutSpriteObject.SetActive (true);
 	}
-
-	void SleepEvent(){
-
-	}
-
-	void WakeupEvent(){
-	
-	}
-
+		
 	public void OnFadeOutFinished () {
 		Application.LoadLevel ("PuzzleTutorial");
 	}
 
 	void OnEnable(){
-		StageManager.SleepEvent += SleepEvent;
-		StageManager.WakeupEvent += WakeupEvent;
+		StageManagerTutorial.FinishConstructionEvent += FinishConstructionEvent;
+		StageManagerTutorial.WakeupEvent += WakeupEvent;
 	}
 
 	void OnDisable(){
-		StageManager.SleepEvent -= SleepEvent;
-		StageManager.WakeupEvent -= WakeupEvent;
+		StageManagerTutorial.FinishConstructionEvent -= FinishConstructionEvent;
+		StageManagerTutorial.WakeupEvent -= WakeupEvent;
+	}
+
+	void FinishConstructionEvent(GameObject stageObject){
+		if(stageObject == mChildList[3].gameObject){
+			Invoke ("ShowFinishMessage",1.0f);
+		}
+	}
+
+	void WakeupEvent(GameObject stageObject){
+		if (stageObject == mChildList [2].gameObject) {
+			Invoke ("ShowFinishMessage",1.0f);
+		}
 	}
 
 	void Start () {
 		if (sTutorialIndex != 0) {
 			sTutorialIndex = 12;
 			CreateStage ();
-			backGroundTextureObject.collider.enabled = true;
-		}else {
-			backGroundTextureObject.collider.enabled = false;
 		}
-		List<Transform> childList = grid.GetChildList ();
-		centerOnChild.CenterOn (childList [1]);
+		backGroundTextureObject.collider.enabled = false;
+		mChildList = grid.GetChildList ();
+		centerOnChild.CenterOn (mChildList [1]);
 		PlayerDataKeeper.instance.Init ();
 		mEntityTutorial = Resources.Load<Entity_tutorial> ("Data/tutorial");
 		tutorialLabel = natsumotoObject.transform.FindChild ("Label").GetComponent<UILabel> ();
@@ -141,21 +144,30 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			UpdateMessage ();
 			break;
 		case 13:
+			PlayerDataKeeper.instance.IncreaseTicketCount (10);
+			centerOnChild.CenterOn (mChildList [3]);
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			break;
 		case 14:
+			sTutorialIndex++;
+			UpdateMessage ();
 			break;
 		case 15:
-			PlayerDataKeeper.instance.IncreaseTicketCount (10);
+			mChildList [2].SendMessage ("Sleep");
+			centerOnChild.CenterOn (mChildList [2]);
+			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
+			break;
+		case 16:
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			StartTweenColor ("LiveButton", new Color (0.7f, 0.5f, 0.5f, 1));
 			liveArrowObject.SetActive (true);
+			centerOnChild.CenterOn (mChildList [1]);
 			break;
-		case 16:
+		case 17:
 			PlayerDataKeeper.instance.SaveData ();
 			PrefsManager.instance.TutorialFinished = true;
 			ScoutStageManager.FlagScouting = true;
-			#if UNITY_IPHONE
+			#if UNITY_IPHONE && !UNITY_EDITOR
 			APNsRegister.instance.RegisterForRemoteNotifcations ();
 			#endif
 			Application.LoadLevel ("Main");
@@ -221,7 +233,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	}
 
 	public void LiveButtonClicked(){
-		if (sTutorialIndex != 13) {
+		if (sTutorialIndex != 16) {
 			return;
 		}
 		liveArrowObject.SetActive (false);
@@ -246,7 +258,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			grid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
-			stageObject.GetComponentInChildren<StageManager> ().Init(stage);
+			stageObject.GetComponentInChildren<StageManagerTutorial> ().Init(stage);
 		}
 	}
 

@@ -7,7 +7,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
 	public static event Action CreatedDatabaseEvent;
 
-	public static readonly string DATABASE_FILE_NAME = "jpn.db"; 
+	public static readonly string DATABASE_FILE_NAME = "jpn.db";
 
 	public string filePath {
 		get;
@@ -30,13 +30,19 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
 	}
 
-	public void CreateDB(){
+	public void CreateDB () {
+		//チュートリアルが終わってなかったら全てのデータを消す
+		if (!PrefsManager.instance.TutorialFinished) {
+			if (File.Exists (filePath)) {
+				DeleteDB ();
+			}
+		}
 		#if UNITY_IPHONE
 		if (!File.Exists (filePath)) {
-			CopyDB();
+			CopyDB ();
 			CreatedDatabaseEvent ();
-		}else {
-			UpdateDatabase();
+		} else {
+			UpdateDatabase ();
 		}
 		#endif
 
@@ -44,29 +50,29 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		if (!File.Exists (filePath)) {
 			StartCoroutine("CreateAndroidDatabase");
 		}else {
-			CreatedDatabaseEvent();
+			UpdateDatabase();
 		}
 		#endif
 	}
 
-	public void DeleteDB(){
+	public void DeleteDB () {
 		File.Delete (filePath);
 	}
 
-	public void CopyDB(){
+	public void CopyDB () {
 		File.Copy (baseFilePath, filePath); 
 	}
 
-	private IEnumerator CreateAndroidDatabase(){
+	private IEnumerator CreateAndroidDatabase () {
 		WWW www = new WWW (baseFilePath);
 		yield return www;
 		File.WriteAllBytes (filePath, www.bytes);
-		CreatedDatabaseEvent ();
+		UpdateDatabase ();
 	}
 
-	private void UpdateDatabase(){
+	private void UpdateDatabase () {
 		int databaseVersion = PrefsManager.instance.DatabaseVersion;
-		switch(databaseVersion){
+		switch (databaseVersion) {
 		case 0:
 			CreatedDatabaseEvent ();
 			break;

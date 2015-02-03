@@ -212,7 +212,6 @@
      <Compile Include="Assets\Scripts\Dialog\RecommendAppDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\ReviewDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManager.cs" />
-     <Compile Include="Assets\Scripts\Dialog\SelectLiveTimeDialogManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Dialog\SkipConstructionDialog.cs" />
      <Compile Include="Assets\Scripts\Dialog\SleepTimeCoinDialogManager.cs" />
      <Compile Include="Assets\Scripts\Effect\OpenPuzzleEffect.cs" />
@@ -284,6 +283,7 @@
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\Scripts\Test\TestController2.cs" />
      <Compile Include="Assets\Scripts\Test\TestParent.cs" />
+     <Compile Include="Assets\Scripts\Tutorial\SkipConstructionDialogTutorial.cs" />
      <Compile Include="Assets\Scripts\Tutorial\StageManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />

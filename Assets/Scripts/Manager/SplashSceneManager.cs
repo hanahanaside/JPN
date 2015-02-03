@@ -23,18 +23,10 @@ public class SplashSceneManager : MonoBehaviour {
 	}
 
 	public void FinishedFadeoutEvent(){
-		StageDao dao = DaoFactory.CreateStageDao ();
-		for(int i = 1;i <= 45;i++){
-			Stage stage = new Stage ();
-			stage.Id = i;
-			stage.IdleCount = 20;
-			stage.FlagConstruction = Stage.NOT_CONSTRUCTION;
-			stage.UpdatedDate = System.DateTime.Now.ToString ();
-			dao.UpdateRecord (stage);
-		}
 		if(PrefsManager.instance.TutorialFinished){
 			Application.LoadLevel ("Main");
 		}else {
+			PlayerPrefs.DeleteAll ();
 			Application.LoadLevel ("MainTutorial");
 		}
 	}

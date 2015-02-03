@@ -9,6 +9,7 @@ public class LiveManagerTutorial : MonoSingleton<LiveManagerTutorial> {
 	public GameObject ballParent;
 	public GameObject curtainHeadObject;
 	public GameObject logoObject;
+	public GameObject backGroundTextureObject;
 	public UIGrid grid;
 
 	private float mTime;
@@ -76,6 +77,7 @@ public class LiveManagerTutorial : MonoSingleton<LiveManagerTutorial> {
 		logoObject.GetComponent<UISprite> ().alpha = 0;
 		TweenAlpha.Begin (logoObject, 3.0f, 1f);
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Live);
+		backGroundTextureObject.collider.enabled = true;
 		Invoke ("OpenCurtain", 12.3f);
 		Invoke ("OpenBall", 7.0f);
 	}
