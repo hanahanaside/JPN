@@ -5,9 +5,15 @@ using System;
 public class CoinController : MonoBehaviour {
 
 	public static event Action<string> OnClickedEvent;
-
+	public TweenColor tweenColor;
 	public GameObject getCoinEffectPrefab;
 	private float mLifeTime = 6.0f;
+
+	void OnEnable(){
+		if(!tweenColor.enabled){
+			tweenColor.enabled = true;
+		}
+	}
 
 	void Start () {
 		float x = UnityEngine.Random.Range (-220.0f, 220.0f);
@@ -17,8 +23,7 @@ public class CoinController : MonoBehaviour {
 		movePath [0] = new Vector3 (x, y, 0);
 		movePath [1] = new Vector3 (x, y + 150.0f, 0);
 		movePath [2] = new Vector3 (x, y, 0);
-		iTween.MoveTo (gameObject, iTween.Hash ("path", movePath, "time", 0.8, "easetype", iTween.EaseType.easeInOutQuart, "islocal", true,"movetopath",false));
-		Invoke ("ActiveSpriteObject",0.2f);
+		iTween.MoveTo (gameObject, iTween.Hash ("path", movePath, "time", 0.8, "easetype", iTween.EaseType.easeOutQuint, "islocal", true,"movetopath",false));
 	}
 
 	void Update () {
@@ -36,11 +41,5 @@ public class CoinController : MonoBehaviour {
 		getCoinEffectObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 		getCoinEffectObject.transform.localPosition = transform.localPosition;
 		Destroy (gameObject);
-	}
-
-	private void ActiveSpriteObject(){
-		GameObject spriteObject = transform.FindChild ("Sprite").gameObject;
-		spriteObject.SetActive (true);
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GenerateCoin);
 	}
 }

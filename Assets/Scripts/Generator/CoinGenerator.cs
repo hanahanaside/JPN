@@ -29,11 +29,12 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 			mUntilGenerateTimeSeconds = interval;
 			return;
 		}
-
+			
 		GameObject coinPrefab = GetCoinPrefab ();
 		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
 		coinObject.transform.parent = stageObject.transform.FindChild("Container");
 		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GenerateCoin);
 		mUntilGenerateTimeSeconds = interval;
 	}
 
