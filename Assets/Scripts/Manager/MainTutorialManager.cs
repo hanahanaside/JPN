@@ -249,12 +249,12 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 
 	private void CreateStage(){
 		StageDao dao = DaoFactory.CreateStageDao ();
-		List<StageData> stageList = dao.SelectAll ();
-		foreach(StageData stage in stageList){
+		List<Stage> stageList = dao.SelectAll ();
+		foreach(Stage stage in stageList){
 			stage.UpdatedDate = DateTime.Now.ToString ();
 			dao.UpdateRecord (stage);
 		}
-		foreach (StageData stage in stageList) {
+		foreach (Stage stage in stageList) {
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			grid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);

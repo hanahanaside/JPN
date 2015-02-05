@@ -43,7 +43,7 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	public void Show (int id) {
 		mIdleId = id;
 		StageDao dao = DaoFactory.CreateStageDao ();
-		StageData	stage = dao.SelectById (mIdleId);
+		Stage	stage = dao.SelectById (mIdleId);
 		mDialogObject.SetActive (true);
 		mIdleSprite.spriteName = "idle_normal_" + id;
 		UISpriteData spriteData = mIdleSprite.GetAtlasSprite ();
@@ -77,7 +77,7 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		iTweenEvent.GetEvent (gameObject, "ShowEvent").Play ();
 	}
 
-	private string GetUntilLevelUpMessage (StageData stage) {
+	private string GetUntilLevelUpMessage (Stage stage) {
 		int untilLevelUpCount = 0;
 		string untilLevelUpMessage = "";
 		if(stage.IdleCount >= 25){
@@ -102,7 +102,7 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	}
 
 	//CreateUntilLevelUpMessage(対象のステージデータ, 次のレベルまでのカウント, 次のレベルの名前)
-	private string CreateUntilLevelUpMessage (StageData stage, int untilLevelUpCount, string level) {
+	private string CreateUntilLevelUpMessage (Stage stage, int untilLevelUpCount, string level) {
 		StringBuilder sb = new StringBuilder ();
 		if (untilLevelUpCount <= 0) {
 			GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();

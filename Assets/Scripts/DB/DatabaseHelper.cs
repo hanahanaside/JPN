@@ -2,7 +2,6 @@
 using System.Collections;
 using System;
 using System.IO;
-using System.Collections.Generic;
 
 public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
@@ -75,25 +74,8 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		int databaseVersion = PrefsManager.instance.DatabaseVersion;
 		switch (databaseVersion) {
 		case 0:
-			UpdateToVer_1 ();
-			PrefsManager.instance.DatabaseVersion = 1;
-			CreatedDatabaseEvent ();
-			break;
-		case 1:
 			CreatedDatabaseEvent ();
 			break;
 		}
-	}
-
-	private void UpdateToVer_1(){
-		StageDao dao = DaoFactory.CreateStageDao ();
-		List<StageData> stageDataList = dao.SelectAll ();
-		List<int> flagConstructionList = new List<int> ();
-		foreach(StageData stageData in stageDataList){
-			flagConstructionList.Add (stageData.FlagConstruction);
-		}
-		DeleteDB ();
-		CopyDB ();
-
 	}
 }

@@ -219,7 +219,7 @@
      <Compile Include="Assets\Scripts\Entity\LiveData.cs" />
      <Compile Include="Assets\Scripts\Entity\PlayerData.cs" />
      <Compile Include="Assets\Scripts\Entity\RecommendApp.cs" />
-     <Compile Include="Assets\Scripts\Entity\StageData.cs" />
+     <Compile Include="Assets\Scripts\Entity\Stage.cs" />
      <Compile Include="Assets\Scripts\Event\LostIdleEvent.cs" />
      <Compile Include="Assets\Scripts\Event\NewsEvent.cs" />
      <Compile Include="Assets\Scripts\Event\TradeIdleEvent.cs" />
@@ -233,7 +233,6 @@
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />
-     <Compile Include="Assets\Scripts\IdolStageStatus\IdolStageStatus.cs" />
      <Compile Include="Assets\Scripts\Interface\ConstructionTimeDao.cs" />
      <Compile Include="Assets\Scripts\Interface\GenerateCoinPowerDao.cs" />
      <Compile Include="Assets\Scripts\Interface\StageDao.cs" />

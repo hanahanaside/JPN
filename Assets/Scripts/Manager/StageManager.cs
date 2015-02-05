@@ -15,6 +15,11 @@ public class StageManager : MonoBehaviour {
 		Construction
 	}
 
+	public UILabel untilSleepLabel;
+	public UILabel generateCoinPowerLabel;
+	public UILabel idleCountLabel;
+	public UILabel areaNameLabel;
+	public UISprite idleSprite;
 	public GameObject danceTeamPrefab;
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
@@ -22,7 +27,7 @@ public class StageManager : MonoBehaviour {
 	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
 	private State mState = State.Normal;
-	private StageData mStageData;
+	private Stage mStageData;
 	private List<Character> mCharacterList = new List<Character> ();
 	private GameObject mSkipConstructionButtonObject;
 	private GameObject sleepObject;
@@ -30,7 +35,6 @@ public class StageManager : MonoBehaviour {
 	private GameObject mContainerObject;
 	private UITexture backGroundTexture;
 	private Transform mTransform;
-	private IdolStageStatus mIdolStageStatus;
 
 	void OnEnable () {
 		Idle.FoundEvent += FoundIdleEvent;
@@ -40,17 +44,15 @@ public class StageManager : MonoBehaviour {
 		Idle.FoundEvent -= FoundIdleEvent;
 	}
 
-	public void Init (StageData stage) {
+	public void Init (Stage stage) {
 		mStageData = stage;
 		mTransform = transform;
 		mSkipConstructionButtonObject = transform.Find ("Container/SkipConstructionButton").gameObject;
 		mContainerObject = transform.FindChild ("Container").gameObject;
 		sleepObject = transform.Find ("Container/Sleep").gameObject;
-		mIdolStageStatus = transform.Find ("Container/IdolStageStatus").GetComponent<IdolStageStatus> ();
 		backGroundTexture = GetComponentInChildren<UITexture> ();
-		mIdolStageStatus.Init ();
 		//工事中かをチェック
-		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			InitConstruction ();
 		} else {
 			InitNormal ();
@@ -62,7 +64,7 @@ public class StageManager : MonoBehaviour {
 		case State.Normal:
 			//スリープ時間を更新
 			mTimeSeconds -= Time.deltaTime;
-			mIdolStageStatus.UntilSleepLabel = "あと" + TimeConverter.Convert (mTimeSeconds) + "でサボる";
+			untilSleepLabel.text = "あと" + TimeConverter.Convert (mTimeSeconds) + "でサボる";
 			if (mTimeSeconds < 0) {
 				Sleep ();
 				return;
@@ -82,10 +84,10 @@ public class StageManager : MonoBehaviour {
 				mUntilGenerateTime = UNTIL_GENERATE_TIME;
 			}
 			//建設中の場合の処理
-			if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
+			if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 				mTimeSeconds -= Time.deltaTime * 2.0f;
 				if (mTimeSeconds >= 0) {
-					mIdolStageStatus.UntilSleepLabel = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
+					untilSleepLabel.text = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
 				}
 			}
 			break;
@@ -94,7 +96,7 @@ public class StageManager : MonoBehaviour {
 		case State.Construction:
 			//建設中の時間を更新
 			mTimeSeconds -= Time.deltaTime;
-			mIdolStageStatus.UntilSleepLabel = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
+			untilSleepLabel.text = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
 			if (mTimeSeconds > 0) {
 				return;
 			}
@@ -104,7 +106,7 @@ public class StageManager : MonoBehaviour {
 				Destroy (character.gameObject);
 			}
 			mState = State.Normal;
-			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
+			mStageData.FlagConstruction = Stage.NOT_CONSTRUCTION;
 			mStageData.UpdatedDate = DateTime.Now.ToString ();
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 			mCharacterList = new List<Character> ();
@@ -133,7 +135,7 @@ public class StageManager : MonoBehaviour {
 	//再開時の処理
 	public void Resume () {
 		//工事中かをチェック
-		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			SetConstructionTime ();
 		} else {
 			//サボるまでの時間をセット(テストで10分の1)
@@ -142,7 +144,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//ステージデータを返す
-	public StageData Stage {
+	public Stage Stage {
 		get {
 			return mStageData;
 		}
@@ -174,10 +176,12 @@ public class StageManager : MonoBehaviour {
 			character.Wakeup ();
 		}
 		//画像を変更
-		mIdolStageStatus.IdolSpriteName = "idle_normal_" + mStageData.Id;
+		idleSprite.spriteName = "idle_normal_" + mStageData.Id;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = GetGenerateCoinPower ();
-		mIdolStageStatus.GenerateCoinPowerLabel = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
+		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		WakeupEvent ();
 		//アイコン広告を非表示にする
@@ -192,11 +196,13 @@ public class StageManager : MonoBehaviour {
 		sleepObject.SetActive (true);
 		mState = State.Sleep;
 		//コイン生成パワーをセット
-		mIdolStageStatus.GenerateCoinPowerLabel = "0/分";
+		generateCoinPowerLabel.text = "0/分";
 		//サボるまでの時間をセット
-		mIdolStageStatus.UntilSleepLabel = "サボり中";
+		untilSleepLabel.text = "サボり中";
 		//画像を変更
-		mIdolStageStatus.IdolSpriteName = "idle_sleep_" + mStageData.Id;
+		idleSprite.spriteName = "idle_sleep_" + mStageData.Id;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 
 		foreach (Character character in mCharacterList) {
 			character.Sleep ();
@@ -210,12 +216,14 @@ public class StageManager : MonoBehaviour {
 	public void StartLive () {
 		mState = State.Live;
 		mSkipConstructionButtonObject.SetActive (false);
-		mIdolStageStatus.UntilSleepLabel = "LIVE！！！！！！！！！！！";
+		untilSleepLabel.text = "LIVE！！！！！！！！！！！";
 		gameObject.tag = "default";
 		if (sleepObject.activeSelf) {
 			sleepObject.SetActive (false);
 			//画像を変更
-			mIdolStageStatus.IdolSpriteName = "idle_normal_" + mStageData.Id;
+			idleSprite.spriteName = "idle_normal_" + mStageData.Id;
+			UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+			idleSprite.SetDimensions (spriteData.width, spriteData.height);
 			WakeupEvent ();
 			PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
@@ -224,14 +232,14 @@ public class StageManager : MonoBehaviour {
 		foreach (Character character in mCharacterList) {
 			character.StartLive ();
 		}
-		if (mStageData.FlagConstruction != StageData.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction != Stage.IN_CONSTRUCTION) {
 			mDanceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
 			mDanceTeamObject.transform.parent = mContainerObject.transform;
 			mDanceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
 			mDanceTeamObject.transform.localPosition = new Vector3 (20, 10, 0);
 			DanceTeamManager danceTeamManager = mDanceTeamObject.GetComponent<DanceTeamManager> ();
 			danceTeamManager.StartDancing (mStageData.Id, mStageData.IdleCount);
-			mIdolStageStatus.GenerateCoinPowerLabel = GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分";
+			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分";
 		} 
 	}
 
@@ -241,12 +249,12 @@ public class StageManager : MonoBehaviour {
 		if (mState == State.Live) {
 			PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
-		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
 			mState = State.Construction;
 			mSkipConstructionButtonObject.SetActive (true);
 		} else {
 			mTimeSeconds = GetUntilSleepTime () * 60;
-			mIdolStageStatus.GenerateCoinPowerLabel = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
+			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 			mState = State.Normal;
 			//ダンスチームのインスタンスを削除
 			if (mDanceTeamObject != null) {
@@ -339,16 +347,18 @@ public class StageManager : MonoBehaviour {
 		SetConstructionTime ();
 
 		//アイドルの画像をセット
-		mIdolStageStatus.IdolSpriteName = "idle_normal_" + mStageData.Id;
+		idleSprite.spriteName = "idle_normal_" + mStageData.Id;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 
 		//アイドルの数をセット
 		SetIdolCount ();
 
 		//エリア名をセット
-		mIdolStageStatus.AreaNameLabel = "建設中";
+		areaNameLabel.text = "建設中";
 
 		//コイン生成パワーをセット
-		mIdolStageStatus.GenerateCoinPowerLabel = "0/分";
+		generateCoinPowerLabel.text = "0/分";
 
 		//今すぐ完成させるボタンを表示
 		mSkipConstructionButtonObject.SetActive (true);
@@ -391,14 +401,14 @@ public class StageManager : MonoBehaviour {
 		}
 			
 		//エリア名をセット
-		mIdolStageStatus.AreaNameLabel = mStageData.AreaName;
+		areaNameLabel.text = mStageData.AreaName;
 
 		//サボるまでの時間をセット(テストで10分の1)
 		SetUntilSleepTime ();
 
 		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = GetGenerateCoinPower ();
-		mIdolStageStatus.GenerateCoinPowerLabel = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
+		generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower) + "/分";
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 
 		//アイドルの数をセット
@@ -411,7 +421,9 @@ public class StageManager : MonoBehaviour {
 		backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
 
 		//アイドルの画像をセット
-		mIdolStageStatus.IdolSpriteName = "idle_normal_" + mStageData.Id;
+		idleSprite.spriteName = "idle_normal_" + mStageData.Id;
+		UISpriteData spriteData = idleSprite.GetAtlasSprite ();
+		idleSprite.SetDimensions (spriteData.width, spriteData.height);
 	}
 
 	//アイドルを生成
@@ -457,9 +469,9 @@ public class StageManager : MonoBehaviour {
 	//アイドルの人数をセット
 	private void SetIdolCount () {
 		if (mStageData.IdleCount >= 25) {
-			mIdolStageStatus.IdolCountLabel = "MAX";
+			idleCountLabel.text = "MAX";
 		} else {
-			mIdolStageStatus.IdolCountLabel = "×" + mStageData.IdleCount;
+			idleCountLabel.text = "×" + mStageData.IdleCount;
 		}
 	}
 }

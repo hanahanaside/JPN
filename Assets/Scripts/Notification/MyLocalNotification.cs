@@ -72,8 +72,8 @@ public class MyLocalNotification {
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		double addSeconds = 0;
 		foreach (StageManager stageManager in stageManagerList) {
-			StageData stage = stageManager.Stage;
-			if (stage.FlagConstruction == StageData.IN_CONSTRUCTION) {
+			Stage stage = stageManager.Stage;
+			if (stage.FlagConstruction == Stage.IN_CONSTRUCTION) {
 				continue;
 			}
 			if (stageManager.GetState == StageManager.State.Sleep) {
@@ -91,8 +91,8 @@ public class MyLocalNotification {
 		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
 		double addSeconds = 0;
 		foreach (StageManager stageManager in stageManagerList) {
-			StageData stage = stageManager.Stage;
-			if (stage.FlagConstruction == StageData.IN_CONSTRUCTION) {
+			Stage stage = stageManager.Stage;
+			if (stage.FlagConstruction == Stage.IN_CONSTRUCTION) {
 				continue;
 			}
 			if (stageManager.GetState == StageManager.State.Sleep) {

@@ -6,7 +6,7 @@ public class MoveStageCell : MonoBehaviour {
 
 	public static event Action<int> OnMoveStageCellClickedEvent;
 
-	public void Init(StageData stage){
+	public void Init(Stage stage){
 		UIButton button = GetComponent<UIButton> ();
 		button.normalSprite = "puzzle_idle_" + stage.Id;
 		UILabel label = transform.FindChild ("Label").GetComponent<UILabel>();

@@ -47,9 +47,9 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 
 	public  void CreateStageGrid () {
 		StageDao dao = DaoFactory.CreateStageDao ();
-		List<StageData> stageList = dao.SelectAll ();
+		List<Stage> stageList = dao.SelectAll ();
 		mIdolStageManagerList = new List<StageManager> ();
-		foreach (StageData stage in stageList) {
+		foreach (Stage stage in stageList) {
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			stageGrid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
