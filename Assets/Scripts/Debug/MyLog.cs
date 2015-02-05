@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MyLog {
 
-	private static bool mIsDebug = true;
+	private static bool mIsDebug = false;
 
 	public static void LogDebug(string message){
 		if(!mIsDebug){
