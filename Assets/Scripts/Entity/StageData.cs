@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Stage {
+public class StageData {
 
 	public static readonly int NOT_CONSTRUCTION = 0;
 	public static readonly int IN_CONSTRUCTION = 1;
+
+	public enum State :int{
+		Normal,
+		Sleep,
+		Live,
+		Construction
+	}
 
 	public int Id{ get; set; }
 
@@ -16,4 +23,5 @@ public class Stage {
 
 	public string UpdatedDate{ get; set; }
 
+	public State state{ get; set; }
 }

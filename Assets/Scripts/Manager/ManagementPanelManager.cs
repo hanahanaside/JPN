@@ -39,12 +39,12 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 		generateCoinPowerLabel.text = ""+GameMath.RoundOne (PlayerDataKeeper.instance.GenerateCoinPower);
 		//全データを取得
 		StageDao dao = DaoFactory.CreateStageDao ();
-		List<Stage> stageList = dao.SelectAll ();
+		List<StageData> stageList = dao.SelectAll ();
 		//アイドルの総人数を設置
 		mTotalIdleCount = GetTotalIdleCount(stageList);
 		totalIdleCountLabel.text =  mTotalIdleCount + "人";
 		//エリアごとのアイドル情報のセルを設置
-		foreach(Stage stage in stageList){
+		foreach(StageData stage in stageList){
 			GameObject areaInfoCell = Instantiate (areaInfoCellPrefab) as GameObject; 
 			grid.AddChild (areaInfoCell.transform);
 			areaInfoCell.transform.localScale = new Vector3 (1f,1f,1f);
@@ -70,9 +70,9 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	private int GetTotalIdleCount(List<Stage> stageList){
+	private int GetTotalIdleCount(List<StageData> stageList){
 		int totalIdleCount = 0;
-		foreach(Stage stage in stageList){
+		foreach(StageData stage in stageList){
 			totalIdleCount += stage.IdleCount;
 		}
 		return totalIdleCount;

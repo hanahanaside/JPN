@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public interface StageDao
 {
 
-	List<Stage> SelectAll ();
+	List<StageData> SelectAll ();
 
-	Stage SelectById (int id);
+	StageData SelectById (int id);
 
-	void UpdateRecord (Stage stage);
+	void UpdateRecord (StageData stage);
 
 	void UpdateAllUpdateDate(string updateDate);
 }

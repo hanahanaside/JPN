@@ -154,8 +154,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			}
 			int totalIdleCount = 0;
 			StageDao dao = DaoFactory.CreateStageDao ();
-			List<Stage> stageList = dao.SelectAll ();
-			foreach (Stage stage in stageList) {
+			List<StageData> stageList = dao.SelectAll ();
+			foreach (StageData stage in stageList) {
 				totalIdleCount += stage.IdleCount;
 			}
 			if (totalIdleCount > param.minimum_amount) {

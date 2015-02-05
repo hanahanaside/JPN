@@ -14,15 +14,15 @@ public class StageDbDao : StageDao {
 	private const string FIELD_UPDATED_DATE = "updated_date";
 
 	//存在する全てのステージデータを取得
-	public List<Stage> SelectAll () {
-		List<Stage> stageDataList = new List<Stage> ();
+	public List<StageData> SelectAll () {
+		List<StageData> stageDataList = new List<StageData> ();
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("select * from " + TABLE_NAME + " ");
 		sb.Append ("where " + FIELD_IDLE_COUNT +  " != 0;");
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		while (sqliteQuery.Step ()) {
-			Stage stage = GetStage (sqliteQuery);
+			StageData stage = GetStage (sqliteQuery);
 			stageDataList.Add (stage);
 		}
 		sqliteQuery.Release ();
@@ -31,9 +31,9 @@ public class StageDbDao : StageDao {
 	}
 
 	//IDでステージデータを取得
-	public Stage SelectById (int id) {
+	public StageData SelectById (int id) {
 		SQLiteDB sqliteDB = OpenDatabase ();
-		Stage stage = new Stage ();
+		StageData stage = new StageData ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("select * from " + TABLE_NAME + " ");
 		sb.Append ("where " + FIELD_ID + " = " + id + ";");
@@ -47,7 +47,7 @@ public class StageDbDao : StageDao {
 	}
 
 	//レコード1行アップデート
-	public void UpdateRecord (Stage stage) {
+	public void UpdateRecord (StageData stage) {
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("update " + TABLE_NAME + " set ");
@@ -76,8 +76,8 @@ public class StageDbDao : StageDao {
 	}
 
 	//クエリからステージデータを生成して返す
-	private Stage GetStage (SQLiteQuery sqliteQuery) {
-		Stage stage = new Stage ();
+	private StageData GetStage (SQLiteQuery sqliteQuery) {
+		StageData stage = new StageData ();
 		// create date がnullの場合アリ
 		try {
 			stage.Id = sqliteQuery.GetInteger (FIELD_ID);
