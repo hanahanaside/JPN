@@ -38,8 +38,8 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		ticketCostLabel.text = "×" + (mCostTicket); 
 		int totalIdleCount = 0;
 		StageDao dao = DaoFactory.CreateStageDao ();
-		List<Stage> stageList = dao.SelectAll ();
-		foreach (Stage stage in stageList) {
+		List<StageData> stageList = dao.SelectAll ();
+		foreach (StageData stage in stageList) {
 			totalIdleCount += stage.IdleCount;
 		}
 		if (totalIdleCount < area.MinimumAmount) {

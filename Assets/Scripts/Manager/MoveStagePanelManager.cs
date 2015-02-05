@@ -35,8 +35,8 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 	public void CreateMoveStageGrid () {
 		mMoveStageCenterOnChild = moveStagegrid.GetComponent<UICenterOnChild> ();
 		StageDao dao = DaoFactory.CreateStageDao ();
-		List<Stage> stageList = dao.SelectAll ();
-		foreach(Stage stage in stageList){
+		List<StageData> stageList = dao.SelectAll ();
+		foreach(StageData stage in stageList){
 			GameObject moveStageCellObject = Instantiate (moveStageCellPrefab) as GameObject;
 			moveStagegrid.AddChild (moveStageCellObject.transform);
 			moveStageCellObject.transform.localScale = new Vector3 (1f, 1f, 1f);

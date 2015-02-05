@@ -32,7 +32,7 @@ public class GetIdleDialogManagerTutorial : MonoSingleton<GetIdleDialogManagerTu
 	public void Show (int id) {
 		mIdleId = id;
 		StageDao dao = DaoFactory.CreateStageDao ();
-		Stage	stage = dao.SelectById (mIdleId);
+		StageData	stage = dao.SelectById (mIdleId);
 		stage.IdleCount++;
 		if(string.IsNullOrEmpty(stage.UpdatedDate)){
 			stage.UpdatedDate = DateTime.Now.ToString ();

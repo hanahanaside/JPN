@@ -27,7 +27,7 @@ public class StageManagerTutorial : MonoBehaviour {
 	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
 	private State mState = State.Normal;
-	private Stage mStageData;
+	private StageData mStageData;
 	private List<Character> mCharacterList = new List<Character> ();
 	private GameObject mSkipConstructionButtonObject;
 	private GameObject sleepObject;
@@ -35,14 +35,14 @@ public class StageManagerTutorial : MonoBehaviour {
 	private GameObject mContainerObject;
 	private UITexture backGroundTexture;
 
-	public void Init (Stage stage) {
+	public void Init (StageData stage) {
 		mStageData = stage;
 		mSkipConstructionButtonObject = transform.Find ("Container/SkipConstructionButton").gameObject;
 		mContainerObject = transform.FindChild ("Container").gameObject;
 		sleepObject = transform.Find ("Container/Sleep").gameObject;
 		backGroundTexture = GetComponentInChildren<UITexture> ();
 		//工事中かをチェック
-		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 			InitConstruction ();
 		} else {
 			InitNormal ();
@@ -74,7 +74,7 @@ public class StageManagerTutorial : MonoBehaviour {
 				mUntilGenerateTime = UNTIL_GENERATE_TIME;
 			}
 			//建設中の場合の処理
-			if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
+			if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 				mTimeSeconds -= Time.deltaTime * 2.0f;
 				if (mTimeSeconds >= 0) {
 					untilSleepLabel.text = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
@@ -96,7 +96,7 @@ public class StageManagerTutorial : MonoBehaviour {
 				Destroy (character.gameObject);
 			}
 			mState = State.Normal;
-			mStageData.FlagConstruction = Stage.NOT_CONSTRUCTION;
+			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
 			mStageData.UpdatedDate = DateTime.Now.ToString ();
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 			mCharacterList = new List<Character> ();
@@ -110,7 +110,7 @@ public class StageManagerTutorial : MonoBehaviour {
 	//再開時の処理
 	public void Resume () {
 		//工事中かをチェック
-		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 			SetConstructionTime ();
 		} else {
 			//サボるまでの時間をセット(テストで10分の1)
@@ -182,7 +182,7 @@ public class StageManagerTutorial : MonoBehaviour {
 		foreach (Character character in mCharacterList) {
 			character.StartLive ();
 		}
-		if (mStageData.FlagConstruction != Stage.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction != StageData.IN_CONSTRUCTION) {
 			mDanceTeamObject = Instantiate (danceTeamPrefab)as GameObject;
 			mDanceTeamObject.transform.parent = mContainerObject.transform;
 			mDanceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
@@ -199,7 +199,7 @@ public class StageManagerTutorial : MonoBehaviour {
 		if (mState == State.Live) {
 			PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
-		if (mStageData.FlagConstruction == Stage.IN_CONSTRUCTION) {
+		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 			mState = State.Construction;
 			mSkipConstructionButtonObject.SetActive (true);
 		} else {
