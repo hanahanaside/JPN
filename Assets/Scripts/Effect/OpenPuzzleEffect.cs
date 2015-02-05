@@ -14,7 +14,7 @@ public class OpenPuzzleEffect : MonoBehaviour {
 		hashTable.Add ("x", 0);
 		hashTable.Add ("y", 1);
 		hashTable.Add ("z", 0);
-		hashTable.Add ("speed", 2);
+		hashTable.Add ("speed", 4);
 		hashTable.Add ("easetype", iTween.EaseType.linear);
 		hashTable.Add ("oncomplete", "CompleteHandler");
 		iTween.MoveTo (gameObject, hashTable);
