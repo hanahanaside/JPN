@@ -8,20 +8,12 @@ public class StageManager : MonoBehaviour {
 	public static event Action SleepEvent;
 	public static event Action WakeupEvent;
 
-	public enum State {
-		Normal,
-		Sleep,
-		Live,
-		Construction
-	}
-
 	public GameObject danceTeamPrefab;
 
 	private const float UNTIL_GENERATE_TIME = 0.6f;
 	private float mTimeSeconds;
 	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
-	private State mState = State.Normal;
 	private StageData mStageData;
 	private List<Character> mCharacterList = new List<Character> ();
 	private GameObject mSkipConstructionButtonObject;
@@ -58,8 +50,8 @@ public class StageManager : MonoBehaviour {
 	}
 
 	void Update () {
-		switch (mState) {
-		case State.Normal:
+		switch (mStageData.State) {
+		case StageData.StateType.Normal:
 			//スリープ時間を更新
 			mTimeSeconds -= Time.deltaTime;
 			mIdolStageStatus.UntilSleepLabel = "あと" + TimeConverter.Convert (mTimeSeconds) + "でサボる";
@@ -74,7 +66,7 @@ public class StageManager : MonoBehaviour {
 				mUntilGenerateTime = UNTIL_GENERATE_TIME;
 			}
 			break;
-		case State.Live:
+		case StageData.StateType.Live:
 			//コイン生成時間を更新(2倍)
 			mUntilGenerateTime -= Time.deltaTime;
 			if (mUntilGenerateTime < 0) {
@@ -89,9 +81,9 @@ public class StageManager : MonoBehaviour {
 				}
 			}
 			break;
-		case State.Sleep:
+		case StageData.StateType.Sleep:
 			break;
-		case State.Construction:
+		case StageData.StateType.Construction:
 			//建設中の時間を更新
 			mTimeSeconds -= Time.deltaTime;
 			mIdolStageStatus.UntilSleepLabel = "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成";
@@ -103,7 +95,7 @@ public class StageManager : MonoBehaviour {
 			foreach (Character character in mCharacterList) {
 				Destroy (character.gameObject);
 			}
-			mState = State.Normal;
+			mStageData.State = StageData.StateType.Normal;
 			mStageData.State = StageData.StateType.Normal;
 			mStageData.UpdatedDate = DateTime.Now.ToString ();
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
@@ -148,13 +140,6 @@ public class StageManager : MonoBehaviour {
 		}
 	}
 
-	//ステートを返す
-	public State GetState {
-		get {
-			return mState;
-		}
-	}
-
 	//サボるか工事完了までの時間を返す
 	public float UntilTime {
 		get {
@@ -168,7 +153,7 @@ public class StageManager : MonoBehaviour {
 		mStageData.UpdatedDate = DateTime.Now.ToString ();
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		sleepObject.SetActive (false);
-		mState = State.Normal;
+		mStageData.State = StageData.StateType.Normal;
 		gameObject.tag = "default";
 		foreach (Character character in mCharacterList) {
 			character.Wakeup ();
@@ -190,7 +175,7 @@ public class StageManager : MonoBehaviour {
 	private void Sleep () {
 		gameObject.tag = "sleep";
 		sleepObject.SetActive (true);
-		mState = State.Sleep;
+		mStageData.State = StageData.StateType.Sleep;
 		//コイン生成パワーをセット
 		mIdolStageStatus.GenerateCoinPowerLabel = "0/分";
 		//サボるまでの時間をセット
@@ -208,7 +193,7 @@ public class StageManager : MonoBehaviour {
 
 	//ライブを開始
 	public void StartLive () {
-		mState = State.Live;
+		mStageData.State = StageData.StateType.Live;
 		mSkipConstructionButtonObject.SetActive (false);
 		mIdolStageStatus.UntilSleepLabel = "LIVE！！！！！！！！！！！";
 		gameObject.tag = "default";
@@ -238,11 +223,11 @@ public class StageManager : MonoBehaviour {
 	//ライブを終了
 	public void FinishLive () { 
 		//ライブ中で終了した場合は倍になっている数字を元に戻す
-		if (mState == State.Live) {
+		if (mStageData.State == StageData.StateType.Live.Live) {
 			PlayerDataKeeper.instance.DecreaseGenerateCoinPower (mTotalGenerateCoinPower);
 		}
 		if (mStageData.State == StageData.StateType.Construction) {
-			mState = State.Construction;
+			mStageData.State = StageData.StateType.Construction;
 			mSkipConstructionButtonObject.SetActive (true);
 		} else {
 			mTimeSeconds = GetUntilSleepTime () * 60;
