@@ -183,6 +183,7 @@
      <Compile Include="Assets\Scripts\AD\UnityAdsManager.cs" />
      <Compile Include="Assets\Scripts\APNs\APNsRegister.cs" />
      <Compile Include="Assets\Scripts\Caluculator\AreaCostCaluculator.cs" />
+     <Compile Include="Assets\Scripts\Caluculator\GeneratedCoinCalculator.cs" />
      <Compile Include="Assets\Scripts\Caluculator\TimeSpanCalculator.cs" />
      <Compile Include="Assets\Scripts\Cell\MoveStageCell.cs" />
      <Compile Include="Assets\Scripts\CoinRate\CoinRate.cs" />

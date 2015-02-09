@@ -24,7 +24,7 @@ public class PrefsManager :Singleton<PrefsManager> {
 
 	public int DatabaseVersion {
 		get {
-			return PlayerPrefs.GetInt (Kies.DatabaseVersion.ToString (), 1);
+			return PlayerPrefs.GetInt (Kies.DatabaseVersion.ToString ());
 		}
 		set {
 			PlayerPrefs.SetInt (Kies.DatabaseVersion.ToString (), value);

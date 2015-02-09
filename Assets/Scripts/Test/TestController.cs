@@ -8,7 +8,7 @@ public class TestController : TestParent {
 	public UILabel label;
 
 	void Start () {
-	//	label.text = "111111111111111111";
+		Debug.Log ("" + PlayerPrefs.GetInt("gfdgd"));
 	}
 
 	void Update () {

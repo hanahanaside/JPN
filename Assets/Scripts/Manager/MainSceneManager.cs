@@ -14,9 +14,15 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	void Start () {
-		MyLog.LogDebug ("start");
+		MyLog.LogDebug ("start main scene manager");
 		PlayerDataKeeper.instance.Init ();
 		EventManager.instance.Init ();
+		//中断中に稼いだ金額を算出
+		double addCoin = GeneratedCoinCalculator.CalcWhileSleeping ();
+		if (addCoin >= 100) {
+			FenceManager.instance.ShowFence ();
+			SleepTimeCoinDialogManager.instance.Show (addCoin);
+		}
 		StageGridManager.instance.CreateStageGrid ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
 		//パズル終わりであればスカウト画面から再開
@@ -34,11 +40,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			#endif
 		} else {
 			StageGridManager.instance.MoveToStage (1);
-			double addCoin = CalcSleepTimeCoin ();
-			if (addCoin >= 100) {
-				FenceManager.instance.ShowFence ();
-				SleepTimeCoinDialogManager.instance.Show (addCoin);
-			}
 		}
 			
 		Resume ();
@@ -93,7 +94,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	//起動時に呼ばれる
 	private void Resume () {
 		//中断中に稼いだコインを取得
-		double addCoin = CalcSleepTimeCoin ();
+		double addCoin = GeneratedCoinCalculator.CalcWhileSleeping ();
 
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
 
@@ -120,22 +121,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		}
 
 	}
-
-	//中断中に稼いだコインを計算して返す
-	private double CalcSleepTimeCoin () {
-		DateTime dtNow = DateTime.Now;
-		DateTime dtExit = DateTime.Parse (PlayerDataKeeper.instance.ExitDate);
-		TimeSpan ts = dtNow - dtExit;
-		MyLog.LogDebug ("ts " + ts.TotalSeconds);
-		double addCoin = (PlayerDataKeeper.instance.SavedGenerateCoinPower / 60.0) * ts.TotalSeconds;
-		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
-		if (remainingLiveTimeSeconds > 0) {
-			addCoin = addCoin * 2;
-		}
-		MyLog.LogDebug ("addCoin " + addCoin);
-		return addCoin;
-	}
-
+		
 	//新規でアンロック可能なエリアの名前を返す
 	private string CheckNewUnlockAreaExist () {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;

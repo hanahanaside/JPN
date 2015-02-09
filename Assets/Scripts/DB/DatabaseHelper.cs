@@ -10,6 +10,8 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
 	public static readonly string DATABASE_FILE_NAME = "jpn.db";
 
+	public const int DATABASE_VERSION = 1;
+
 	public string filePath {
 		get;
 		set;
@@ -41,6 +43,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		#if UNITY_IPHONE
 		if (!File.Exists (filePath)) {
 			CopyDB ();
+			PrefsManager.instance.DatabaseVersion = DATABASE_VERSION;
 			CreatedDatabaseEvent ();
 		} else {
 			UpdateDatabase ();
@@ -75,25 +78,14 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		int databaseVersion = PrefsManager.instance.DatabaseVersion;
 		switch (databaseVersion) {
 		case 0:
-			UpdateToVer_1 ();
-			PrefsManager.instance.DatabaseVersion = 1;
+			//バージョン0で未セーブの人がいる
+			PrefsManager.instance.DatabaseVersion = DATABASE_VERSION;
 			CreatedDatabaseEvent ();
 			break;
 		case 1:
 			CreatedDatabaseEvent ();
 			break;
 		}
-	}
-
-	private void UpdateToVer_1(){
-		StageDao dao = DaoFactory.CreateStageDao ();
-		List<StageData> stageDataList = dao.SelectAll ();
-		List<int> flagConstructionList = new List<int> ();
-		foreach(StageData stageData in stageDataList){
-			flagConstructionList.Add (stageData.FlagConstruction);
-		}
-		DeleteDB ();
-		CopyDB ();
 
 	}
 }
