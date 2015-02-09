@@ -93,7 +93,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
 	//FlagConstructionカラムをStateにリネームする
 	private void RenameFlagConstructionToState () {
-		Debug.Log ("DBをバージョン1にアップデート開始");
+		Debug.Log ("Flag_ConstructionをStateに変更開始");
 		StageDao dao = DaoFactory.CreateStageDao ();
 		//データを一時的に避難させる
 		List<int> flagConstructionList = dao.SelectByColumn ("flag_construction");
@@ -117,7 +117,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 			}
 			PrefsManager.instance.DatabaseVersion = 0;
 			CreatedDatabaseEvent ();
-			Debug.Log ("DBをバージョン1にアップデート完了");
+			Debug.Log ("Flag_ConstructionをStateに変更完了");
 		};
 		File.Delete (filePath);
 		StartCoroutine ("CopyDatabase");
