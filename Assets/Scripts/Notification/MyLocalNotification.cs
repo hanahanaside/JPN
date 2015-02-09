@@ -73,7 +73,7 @@ public class MyLocalNotification {
 		double addSeconds = 0;
 		foreach (StageManager stageManager in stageManagerList) {
 			StageData stage = stageManager.Stage;
-			if (stage.FlagConstruction == StageData.IN_CONSTRUCTION) {
+			if (stage.State == StageData.StateType.Construction) {
 				continue;
 			}
 			if (stageManager.GetState == StageManager.State.Sleep) {
@@ -92,7 +92,7 @@ public class MyLocalNotification {
 		double addSeconds = 0;
 		foreach (StageManager stageManager in stageManagerList) {
 			StageData stage = stageManager.Stage;
-			if (stage.FlagConstruction == StageData.IN_CONSTRUCTION) {
+			if (stage.State == StageData.StateType.Construction) {
 				continue;
 			}
 			if (stageManager.GetState == StageManager.State.Sleep) {

@@ -31,8 +31,7 @@ public class MyDebugger : MonoBehaviour {
 		Rect deleteDBRect = new Rect (10, 60, 80, 20);
 		bool clickedDeleteDB = GUI.Button (deleteDBRect, "reset DB");
 		if (clickedDeleteDB) {
-			DatabaseHelper.instance.DeleteDB ();
-			DatabaseHelper.instance.CopyDB ();
+			DatabaseHelper.instance.RecreateDatabase ();
 		}
 		Rect prefsRect = new Rect (10, 90, 80, 20);
 		bool clickedPrefs = GUI.Button (prefsRect, "clear prefs");

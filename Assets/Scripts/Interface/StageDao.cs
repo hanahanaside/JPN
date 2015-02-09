@@ -7,9 +7,12 @@ public interface StageDao
 
 	List<StageData> SelectAll ();
 
+	List<int> SelectByColumn(string columnName);
+
 	StageData SelectById (int id);
 
 	void UpdateRecord (StageData stage);
 
 	void UpdateAllUpdateDate(string updateDate);
+
 }

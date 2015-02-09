@@ -6,9 +6,15 @@ using System.Collections.Generic;
 
 public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 
+
 	public static event Action CreatedDatabaseEvent;
 
+	public const int DATABASE_VERSION = 0;
 	public static readonly string DATABASE_FILE_NAME = "jpn.db";
+
+	private delegate void CompleteCopyDelegate ();
+
+	private CompleteCopyDelegate mCompleteCopyDelegate;
 
 	public string filePath {
 		get;
@@ -35,65 +41,85 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		//チュートリアルが終わってなかったら全てのデータを消す
 		if (!PrefsManager.instance.TutorialFinished) {
 			if (File.Exists (filePath)) {
-				DeleteDB ();
+				File.Delete (filePath);
 			}
 		}
-		#if UNITY_IPHONE
+
+		//無ければ作る
 		if (!File.Exists (filePath)) {
-			CopyDB ();
-			CreatedDatabaseEvent ();
-		} else {
+			mCompleteCopyDelegate = () => {
+				PrefsManager.instance.DatabaseVersion = DATABASE_VERSION;
+				CreatedDatabaseEvent ();
+			};
+			StartCoroutine ("CopyDatabase");
+		} 
+		//既に存在していればアップデートの確認
+		else {
 			UpdateDatabase ();
 		}
-		#endif
-
-		#if UNITY_ANDROID
-		if (!File.Exists (filePath)) {
-			StartCoroutine("CreateAndroidDatabase");
-		}else {
-			UpdateDatabase();
-		}
-		#endif
 	}
 
-	public void DeleteDB () {
+	//DBを再構築する
+	public void RecreateDatabase () {
 		File.Delete (filePath);
+		StartCoroutine ("CopyDatabase");
 	}
 
-	public void CopyDB () {
+	private IEnumerator CopyDatabase () {
+		#if UNITY_IPHONE
+		yield return null;
 		File.Copy (baseFilePath, filePath); 
-	}
-
-	private IEnumerator CreateAndroidDatabase () {
+		#endif
+		#if UNITY_ANDROID
 		WWW www = new WWW (baseFilePath);
 		yield return www;
 		File.WriteAllBytes (filePath, www.bytes);
-		UpdateDatabase ();
+		#endif
+		if (mCompleteCopyDelegate != null) {
+			mCompleteCopyDelegate ();
+		}
 	}
 
 	private void UpdateDatabase () {
 		int databaseVersion = PrefsManager.instance.DatabaseVersion;
+		Debug.Log ("現在のデータベースバージョンは" + databaseVersion);
 		switch (databaseVersion) {
 		case 0:
-			UpdateToVer_1 ();
-			PrefsManager.instance.DatabaseVersion = 1;
-			CreatedDatabaseEvent ();
-			break;
-		case 1:
+			RenameFlagConstructionToState ();
 			CreatedDatabaseEvent ();
 			break;
 		}
 	}
 
-	private void UpdateToVer_1(){
+	//FlagConstructionカラムをStateにリネームする
+	private void RenameFlagConstructionToState () {
+		Debug.Log ("DBをバージョン1にアップデート開始");
 		StageDao dao = DaoFactory.CreateStageDao ();
-		List<StageData> stageDataList = dao.SelectAll ();
-		List<int> flagConstructionList = new List<int> ();
-		foreach(StageData stageData in stageDataList){
-			flagConstructionList.Add (stageData.FlagConstruction);
+		//データを一時的に避難させる
+		List<int> flagConstructionList = dao.SelectByColumn ("flag_construction");
+		//既にFlagConstructionカラムがなければ何もしない(データベースバージョンを保存し忘れてしまいました。)
+		if (flagConstructionList == null) {
+			return;
 		}
-		DeleteDB ();
-		CopyDB ();
-
+		//データを一時的に避難させる
+		List<StageData> stageDataList = dao.SelectAll ();
+		//コピー完了コールバック
+		mCompleteCopyDelegate = () => {
+			for (int i = 0; i < stageDataList.Count; i++) {
+				StageData stageData = stageDataList [i];
+				stageData.UpdatedDate = DateTime.Now.ToString();
+				int flagConstruction = flagConstructionList [i];
+				//工事が完了している場合はステートをノーマルにする
+				if (flagConstruction == 0) {
+					stageData.State = StageData.StateType.Normal;
+				}
+				dao.UpdateRecord (stageData);
+			}
+			PrefsManager.instance.DatabaseVersion = 0;
+			CreatedDatabaseEvent ();
+			Debug.Log ("DBをバージョン1にアップデート完了");
+		};
+		File.Delete (filePath);
+		StartCoroutine ("CopyDatabase");
 	}
 }

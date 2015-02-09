@@ -7,11 +7,11 @@ using System;
 public class StageDbDao : StageDao {
 
 	private const string TABLE_NAME = "stage";
-	private const string FIELD_ID = "id";
-	private const string FIELD_AREA_NAME = "area_name";
-	private const string FIELD_IDLE_COUNT = "idle_count";
-	private const string FIELD_FLAG_CONSTRUCTION = "flag_construction";
-	private const string FIELD_UPDATED_DATE = "updated_date";
+	private const string ID = "id";
+	private const string AREA_NAME = "area_name";
+	private const string IDLE_COUNT = "idle_count";
+	private const string STATE = "state";
+	private const string UPDATED_DATE = "updated_date";
 
 	//存在する全てのステージデータを取得
 	public List<StageData> SelectAll () {
@@ -19,7 +19,7 @@ public class StageDbDao : StageDao {
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("select * from " + TABLE_NAME + " ");
-		sb.Append ("where " + FIELD_IDLE_COUNT +  " != 0;");
+		sb.Append ("where " + IDLE_COUNT + " != 0;");
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		while (sqliteQuery.Step ()) {
 			StageData stage = GetStage (sqliteQuery);
@@ -36,7 +36,7 @@ public class StageDbDao : StageDao {
 		StageData stage = new StageData ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("select * from " + TABLE_NAME + " ");
-		sb.Append ("where " + FIELD_ID + " = " + id + ";");
+		sb.Append ("where " + ID + " = " + id + ";");
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		while (sqliteQuery.Step ()) {
 			stage = GetStage (sqliteQuery);
@@ -51,28 +51,48 @@ public class StageDbDao : StageDao {
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("update " + TABLE_NAME + " set ");
-		sb.Append (FIELD_IDLE_COUNT + " = " + stage.IdleCount + ", ");
-		sb.Append (FIELD_FLAG_CONSTRUCTION + " = " + stage.FlagConstruction + ", ");
-		sb.Append (FIELD_UPDATED_DATE + " = '" + stage.UpdatedDate + "' ");
-		sb.Append ("where " + FIELD_ID + " = " + stage.Id + ";");
-		MyLog.LogDebug ("sql " + sb.ToString());
+		sb.Append (IDLE_COUNT + " = " + stage.IdleCount + ", ");
+		sb.Append (STATE + " = " + ((int)stage.State) + ", ");
+		sb.Append (UPDATED_DATE + " = '" + stage.UpdatedDate + "' ");
+		sb.Append ("where " + ID + " = " + stage.Id + ";");
+		MyLog.LogDebug ("sql " + sb.ToString ());
+		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
+		sqliteQuery.Step ();
+		sqliteQuery.Release ();
+		sqliteDB.Close ();
+	}
+		
+	//全てのレコードのアップデートデートを統一する
+	public void UpdateAllUpdateDate (string updateDate) {
+		SQLiteDB sqliteDB = OpenDatabase ();
+		StringBuilder sb = new StringBuilder ();
+		sb.Append ("update " + TABLE_NAME + " set ");
+		sb.Append (UPDATED_DATE + " = '" + updateDate + "' ");
+		MyLog.LogDebug ("sql " + sb.ToString ());
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		sqliteQuery.Step ();
 		sqliteQuery.Release ();
 		sqliteDB.Close ();
 	}
 
-	//全てのレコードのアップデートデートを統一する
-	public void UpdateAllUpdateDate(string updateDate){
+	//指定したカラムの全データを取得
+	public List<int> SelectByColumn (string columnName) {
+		List<int> dataList = new List<int> ();
 		SQLiteDB sqliteDB = OpenDatabase ();
-		StringBuilder sb = new StringBuilder ();
-		sb.Append ("update " + TABLE_NAME + " set ");
-		sb.Append (FIELD_UPDATED_DATE + " = '" + updateDate + "' ");
-		MyLog.LogDebug ("sql " + sb.ToString());
-		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
-		sqliteQuery.Step ();
-		sqliteQuery.Release ();
-		sqliteDB.Close ();
+
+		string sql = "select " + columnName + " from " + TABLE_NAME + ";";
+		SQLiteQuery sqliteQuery = null;
+		//カラムが存在していない場合はNullを返す
+		try {
+			sqliteQuery = new SQLiteQuery (sqliteDB, sql);
+		} catch (Exception e) {
+			Debug.Log ("" + e.Message);
+			return null;
+		}
+		while (sqliteQuery.Step ()) {
+			dataList.Add (sqliteQuery.GetInteger (columnName));
+		}
+		return dataList;
 	}
 
 	//クエリからステージデータを生成して返す
@@ -80,11 +100,11 @@ public class StageDbDao : StageDao {
 		StageData stage = new StageData ();
 		// create date がnullの場合アリ
 		try {
-			stage.Id = sqliteQuery.GetInteger (FIELD_ID);
-			stage.AreaName = sqliteQuery.GetString (FIELD_AREA_NAME);
-			stage.IdleCount = sqliteQuery.GetInteger (FIELD_IDLE_COUNT);
-			stage.FlagConstruction = sqliteQuery.GetInteger (FIELD_FLAG_CONSTRUCTION);
-			stage.UpdatedDate = sqliteQuery.GetString (FIELD_UPDATED_DATE);
+			stage.Id = sqliteQuery.GetInteger (ID);
+			stage.AreaName = sqliteQuery.GetString (AREA_NAME);
+			stage.IdleCount = sqliteQuery.GetInteger (IDLE_COUNT);
+			stage.State = (StageData.StateType)sqliteQuery.GetInteger (STATE);
+			stage.UpdatedDate = sqliteQuery.GetString (UPDATED_DATE);
 		} catch (Exception e) {
 			MyLog.LogDebug (e.Message);
 		} 

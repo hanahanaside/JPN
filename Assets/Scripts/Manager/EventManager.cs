@@ -103,7 +103,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			MyLog.LogDebug ("アイドルが1人以下なので迷子を中止");
 			return;
 		}
-		if (stage.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		if (stage.State== StageData.StateType.Construction) {
 			MyLog.LogDebug ("工事中のアイドルなので迷子を中止");
 			return;
 		}
