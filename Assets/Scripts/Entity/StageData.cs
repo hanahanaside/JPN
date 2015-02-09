@@ -3,7 +3,10 @@ using System.Collections;
 
 public class StageData {
 
-	public enum StateType {
+	public static readonly int NOT_CONSTRUCTION = 0;
+	public static readonly int IN_CONSTRUCTION = 1;
+
+	public enum State :int{
 		Normal,
 		Sleep,
 		Live,
@@ -12,11 +15,13 @@ public class StageData {
 
 	public int Id{ get; set; }
 
+	public int FlagConstruction{ get; set; }
+
 	public int IdleCount{ get; set; }
 
 	public string AreaName{ get; set; }
 
 	public string UpdatedDate{ get; set; }
 
-	public StateType State{ get; set; }
+	public State state{ get; set; }
 }
