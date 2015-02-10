@@ -234,8 +234,6 @@
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />
-     <Compile Include="Assets\Scripts\IdolStageGeneratedCoin.cs" />
-     <Compile Include="Assets\Scripts\IdolStageInitializer.cs" />
      <Compile Include="Assets\Scripts\IdolStageStatus\IdolStageStatus.cs" />
      <Compile Include="Assets\Scripts\Interface\ConstructionTimeDao.cs" />
      <Compile Include="Assets\Scripts\Interface\GenerateCoinPowerDao.cs" />
