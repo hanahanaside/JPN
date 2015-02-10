@@ -186,10 +186,7 @@
      <Compile Include="Assets\Scripts\Caluculator\GeneratedCoinCalculator.cs" />
      <Compile Include="Assets\Scripts\Caluculator\TimeSpanCalculator.cs" />
      <Compile Include="Assets\Scripts\Cell\MoveStageCell.cs" />
-     <Compile Include="Assets\Scripts\CharacterList.cs" />
      <Compile Include="Assets\Scripts\CoinRate\CoinRate.cs" />
-     <Compile Include="Assets\Scripts\ConstructionTImeSec.cs" />
-     <Compile Include="Assets\Scripts\Container\IdolStageContainer.cs" />
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Converter\TimeConverter.cs" />
      <Compile Include="Assets\Scripts\DB\ConstructionTimeDbDao.cs" />
@@ -237,8 +234,6 @@
      <Compile Include="Assets\Scripts\IdleParams\IdleParams.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />
-     <Compile Include="Assets\Scripts\IdolStageDataManager.cs" />
-     <Compile Include="Assets\Scripts\IdolStageState.cs" />
      <Compile Include="Assets\Scripts\IdolStageStatus\IdolStageStatus.cs" />
      <Compile Include="Assets\Scripts\Interface\ConstructionTimeDao.cs" />
      <Compile Include="Assets\Scripts\Interface\GenerateCoinPowerDao.cs" />
@@ -264,7 +259,6 @@
      <Compile Include="Assets\Scripts\Manager\PuzzleTutorialManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ScoutStageManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SplashSceneManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\StageDataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageGridManager.cs" />
      <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
      <Compile Include="Assets\Scripts\Math\GameMath.cs" />
@@ -294,7 +288,6 @@
      <Compile Include="Assets\Scripts\Tutorial\SkipConstructionDialogTutorial.cs" />
      <Compile Include="Assets\Scripts\Tutorial\StageManagerTutorial.cs" />
      <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
-     <Compile Include="Assets\Scripts\UntilSleepTimeSec.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_ConstructionTime.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_GenerateCoinPower.cs" />
