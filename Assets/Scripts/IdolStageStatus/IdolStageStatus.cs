@@ -9,7 +9,7 @@ public class IdolStageStatus : MonoBehaviour {
 	private UILabel mAreaNameLabel;
 	private UISprite mIdolSprite;
 
-	public void Init(){
+	public void FindObjects(){
 		mUntilSleepLabel = transform.FindChild ("UntilSleepLabel").GetComponent<UILabel>();
 		mGenerateCoinPowerLabel = transform.FindChild ("GenerateCoinPowerLabel").GetComponent<UILabel>();
 		mIdolCountLabel = transform.FindChild ("IdolCountLabel").GetComponent<UILabel>();

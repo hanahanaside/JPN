@@ -40,15 +40,16 @@ public class StageManager : MonoBehaviour {
 		Idle.FoundEvent -= FoundIdleEvent;
 	}
 
-	public void Init (StageData stage) {
-		mStageData = stage;
+	public void Init (StageData stageData) {
+		mStageData = stageData;
 		mTransform = transform;
 		mSkipConstructionButtonObject = transform.Find ("Container/SkipConstructionButton").gameObject;
 		mContainerObject = transform.FindChild ("Container").gameObject;
 		sleepObject = transform.Find ("Container/Sleep").gameObject;
 		mIdolStageStatus = transform.Find ("Container/IdolStageStatus").GetComponent<IdolStageStatus> ();
 		backGroundTexture = GetComponentInChildren<UITexture> ();
-		mIdolStageStatus.Init ();
+		mIdolStageStatus.FindObjects ();
+
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 			InitConstruction ();

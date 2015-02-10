@@ -17,12 +17,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		MyLog.LogDebug ("start main scene manager");
 		PlayerDataKeeper.instance.Init ();
 		EventManager.instance.Init ();
-		//中断中に稼いだ金額を算出
-		double addCoin = GeneratedCoinCalculator.CalcWhileSleeping ();
-		if (addCoin >= 100) {
-			FenceManager.instance.ShowFence ();
-			SleepTimeCoinDialogManager.instance.Show (addCoin);
-		}
 		StageGridManager.instance.CreateStageGrid ();
 		MoveStagePanelManager.instance.CreateMoveStageGrid ();
 		//パズル終わりであればスカウト画面から再開
@@ -95,6 +89,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	private void Resume () {
 		//中断中に稼いだコインを取得
 		double addCoin = GeneratedCoinCalculator.CalcWhileSleeping ();
+		Debug.Log ("add coin = " +addCoin);
 
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
 
