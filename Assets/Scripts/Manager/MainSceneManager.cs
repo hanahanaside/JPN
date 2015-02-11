@@ -61,21 +61,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			Resume();
 			//時間関係の処理の指令を出す
 			StageGridManager.instance.Resume ();
-			//レビューダイアログを表示
-			int resumeCount = PrefsManager.instance.ResumeCount;
-			resumeCount++;
-			PrefsManager.instance.ResumeCount = resumeCount;
-			if (resumeCount < 10) {
-			return;
-			}
-			if (resumeCount % 5 != 0) {
-			return;
-			}
-			if (PrefsManager.instance.IsReviewed) {
-			RecommendAppDialog.instance.Show ();
-			} else {
-			ReviewDialog.instance.Show ();
-			}
 			#endif
 		}
 	}
@@ -90,8 +75,9 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		//中断中に稼いだコインを取得
 		double addCoin = GeneratedCoinCalculator.CalcWhileSleeping ();
 		Debug.Log ("add coin = " +addCoin);
-
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
+		//表示するダイアログの確認をする
+		CheckDialogs (addCoin);
 
 		//ライブの途中であれば再開
 		float remainingLiveTimeSeconds = GetRemainingLiveTimeSeconds ();
@@ -114,7 +100,33 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 		} else {
 			SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 		}
+	}
 
+	//起動時に表示するダイアログのうち表示できるモノを1つ表示する
+	private void CheckDialogs(double addCoin){
+		//ResumeCountをインクリメント
+		int resumeCount = PrefsManager.instance.ResumeCount;
+		resumeCount++;
+		PrefsManager.instance.ResumeCount = resumeCount;
+
+		//addCoinが0を超えていたらコインのダイアログを出す
+		if(addCoin >= 100){
+			FenceManager.instance.ShowFence ();
+			SleepTimeCoinDialogManager.instance.Show (addCoin);
+			return;
+		}
+		if (resumeCount < 10) {
+			return;
+		}
+		if (resumeCount % 5 != 0) {
+			return;
+		}
+		//レビュー済みの場合はオススメアプリダイアログを出す
+		if (PrefsManager.instance.IsReviewed) {
+			RecommendAppDialog.instance.Show ();
+		} else {
+			ReviewDialog.instance.Show ();
+		}
 	}
 		
 	//新規でアンロック可能なエリアの名前を返す

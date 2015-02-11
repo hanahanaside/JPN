@@ -50,21 +50,40 @@ public class StageManager : MonoBehaviour {
 		backGroundTexture = GetComponentInChildren<UITexture> ();
 		mIdolStageStatus.FindObjects ();
 
-		//工事中かをチェック
+		//工事中でなかったら通常状態へ
 		if (mStageData.FlagConstruction == StageData.NOT_CONSTRUCTION) {
 			InitNormal ();
 			return;
 		}
+		//建設完了までの秒数
+		double remainingConstructionTimeSec = RemainingConstructionTimeSec ();
 
-		//建設完了して眠っているかをチェック
-		if(AlreadySleptInConstruction()){
+		//まだ建設が完了していない場合
+		if (remainingConstructionTimeSec > 0) {
+			mTimeSeconds = (float)remainingConstructionTimeSec;
+			InitConstruction ();
+			return;
+		}
+
+		//建設完了を貫通した時間
+		double overTimeSec = -remainingConstructionTimeSec;
+
+		//建設完了を貫通した時間がサボるまでの時間を超えている場合
+		UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
+		int untilSleepTimeSec = untilSleepTimeDao.SelectById (mStageData.Id, mStageData.IdleCount) * 60;
+		if (overTimeSec > untilSleepTimeSec) {
 			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 			InitNormal ();
 			Sleep ();
-		}else {
-			InitConstruction ();
+			return;
 		}
+
+		//建設は完了しているがサボるまでは至っていない場合
+		mTimeSeconds = (float)(untilSleepTimeSec - overTimeSec);
+		mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
+		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
+		InitNormal ();
 	}
 
 	void Update () {
@@ -130,7 +149,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//建設完了
-	private void FinishConstruction(){
+	private void FinishConstruction () {
 		backGroundTexture.mainTexture = Resources.Load ("Texture/St_" + mStageData.Id) as Texture;
 		foreach (Character character in mCharacterList) {
 			Destroy (character.gameObject);
@@ -154,14 +173,35 @@ public class StageManager : MonoBehaviour {
 			return;
 		} 
 
-		if(AlreadySleptInConstruction()){
+		//建設完了までの秒数
+		double remainingConstructionTimeSec = RemainingConstructionTimeSec ();
+
+		//まだ建設が完了していない場合
+		if (remainingConstructionTimeSec > 0) {
+			mTimeSeconds = (float)remainingConstructionTimeSec;
+			return;
+		}
+
+		//建設完了を貫通した時間
+		double overTimeSec = -remainingConstructionTimeSec;
+
+		//建設完了を貫通した時間がサボるまでの時間を超えている場合
+		UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
+		int untilSleepTimeSec = untilSleepTimeDao.SelectById (mStageData.Id, mStageData.IdleCount) * 60;
+		if (overTimeSec > untilSleepTimeSec) {
 			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 			FinishConstruction ();
 			Sleep ();
-		}else {
-			SetConstructionTime ();
+			return;
 		}
+
+		//建設は完了しているがサボるまでは至っていない場合
+		mTimeSeconds = (float)(untilSleepTimeSec - overTimeSec);
+		mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
+		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
+		FinishConstruction ();
+
 	}
 
 	//ステージデータを返す
@@ -358,9 +398,6 @@ public class StageManager : MonoBehaviour {
 		//背景を設置
 		backGroundTexture.mainTexture = Resources.Load ("Texture/Construction") as Texture;
 
-		//建設時間を設置(テストで10分の1)
-		SetConstructionTime ();
-
 		//アイドルの画像をセット
 		mIdolStageStatus.IdolSpriteName = "idle_normal_" + mStageData.Id;
 
@@ -390,20 +427,14 @@ public class StageManager : MonoBehaviour {
 		}
 	}
 
-	//建設完了して、さらにサボるまでの時間を過ぎているかを返す
-	private bool AlreadySleptInConstruction () {
+	//建設完了までの秒数を返す
+	private double RemainingConstructionTimeSec () {
 		ConstructionTimeDao constructionTimeDao = DaoFactory.CreateConstructionTimeDao ();
-		UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
 		int constructionTimeSec = constructionTimeDao.SelectById (mStageData.Id) * 60;
-		int untilSleepTimeSec = untilSleepTimeDao.SelectById (mStageData.Id, mStageData.IdleCount) * 60;
 		DateTime dtStartConstruction = DateTime.Parse (mStageData.UpdatedDate);
 		DateTime dtNow = DateTime.Parse (DateTime.Now.ToString ());
 		TimeSpan ts = dtNow - dtStartConstruction;
-		//建設開始から再開時の時間が(建設までの時間 + サボるまでの時間)を上回っていたらtrueを返す
-		if (ts.TotalSeconds > constructionTimeSec + untilSleepTimeSec) {
-			return true;
-		}
-		return false;
+		return constructionTimeSec - ts.TotalSeconds;
 	}
 
 	//通常時の初期化処理
@@ -464,14 +495,6 @@ public class StageManager : MonoBehaviour {
 		idleObject.GetComponent<Idle> ().Init ();
 		mCharacterList.Add (idleObject.GetComponent<Character> ());
 		return idleObject;
-	}
-		
-	//建設中の時間をセット
-	private void SetConstructionTime () {
-		ConstructionTimeDao dao = DaoFactory.CreateConstructionTimeDao ();
-		float constructionTimeSeconds = dao.SelectById (mStageData.Id) * 60;  
-		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
-		mTimeSeconds = constructionTimeSeconds - timeSpanSeconds;
 	}
 
 	//サボるまでの時間をセット
