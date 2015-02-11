@@ -5,11 +5,11 @@ using System.Collections;
 public class TwitterClient : MonoSingleton<TwitterClient> {
 
 	void OnEnable () {
-	//	TwitterManager.tweetSheetCompletedEvent += tweetSheetCompletedEvent;
+		TwitterManager.tweetSheetCompletedEvent += tweetSheetCompletedEvent;
 	}
 	
 	void OnDisable () {
-	//	TwitterManager.tweetSheetCompletedEvent -= tweetSheetCompletedEvent;
+		TwitterManager.tweetSheetCompletedEvent -= tweetSheetCompletedEvent;
 	}
 
 	void Start () {
@@ -27,7 +27,7 @@ public class TwitterClient : MonoSingleton<TwitterClient> {
 		Debug.Log ("Tweet");
 
 		#if UNITY_IPHONE
-	//	TwitterBinding.showTweetComposer(text);
+		TwitterBinding.showTweetComposer(text);
 		#endif
 	
 #if UNITY_ANDROID

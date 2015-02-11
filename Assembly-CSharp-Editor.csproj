@@ -198,6 +198,9 @@
  <Reference Include="JsonFx.Json">
  <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/JsonFx.Json.dll</HintPath>
  </Reference>
+ <Reference Include="P31RestKit">
+ <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/P31RestKit.dll</HintPath>
+ </Reference>
  <Reference Include="NPOI">
  <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Terasurware/Editor/npoi/NPOI.dll</HintPath>
  </Reference>

@@ -30,7 +30,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 				EventManager.instance.ShowNatsumoto (newUnlockAreaName + "が購入可能になりました");
 			}
 			#if !UNITY_EDITOR
-			AdManager.instance.ShowInterstitialAd();
+			SuruPassInterstitial.instance.Show ();
 			#endif
 		} else {
 			StageGridManager.instance.MoveToStage (1);
