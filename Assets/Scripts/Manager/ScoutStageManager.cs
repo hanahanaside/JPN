@@ -80,7 +80,7 @@ public class ScoutStageManager : MonoSingleton<ScoutStageManager> {
 	}
 		
 	public void OnFadeOutFinished () {
-		AdManager.instance.HideBannerAd ();
+		SuruPassAdBanner.instance.Hide ();
 		Application.LoadLevel ("Puzzle");
 	}
 
