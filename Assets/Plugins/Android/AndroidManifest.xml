@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="jp.co.hnut.idol" android:installLocation="preferExternal" android:theme="@android:style/Theme.NoTitleBar" android:versionCode="1" android:versionName="1.0">
-	<!-- PERMISSIONS -->
+	<!-- PERMISSIONS START-->
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -11,11 +11,13 @@
 	<permission android:name="jp.co.hnut.idol.permission.C2D_MESSAGE" android:protectionLevel="signature" />
 	<uses-permission android:name="jp.co.hnut.idol.permission.C2D_MESSAGE" />
 	<uses-permission android:name="com.android.vending.BILLING" />
-	<!-- SUPPORTS SCREENS -->
+	<!-- PERMISSIONS END-->
+	<!-- SUPPORTS SCREENS START-->
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
-	<!-- APPLICATION -->
+	<!-- SUPPORTS SCREENS END-->
+	<!-- APPLICATION START-->
 	<application android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true" android:allowBackup="true">
-		<!-- UNITY ACTIVITIES -->
+		<!-- UNITY ACTIVITIES START-->
 		<activity android:name="com.unity3d.player.UnityPlayerNativeActivity" android:screenOrientation="portrait" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -28,8 +30,8 @@
 		</activity>
 		<activity android:name="com.unity3d.player.VideoPlayer" android:label="@string/app_name" android:screenOrientation="behind" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
 		</activity>
-
-		<!-- ETCETERA ACTIVITIES -->
+		<!-- UNITY ACTIVITIES END-->
+		<!-- ETCETERA ACTIVITIES START-->
 		<activity android:name="com.prime31.EtceteraProxyActivity" android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize">
 		</activity>
 		<activity android:name="com.prime31.WebViewActivity" android:configChanges="keyboardHidden|orientation|screenSize">
@@ -38,7 +40,8 @@
 		</activity>
 		<receiver android:name="com.prime31.AlarmManagerReceiver">
 		</receiver>
-		<!-- GCM ACTIVITIES -->
+		<!-- ETCETERA ACTIVITIES END-->
+		<!-- GCM ACTIVITIES START-->
 		<receiver android:name="com.prime31.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
 			<intent-filter>
 				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -47,10 +50,14 @@
 			</intent-filter>
 		</receiver>
 		<meta-data android:name="com.prime31.GoogleCloudMessagingPlugin" android:value="UnityPlayerActivityProxy" />
-		<!-- IAB ACTIVITIES -->
+		<!-- GCM ACTIVITIES END-->
+		<!-- IAB ACTIVITIES START-->
 		<activity android:name="com.prime31.GoogleIABProxyActivity" android:configChanges="orientation|layoutDirection|keyboard|keyboardHidden|screenLayout|uiMode|screenSize">
 		</activity>
-		<!-- GOOGLE PLAY SERVICE -->
+		<!-- IAB ACTIVITIES END-->
+		<!-- GOOGLE PLAY SERVICE START-->
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+		<!-- GOOGLE PLAY SERVICE END-->
 	</application>
+	<!-- APPLICATION END-->
 </manifest>

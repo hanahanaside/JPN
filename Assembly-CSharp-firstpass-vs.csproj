@@ -66,6 +66,9 @@
      <Compile Include="Assets\Plugins\GoogleCloudMessaging\GoogleCloudMessagingManager.cs" />
      <Compile Include="Assets\Plugins\GoogleCloudMessaging\demo\GoogleCloudMessagingEventListener.cs" />
      <Compile Include="Assets\Plugins\GoogleCloudMessaging\demo\GoogleCloudMessagingUI.cs" />
+     <Compile Include="Assets\Plugins\IMobileIconParams.cs" />
+     <Compile Include="Assets\Plugins\IMobileSdkAdsUnityPlugin.cs" />
+     <Compile Include="Assets\Plugins\ImobileSdkAdsUnityPluginUtility.cs" />
      <Compile Include="Assets\Plugins\InAppBillingAndroid\GoogleIAB.cs" />
      <Compile Include="Assets\Plugins\InAppBillingAndroid\GoogleIABManager.cs" />
      <Compile Include="Assets\Plugins\InAppBillingAndroid\GooglePurchase.cs" />

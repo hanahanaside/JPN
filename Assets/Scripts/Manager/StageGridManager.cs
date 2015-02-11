@@ -15,8 +15,13 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		mCenterOnChild.onCenter += OnCenter;
 	}
 
-	void OnCenter (GameObject centerdObject) {
-		mCenteredObject = centerdObject;
+	void OnCenter (GameObject centeredObject) {
+		mCenteredObject = centeredObject;
+		if (centeredObject.tag == "sleep") {
+			AdManager.instance.ShowIconAd ();
+		} else {
+			AdManager.instance.HideIconAd ();
+		}
 	}
 
 	public List<StageManager> StageManagerList {

@@ -38,6 +38,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			
 		Resume ();
 		EventManager.instance.GenerateLostIdle ();
+
+		AdManager.instance.ShowBannerAd ();
 	}
 
 	void Update () {

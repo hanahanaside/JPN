@@ -187,6 +187,7 @@
      <Compile Include="Assets\Scripts\Caluculator\TimeSpanCalculator.cs" />
      <Compile Include="Assets\Scripts\Cell\MoveStageCell.cs" />
      <Compile Include="Assets\Scripts\CoinRate\CoinRate.cs" />
+     <Compile Include="Assets\Scripts\Const\ImobileAccount.cs" />
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Converter\TimeConverter.cs" />
      <Compile Include="Assets\Scripts\DB\ConstructionTimeDbDao.cs" />
