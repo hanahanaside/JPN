@@ -78,20 +78,6 @@
      <Compile Include="Assets\Plugins\Singleton.cs" />
      <Compile Include="Assets\Plugins\SocialConnector\Sample\Sample.cs" />
      <Compile Include="Assets\Plugins\SocialConnector\SocialConnector.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\Facebook.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\FacebookBatchRequest.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\FacebookDataTypes.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\FacebookEventListener.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingCommon\Facebook\FacebookManager.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingCommon\Twitter\TwitterEventListener.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingCommon\Twitter\TwitterManager.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingIOS\FacebookBinding.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingIOS\SharingBinding.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingIOS\SharingManager.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingIOS\TwitterBinding.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingIOS\demoIOS\FacebookGUIManager.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingIOS\demoIOS\SharingGUIManager.cs" />
-     <Compile Include="Assets\Plugins\SocialNetworkingIOS\demoIOS\TwitterGUIManager.cs" />
      <Compile Include="Assets\Plugins\StoreKit\StoreKitBinding.cs" />
      <Compile Include="Assets\Plugins\StoreKit\StoreKitDownload.cs" />
      <Compile Include="Assets\Plugins\StoreKit\StoreKitManager.cs" />
@@ -99,11 +85,6 @@
      <Compile Include="Assets\Plugins\StoreKit\StoreKitTransaction.cs" />
      <Compile Include="Assets\Plugins\StoreKit\demo\StoreKitEventListener.cs" />
      <Compile Include="Assets\Plugins\StoreKit\demo\StoreKitGUIManager.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\ObjCMessage.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassAd.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassAdBanner.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassAdIcon.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassInterstitial.cs" />
      <Compile Include="Assets\Plugins\WWWClient.cs" />
      <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisement.cs" />
      <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Adapter.cs" />
@@ -199,9 +180,6 @@
      <None Include="Assets\Plugins\Android\unityads\AndroidManifest.xml" />
  <Reference Include="JsonFx.Json">
  <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/JsonFx.Json.dll</HintPath>
- </Reference>
- <Reference Include="P31RestKit">
- <HintPath>/Users/hanada/Library/Hanada/Unity/Repositories/JPN/Assets/Plugins/P31RestKit.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

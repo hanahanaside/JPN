@@ -21,15 +21,23 @@ public class AdManager :  MonoSingleton<AdManager> {
 	}
 
 	public void HideIconAd () {
-		mIconAd.BroadcastMessage ("OnDestroy");
-		mIconAdshowing = false;
+	//	mIconAd.BroadcastMessage ("OnDestroy");
+	//	mIconAdshowing = false;
+	}
+
+	public void HideBannerAd(){
+
+	}
+
+	public void ShowInterstitialAd(){
+
 	}
 
 	private void ShowIconAd () {
-		if(!mIconAdshowing){
-			mIconAd.BroadcastMessage ("Show");
-			mIconAdshowing = true;
-		}
+//		if(!mIconAdshowing){
+//			mIconAd.BroadcastMessage ("Show");
+//			mIconAdshowing = true;
+//		}
 	}
 
 }
