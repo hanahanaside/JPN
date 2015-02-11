@@ -85,11 +85,6 @@
      <Compile Include="Assets\Plugins\StoreKit\StoreKitTransaction.cs" />
      <Compile Include="Assets\Plugins\StoreKit\demo\StoreKitEventListener.cs" />
      <Compile Include="Assets\Plugins\StoreKit\demo\StoreKitGUIManager.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\ObjCMessage.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassAd.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassAdBanner.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassAdIcon.cs" />
-     <Compile Include="Assets\Plugins\SuruPass\SuruPassInterstitial.cs" />
      <Compile Include="Assets\Plugins\WWWClient.cs" />
      <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisement.cs" />
      <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Adapter.cs" />
