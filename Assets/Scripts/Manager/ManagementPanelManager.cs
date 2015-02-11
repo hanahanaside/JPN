@@ -62,7 +62,7 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 		sb.Append ("私の経営するアイドルプロジェクトの在籍人数が" + mTotalIdleCount +"人、\n");
 		sb.Append ("累計"+mTotalCoinCount +"円を稼ぎだしたよ！\n");
 		sb.Append ("このゲーム超面白いからやってみて！→http://tt5.us/idolpro #あいぷろ");
-		TwitterClient.instance.Tweet (sb.ToString());
+		SocialConnector.Share(sb.ToString());
 	}
 
 	public void OnCloseButtonClicked(){

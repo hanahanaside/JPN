@@ -288,7 +288,6 @@
      <Compile Include="Assets\Scripts\Test\TestParent.cs" />
      <Compile Include="Assets\Scripts\Tutorial\SkipConstructionDialogTutorial.cs" />
      <Compile Include="Assets\Scripts\Tutorial\StageManagerTutorial.cs" />
-     <Compile Include="Assets\Scripts\Twitter\TwitterClient.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_Area.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_ConstructionTime.cs" />
      <Compile Include="Assets\Terasurware\Classes\Entity_GenerateCoinPower.cs" />
