@@ -24,7 +24,7 @@ public class SplashSceneManager : MonoBehaviour {
 
 	public void FinishedFadeoutEvent(){
 		StageDao dao = DaoFactory.CreateStageDao ();
-		for(int i = 1;i <= 47;i++){
+		for(int i = 1;i <= 5;i++){
 			StageData stage = new StageData ();
 			stage.Id = i;
 			stage.IdleCount = 20;

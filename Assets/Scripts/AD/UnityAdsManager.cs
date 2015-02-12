@@ -18,7 +18,9 @@ public class UnityAdsManager : MonoSingleton<UnityAdsManager> {
 
 	public override void OnInitialize () {
 		DontDestroyOnLoad (gameObject);
+		#if !UNITY_EDITOR
 		Advertisement.Initialize (GAME_ID);
+		#endif
 	}
 
 	public void ShowAd () {

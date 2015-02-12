@@ -62,6 +62,8 @@ public class SocialConnector
 
     public static void Share(string text, string url, string textureUrl)
     {
+		#if !UNITY_EDITOR
         _Share(text, url, textureUrl);
+		#endif
     }
 }

@@ -39,8 +39,8 @@ namespace ImobileSdkAdsUnityPluginUtility {
 		internal static Rect getAdRect(IMobileSdkAdsUnityPlugin.AdAlignPosition alignPosition, IMobileSdkAdsUnityPlugin.AdValignPosition valignPosition, IMobileSdkAdsUnityPlugin.AdType adType, IMobileIconParams iconParams){
 
 			// スクリーンの論理サイズを取得
-			int screenWidth;
-			int screenHeight;
+			int screenWidth = 0;
+			int screenHeight = 0;
 
 			#if UNITY_IPHONE
 			screenWidth = getScreenWidth_();
@@ -137,8 +137,8 @@ namespace ImobileSdkAdsUnityPluginUtility {
 				int iconAdHeight = 0;
 
 				// スクリーンの論理サイズを取得
-				int screenWidth;
-				int screenHeight;
+				int screenWidth = 0;
+				int screenHeight = 0;
 				
 				#if UNITY_IPHONE
 				screenWidth = getScreenWidth_();
