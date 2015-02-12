@@ -40,7 +40,7 @@ public class BuyAreaDialogManager : MonoSingleton<BuyAreaDialogManager> {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<StageData> stageList = dao.SelectAll ();
 		foreach (StageData stage in stageList) {
-			totalIdleCount += stage.IdleCount;
+			totalIdleCount += stage.IdolCount;
 		}
 		if (totalIdleCount < area.MinimumAmount) {
 			conditionLabel.text = "アイドルの数が" + (area.MinimumAmount - totalIdleCount) + "人不足しています";

@@ -58,10 +58,10 @@ public class IdolStageContainer : MonoBehaviour {
 
 	//アイドルの数のラベルをセットする
 	public void SetIdolCountLabel (StageData stageData) {
-		if(stageData.IdleCount >= 25){
+		if (stageData.IdolCount >= 25) {
 			mIdolStageStatusManager.IdolCountLabel = "MAX";
-		}else {
-			mIdolStageStatusManager.IdolCountLabel = "×" + stageData.IdleCount;
+		} else {
+			mIdolStageStatusManager.IdolCountLabel = "×" + stageData.IdolCount;
 		}
 	}
 
@@ -86,17 +86,44 @@ public class IdolStageContainer : MonoBehaviour {
 	}
 
 	//コンテナ自身を表示する
-	public void ShowContainer(){
+	public void ShowContainer () {
 		gameObject.SetActive (true);
 	}
 
 	//コンテナ自身を非表示にする
-	public void HideContainer(){
+	public void HideContainer () {
 		gameObject.SetActive (false);
 	}
 
+	//通常時のUI処理
+	public void SetNormal(StageData stageData,double generateCoinPower){
+		SetAreaNameLabel (stageData.AreaName);
+		SetGenerateCoinPowerLabel (GameMath.RoundOne (generateCoinPower) + "/分");
+		SetIdolCountLabel (stageData);
+		HideSkipConstructionButton ();
+		ChangeBackgroundTexture ("Texture/St_" + stageData.Id);
+		ChangeIdolSprite ("idle_normal_" + stageData.Id);
+	}
+
+	//サボった時のUI処理
+	public void SetSleep (StageData stageData) {
+		SetGenerateCoinPowerLabel ("0/分");
+		SetUntilSleepLabel ("サボり中");
+		ChangeIdolSprite ("idle_sleep_" + stageData.Id);
+	}
+
+	//建設時のUI処理
+	public void SetConstruction (StageData stageData) {
+		ChangeBackgroundTexture ("Texture/Construction");
+		ChangeIdolSprite ("idle_normal_" + stageData.Id);
+		SetIdolCountLabel (stageData);
+		SetAreaNameLabel ("建設中");
+		SetGenerateCoinPowerLabel ("0/分");
+		ShowSkipConstructionButton ();
+	}
+
 	//コンテナが表示中であればtrueを返す
-	public bool IsContainerShowing(){
+	public bool IsContainerShowing () {
 		return gameObject.activeSelf;
 	}
 

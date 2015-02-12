@@ -43,14 +43,14 @@ public static class GeneratedCoinCalculator {
 	//DBからコイン生成パワーを返す
 	private static double GenerateCoinPowerMin (StageData stageData) {
 		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
-		double generateCoinPower = dao.SelectById (stageData.Id, stageData.IdleCount);
+		double generateCoinPower = dao.SelectById (stageData.Id, stageData.IdolCount);
 		return generateCoinPower;
 	}
 
 	//DBからサボるまでの分数を返す
 	private static int UntilSleepTimeMin (StageData stageData) {
 		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
-		int untilSleepTimeMin = dao.SelectById (stageData.Id, stageData.IdleCount);
+		int untilSleepTimeMin = dao.SelectById (stageData.Id, stageData.IdolCount);
 		return untilSleepTimeMin;
 	}
 

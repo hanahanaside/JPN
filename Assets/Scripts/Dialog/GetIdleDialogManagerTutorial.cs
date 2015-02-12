@@ -33,7 +33,7 @@ public class GetIdleDialogManagerTutorial : MonoSingleton<GetIdleDialogManagerTu
 		mIdleId = id;
 		StageDao dao = DaoFactory.CreateStageDao ();
 		StageData	stage = dao.SelectById (mIdleId);
-		stage.IdleCount++;
+		stage.IdolCount++;
 		if(string.IsNullOrEmpty(stage.UpdatedDate)){
 			stage.UpdatedDate = DateTime.Now.ToString ();
 		}
@@ -43,7 +43,7 @@ public class GetIdleDialogManagerTutorial : MonoSingleton<GetIdleDialogManagerTu
 		System.Text.StringBuilder sb = new System.Text.StringBuilder ();
 		sb.Append (stage.AreaName + "の子をスカウトした！");
 		sb.Append ("\n");
-		sb.Append (stage.IdleCount + " / 25");
+		sb.Append (stage.IdolCount + " / 25");
 		mTitleLabel.text = sb.ToString ();
 		mIdleSprite.width = mIdleSprite.GetAtlasSprite ().width * 2;
 		mIdleSprite.height = mIdleSprite.GetAtlasSprite ().height * 2;

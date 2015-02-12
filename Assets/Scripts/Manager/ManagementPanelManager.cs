@@ -51,7 +51,7 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 			UILabel areaNameLabel = areaInfoCell.transform.Find ("AreaNameLabel").GetComponent<UILabel>();
 			areaNameLabel.text = stage.AreaName;
 			UILabel idolCountLabel = areaInfoCell.transform.Find ("IdleCountLabel").GetComponent<UILabel>();
-			idolCountLabel.text = stage.IdleCount + "人";
+			idolCountLabel.text = stage.IdolCount + "人";
 		}
 		scrollView.ResetPosition ();
 	}
@@ -73,7 +73,7 @@ public class ManagementPanelManager : MonoSingleton<ManagementPanelManager>{
 	private int GetTotalIdleCount(List<StageData> stageList){
 		int totalIdleCount = 0;
 		foreach(StageData stage in stageList){
-			totalIdleCount += stage.IdleCount;
+			totalIdleCount += stage.IdolCount;
 		}
 		return totalIdleCount;
 	}

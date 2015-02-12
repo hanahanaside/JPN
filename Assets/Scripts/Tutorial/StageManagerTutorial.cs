@@ -188,7 +188,7 @@ public class StageManagerTutorial : MonoBehaviour {
 			mDanceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
 			mDanceTeamObject.transform.localPosition = new Vector3 (20, 10, 0);
 			DanceTeamManager danceTeamManager = mDanceTeamObject.GetComponent<DanceTeamManager> ();
-			danceTeamManager.StartDancing (mStageData.Id, mStageData.IdleCount);
+			danceTeamManager.StartDancing (mStageData.Id, mStageData.IdolCount);
 			generateCoinPowerLabel.text = GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分";
 		} 
 	}
@@ -277,12 +277,12 @@ public class StageManagerTutorial : MonoBehaviour {
 
 		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject;
 		//アイドルを生成
-		for (int i = 0; i < mStageData.IdleCount; i++) {
+		for (int i = 0; i < mStageData.IdolCount; i++) {
 			GenerateIdle (idlePrefab);
 		}
 
 		//ファンを生成
-		for (int i = 0; i < mStageData.IdleCount * 3; i++) {
+		for (int i = 0; i < mStageData.IdolCount * 3; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
@@ -352,21 +352,21 @@ public class StageManagerTutorial : MonoBehaviour {
 	//サボるまでの時間をDBから取得
 	private int GetUntilSleepTime () {
 		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
-		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
+		return dao.SelectById (mStageData.Id, mStageData.IdolCount);
 	}
 
 	//コイン生成パワーをDBから取得
 	private double GetGenerateCoinPower () {
 		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
-		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
+		return dao.SelectById (mStageData.Id, mStageData.IdolCount);
 	}
 
 	//アイドルの人数をセット
 	private void SetIdolCount () {
-		if (mStageData.IdleCount >= 25) {
+		if (mStageData.IdolCount >= 25) {
 			idleCountLabel.text = "MAX";
 		} else {
-			idleCountLabel.text = "×" + mStageData.IdleCount;
+			idleCountLabel.text = "×" + mStageData.IdolCount;
 		}
 	}
 

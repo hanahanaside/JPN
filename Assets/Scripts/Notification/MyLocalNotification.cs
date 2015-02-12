@@ -17,12 +17,9 @@ public class MyLocalNotification {
 	}
 
 	//最初のアイドルがサボった通知をスケジューリングする処理
-	public void ScheduleFirstIdolFallsSleep () {
-		if (CheckLiving ()) {
-			return;
-		}
+	public void ScheduleFirstIdolFallsSleep (List<StageData> stageDataList) {
 		//1番小さいモノをスケジューリングの時間にセットする
-		double addSeconds = GetFirstIdolSleepSeconds ();
+		double addSeconds = GetFirstIdolSleepSeconds (stageDataList);
 
 		//全員がサボっている場合は0なので何もしない
 		if (addSeconds <= 0) {
@@ -42,13 +39,10 @@ public class MyLocalNotification {
 	}
 
 	//最後のアイドルがサボった通知をスケジューリングする処理
-	public void ScheduleLastIdolFallsSleep () {
-		if (CheckLiving ()) {
-			return;
-		}
+	public void ScheduleLastIdolFallsSleep (List<StageData> stageDataList) {
 
 		//1番大きいモノをスケジューリングの時間にセットする
-		double addSeconds = GetLastIdolSleepSeconds ();
+		double addSeconds = GetLastIdolSleepSeconds (stageDataList);
 
 		//全員がサボっている場合は0なので何もしない
 		if (addSeconds <= 0) {
@@ -68,51 +62,76 @@ public class MyLocalNotification {
 	}
 
 	//最初のアイドルがサボるまでの時間を取得
-	private double GetFirstIdolSleepSeconds () {
-		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+	private double GetFirstIdolSleepSeconds (List<StageData> stageDataList) {
 		double addSeconds = 0;
-		foreach (StageManager stageManager in stageManagerList) {
-			StageData stage = stageManager.Stage;
-			if (stage.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		//サボるまでの時間を順に比較していって、一番小さいステージを採用する
+		foreach (StageData stageData in stageDataList) {
+			if (stageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 				continue;
 			}
-			if (stageManager.GetState == StageManager.State.Sleep) {
+			//サボっているかをチェック
+			if (CheckSleep (stageData)) {
 				continue;
 			}
-			if (stageManager.UntilTime < addSeconds || addSeconds <= 0) {
-				addSeconds = stageManager.UntilTime;
+			double untilSleepTimeSec = UntilSleepTimeSec(stageData);
+			if(addSeconds <= 0){
+				addSeconds = untilSleepTimeSec;
+				continue;
+			}
+			if(untilSleepTimeSec < addSeconds){
+				addSeconds = untilSleepTimeSec;
 			}
 		}
 		return addSeconds;
 	}
 
 	//最後のアイドルがサボるまでの時間を取得
-	private double GetLastIdolSleepSeconds () {
-		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
+	private double GetLastIdolSleepSeconds (List<StageData> stageDataList) {
 		double addSeconds = 0;
-		foreach (StageManager stageManager in stageManagerList) {
-			StageData stage = stageManager.Stage;
-			if (stage.FlagConstruction == StageData.IN_CONSTRUCTION) {
+		//サボるまでの時間を順に比較していって、一番大きいステージを採用する
+		foreach (StageData stageData in stageDataList) {
+			if (stageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 				continue;
 			}
-			if (stageManager.GetState == StageManager.State.Sleep) {
+			//サボっているかをチェック
+			if (CheckSleep (stageData)) {
 				continue;
 			}
-			if (stageManager.UntilTime > addSeconds) {
-				addSeconds = stageManager.UntilTime;
+			double untilSleepTimeSec = UntilSleepTimeSec(stageData);
+			if(addSeconds <= 0){
+				addSeconds = untilSleepTimeSec;
+				continue;
+			}
+			if(untilSleepTimeSec > addSeconds){
+				addSeconds = untilSleepTimeSec;
 			}
 		}
 		return addSeconds;
 	}
 
-	//ライブ中だったらtrueを返す
-	private bool CheckLiving () {
-		List<StageManager> stageManagerList = StageGridManager.instance.StageManagerList;
-		StageManager hokkaidoStageManager = stageManagerList [0];
-		if (hokkaidoStageManager.GetState == StageManager.State.Live) {
+	//サボっていたらtrueを返す
+	private bool CheckSleep (StageData stageData) {
+		DateTime dtNow = DateTime.Now;
+		DateTime dtUpdatedDate = DateTime.Parse (stageData.UpdatedDate);
+		UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
+		int untilSleepTimeMin = untilSleepTimeDao.SelectById (stageData.Id, stageData.IdolCount);
+		double untilSleepTimeSec = untilSleepTimeMin * 60;
+		TimeSpan ts = dtNow - dtUpdatedDate;
+		if (ts.TotalSeconds > untilSleepTimeSec) {
 			return true;
 		}
 		return false;
+	}
+
+	//サボるまでの時間を返す
+	private double UntilSleepTimeSec(StageData stageData){
+		DateTime dtNow = DateTime.Now;
+		DateTime dtUpdatedDate = DateTime.Parse (stageData.UpdatedDate);
+		UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
+		int untilSleepTimeMin = untilSleepTimeDao.SelectById (stageData.Id, stageData.IdolCount);
+		double untilSleepTimeSec = untilSleepTimeMin * 60;
+		TimeSpan ts = dtNow - dtUpdatedDate;
+		return untilSleepTimeSec - ts.TotalSeconds;
 	}
 
 	#if UNITY_IPHONE

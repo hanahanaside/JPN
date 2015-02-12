@@ -56,6 +56,9 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			#if !UNITY_EDITOR
 			//プレイヤーデータをセーブ
 			PlayerDataKeeper.instance.SaveData ();
+			if(!LiveManager.instance.IsLive){
+			NotificationManager.instance.ScheduleLocalNotification ();
+			}
 			#endif
 		} else {
 			MyLog.LogDebug ("resume");
@@ -66,7 +69,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			#endif
 		}
 	}
-		
+
 	void EventOKButtonClicked () {
 		EventManager.instance.okButtonClickedEvent -= EventOKButtonClicked;
 		AreaPanelManager.instance.ShowAreaPanel ();
@@ -76,7 +79,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	private void Resume () {
 		//中断中に稼いだコインを取得
 		double addCoin = GeneratedCoinCalculator.CalcWhileSleeping ();
-		Debug.Log ("add coin = " +addCoin);
+		Debug.Log ("add coin = " + addCoin);
 		PlayerDataKeeper.instance.IncreaseCoinCount (addCoin);
 		//表示するダイアログの確認をする
 		CheckDialogs (addCoin);
@@ -105,14 +108,14 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 	}
 
 	//起動時に表示するダイアログのうち表示できるモノを1つ表示する
-	private void CheckDialogs(double addCoin){
+	private void CheckDialogs (double addCoin) {
 		//ResumeCountをインクリメント
 		int resumeCount = PrefsManager.instance.ResumeCount;
 		resumeCount++;
 		PrefsManager.instance.ResumeCount = resumeCount;
 
 		//addCoinが0を超えていたらコインのダイアログを出す
-		if(addCoin >= 100){
+		if (addCoin >= 100) {
 			FenceManager.instance.ShowFence ();
 			SleepTimeCoinDialogManager.instance.Show (addCoin);
 			return;
@@ -151,7 +154,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			StageDao dao = DaoFactory.CreateStageDao ();
 			List<StageData> stageList = dao.SelectAll ();
 			foreach (StageData stage in stageList) {
-				totalIdleCount += stage.IdleCount;
+				totalIdleCount += stage.IdolCount;
 			}
 			if (totalIdleCount > param.minimum_amount) {
 				PrefsManager.instance.AnnouncedUnlockAreaCount = param.area_id;

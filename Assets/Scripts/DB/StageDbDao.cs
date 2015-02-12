@@ -51,7 +51,7 @@ public class StageDbDao : StageDao {
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("update " + TABLE_NAME + " set ");
-		sb.Append (FIELD_IDLE_COUNT + " = " + stage.IdleCount + ", ");
+		sb.Append (FIELD_IDLE_COUNT + " = " + stage.IdolCount + ", ");
 		sb.Append (FIELD_FLAG_CONSTRUCTION + " = " + stage.FlagConstruction + ", ");
 		sb.Append (FIELD_UPDATED_DATE + " = '" + stage.UpdatedDate + "' ");
 		sb.Append ("where " + FIELD_ID + " = " + stage.Id + ";");
@@ -82,7 +82,7 @@ public class StageDbDao : StageDao {
 		try {
 			stage.Id = sqliteQuery.GetInteger (FIELD_ID);
 			stage.AreaName = sqliteQuery.GetString (FIELD_AREA_NAME);
-			stage.IdleCount = sqliteQuery.GetInteger (FIELD_IDLE_COUNT);
+			stage.IdolCount = sqliteQuery.GetInteger (FIELD_IDLE_COUNT);
 			stage.FlagConstruction = sqliteQuery.GetInteger (FIELD_FLAG_CONSTRUCTION);
 			stage.UpdatedDate = sqliteQuery.GetString (FIELD_UPDATED_DATE);
 		} catch (Exception e) {

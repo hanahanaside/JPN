@@ -50,7 +50,7 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		mIdleSprite.SetDimensions (spriteData.width, spriteData.height);
 
 		StringBuilder sb = new System.Text.StringBuilder ();
-		if (stage.IdleCount >= 25) {
+		if (stage.IdolCount >= 25) {
 			debutButton.SetActive (false);
 			tradeButton.SetActive (true);
 			int cost = AreaCostCaluculator.instance.CalcCost (ScoutStageManager.SelectedAreaId - 1);
@@ -61,14 +61,14 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		} else {
 			debutButton.SetActive (true);
 			tradeButton.SetActive (false);
-			stage.IdleCount++;
+			stage.IdolCount++;
 			if (string.IsNullOrEmpty (stage.UpdatedDate)) {
 				stage.UpdatedDate = DateTime.Now.ToString ();
 			}
 			dao.UpdateRecord (stage);
 			sb.Append (stage.AreaName + "の子をスカウトした！");
 			sb.Append ("\n");
-			sb.Append (stage.IdleCount + " / 25\n");
+			sb.Append (stage.IdolCount + " / 25\n");
 			sb.Append (GetUntilLevelUpMessage (stage));
 
 		}
@@ -80,22 +80,22 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 	private string GetUntilLevelUpMessage (StageData stage) {
 		int untilLevelUpCount = 0;
 		string untilLevelUpMessage = "";
-		if(stage.IdleCount >= 25){
+		if(stage.IdolCount >= 25){
 			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, 0, "レベルMAX");
-		}else if (stage.IdleCount > 21) {
-			untilLevelUpCount = 25 - stage.IdleCount;
+		}else if (stage.IdolCount > 21) {
+			untilLevelUpCount = 25 - stage.IdolCount;
 			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベルMAX");
-		} else if (stage.IdleCount > 16) {
-			untilLevelUpCount = 21 - stage.IdleCount;
+		} else if (stage.IdolCount > 16) {
+			untilLevelUpCount = 21 - stage.IdolCount;
 			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル5");
-		} else if (stage.IdleCount > 11) {
-			untilLevelUpCount = 16 - stage.IdleCount;
+		} else if (stage.IdolCount > 11) {
+			untilLevelUpCount = 16 - stage.IdolCount;
 			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル4");
-		} else if (stage.IdleCount > 6) {
-			untilLevelUpCount = 11 - stage.IdleCount;
+		} else if (stage.IdolCount > 6) {
+			untilLevelUpCount = 11 - stage.IdolCount;
 			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル3");
 		} else {
-			untilLevelUpCount = 6 - stage.IdleCount;
+			untilLevelUpCount = 6 - stage.IdolCount;
 			untilLevelUpMessage = CreateUntilLevelUpMessage (stage, untilLevelUpCount, "レベル2");
 		}
 		return untilLevelUpMessage;
@@ -107,8 +107,8 @@ public class GetIdleDialogManager : MonoSingleton<GetIdleDialogManager> {
 		if (untilLevelUpCount <= 0) {
 			GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
 			UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
-			double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id, stage.IdleCount);
-			int untilSleepTimeMin = untilSleepTimeDao.SelectById (stage.Id, stage.IdleCount);
+			double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id, stage.IdolCount);
+			int untilSleepTimeMin = untilSleepTimeDao.SelectById (stage.Id, stage.IdolCount);
 			sb.Append ("(" + level + "にアップ！)\n");
 			sb.Append ("収入ペースが" + generateCoinPower + "にUP!!\n");
 			sb.Append ("サボるまでの時間が" + untilSleepTimeMin + "分にUP!!");

@@ -17,15 +17,14 @@ public class StageManager : MonoBehaviour {
 
 	public GameObject danceTeamPrefab;
 
-	private const float UNTIL_GENERATE_TIME = 0.6f;
 	private float mTimeSeconds;
-	private float mUntilGenerateTime = UNTIL_GENERATE_TIME;
 	private double mTotalGenerateCoinPower;
 	private State mState = State.Normal;
 	private StageData mStageData;
 	private List<Character> mCharacterList = new List<Character> ();
 	private GameObject mDanceTeamObject;
 	private IdolStageContainer mIdolStageContainer;
+	private IdolStageCoinGenerator mIdolStageCoinGenerator;
 
 	void OnEnable () {
 		Idle.FoundEvent += FoundIdleEvent;
@@ -38,10 +37,12 @@ public class StageManager : MonoBehaviour {
 	public void Init (StageData stageData) {
 		mStageData = stageData;
 		mIdolStageContainer = GetComponentInChildren<IdolStageContainer> ();
+		mIdolStageCoinGenerator = GetComponentInChildren<IdolStageCoinGenerator> ();
 		mIdolStageContainer.FindObjects ();
 
 		//工事中でなかったら通常状態へ
 		if (mStageData.FlagConstruction == StageData.NOT_CONSTRUCTION) {
+			mTimeSeconds = (float)RemainingSleepTimeSec ();
 			InitNormal ();
 			return;
 		}
@@ -60,7 +61,7 @@ public class StageManager : MonoBehaviour {
 
 		//建設完了を貫通した時間がサボるまでの時間を超えている場合
 		UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
-		int untilSleepTimeSec = untilSleepTimeDao.SelectById (mStageData.Id, mStageData.IdleCount) * 60;
+		int untilSleepTimeSec = untilSleepTimeDao.SelectById (mStageData.Id, mStageData.IdolCount) * 60;
 		if (overTimeSec > untilSleepTimeSec) {
 			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
@@ -87,19 +88,11 @@ public class StageManager : MonoBehaviour {
 				return;
 			}
 			//コイン生成時間を更新
-			mUntilGenerateTime -= Time.deltaTime;
-			if (mUntilGenerateTime < 0) {
-				PlayerDataKeeper.instance.IncreaseCoinCount (mTotalGenerateCoinPower / 100.0);
-				mUntilGenerateTime = UNTIL_GENERATE_TIME;
-			}
+			mIdolStageCoinGenerator.PassTime (Time.deltaTime, mTotalGenerateCoinPower);
 			break;
 		case State.Live:
 			//コイン生成時間を更新(2倍)
-			mUntilGenerateTime -= Time.deltaTime;
-			if (mUntilGenerateTime < 0) {
-				PlayerDataKeeper.instance.IncreaseCoinCount ((mTotalGenerateCoinPower * 2.0f) / 100.0);
-				mUntilGenerateTime = UNTIL_GENERATE_TIME;
-			}
+			mIdolStageCoinGenerator.PassTime (Time.deltaTime * 2.0f, mTotalGenerateCoinPower);
 			//建設中の場合の処理
 			if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
 				mTimeSeconds -= Time.deltaTime * 2.0f;
@@ -113,7 +106,7 @@ public class StageManager : MonoBehaviour {
 		case State.Construction:
 			//建設中の時間を更新
 			mTimeSeconds -= Time.deltaTime;
-			mIdolStageContainer.SetUntilSleepLabel ( "あと" + TimeConverter.Convert (mTimeSeconds) + "で完成");
+			mIdolStageContainer.SetUntilSleepLabel ("あと" + TimeConverter.Convert (mTimeSeconds) + "で完成");
 			if (mTimeSeconds > 0) {
 				return;
 			}
@@ -121,6 +114,7 @@ public class StageManager : MonoBehaviour {
 			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
 			mStageData.UpdatedDate = DateTime.Now.ToString ();
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
+			mTimeSeconds = GetUntilSleepTimeMin () * 60;
 			FinishConstruction ();
 			break;
 		}
@@ -128,11 +122,11 @@ public class StageManager : MonoBehaviour {
 		//画面内・画面外の処理
 		float distance = Vector3.Distance (transform.position, HanautaCamera.instance.Postision);
 		if (distance > 2) {
-			if (mIdolStageContainer.IsContainerShowing()) {
+			if (mIdolStageContainer.IsContainerShowing ()) {
 				mIdolStageContainer.HideContainer ();
 			}
 		} else {
-			if (!mIdolStageContainer.IsContainerShowing()) {
+			if (!mIdolStageContainer.IsContainerShowing ()) {
 				mIdolStageContainer.ShowContainer ();
 			}
 		}
@@ -158,8 +152,8 @@ public class StageManager : MonoBehaviour {
 	public void Resume () {
 		//工事中かをチェック
 		if (mStageData.FlagConstruction == StageData.NOT_CONSTRUCTION) {
-			//サボるまでの時間をセット(テストで10分の1)
-			SetUntilSleepTime ();
+			float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (PlayerDataKeeper.instance.ExitDate);
+			mTimeSeconds -= timeSpanSeconds;
 			return;
 		} 
 
@@ -177,7 +171,7 @@ public class StageManager : MonoBehaviour {
 
 		//建設完了を貫通した時間がサボるまでの時間を超えている場合
 		UntilSleepTimeDao untilSleepTimeDao = DaoFactory.CreateUntilSleepTimeDao ();
-		int untilSleepTimeSec = untilSleepTimeDao.SelectById (mStageData.Id, mStageData.IdleCount) * 60;
+		int untilSleepTimeSec = untilSleepTimeDao.SelectById (mStageData.Id, mStageData.IdolCount) * 60;
 		if (overTimeSec > untilSleepTimeSec) {
 			mStageData.FlagConstruction = StageData.NOT_CONSTRUCTION;
 			DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
@@ -193,28 +187,7 @@ public class StageManager : MonoBehaviour {
 		FinishConstruction ();
 
 	}
-
-	//ステージデータを返す
-	public StageData Stage {
-		get {
-			return mStageData;
-		}
-	}
-
-	//ステートを返す
-	public State GetState {
-		get {
-			return mState;
-		}
-	}
-
-	//サボるか工事完了までの時間を返す
-	public float UntilTime {
-		get {
-			return mTimeSeconds;
-		}
-	}
-
+		
 	//喝ボタン押下時の処理
 	public void Wakeup () {
 		mTimeSeconds = GetUntilSleepTimeMin () * 60;
@@ -240,13 +213,7 @@ public class StageManager : MonoBehaviour {
 		gameObject.tag = "sleep";
 		mIdolStageContainer.ShowSleepObjects ();
 		mState = State.Sleep;
-		//コイン生成パワーをセット
-		mIdolStageContainer.SetGenerateCoinPowerLabel ("0/分");
-		//サボるまでの時間をセット
-		mIdolStageContainer.SetUntilSleepLabel ("サボり中");
-		//画像を変更
-		mIdolStageContainer.ChangeIdolSprite ("idle_sleep_" + mStageData.Id);
-
+		mIdolStageContainer.SetSleep (mStageData);
 		foreach (Character character in mCharacterList) {
 			character.Sleep ();
 		}
@@ -261,7 +228,7 @@ public class StageManager : MonoBehaviour {
 		mIdolStageContainer.HideSkipConstructionButton ();
 		mIdolStageContainer.SetUntilSleepLabel ("LIVE！！！！！！！！！！！");
 		gameObject.tag = "default";
-		if (mIdolStageContainer.IsSleepObjectsShowing()) {
+		if (mIdolStageContainer.IsSleepObjectsShowing ()) {
 			mIdolStageContainer.HideSleepObjects ();
 			//画像を変更
 			mIdolStageContainer.ChangeIdolSprite ("idle_normal_" + mStageData.Id);
@@ -279,7 +246,7 @@ public class StageManager : MonoBehaviour {
 			mDanceTeamObject.transform.localScale = new Vector3 (0.6f, 0.6f, 0.6f);
 			mDanceTeamObject.transform.localPosition = new Vector3 (20, 10, 0);
 			DanceTeamManager danceTeamManager = mDanceTeamObject.GetComponent<DanceTeamManager> ();
-			danceTeamManager.StartDancing (mStageData.Id, mStageData.IdleCount);
+			danceTeamManager.StartDancing (mStageData.Id, mStageData.IdolCount);
 			mIdolStageContainer.SetGenerateCoinPowerLabel (GameMath.RoundOne (mTotalGenerateCoinPower * 2) + "/分");
 		} 
 	}
@@ -381,23 +348,7 @@ public class StageManager : MonoBehaviour {
 
 		mCharacterList = new List<Character> ();
 		mState = State.Construction;
-		//背景を設置
-		mIdolStageContainer.ChangeBackgroundTexture ("Texture/Construction");
-
-		//アイドルの画像をセット
-		mIdolStageContainer.ChangeIdolSprite ("idle_normal_" + mStageData.Id);
-
-		//アイドルの数をセット
-		mIdolStageContainer.SetIdolCountLabel (mStageData);
-
-		//エリア名をセット
-		mIdolStageContainer.SetAreaNameLabel ("建設中");
-
-		//コイン生成パワーをセット
-		mIdolStageContainer.SetGenerateCoinPowerLabel ("0/分");
-
-		//今すぐ完成させるボタンを表示
-		mIdolStageContainer.ShowSkipConstructionButton ();
+		mIdolStageContainer.SetConstruction (mStageData);
 
 		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
@@ -423,17 +374,26 @@ public class StageManager : MonoBehaviour {
 		return constructionTimeSec - ts.TotalSeconds;
 	}
 
+	//サボるまでの秒数を返す
+	private double RemainingSleepTimeSec(){
+		DateTime dtNow = DateTime.Now;
+		DateTime dtUpdatedDate = DateTime.Parse (mStageData.UpdatedDate);
+		TimeSpan ts = dtNow - dtUpdatedDate;
+		double untilSleepTimeSec = GetUntilSleepTimeMin () * 60;
+		return untilSleepTimeSec - ts.TotalSeconds;
+	}
+
 	//通常時の初期化処理
 	private void InitNormal () {
 
 		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject;
 		//アイドルを生成
-		for (int i = 0; i < mStageData.IdleCount; i++) {
+		for (int i = 0; i < mStageData.IdolCount; i++) {
 			GenerateIdle (idlePrefab);
 		}
 
 		//ファンを生成
-		for (int i = 0; i < mStageData.IdleCount * 5; i++) {
+		for (int i = 0; i < mStageData.IdolCount * 5; i++) {
 			int rand = UnityEngine.Random.Range (1, 14);
 			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
 			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
@@ -446,28 +406,11 @@ public class StageManager : MonoBehaviour {
 			fanObject.GetComponent<Fan> ().Init ();
 		}
 			
-		//エリア名をセット
-		mIdolStageContainer.SetAreaNameLabel (mStageData.AreaName);
-
-		//サボるまでの時間をセット(テストで10分の1)
-		SetUntilSleepTime ();
-
-		//コイン生成パワーを算出してセット
 		mTotalGenerateCoinPower = GetGenerateCoinPower ();
-		mIdolStageContainer.SetGenerateCoinPowerLabel (GameMath.RoundOne (mTotalGenerateCoinPower) + "/分");
+
+		mIdolStageContainer.SetNormal (mStageData,mTotalGenerateCoinPower);
+
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
-
-		//アイドルの数をセット
-		mIdolStageContainer.SetIdolCountLabel (mStageData);
-
-		//今すぐ完成させるボタンを非表示
-		mIdolStageContainer.HideSkipConstructionButton ();
-
-		//背景をセット
-		mIdolStageContainer.ChangeBackgroundTexture ("Texture/St_" + mStageData.Id);
-
-		//アイドルの画像をセット
-		mIdolStageContainer.ChangeIdolSprite ("idle_normal_" + mStageData.Id);
 	}
 
 	//アイドルを生成
@@ -483,24 +426,15 @@ public class StageManager : MonoBehaviour {
 		return idleObject;
 	}
 
-	//サボるまでの時間をセット
-	private void SetUntilSleepTime () {
-		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
-		int untilSleepTimeMin = dao.SelectById (mStageData.Id, mStageData.IdleCount);
-		float untilSleepTimeSeconds = untilSleepTimeMin * 60;
-		float timeSpanSeconds = TimeSpanCalculator.CalcFromNow (mStageData.UpdatedDate);
-		mTimeSeconds = untilSleepTimeSeconds - timeSpanSeconds;
-	}
-
 	//サボるまでの時間をDBから取得
 	private int GetUntilSleepTimeMin () {
 		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
-		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
+		return dao.SelectById (mStageData.Id, mStageData.IdolCount);
 	}
 
 	//コイン生成パワーをDBから取得
 	private double GetGenerateCoinPower () {
 		GenerateCoinPowerDao dao = DaoFactory.CreateGenerateCoinPowerDao ();
-		return dao.SelectById (mStageData.Id, mStageData.IdleCount);
+		return dao.SelectById (mStageData.Id, mStageData.IdolCount);
 	}
 }
