@@ -113,6 +113,7 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 
 	public void MailButtonClicked () {
 
+		#if !UNITY_EDITOR
 		string adress = "hanauta.app@gmail.com";
 		string message = "問い合わせ内容を書いてください";
 
@@ -124,6 +125,7 @@ public class MenuPanelManager : MonoSingleton<MenuPanelManager> {
 		#if UNITY_ANDROID
 		string title = "アイプロ(A)について";
 		EtceteraAndroid.showEmailComposer (adress, title, message, false);
+		#endif
 		#endif
 	}
 

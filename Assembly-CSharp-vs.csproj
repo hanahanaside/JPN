@@ -188,6 +188,7 @@
      <Compile Include="Assets\Scripts\Cell\MoveStageCell.cs" />
      <Compile Include="Assets\Scripts\CoinRate\CoinRate.cs" />
      <Compile Include="Assets\Scripts\Const\ImobileAccount.cs" />
+     <Compile Include="Assets\Scripts\Container\IdolStageContainer.cs" />
      <Compile Include="Assets\Scripts\Controller\CoinController.cs" />
      <Compile Include="Assets\Scripts\Converter\TimeConverter.cs" />
      <Compile Include="Assets\Scripts\DB\ConstructionTimeDbDao.cs" />
@@ -236,7 +237,7 @@
      <Compile Include="Assets\Scripts\IdleParams\MovableArea.cs" />
      <Compile Include="Assets\Scripts\IdleParams\MoveSpeed.cs" />
      <Compile Include="Assets\Scripts\IdolStageState\IdolStageState.cs" />
-     <Compile Include="Assets\Scripts\IdolStageStatus\IdolStageStatus.cs" />
+     <Compile Include="Assets\Scripts\IdolStageStatus\IdolStageStatusManager.cs" />
      <Compile Include="Assets\Scripts\Interface\ConstructionTimeDao.cs" />
      <Compile Include="Assets\Scripts\Interface\GenerateCoinPowerDao.cs" />
      <Compile Include="Assets\Scripts\Interface\StageDao.cs" />

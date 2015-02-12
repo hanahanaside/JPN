@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IdolStageStatus : MonoBehaviour {
+public class IdolStageStatusManager : MonoBehaviour {
 
 	private UILabel mUntilSleepLabel;
 	private UILabel mGenerateCoinPowerLabel;
