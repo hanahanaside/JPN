@@ -134,7 +134,12 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	//ステージにもどる
 	void BackToStageEvent () {
 		FlagBackButtonClicked = true;
-		Application.LoadLevel ("Main");
+		LoadLevelName.instance.loadLevelName = "Main";
+		Invoke ("TransitionToMain",1f);
+	}
+
+	private void TransitionToMain(){
+		Application.LoadLevel ("Loading");
 	}
 
 	//獲得したアイテムのタグリストを返す

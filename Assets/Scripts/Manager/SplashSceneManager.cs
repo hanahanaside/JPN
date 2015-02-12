@@ -23,22 +23,27 @@ public class SplashSceneManager : MonoBehaviour {
 	}
 
 	public void FinishedFadeoutEvent(){
-//		StageDao dao = DaoFactory.CreateStageDao ();
-//		for(int i = 1;i <= 40;i++){
-//			StageData stage = new StageData ();
-//			stage.Id = i;
-//			stage.IdleCount = 20;
-//			stage.FlagConstruction = StageData.NOT_CONSTRUCTION;
-//			stage.UpdatedDate = System.DateTime.Now.ToString ();
-//			dao.UpdateRecord (stage);
-//		}
+		StageDao dao = DaoFactory.CreateStageDao ();
+		for(int i = 1;i <= 47;i++){
+			StageData stage = new StageData ();
+			stage.Id = i;
+			stage.IdleCount = 20;
+			stage.FlagConstruction = StageData.NOT_CONSTRUCTION;
+			stage.UpdatedDate = System.DateTime.Now.ToString ();
+			dao.UpdateRecord (stage);
+		}
+		Transition ();
+	}
 
-
+	private void Transition(){
 		if(PrefsManager.instance.TutorialFinished){
-			Application.LoadLevel ("Main");
+			LoadLevelName.instance.loadLevelName = "Main";
+			Application.LoadLevel ("Loading");
 		}else {
-			PlayerPrefs.DeleteAll ();
-			Application.LoadLevel ("MainTutorial");
+			LoadLevelName.instance.loadLevelName = "Main";
+			Application.LoadLevel ("Loading");
+//			PlayerPrefs.DeleteAll ();
+//			Application.LoadLevel ("MainTutorial");
 		}
 	}
 }
