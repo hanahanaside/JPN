@@ -57,8 +57,12 @@ public class IdolStageContainer : MonoBehaviour {
 	}
 
 	//アイドルの数のラベルをセットする
-	public void SetIdolCountLabel (string labelText) {
-		mIdolStageStatusManager.IdolCountLabel = labelText;
+	public void SetIdolCountLabel (StageData stageData) {
+		if(stageData.IdleCount >= 25){
+			mIdolStageStatusManager.IdolCountLabel = "MAX";
+		}else {
+			mIdolStageStatusManager.IdolCountLabel = "×" + stageData.IdleCount;
+		}
 	}
 
 	//今すぐ完成ボタンを表示する
