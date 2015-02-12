@@ -229,6 +229,7 @@
      <Compile Include="Assets\Scripts\FanParams\FanParams.cs" />
      <Compile Include="Assets\Scripts\GCM\GCMRegister.cs" />
      <Compile Include="Assets\Scripts\GUI\FooterGrid.cs" />
+     <Compile Include="Assets\Scripts\Generator\CharacterGenerator.cs" />
      <Compile Include="Assets\Scripts\Generator\CoinGenerator.cs" />
      <Compile Include="Assets\Scripts\Generator\IdolStageCoinGenerator.cs" />
      <Compile Include="Assets\Scripts\Hanauta\GUI\HanautaUIButton.cs" />

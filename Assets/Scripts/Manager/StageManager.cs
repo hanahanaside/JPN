@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviour {
 	private GameObject mDanceTeamObject;
 	private IdolStageContainer mIdolStageContainer;
 	private IdolStageCoinGenerator mIdolStageCoinGenerator;
+	private CharacterGenerator mCharacterGenerator;
 
 	void OnEnable () {
 		Idle.FoundEvent += FoundIdleEvent;
@@ -38,6 +39,7 @@ public class StageManager : MonoBehaviour {
 		mStageData = stageData;
 		mIdolStageContainer = GetComponentInChildren<IdolStageContainer> ();
 		mIdolStageCoinGenerator = GetComponentInChildren<IdolStageCoinGenerator> ();
+		mCharacterGenerator = GetComponentInChildren<CharacterGenerator> ();
 		mIdolStageContainer.FindObjects ();
 
 		//工事中でなかったら通常状態へ
@@ -278,9 +280,9 @@ public class StageManager : MonoBehaviour {
 	//アイドル発見時に追加する処理
 	public void AddIdle (int count) {
 		Debug.Log ("Add " + count);
-		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject; 
 		for (int i = 0; i < count; i++) {
-			GenerateIdle (idlePrefab);
+			Character character = mCharacterGenerator.GenerateIdol (mStageData);
+			mCharacterList.Add (character);
 		}
 		mStageData = DaoFactory.CreateStageDao ().SelectById (mStageData.Id);
 		mIdolStageContainer.SetIdolCountLabel (mStageData);
@@ -330,16 +332,8 @@ public class StageManager : MonoBehaviour {
 		
 	//迷子のアイドルを生成
 	public void GenerateLostIdle (int idleId) {
-		GameObject lostIdlePrefab = Resources.Load ("Model/Idle/Idle_" + idleId) as GameObject;
-		GameObject lostIdleObject =	GenerateIdle (lostIdlePrefab);
-		BoxCollider boxCollider = lostIdleObject.AddComponent<BoxCollider> ();
-		boxCollider.isTrigger = true;
-		boxCollider.size = new Vector3 (150, 150, 0);
-		GameObject exPrefab = Resources.Load ("GUI/EX") as GameObject;
-		GameObject exObject = Instantiate (exPrefab) as GameObject;
-		exObject.transform.parent = lostIdleObject.transform;
-		exObject.transform.localScale = new Vector3 (1, 1, 1);
-		exObject.transform.localPosition = new Vector3 (0, 80, 0);
+		Character character = mCharacterGenerator.GenerateIdol (mStageData);
+		mCharacterList.Add (character);
 	}
 
 	//工事中の初期化処理
@@ -352,15 +346,8 @@ public class StageManager : MonoBehaviour {
 
 		//労働者を生成
 		for (int i = 1; i <= 4; i++) {
-			GameObject workerPrefab = Resources.Load ("Model/Worker/Worker_" + i) as GameObject;
-			GameObject workerObject = Instantiate (workerPrefab) as GameObject;
-			workerObject.transform.parent = transform;
-			workerObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			float x = UnityEngine.Random.Range (-175.0f, 175.0f);
-			float y = UnityEngine.Random.Range (0, 300.0f);
-			workerObject.transform.localPosition = new Vector3 (x, y, 0);
-			mCharacterList.Add (workerObject.GetComponent<Character> ());
-			workerObject.GetComponent<Worker> ().Init ();
+			Character character = mCharacterGenerator.GenerateWorker (i);
+			mCharacterList.Add (character);
 		}
 	}
 
@@ -385,25 +372,16 @@ public class StageManager : MonoBehaviour {
 
 	//通常時の初期化処理
 	private void InitNormal () {
-
-		GameObject idlePrefab = Resources.Load ("Model/Idle/Idle_" + mStageData.Id) as GameObject;
 		//アイドルを生成
 		for (int i = 0; i < mStageData.IdolCount; i++) {
-			GenerateIdle (idlePrefab);
+			Character character = mCharacterGenerator.GenerateIdol (mStageData);
+			mCharacterList.Add (character);
 		}
 
 		//ファンを生成
 		for (int i = 0; i < mStageData.IdolCount * 5; i++) {
-			int rand = UnityEngine.Random.Range (1, 14);
-			GameObject fanPrefab = Resources.Load ("Model/Fan/Fan_" + rand) as GameObject;
-			GameObject fanObject = Instantiate (fanPrefab) as GameObject;
-			float x = UnityEngine.Random.Range (-250.0f, 250.0f);
-			float y = UnityEngine.Random.Range (-230.0f, -180.0f);
-			fanObject.transform.parent = mIdolStageContainer.transform;
-			fanObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			fanObject.transform.localPosition = new Vector3 (x, y, 0);
-			mCharacterList.Add (fanObject.GetComponent<Character> ());
-			fanObject.GetComponent<Fan> ().Init ();
+			Character character = mCharacterGenerator.GenerateFan ();
+			mCharacterList.Add (character);
 		}
 			
 		mTotalGenerateCoinPower = GetGenerateCoinPower ();
@@ -412,20 +390,7 @@ public class StageManager : MonoBehaviour {
 
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 	}
-
-	//アイドルを生成
-	private GameObject GenerateIdle (GameObject idlePrefab) {
-		GameObject idleObject = Instantiate (idlePrefab) as GameObject;
-		idleObject.transform.parent = mIdolStageContainer.transform;
-		idleObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-		float x = UnityEngine.Random.Range (-175.0f, 175.0f);
-		float y = UnityEngine.Random.Range (0, 300.0f);
-		idleObject.transform.localPosition = new Vector3 (x, y, 0);
-		idleObject.GetComponent<Idle> ().Init ();
-		mCharacterList.Add (idleObject.GetComponent<Character> ());
-		return idleObject;
-	}
-
+		
 	//サボるまでの時間をDBから取得
 	private int GetUntilSleepTimeMin () {
 		UntilSleepTimeDao dao = DaoFactory.CreateUntilSleepTimeDao ();
