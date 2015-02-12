@@ -40,7 +40,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 				DeleteDB ();
 			}
 		}
-		#if UNITY_IPHONE
+		#if UNITY_IPHONE || UNITY_STANDALONE
 		if (!File.Exists (filePath)) {
 			CopyDB ();
 			PrefsManager.instance.DatabaseVersion = DATABASE_VERSION;
