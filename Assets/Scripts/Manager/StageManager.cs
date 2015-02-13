@@ -199,6 +199,9 @@ public class StageManager : MonoBehaviour {
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		mState = State.Normal;
 		gameObject.tag = "default";
+		foreach(Character character in mCharacterList){
+			character.Wakeup ();
+		}
 		//画像を変更
 		mIdolStageContainer.ChangeIdolSprite ("idle_normal_" + mStageData.Id);
 		//コイン生成パワーを算出してセット
@@ -331,7 +334,7 @@ public class StageManager : MonoBehaviour {
 		
 	//迷子のアイドルを生成
 	public void GenerateLostIdle (int idleId) {
-		Character character = mCharacterGenerator.GenerateIdol (mStageData);
+		Character character = mCharacterGenerator.GenerateLostIdol (idleId);
 		mCharacterList.Add (character);
 	}
 

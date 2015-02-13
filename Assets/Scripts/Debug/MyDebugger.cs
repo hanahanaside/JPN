@@ -39,6 +39,20 @@ public class MyDebugger : MonoBehaviour {
 		if (clickedPrefs) {
 			PlayerPrefs.DeleteAll ();
 		}
+
+		Rect releaseAllStageRect = new Rect (10, 120, 80, 20);
+		bool clickedReleaseAllStage = GUI.Button (releaseAllStageRect, "release All Stage");
+		if(clickedReleaseAllStage){
+			StageDao dao = DaoFactory.CreateStageDao ();
+			for(int i = 1;i <= 40;i++){
+				StageData stage = new StageData ();
+				stage.Id = i;
+				stage.IdolCount = 20;
+				stage.FlagConstruction = StageData.NOT_CONSTRUCTION;
+				stage.UpdatedDate = System.DateTime.Now.ToString ();
+				dao.UpdateRecord (stage);
+			}
+		}
 	}
 
 

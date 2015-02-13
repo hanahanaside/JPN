@@ -22,8 +22,18 @@ public class Idle : Character {
 		mIdleEvent = iTweenEvent.GetEvent (gameObject, "IdleEvent");
 		mScaleEvent = iTweenEvent.GetEvent (sprite.gameObject, "ScaleEvent");
 		characterTransform.localScale = new Vector3 (0.8f, 0.8f, 0.8f);
-		ResizeSprite ();
 		StartMoving ();
+	}
+
+	void OnEnable(){
+		if(mState != State.Move){
+			return;
+		}
+		if(mJumpEvent == null || mScaleEvent == null){
+			return;
+		}
+		mJumpEvent.Play ();
+		mScaleEvent.Play ();
 	}
 
 	void Update () {
@@ -92,18 +102,16 @@ public class Idle : Character {
 
 	//起きる
 	public override void Wakeup () {
-		mState = State.Move;
 		StartMoving ();
 	}
 
 	//ライブを開始
 	public override void StartLive () {
-		if(mState == State.Sleep){
-			sprite.spriteName = "idle_normal_" + idleId;
-			ResizeSprite ();
-		}
-		//迷子中でなかったらSpriteを消す
-		if (collider == null) {
+		bool isLost = (collider != null);
+		if(isLost){
+			mState = State.Move;
+		}else {
+			mState = State.Live;
 			gameObject.SetActive (false);
 		}
 	}
@@ -111,12 +119,20 @@ public class Idle : Character {
 	//ライブを終了
 	public override void FinishLive () {
 		gameObject.SetActive (true);
-		mTime = stopTimeSeconds;
-		mState = State.Stop;
+		mState = State.Move;
+		sprite.spriteName = "idle_normal_" + idleId;
+		ResizeSprite ();
+		mTime = moveTimeSeconds;
+		ChangeDirection (CheckDirection ());
+		if(transform.parent.gameObject.activeSelf){
+			mJumpEvent.Play ();
+			mScaleEvent.Play ();
+		}
 	}
 		
 	//動き出す
 	public override void StartMoving () {
+		mState = State.Move;
 		sprite.spriteName = "idle_normal_" + idleId;
 		ResizeSprite ();
 		mTime = moveTimeSeconds;

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class TestController : TestParent {
 
-	public TestController2 hoge;
-	public UILabel label;
+	public iTweenEvent tweenEvent;
 
 	void Start () {
 		Debug.Log ("" + PlayerPrefs.GetInt("gfdgd"));
@@ -17,6 +16,6 @@ public class TestController : TestParent {
 	}
 
 	public void OnButtonClicked () {
-		hoge.Hoge ();
+		tweenEvent.Play ();
 	}
 }
