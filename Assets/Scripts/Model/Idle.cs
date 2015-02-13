@@ -14,7 +14,6 @@ public class Idle : Character {
 	private iTweenEvent mScaleEvent;
 	private iTweenEvent mIdleEvent;
 	private bool jump;
-	private bool mDancing;
 
 	public void Init () {
 		idleId = name.Replace ("Idle_", "");
@@ -32,12 +31,6 @@ public class Idle : Character {
 		switch (mState) {
 		//ムーブ
 		case State.Move:
-			//ダンスの状態だったら解除する
-			if(mDancing){
-				StartMoving ();
-				mDancing = false;
-			}
-			//移動
 			characterTransform.Translate (new Vector3 (moveSpeed.speedX, moveSpeed.speedY, 0));
 			break;
 		//ストップ
@@ -55,7 +48,6 @@ public class Idle : Character {
 			break;
 		//ライブ
 		case State.Live:
-			characterTransform.Translate (new Vector3 (moveSpeed.speedX, moveSpeed.speedY, 0));
 			break;
 		//スリープ
 		case State.Sleep:
@@ -75,9 +67,6 @@ public class Idle : Character {
 	//ジャンプ終了時に呼ばれる
 	void OnCompleteJumpEvent () {
 		jump = !jump;
-		if (mState != State.Move) {
-			return;
-		}
 		if (jump) {
 			return;
 		}
@@ -109,8 +98,10 @@ public class Idle : Character {
 
 	//ライブを開始
 	public override void StartLive () {
-		mState = State.Live;
-		mDancing = true;
+		if(mState == State.Sleep){
+			sprite.spriteName = "idle_normal_" + idleId;
+			ResizeSprite ();
+		}
 		//迷子中でなかったらSpriteを消す
 		if (collider == null) {
 			gameObject.SetActive (false);
@@ -119,8 +110,9 @@ public class Idle : Character {
 
 	//ライブを終了
 	public override void FinishLive () {
-		mState = State.Move;
 		gameObject.SetActive (true);
+		mTime = stopTimeSeconds;
+		mState = State.Stop;
 	}
 		
 	//動き出す

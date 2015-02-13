@@ -7,6 +7,7 @@ public class Worker : Character {
 	private iTweenEvent mJumpEvent;
 	private State mState;
 	private float mTime;
+	private bool mDancing;
 
 	public void Init () {
 		mRotateEvent = iTweenEvent.GetEvent (sprite.gameObject, "RotateEvent");
@@ -19,6 +20,10 @@ public class Worker : Character {
 		switch (mState) {
 		//ムーブ
 		case State.Move:
+			if(mDancing){
+				StopDancing ();
+				StartMoving ();
+			}
 			characterTransform.Translate (new Vector3 (moveSpeed.speedX, moveSpeed.speedY, 0));
 			//座標上限をチェック
 			if (CheckLimit ()) {
@@ -37,6 +42,9 @@ public class Worker : Character {
 			break;
 		//ライブ
 		case State.Live:
+			if(!mDancing){
+				StartDancing ();
+			}
 			break;
 		//スリープ
 		case State.Sleep:
@@ -46,18 +54,11 @@ public class Worker : Character {
 
 	public override void StartLive () {
 		mState = State.Live;
-		gameObject.SetActive (true);
-		mRotateEvent.Stop ();
-		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
-		mJumpEvent.Play ();
-		gameObject.SetActive (false);
+		mDancing = false;
 	}
 
 	public override void FinishLive () {
-		gameObject.SetActive (true);
-		mJumpEvent.Stop ();
-		StartMoving ();
-		gameObject.SetActive (false);
+		mState = State.Move;
 	}
 
 	public override void Sleep () {
@@ -80,6 +81,21 @@ public class Worker : Character {
 		mState = State.Move;
 		mTime = moveTimeSeconds;
 		ChangeDirection (CheckDirection ());
+	}
+
+
+	//踊りを開始
+	private void StartDancing(){
+		mRotateEvent.Stop ();
+		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
+		mJumpEvent.Play ();
+		mDancing = true;
+	}
+
+	//踊りを中止
+	private void StopDancing(){
+		mJumpEvent.Stop ();
+		mDancing = false;
 	}
 		
 }

@@ -80,6 +80,19 @@ public class StageManager : MonoBehaviour {
 	}
 
 	void Update () {
+
+		//画面内・画面外の処理
+		float distance = Vector3.Distance (transform.position, HanautaCamera.instance.Postision);
+		if (distance > 2) {
+			if (mIdolStageContainer.IsContainerShowing ()) {
+				mIdolStageContainer.HideContainer ();
+			}
+		} else {
+			if (!mIdolStageContainer.IsContainerShowing ()) {
+				mIdolStageContainer.ShowContainer ();
+			}
+		}
+
 		switch (mState) {
 		case State.Normal:
 			//スリープ時間を更新
@@ -95,12 +108,13 @@ public class StageManager : MonoBehaviour {
 		case State.Live:
 			//コイン生成時間を更新(2倍)
 			mIdolStageCoinGenerator.PassTime (Time.deltaTime * 2.0f, mTotalGenerateCoinPower);
+			if (mStageData.FlagConstruction == StageData.NOT_CONSTRUCTION) {
+				return;
+			}
 			//建設中の場合の処理
-			if (mStageData.FlagConstruction == StageData.IN_CONSTRUCTION) {
-				mTimeSeconds -= Time.deltaTime * 2.0f;
-				if (mTimeSeconds >= 0) {
-					mIdolStageContainer.SetUntilSleepLabel ("あと" + TimeConverter.Convert (mTimeSeconds) + "で完成");
-				}
+			mTimeSeconds -= Time.deltaTime * 2.0f;
+			if (mTimeSeconds >= 0) {
+				mIdolStageContainer.SetUntilSleepLabel ("あと" + TimeConverter.Convert (mTimeSeconds) + "で完成");
 			}
 			break;
 		case State.Sleep:
@@ -119,18 +133,6 @@ public class StageManager : MonoBehaviour {
 			mTimeSeconds = GetUntilSleepTimeMin () * 60;
 			FinishConstruction ();
 			break;
-		}
-
-		//画面内・画面外の処理
-		float distance = Vector3.Distance (transform.position, HanautaCamera.instance.Postision);
-		if (distance > 2) {
-			if (mIdolStageContainer.IsContainerShowing ()) {
-				mIdolStageContainer.HideContainer ();
-			}
-		} else {
-			if (!mIdolStageContainer.IsContainerShowing ()) {
-				mIdolStageContainer.ShowContainer ();
-			}
 		}
 	}
 
@@ -197,9 +199,6 @@ public class StageManager : MonoBehaviour {
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		mState = State.Normal;
 		gameObject.tag = "default";
-		foreach (Character character in mCharacterList) {
-			character.Wakeup ();
-		}
 		//画像を変更
 		mIdolStageContainer.ChangeIdolSprite ("idle_normal_" + mStageData.Id);
 		//コイン生成パワーを算出してセット
@@ -362,7 +361,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	//サボるまでの秒数を返す
-	private double RemainingSleepTimeSec(){
+	private double RemainingSleepTimeSec () {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtUpdatedDate = DateTime.Parse (mStageData.UpdatedDate);
 		TimeSpan ts = dtNow - dtUpdatedDate;
@@ -386,7 +385,7 @@ public class StageManager : MonoBehaviour {
 			
 		mTotalGenerateCoinPower = GetGenerateCoinPower ();
 
-		mIdolStageContainer.SetNormal (mStageData,mTotalGenerateCoinPower);
+		mIdolStageContainer.SetNormal (mStageData, mTotalGenerateCoinPower);
 
 		PlayerDataKeeper.instance.IncreaseGenerateCoinPower (mTotalGenerateCoinPower);
 	}
