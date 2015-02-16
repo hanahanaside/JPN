@@ -9,12 +9,6 @@ public class CoinController : MonoBehaviour {
 	public GameObject getCoinEffectPrefab;
 	private float mLifeTime = 6.0f;
 
-	void OnEnable(){
-		if(!tweenColor.enabled){
-			tweenColor.enabled = true;
-		}
-	}
-
 	void Start () {
 		float x = UnityEngine.Random.Range (-220.0f, 220.0f);
 		float y = UnityEngine.Random.Range (-150.0f,  300.0f);

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SplashSceneManager : MonoBehaviour {
 
+	public bool debug;
 	public GameObject fadeoutObject;
 
 	void OnEnable(){
@@ -31,8 +32,6 @@ public class SplashSceneManager : MonoBehaviour {
 			LoadLevelName.instance.loadLevelName = "Main";
 			Application.LoadLevel ("Loading");
 		}else {
-//			LoadLevelName.instance.loadLevelName = "Main";
-//			Application.LoadLevel ("Loading");
 			PlayerPrefs.DeleteAll ();
 			Application.LoadLevel ("MainTutorial");
 		}

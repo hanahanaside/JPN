@@ -7,7 +7,6 @@ public class MyDebugger : MonoBehaviour {
 	public GameObject soundManagerPrefab;
 	public GameObject characterVoiceManagerPrefab;
 
-	#if UNITY_EDITOR
 	void Awake () {
 		if (GameObject.FindGameObjectWithTag ("SoundManager") == null) {
 			Instantiate (soundManagerPrefab);
@@ -23,28 +22,44 @@ public class MyDebugger : MonoBehaviour {
 	}
 
 	private void ShowMainGUI () {
-		Rect pauseRect = new Rect (10, 30, 80, 20);
-		bool clickedPause = GUI.Button (pauseRect, "save pref");
+		float right = 50f;
+		float top = 50f;
+		float left = 10f;
+		float botton = 20f;
+		float topDifference = 30f;
+		#if !UNITY_EDITOR
+		top = 100f;
+		right = 200f;
+		botton = 60f;
+		topDifference = 90f;
+		#endif
+
+		#if UNITY_EDITOR
+		Rect pauseRect = new Rect (left, top += topDifference, right, botton);
+		bool clickedPause = GUI.Button (pauseRect, "save prefs");
 		if (clickedPause) {
 			PlayerDataKeeper.instance.SaveData ();
 		}
-		Rect deleteDBRect = new Rect (10, 60, 80, 20);
-		bool clickedDeleteDB = GUI.Button (deleteDBRect, "reset DB");
-		if (clickedDeleteDB) {
-			DatabaseHelper.instance.DeleteDB ();
-			DatabaseHelper.instance.CopyDB ();
-		}
-		Rect prefsRect = new Rect (10, 90, 80, 20);
+		Rect prefsRect =  new Rect (left, top += topDifference, right, botton);
 		bool clickedPrefs = GUI.Button (prefsRect, "clear prefs");
 		if (clickedPrefs) {
 			PlayerPrefs.DeleteAll ();
 		}
+		#endif
 
-		Rect releaseAllStageRect = new Rect (10, 120, 80, 20);
-		bool clickedReleaseAllStage = GUI.Button (releaseAllStageRect, "release All Stage");
+
+		Rect deleteDBRect =  new Rect (left, top += topDifference, right, botton);
+		bool clickedDeleteDB = GUI.Button (deleteDBRect, "全ステージを削除");
+		if (clickedDeleteDB) {
+			DatabaseHelper.instance.DeleteDB ();
+			DatabaseHelper.instance.CopyDB ();
+		}
+
+		Rect releaseAllStageRect =  new Rect (left, top += topDifference, right, botton);
+		bool clickedReleaseAllStage = GUI.Button (releaseAllStageRect, "全ステージ解放");
 		if(clickedReleaseAllStage){
 			StageDao dao = DaoFactory.CreateStageDao ();
-			for(int i = 1;i <= 40;i++){
+			for(int i = 1;i <= 48;i++){
 				StageData stage = new StageData ();
 				stage.Id = i;
 				stage.IdolCount = 20;
@@ -53,8 +68,6 @@ public class MyDebugger : MonoBehaviour {
 				dao.UpdateRecord (stage);
 			}
 		}
+
 	}
-
-
-	#endif
 }
