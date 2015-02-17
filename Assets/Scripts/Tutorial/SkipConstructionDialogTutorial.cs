@@ -26,12 +26,6 @@ public class SkipConstructionDialogTutorial : MonoSingleton<SkipConstructionDial
 		countLabel.text = "×" + ticketCount + "で";
 	}
 
-	public void NegativeButtonClicked(){
-		FenceManager.instance.HideFence ();
-		iTweenEvent.GetEvent (mDialogObject,"DismissEvent").Play();
-		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
-	}
-
 	public void PositiveButtonClicked(){
 		FenceManager.instance.HideFence ();
 		iTweenEvent.GetEvent (mDialogObject,"DismissEvent").Play();

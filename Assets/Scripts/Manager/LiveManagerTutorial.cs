@@ -10,6 +10,7 @@ public class LiveManagerTutorial : MonoSingleton<LiveManagerTutorial> {
 	public GameObject curtainHeadObject;
 	public GameObject logoObject;
 	public GameObject backGroundTextureObject;
+	public CoinGenerator coinGenerator;
 	public UIGrid grid;
 
 	private float mTime;
@@ -107,6 +108,8 @@ public class LiveManagerTutorial : MonoSingleton<LiveManagerTutorial> {
 		iTweenEvent.GetEvent (spinTextureObject, "LiveStartEvent").Play ();
 		iTweenEvent.GetEvent (mirrorBallSpriteObject, "LiveStartEvent").Play ();
 		mLive = true;
+		coinGenerator.gameObject.SetActive (true);
+		coinGenerator.StartLive ();
 	}
 
 	private void OpenBall () {

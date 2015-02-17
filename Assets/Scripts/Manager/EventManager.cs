@@ -45,7 +45,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtLastUpdate = DateTime.Parse (mLostIdleEvent.LastUpdateDate);
 		TimeSpan timeSpan = dtNow - dtLastUpdate;
-		if(timeSpan.TotalHours >= 0){
+		if(timeSpan.TotalHours >= 12){
 			//12
 			RaiseLostIdleEvent ();
 		}

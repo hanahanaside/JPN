@@ -53,11 +53,13 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	void OnEnable(){
 		StageManagerTutorial.FinishConstructionEvent += FinishConstructionEvent;
 		StageManagerTutorial.WakeupEvent += WakeupEvent;
+		CoinController.OnClickedEvent += OnCoinClickedEvent;
 	}
 
 	void OnDisable(){
 		StageManagerTutorial.FinishConstructionEvent -= FinishConstructionEvent;
 		StageManagerTutorial.WakeupEvent -= WakeupEvent;
+		CoinController.OnClickedEvent -= OnCoinClickedEvent;
 	}
 
 	void FinishConstructionEvent(GameObject stageObject){
@@ -268,4 +270,18 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		tweenColor.to = color;
 		tweenColor.PlayForward ();
 	}
+
+	//コインタップ時の処理
+	void OnCoinClickedEvent (string tag) {
+		switch (tag) {
+		case "coin_1":
+			PlayerDataKeeper.instance.IncreaseCoinCount (1.0);
+			break;
+		case "coin_5":
+			PlayerDataKeeper.instance.IncreaseCoinCount (5.0);
+			break;
+		}
+		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GetCoin);
+	}
+
 }

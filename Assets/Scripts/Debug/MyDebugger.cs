@@ -40,12 +40,13 @@ public class MyDebugger : MonoBehaviour {
 		if (clickedPause) {
 			PlayerDataKeeper.instance.SaveData ();
 		}
+		#endif
 		Rect prefsRect =  new Rect (left, top += topDifference, right, botton);
-		bool clickedPrefs = GUI.Button (prefsRect, "clear prefs");
+		bool clickedPrefs = GUI.Button (prefsRect, "セーブデータを削除");
 		if (clickedPrefs) {
 			PlayerPrefs.DeleteAll ();
 		}
-		#endif
+
 
 
 		Rect deleteDBRect =  new Rect (left, top += topDifference, right, botton);
@@ -59,7 +60,7 @@ public class MyDebugger : MonoBehaviour {
 		bool clickedReleaseAllStage = GUI.Button (releaseAllStageRect, "全ステージ解放");
 		if(clickedReleaseAllStage){
 			StageDao dao = DaoFactory.CreateStageDao ();
-			for(int i = 1;i <= 48;i++){
+			for(int i = 1;i <= 47;i++){
 				StageData stage = new StageData ();
 				stage.Id = i;
 				stage.IdolCount = 20;

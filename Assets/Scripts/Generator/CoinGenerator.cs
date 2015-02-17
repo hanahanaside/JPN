@@ -9,9 +9,19 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	private float interval = 5.0f;
 	private float mUntilGenerateTimeSeconds;
 	private bool mStop = false;
+	private int mUnlockStageCount;
 
 	void Awake () {
 		mUntilGenerateTimeSeconds = interval;
+		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
+		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
+			int clearedCount = clearedPuzzleCountArray [i];
+			if (clearedCount < 0) {
+				mUnlockStageCount = i;
+				break;
+			}
+			mUnlockStageCount = i;
+		}
 	}
 
 	void Update () {
@@ -55,18 +65,8 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	}
 
 	private GameObject GetCoinPrefab () {
-		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
-		int unlockStageCount = 0;
-		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
-			int clearedCount = clearedPuzzleCountArray [i];
-			if (clearedCount < 0) {
-				unlockStageCount = i;
-				break;
-			}
-			unlockStageCount = i;
-		}
 		int coinIndex = 0;
-		switch (unlockStageCount) {
+		switch (mUnlockStageCount) {
 		case 1:
 		case 2:
 			coinIndex = CoinRate.GetCoinIndexLevel_1 ();
