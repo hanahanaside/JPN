@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SplashSceneManager : MonoBehaviour {
 
+	public bool debug;
 	public GameObject fadeoutObject;
 
 	void OnEnable(){
