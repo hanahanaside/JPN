@@ -20,7 +20,7 @@ public class SplashSceneManager : MonoBehaviour {
 	}
 
 	void CreatedDatabaseEvent(){
-		Debug.Log ("db version = " +PrefsManager.instance.DatabaseVersion);
+		ObjectPool.instance.CreateObjects ();
 		fadeoutObject.SetActive (true);
 	}
 
