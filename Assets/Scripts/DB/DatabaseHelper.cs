@@ -45,6 +45,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 			CopyDB ();
 			PrefsManager.instance.DatabaseVersion = DATABASE_VERSION;
 			CreatedDatabaseEvent ();
+			Debug.Log("copy db");
 		} else {
 			UpdateDatabase ();
 		}
@@ -53,6 +54,7 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 		#if UNITY_ANDROID
 		if (!File.Exists (filePath)) {
 			StartCoroutine("CreateAndroidDatabase");
+			PrefsManager.instance.DatabaseVersion = DATABASE_VERSION;
 		}else {
 			UpdateDatabase();
 		}
@@ -75,11 +77,22 @@ public class DatabaseHelper : MonoSingleton<DatabaseHelper> {
 	}
 
 	private void UpdateDatabase () {
+		Debug.Log ("update database ");
 		int databaseVersion = PrefsManager.instance.DatabaseVersion;
+		Debug.Log ("current version " + databaseVersion);
 		switch (databaseVersion) {
 		case 0:
-			//バージョン0で未セーブの人がいる
-			PrefsManager.instance.DatabaseVersion = DATABASE_VERSION;
+			//秋葉原をインサート
+			StageData stageData = new StageData ();
+			stageData.AreaName = "秋葉原";
+			stageData.Id = 48;
+			stageData.IdolCount = 0;
+			stageData.UpdatedDate = "";
+			stageData.FlagConstruction = 1;
+			stageData.AreaId = 8;
+			StageDao dao = DaoFactory.CreateStageDao ();
+			dao.InsertData (stageData);
+			PrefsManager.instance.DatabaseVersion = 1;
 			CreatedDatabaseEvent ();
 			break;
 		case 1:

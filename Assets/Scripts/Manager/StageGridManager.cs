@@ -62,6 +62,7 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 			mIdolStageManagerList.Add (stageManager);
 			stageManager.Init (stage);
 		}
+		Debug.Log ("size " +stageDataList.Count);
 	}
 
 	public void MoveToStage (int stageIndex) {

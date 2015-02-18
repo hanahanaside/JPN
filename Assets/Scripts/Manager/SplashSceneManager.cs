@@ -20,6 +20,7 @@ public class SplashSceneManager : MonoBehaviour {
 	}
 
 	void CreatedDatabaseEvent(){
+		Debug.Log ("db version = " +PrefsManager.instance.DatabaseVersion);
 		fadeoutObject.SetActive (true);
 	}
 
@@ -32,7 +33,9 @@ public class SplashSceneManager : MonoBehaviour {
 			LoadLevelName.instance.loadLevelName = "Main";
 			Application.LoadLevel ("Loading");
 		}else {
+			int databaseVersion = PrefsManager.instance.DatabaseVersion;
 			PlayerPrefs.DeleteAll ();
+			PrefsManager.instance.DatabaseVersion = databaseVersion;
 			Application.LoadLevel ("MainTutorial");
 		}
 	}

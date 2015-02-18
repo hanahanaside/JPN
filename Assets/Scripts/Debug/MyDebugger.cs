@@ -41,26 +41,26 @@ public class MyDebugger : MonoBehaviour {
 			PlayerDataKeeper.instance.SaveData ();
 		}
 		#endif
-		Rect prefsRect =  new Rect (left, top += topDifference, right, botton);
+		Rect prefsRect = new Rect (left, top += topDifference, right, botton);
 		bool clickedPrefs = GUI.Button (prefsRect, "セーブデータを削除");
 		if (clickedPrefs) {
+			Debug.Log ("セーブデータを削除");
 			PlayerPrefs.DeleteAll ();
 		}
 
-
-
-		Rect deleteDBRect =  new Rect (left, top += topDifference, right, botton);
+		Rect deleteDBRect = new Rect (left, top += topDifference, right, botton);
 		bool clickedDeleteDB = GUI.Button (deleteDBRect, "全ステージを削除");
 		if (clickedDeleteDB) {
 			DatabaseHelper.instance.DeleteDB ();
 			DatabaseHelper.instance.CopyDB ();
 		}
 
-		Rect releaseAllStageRect =  new Rect (left, top += topDifference, right, botton);
+		Rect releaseAllStageRect = new Rect (left, top += topDifference, right, botton);
 		bool clickedReleaseAllStage = GUI.Button (releaseAllStageRect, "全ステージ解放");
-		if(clickedReleaseAllStage){
+		if (clickedReleaseAllStage) {
+			Debug.Log ("全ステージ解放");
 			StageDao dao = DaoFactory.CreateStageDao ();
-			for(int i = 1;i <= 47;i++){
+			for (int i = 1; i <= 48; i++) {
 				StageData stage = new StageData ();
 				stage.Id = i;
 				stage.IdolCount = 20;
@@ -70,5 +70,11 @@ public class MyDebugger : MonoBehaviour {
 			}
 		}
 
+		Rect unlockAllAreaRect = new Rect (left, top += topDifference, right, botton);
+		bool clickedUnlockArea = GUI.Button (unlockAllAreaRect, "全エリアロック解除");
+		if (clickedUnlockArea) {
+			int[] clearedPuzzleCountArray = { 1, 1, 1, 1, 1, 1, 1, 1 };
+			PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
+		}
 	}
 }

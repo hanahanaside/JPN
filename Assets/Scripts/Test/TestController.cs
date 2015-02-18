@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 public class TestController : TestParent {
 
 	public iTweenEvent tweenEvent;
 
 	void Start () {
-		Debug.Log ("" + PlayerPrefs.GetInt("gfdgd"));
+	
 	}
 
 	void Update () {
@@ -18,4 +20,5 @@ public class TestController : TestParent {
 	public void OnButtonClicked () {
 		tweenEvent.Play ();
 	}
+
 }

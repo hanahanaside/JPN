@@ -19,7 +19,7 @@ public class StageDbDao : StageDao {
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("select * from " + TABLE_NAME + " ");
-		sb.Append ("where " + FIELD_IDLE_COUNT +  " != 0;");
+		sb.Append ("where " + FIELD_IDLE_COUNT + " != 0;");
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		while (sqliteQuery.Step ()) {
 			StageData stage = GetStage (sqliteQuery);
@@ -55,7 +55,7 @@ public class StageDbDao : StageDao {
 		sb.Append (FIELD_FLAG_CONSTRUCTION + " = " + stage.FlagConstruction + ", ");
 		sb.Append (FIELD_UPDATED_DATE + " = '" + stage.UpdatedDate + "' ");
 		sb.Append ("where " + FIELD_ID + " = " + stage.Id + ";");
-		MyLog.LogDebug ("sql " + sb.ToString());
+		MyLog.LogDebug ("sql " + sb.ToString ());
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		sqliteQuery.Step ();
 		sqliteQuery.Release ();
@@ -63,12 +63,29 @@ public class StageDbDao : StageDao {
 	}
 
 	//全てのレコードのアップデートデートを統一する
-	public void UpdateAllUpdateDate(string updateDate){
+	public void UpdateAllUpdateDate (string updateDate) {
 		SQLiteDB sqliteDB = OpenDatabase ();
 		StringBuilder sb = new StringBuilder ();
 		sb.Append ("update " + TABLE_NAME + " set ");
 		sb.Append (FIELD_UPDATED_DATE + " = '" + updateDate + "' ");
-		MyLog.LogDebug ("sql " + sb.ToString());
+		MyLog.LogDebug ("sql " + sb.ToString ());
+		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
+		sqliteQuery.Step ();
+		sqliteQuery.Release ();
+		sqliteDB.Close ();
+	}
+
+	//レコードをインサート
+	public void InsertData (StageData stageData) {
+		SQLiteDB sqliteDB = OpenDatabase ();
+		StringBuilder sb = new StringBuilder ();
+		sb.Append ("insert into " + TABLE_NAME + " values");
+		sb.Append ("(" + stageData.Id + ", ");
+		sb.Append ("'" + stageData.AreaName + "', ");
+		sb.Append (stageData.IdolCount + ", ");
+		sb.Append (stageData.FlagConstruction + ", ");
+		sb.Append ("'" + stageData.UpdatedDate + "', ");
+		sb.Append (stageData.AreaId + ");");
 		SQLiteQuery sqliteQuery = new SQLiteQuery (sqliteDB, sb.ToString ());
 		sqliteQuery.Step ();
 		sqliteQuery.Release ();

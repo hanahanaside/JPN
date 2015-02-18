@@ -12,4 +12,6 @@ public interface StageDao
 	void UpdateRecord (StageData stage);
 
 	void UpdateAllUpdateDate(string updateDate);
+
+	void InsertData(StageData stageData);
 }
