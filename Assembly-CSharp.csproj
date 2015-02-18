@@ -276,7 +276,6 @@
      <Compile Include="Assets\Scripts\Model\Worker.cs" />
      <Compile Include="Assets\Scripts\Notification\MyLocalNotification.cs" />
      <Compile Include="Assets\Scripts\Notification\NotificationManager.cs" />
-     <Compile Include="Assets\Scripts\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\Params\AreaParams.cs" />
      <Compile Include="Assets\Scripts\Params\GeneratePowerParams.cs" />
      <Compile Include="Assets\Scripts\Params\UntilSleepParams.cs" />

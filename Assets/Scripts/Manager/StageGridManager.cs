@@ -54,16 +54,15 @@ public class StageGridManager : MonoSingleton<StageGridManager> {
 		mIdolStageManagerList = new List<StageManager> ();
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<StageData> stageDataList = dao.SelectAll ();
-		for (int i = 0; i < stageDataList.Count; i++) {
-			GameObject stageObject = ObjectPool.instance.GetStageObject (i);
+		foreach (StageData stage in stageDataList) {
+			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			stageGrid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
 			StageManager stageManager = stageObject.GetComponentInChildren<StageManager> ();
 			mIdolStageManagerList.Add (stageManager);
-			StageData stageData = stageDataList [i];
-			stageManager.Init (stageData);
+			stageManager.Init (stage);
 		}
-		Debug.Log ("size " + stageDataList.Count);
+		Debug.Log ("size " +stageDataList.Count);
 	}
 
 	public void MoveToStage (int stageIndex) {
