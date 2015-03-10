@@ -15,12 +15,12 @@ public static class ImobileAccount {
 
 	#if UNITY_ANDROID
 	public const string PUBLISHER_ID = "5222";
-	public const string BANNER_MEDIA_ID = "105679";
-	public const string BANNER_SPOT_ID = "240553";
-	public const string ICON_MEDIA_ID = "105679";
-	public const string ICON_SPOT_ID = "240554";
-	public const string INTERSTITIAL_MEDIA_ID = "117652";
-	public const string INTERSTITIAL_SPOT_ID = "283572";
+	public const string BANNER_MEDIA_ID = "151279";
+	public const string BANNER_SPOT_ID = "392984";
+	public const string ICON_MEDIA_ID = "151279";
+	public const string ICON_SPOT_ID = "392985";
+	public const string INTERSTITIAL_MEDIA_ID = "151279";
+	public const string INTERSTITIAL_SPOT_ID = "392986";
 	#endif
 
 }

@@ -245,6 +245,7 @@
      <Compile Include="Assets\Scripts\Interface\StageDao.cs" />
      <Compile Include="Assets\Scripts\Interface\UntilSleepTimeDao.cs" />
      <Compile Include="Assets\Scripts\LoadLevelName.cs" />
+     <Compile Include="Assets\Scripts\LoadingUIRoot.cs" />
      <Compile Include="Assets\Scripts\Manager\AdManager.cs" />
      <Compile Include="Assets\Scripts\Manager\AreaPanelManager.cs" />
      <Compile Include="Assets\Scripts\Manager\DanceTeamManager.cs" />

@@ -22,7 +22,7 @@ public class MyDebugger : MonoBehaviour {
 	}
 
 	private void ShowMainGUI () {
-		float right = 50f;
+		float right = 200f;
 		float top = 50f;
 		float left = 10f;
 		float botton = 20f;

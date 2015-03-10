@@ -45,32 +45,32 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 	void OnPlaneEventCompleted () {
 		fadeOutSpriteObject.SetActive (true);
 	}
-		
+
 	public void OnFadeOutFinished () {
 		Application.LoadLevel ("PuzzleTutorial");
 	}
 
-	void OnEnable(){
+	void OnEnable () {
 		StageManagerTutorial.FinishConstructionEvent += FinishConstructionEvent;
 		StageManagerTutorial.WakeupEvent += WakeupEvent;
 		CoinController.OnClickedEvent += OnCoinClickedEvent;
 	}
 
-	void OnDisable(){
+	void OnDisable () {
 		StageManagerTutorial.FinishConstructionEvent -= FinishConstructionEvent;
 		StageManagerTutorial.WakeupEvent -= WakeupEvent;
 		CoinController.OnClickedEvent -= OnCoinClickedEvent;
 	}
 
-	void FinishConstructionEvent(GameObject stageObject){
-		if(stageObject == mChildList[3].gameObject){
-			Invoke ("ShowFinishMessage",1.0f);
+	void FinishConstructionEvent (GameObject stageObject) {
+		if (stageObject == mChildList [3].gameObject) {
+			Invoke ("ShowFinishMessage", 1.0f);
 		}
 	}
 
-	void WakeupEvent(GameObject stageObject){
+	void WakeupEvent (GameObject stageObject) {
 		if (stageObject == mChildList [2].gameObject) {
-			Invoke ("ShowFinishMessage",1.0f);
+			Invoke ("ShowFinishMessage", 1.0f);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		SoundManager.instance.PlayBGM (SoundManager.BGM_CHANNEL.Main);
 	}
 
-	public void OnMessageFinished(){
+	public void OnMessageFinished () {
 		okButtonObject.SetActive (true);
 	}
 
@@ -118,18 +118,18 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		case 3:
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			scoutArrowObject.SetActive (true);
-			StartTweenColor ("A_ScoutButton",new Color(0.7f,0.5f,0.5f,1));
+			StartTweenColor ("A_ScoutButton", new Color (0.7f, 0.5f, 0.5f, 1));
 			break;
 		case 4:
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			areaArrowObject.SetActive (true);
-			StartTweenColor ("AreaButton",new Color(0.9f,0.8f,0.8f,1));
+			StartTweenColor ("AreaButton", new Color (0.9f, 0.8f, 0.8f, 1));
 			break;
 		case 5:
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			areaDialogObject.SetActive (true);
 			iTweenEvent.GetEvent (areaDialogObject, "ShowEvent").Play ();
-			GameObject.Find ("TargetCell").GetComponent<TweenColor>().enabled = true;
+			GameObject.Find ("TargetCell").GetComponent<TweenColor> ().enabled = true;
 			break;
 		case 6:
 			sTutorialIndex++;
@@ -139,7 +139,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			iTweenEvent.GetEvent (natsumotoObject, "HideEvent").Play ();
 			dartsObject.SetActive (true);
 			goScoutArrowObject.SetActive (true);
-			StartTweenColor ("GoScoutButton",new Color(0.7f,0.5f,0.5f,1));
+			StartTweenColor ("GoScoutButton", new Color (0.7f, 0.5f, 0.5f, 1));
 			break;
 		case 12:
 			sTutorialIndex++;
@@ -193,7 +193,7 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void ShowFinishMessage(){
+	public void ShowFinishMessage () {
 		natsumotoObject.SetActive (true);
 		iTweenEvent.GetEvent (natsumotoObject, "ShowEvent").Play ();
 		sTutorialIndex++;
@@ -228,13 +228,13 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		}
 		iTweenEvent.GetEvent (planeObject, "moveOut").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Plane);
-		GameObject.Find ("GoScoutButton").SetActive(false);
+		GameObject.Find ("GoScoutButton").SetActive (false);
 		goScoutArrowObject.SetActive (false);
 		PlayerDataKeeper.instance.DecreaseCoinCount (100);
 		PlayerDataKeeper.instance.SaveData ();
 	}
 
-	public void LiveButtonClicked(){
+	public void LiveButtonClicked () {
 		if (sTutorialIndex != 16) {
 			return;
 		}
@@ -249,10 +249,10 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 		tutorialLabel.text = mEntityTutorial.param [sTutorialIndex].message;
 	}
 
-	private void CreateStage(){
+	private void CreateStage () {
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<StageData> stageList = dao.SelectAll ();
-		foreach(StageData stage in stageList){
+		foreach (StageData stage in stageList) {
 			stage.UpdatedDate = DateTime.Now.ToString ();
 			dao.UpdateRecord (stage);
 		}
@@ -260,12 +260,12 @@ public class MainTutorialManager : MonoSingleton<MainTutorialManager> {
 			GameObject stageObject = Instantiate (stagePrefab) as GameObject;
 			grid.AddChild (stageObject.transform);
 			stageObject.transform.localScale = new Vector3 (1, 1, 1);
-			stageObject.GetComponentInChildren<StageManagerTutorial> ().Init(stage);
+			stageObject.GetComponentInChildren<StageManagerTutorial> ().Init (stage);
 		}
 	}
 
-	private void StartTweenColor(string objectName,Color color){
-		TweenColor tweenColor = GameObject.Find (objectName).GetComponent<TweenColor>();
+	private void StartTweenColor (string objectName, Color color) {
+		TweenColor tweenColor = GameObject.Find (objectName).GetComponent<TweenColor> ();
 		tweenColor.style = UITweener.Style.PingPong;
 		tweenColor.to = color;
 		tweenColor.PlayForward ();

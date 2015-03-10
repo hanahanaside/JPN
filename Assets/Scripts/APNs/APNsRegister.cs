@@ -23,7 +23,6 @@ public class APNsRegister : MonoSingleton<APNsRegister> {
 	void Awake () {
 		if (!PrefsManager.instance.APNsRegisted) {
 			DontDestroyOnLoad (gameObject);
-			RegisterForRemoteNotifcations ();
 		}
 	}
 
