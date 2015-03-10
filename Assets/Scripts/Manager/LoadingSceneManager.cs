@@ -4,12 +4,8 @@ using System.Collections;
 public class LoadingSceneManager : MonoBehaviour {
 
 	void Start () {
-	//	SoundManager.instance.StopBGM ();
-	//	LoadingUIRoot.instance.ChangeBackground ();
-		Invoke ("Hoge",1f);
-	}
-
-	private void Hoge(){
+		SoundManager.instance.StopBGM ();
 		Application.LoadLevel (LoadLevelName.instance.loadLevelName);
 	}
+		
 }

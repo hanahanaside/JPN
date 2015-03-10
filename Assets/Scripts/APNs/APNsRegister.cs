@@ -23,9 +23,6 @@ public class APNsRegister : MonoSingleton<APNsRegister> {
 	void Awake () {
 		if (!PrefsManager.instance.APNsRegisted) {
 			DontDestroyOnLoad (gameObject);
-		}
-		//チュートリアルが終わっていたら自ら登録を開始
-		if(PrefsManager.instance.TutorialFinished){
 			RegisterForRemoteNotifcations ();
 		}
 	}
@@ -52,7 +49,6 @@ public class APNsRegister : MonoSingleton<APNsRegister> {
 	}
 
 	public void RegisterForRemoteNotifcations () {
-		//	NotificationServices.RegisterForRemoteNotificationTypes (RemoteNotificationType.Alert | RemoteNotificationType.Badge | RemoteNotificationType.Sound);
 		EtceteraBinding.registerForRemoteNotifcations (P31RemoteNotificationType.Alert | P31RemoteNotificationType.Badge | P31RemoteNotificationType.Sound);
 	}
 
