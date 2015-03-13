@@ -91,11 +91,11 @@ public class AdManager :  MonoSingleton<AdManager> {
 	}
 
 	private void InitRectangleAd () {
-		//	#if !UNITY_EDITOR
+		#if !UNITY_EDITOR
 		IMobileSdkAdsUnityPlugin.registerInline (ImobileAccount.PUBLISHER_ID, ImobileAccount.RECTANGLE_MEDIA_ID, ImobileAccount.RECTANGLE_SPOT_ID);
 		IMobileSdkAdsUnityPlugin.start (ImobileAccount.RECTANGLE_SPOT_ID);
 		mRectangleViewId = IMobileSdkAdsUnityPlugin.show (ImobileAccount.RECTANGLE_SPOT_ID, IMobileSdkAdsUnityPlugin.AdType.MEDIUM_RECTANGLE, 10, 170);
 		HideRectangleAd ();
-		//	#endif
+		#endif
 	}
 }
