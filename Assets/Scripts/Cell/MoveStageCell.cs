@@ -10,7 +10,7 @@ public class MoveStageCell : MonoBehaviour {
 		UIButton button = GetComponent<UIButton> ();
 		button.normalSprite = "puzzle_idle_" + stage.Id;
 		UILabel label = transform.FindChild ("Label").GetComponent<UILabel>();
-		label.text = stage.AreaName;
+		label.text = stage.AreaName; 
 	}
 
 	public void OnClick(){
