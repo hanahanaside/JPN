@@ -22,15 +22,16 @@ public class MyDebugger : MonoBehaviour {
 	}
 
 	private void ShowMainGUI () {
-		float right = 200f;
-		float top = 50f;
-		float left = 10f;
+		float right = 150f;
+		float top = 0f;
+		float left = 0f;
 		float botton = 20f;
-		float topDifference = 30f;
+		float topDifference = 50f;
 		#if !UNITY_EDITOR
 		top = 100f;
 		right = 200f;
 		botton = 60f;
+		left = 10f;
 		topDifference = 90f;
 		#endif
 
