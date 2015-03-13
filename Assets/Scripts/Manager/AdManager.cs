@@ -5,12 +5,14 @@ public class AdManager :  MonoSingleton<AdManager> {
 
 	private int mBannerViewId;
 	private int mIconViewId;
+	private int mRectangleViewId;
 
 	public override void OnInitialize () {
 		DontDestroyOnLoad (gameObject);
 		#if !UNITY_EDITOR
 		InitBannerAd ();
 		InitIconAd ();
+		InitRectangleAd ();
 		InitInterstitialAd ();
 		#endif
 	}
@@ -24,6 +26,18 @@ public class AdManager :  MonoSingleton<AdManager> {
 	public void HideBannerAd () {
 		#if !UNITY_EDITOR
 		IMobileSdkAdsUnityPlugin.setVisibility (mBannerViewId, false);
+		#endif
+	}
+
+	public void HideRectangleAd () {
+		#if !UNITY_EDITOR
+		IMobileSdkAdsUnityPlugin.setVisibility (mRectangleViewId, false);
+		#endif
+	}
+
+	public void ShowRectangleAd () {
+		#if !UNITY_EDITOR
+		IMobileSdkAdsUnityPlugin.setVisibility (mRectangleViewId, true);
 		#endif
 	}
 
@@ -74,5 +88,14 @@ public class AdManager :  MonoSingleton<AdManager> {
 		IMobileSdkAdsUnityPlugin.registerFullScreen (ImobileAccount.PUBLISHER_ID, ImobileAccount.INTERSTITIAL_MEDIA_ID, ImobileAccount.INTERSTITIAL_SPOT_ID);
 		IMobileSdkAdsUnityPlugin.start (ImobileAccount.INTERSTITIAL_SPOT_ID);
 		#endif
+	}
+
+	private void InitRectangleAd () {
+		//	#if !UNITY_EDITOR
+		IMobileSdkAdsUnityPlugin.registerInline (ImobileAccount.PUBLISHER_ID, ImobileAccount.RECTANGLE_MEDIA_ID, ImobileAccount.RECTANGLE_SPOT_ID);
+		IMobileSdkAdsUnityPlugin.start (ImobileAccount.RECTANGLE_SPOT_ID);
+		mRectangleViewId = IMobileSdkAdsUnityPlugin.show (ImobileAccount.RECTANGLE_SPOT_ID, IMobileSdkAdsUnityPlugin.AdType.MEDIUM_RECTANGLE, 10, 170);
+		HideRectangleAd ();
+		//	#endif
 	}
 }

@@ -11,6 +11,8 @@ public static class ImobileAccount {
 	public const string ICON_SPOT_ID = "374591";
 	public const string INTERSTITIAL_MEDIA_ID = "137749";
 	public const string INTERSTITIAL_SPOT_ID = "374592";
+	public const string RECTANGLE_MEDIA_ID = "137749";
+	public const string RECTANGLE_SPOT_ID = "350198";
 	#endif
 
 	#if UNITY_ANDROID
@@ -21,6 +23,8 @@ public static class ImobileAccount {
 	public const string ICON_SPOT_ID = "392985";
 	public const string INTERSTITIAL_MEDIA_ID = "151279";
 	public const string INTERSTITIAL_SPOT_ID = "392986";
+	public const string RECTANGLE_MEDIA_ID = "151279";
+	public const string RECTANGLE_SPOT_ID = "407276";
 	#endif
 
 }

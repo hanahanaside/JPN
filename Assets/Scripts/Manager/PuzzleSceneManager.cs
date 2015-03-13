@@ -57,7 +57,7 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	void CompleteTargetEvent (string targetTag) {
 		targetGrid.repositionNow = true;
 		mGetItemTagList.Add (targetTag);
-		if(targetTag == "ticket"){
+		if (targetTag == "ticket") {
 			return;
 		}
 		string id = targetTag.Remove (0, 5);
@@ -67,11 +67,11 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		clearedPuzzleCountArray [ScoutStageManager.SelectedAreaId - 1]++;
 		PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
-	//	CharacterVoiceManager.instance.PlayVoice (Convert.ToInt32 (id) - 1);
-		StartCoroutine ("PlayVoiceCoroutine",Convert.ToInt32 (id) - 1);
+		//	CharacterVoiceManager.instance.PlayVoice (Convert.ToInt32 (id) - 1);
+		StartCoroutine ("PlayVoiceCoroutine", Convert.ToInt32 (id) - 1);
 	}
 
-	private IEnumerator PlayVoiceCoroutine(int id){
+	private IEnumerator PlayVoiceCoroutine (int id) {
 		yield return new WaitForSeconds (0.5f);
 		CharacterVoiceManager.instance.PlayVoice (id);
 	}
@@ -135,10 +135,10 @@ public class PuzzleSceneManager : MonoSingleton<PuzzleSceneManager> {
 	void BackToStageEvent () {
 		FlagBackButtonClicked = true;
 		LoadLevelName.instance.loadLevelName = "Main";
-		Invoke ("TransitionToMain",1f);
+		Invoke ("TransitionToMain", 1f);
 	}
 
-	private void TransitionToMain(){
+	private void TransitionToMain () {
 		Application.LoadLevel ("Loading");
 	}
 

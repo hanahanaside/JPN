@@ -28,7 +28,12 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 		gameObject.transform.localScale = new Vector3 (1, 1, 1);
 	}
 
+	void CompleteShowEvent () {
+		AdManager.instance.ShowRectangleAd ();
+	}
+
 	public void OnBackToStageClicked () {
+		AdManager.instance.HideRectangleAd ();
 		BackToStageEvent ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
@@ -37,14 +42,14 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		if (PlayerDataKeeper.instance.CoinCount < mCost) {
 			OKDialog.instance.OnOKButtonClicked = () => {
-				BuyCoinDialog.instance.Show();
+				BuyCoinDialog.instance.Show ();
 			};
 			OKDialog.instance.Show ("コインが不足しています");
 			return;
 		}
 		PlayerDataKeeper.instance.DecreaseCoinCount (mCost);
 		RetryEvent (0);
-
+		AdManager.instance.HideRectangleAd ();
 	}
 
 	public void Show () {
@@ -65,7 +70,7 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 	public void Dismiss () {
 		iTweenEvent.GetEvent (gameObject, "DismissEvent").Play ();
 		List<Transform> childList = resultGrid.GetChildList ();
-		foreach(Transform child in childList){
+		foreach (Transform child in childList) {
 			Destroy (child.gameObject);
 		}
 	}
