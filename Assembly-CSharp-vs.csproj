@@ -290,6 +290,10 @@
      <Compile Include="Assets\Scripts\Table\PuzzleTable.cs" />
      <Compile Include="Assets\Scripts\Target\Target.cs" />
      <Compile Include="Assets\Scripts\Target\TargetTutorial.cs" />
+     <Compile Include="Assets\Scripts\Test\HokkaidoIdol.cs" />
+     <Compile Include="Assets\Scripts\Test\HokkaidoIdolIdleState.cs" />
+     <Compile Include="Assets\Scripts\Test\HokkaidoIdolWalkState.cs" />
+     <Compile Include="Assets\Scripts\Test\IdolState.cs" />
      <Compile Include="Assets\Scripts\Test\TestController.cs" />
      <Compile Include="Assets\Scripts\Test\TestController2.cs" />
      <Compile Include="Assets\Scripts\Test\TestParent.cs" />

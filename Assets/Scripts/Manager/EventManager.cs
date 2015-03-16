@@ -45,7 +45,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		DateTime dtNow = DateTime.Now;
 		DateTime dtLastUpdate = DateTime.Parse (mLostIdleEvent.LastUpdateDate);
 		TimeSpan timeSpan = dtNow - dtLastUpdate;
-		if(timeSpan.TotalHours >= 12){
+		if (timeSpan.TotalHours >= 12) {
 			//12
 			RaiseLostIdleEvent ();
 		}
@@ -56,6 +56,7 @@ public class EventManager : MonoSingleton<EventManager> {
 		if (timeSpan.TotalHours >= 12) {
 			OccurTradeIdleEvent ();
 		}
+		OccurTradeIdleEvent ();
 
 		//ニュースイベント
 		dtLastUpdate = DateTime.Parse (mNewsEvent.LastUpdateDate);
@@ -152,9 +153,8 @@ public class EventManager : MonoSingleton<EventManager> {
 			return;
 		} 
 		//トレードの金額を算出
-		GenerateCoinPowerDao generateCoinPowerDao = DaoFactory.CreateGenerateCoinPowerDao ();
-		double generateCoinPower = generateCoinPowerDao.SelectById (stage.Id, stage.IdolCount);
-		mTradeIdleEvent.reward = (int)(generateCoinPower * 150 * mTradeIdleEvent.idleCount);
+		mTradeIdleEvent.reward = AreaCostCaluculator.instance.CalcCost (stage.AreaId - 1) * 3 * mTradeIdleEvent.idleCount;
+		Debug.Log ("area cost " + AreaCostCaluculator.instance.CalcCost (stage.AreaId - 1));
 		mTradeIdleEvent.occurring = true;
 		TradeButtonObject.SetActive (true);
 		PrefsManager.instance.WriteData<TradeIdleEvent> (mTradeIdleEvent, PrefsManager.Kies.TradeIdleEvent);

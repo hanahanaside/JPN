@@ -12,6 +12,7 @@ public class StageDbDao : StageDao {
 	private const string FIELD_IDLE_COUNT = "idle_count";
 	private const string FIELD_FLAG_CONSTRUCTION = "flag_construction";
 	private const string FIELD_UPDATED_DATE = "updated_date";
+	private const string FIELD_AREA_ID = "area_id";
 
 	//存在する全てのステージデータを取得
 	public List<StageData> SelectAll () {
@@ -102,6 +103,7 @@ public class StageDbDao : StageDao {
 			stage.IdolCount = sqliteQuery.GetInteger (FIELD_IDLE_COUNT);
 			stage.FlagConstruction = sqliteQuery.GetInteger (FIELD_FLAG_CONSTRUCTION);
 			stage.UpdatedDate = sqliteQuery.GetString (FIELD_UPDATED_DATE);
+			stage.AreaId = sqliteQuery.GetInteger (FIELD_AREA_ID);
 		} catch (Exception e) {
 			MyLog.LogDebug (e.Message);
 		} 

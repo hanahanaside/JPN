@@ -199,7 +199,7 @@ public class StageManager : MonoBehaviour {
 		DaoFactory.CreateStageDao ().UpdateRecord (mStageData);
 		mState = State.Normal;
 		gameObject.tag = "default";
-		foreach(Character character in mCharacterList){
+		foreach (Character character in mCharacterList) {
 			character.Wakeup ();
 		}
 		//画像を変更
