@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.IO;
 using UnityEditor;
@@ -8,7 +8,7 @@ using NPOI.SS.UserModel;
 
 public class GenerateCoinPower_importer : AssetPostprocessor
 {
-    private static readonly string filePath = "Assets/Resources/Data/GenerateCoinPower.xls";
+    private static readonly string filePath = "Assets/JPN/Resources/Data/GenerateCoinPower.xls";
     private static readonly string[] sheetNames = { "GenerateCoinPower", };
     
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
@@ -24,7 +24,7 @@ public class GenerateCoinPower_importer : AssetPostprocessor
 
                 foreach (string sheetName in sheetNames)
                 {
-                    var exportPath = "Assets/Resources/Data/" + sheetName + ".asset";
+                    var exportPath = "Assets/JPN/Resources/Data/" + sheetName + ".asset";
                     
                     // check scriptable object
                     var data = (Entity_GenerateCoinPower)AssetDatabase.LoadAssetAtPath(exportPath, typeof(Entity_GenerateCoinPower));
@@ -52,7 +52,7 @@ public class GenerateCoinPower_importer : AssetPostprocessor
                         
                         var p = new Entity_GenerateCoinPower.Param();
 			
-					cell = row.GetCell(0); p.area_id = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(0); p.area_id = (cell == null ? 0.0 : cell.NumericCellValue);
 					cell = row.GetCell(1); p.area_name = (cell == null ? "" : cell.StringCellValue);
 					cell = row.GetCell(2); p.level_1 = (cell == null ? 0.0 : cell.NumericCellValue);
 					cell = row.GetCell(3); p.level_2 = (cell == null ? 0.0 : cell.NumericCellValue);
