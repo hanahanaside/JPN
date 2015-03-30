@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,7 +10,7 @@ public class Entity_GenerateCoinPower : ScriptableObject
 	public class Param
 	{
 		
-		public double area_id;
+		public int area_id;
 		public string area_name;
 		public double level_1;
 		public double level_2;

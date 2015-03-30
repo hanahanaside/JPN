@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.IO;
 using UnityEditor;
@@ -52,7 +52,7 @@ public class GenerateCoinPower_importer : AssetPostprocessor
                         
                         var p = new Entity_GenerateCoinPower.Param();
 			
-					cell = row.GetCell(0); p.area_id = (cell == null ? 0.0 : cell.NumericCellValue);
+					cell = row.GetCell(0); p.area_id = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(1); p.area_name = (cell == null ? "" : cell.StringCellValue);
 					cell = row.GetCell(2); p.level_1 = (cell == null ? 0.0 : cell.NumericCellValue);
 					cell = row.GetCell(3); p.level_2 = (cell == null ? 0.0 : cell.NumericCellValue);
