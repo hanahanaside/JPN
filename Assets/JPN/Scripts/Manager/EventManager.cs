@@ -49,7 +49,7 @@ public class EventManager : MonoSingleton<EventManager> {
 			//12
 			RaiseLostIdleEvent ();
 		}
-
+			
 		//トレードイベント
 		dtLastUpdate = DateTime.Parse (mTradeIdleEvent.LastUpdateDate);
 		timeSpan = dtNow - dtLastUpdate;

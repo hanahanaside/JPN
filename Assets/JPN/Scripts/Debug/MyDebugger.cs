@@ -83,5 +83,12 @@ public class MyDebugger : MonoBehaviour {
 		if (decreaseCoin) {
 			PlayerDataKeeper.instance.DecreaseCoinCount (1000);
 		}
+
+		Rect increaseTicketRect = new Rect (left, top += topDifference, right, botton);
+		bool increaseTicket = GUI.Button (increaseTicketRect, "チケットを100枚増やす");
+		if (increaseTicket) {
+			PlayerDataKeeper.instance.IncreaseTicketCount (100);
+		}
+
 	}
 }

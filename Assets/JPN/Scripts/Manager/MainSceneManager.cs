@@ -120,9 +120,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager> {
 			SleepTimeCoinDialogManager.instance.Show (addCoin);
 			return;
 		}
-		if (resumeCount < 10) {
-			return;
-		}
 		if (resumeCount % 5 != 0) {
 			return;
 		}

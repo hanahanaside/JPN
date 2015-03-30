@@ -25,11 +25,11 @@ public class Idle : Character {
 		StartMoving ();
 	}
 
-	void OnEnable(){
-		if(mState != State.Move){
+	void OnEnable () {
+		if (mState != State.Move) {
 			return;
 		}
-		if(mJumpEvent == null || mScaleEvent == null){
+		if (mJumpEvent == null || mScaleEvent == null) {
 			return;
 		}
 		mJumpEvent.Play ();
@@ -108,9 +108,9 @@ public class Idle : Character {
 	//ライブを開始
 	public override void StartLive () {
 		bool isLost = (collider != null);
-		if(isLost){
-			mState = State.Move;
-		}else {
+		if (isLost) {
+			StartMoving ();
+		} else {
 			mState = State.Live;
 			gameObject.SetActive (false);
 		}
@@ -124,7 +124,7 @@ public class Idle : Character {
 		ResizeSprite ();
 		mTime = moveTimeSeconds;
 		ChangeDirection (CheckDirection ());
-		if(transform.parent.gameObject.activeSelf){
+		if (transform.parent.gameObject.activeSelf) {
 			mJumpEvent.Play ();
 			mScaleEvent.Play ();
 		}
