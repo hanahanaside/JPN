@@ -8,7 +8,7 @@ using NPOI.SS.UserModel;
 
 public class UntilSleepTime_importer : AssetPostprocessor
 {
-    private static readonly string filePath = "Assets/Resources/Data/UntilSleepTime.xls";
+    private static readonly string filePath = "Assets/JPN/Resources/Data/UntilSleepTime.xls";
     private static readonly string[] sheetNames = { "UntilSleepTime", };
     
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
@@ -24,7 +24,7 @@ public class UntilSleepTime_importer : AssetPostprocessor
 
                 foreach (string sheetName in sheetNames)
                 {
-                    var exportPath = "Assets/Resources/Data/" + sheetName + ".asset";
+                    var exportPath = "Assets/JPN/Resources/Data/" + sheetName + ".asset";
                     
                     // check scriptable object
                     var data = (Entity_UntilSleepTime)AssetDatabase.LoadAssetAtPath(exportPath, typeof(Entity_UntilSleepTime));
