@@ -12,7 +12,7 @@ public class PlayerData {
 	public double TotalCoinCount = 10000;
 
 	#else
-
+	
 	public int TicketCount;
 
 	public double CoinCount;
@@ -23,6 +23,6 @@ public class PlayerData {
 
 	public double GenerateCoinPower;
 
-	public string ExitDate = System.DateTime.Now.ToString();
+	public string ExitDate = System.DateTime.Now.ToString ();
 
 }

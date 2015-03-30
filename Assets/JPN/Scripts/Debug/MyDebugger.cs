@@ -77,5 +77,11 @@ public class MyDebugger : MonoBehaviour {
 			int[] clearedPuzzleCountArray = { 1, 1, 1, 1, 1, 1, 1, 1 };
 			PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
 		}
+
+		Rect decreaseCoinRect = new Rect (left, top += topDifference, right, botton);
+		bool decreaseCoin = GUI.Button (decreaseCoinRect, "コインを1000減らす");
+		if (decreaseCoin) {
+			PlayerDataKeeper.instance.DecreaseCoinCount (1000);
+		}
 	}
 }

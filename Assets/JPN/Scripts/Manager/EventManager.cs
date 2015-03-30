@@ -56,7 +56,6 @@ public class EventManager : MonoSingleton<EventManager> {
 		if (timeSpan.TotalHours >= 12) {
 			OccurTradeIdleEvent ();
 		}
-		OccurTradeIdleEvent ();
 
 		//ニュースイベント
 		dtLastUpdate = DateTime.Parse (mNewsEvent.LastUpdateDate);
