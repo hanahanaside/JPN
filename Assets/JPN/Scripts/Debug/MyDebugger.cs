@@ -15,10 +15,9 @@ public class MyDebugger : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		string sceneName = Application.loadedLevelName;
-		if (sceneName != "Puzzle") {
-			ShowMainGUI ();
-		}
+		#if UNITY_EDITOR
+		ShowMainGUI ();
+		#endif
 	}
 
 	private void ShowMainGUI () {
