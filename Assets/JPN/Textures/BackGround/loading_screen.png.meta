@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6c854b26839944eeb8f7333467f160ea
+guid: 49f4f947449e54ee79bd15ff49389ece
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 2
@@ -28,7 +28,7 @@ TextureImporter:
     aniso: -1
     mipBias: -1
     wrapMode: 1
-  nPOTScale: 0
+  nPOTScale: 1
   lightmap: 0
   compressionQuality: 50
   spriteMode: 0
@@ -42,17 +42,9 @@ TextureImporter:
   textureType: 5
   buildTargetSettings:
   - buildTarget: iPhone
-    maxTextureSize: 4096
-    textureFormat: 33
-    compressionQuality: 100
-  - buildTarget: Android
     maxTextureSize: 2048
-    textureFormat: 36
+    textureFormat: 32
     compressionQuality: 100
-  - buildTarget: Standalone
-    maxTextureSize: 2048
-    textureFormat: 5
-    compressionQuality: 50
   spriteSheet:
     sprites: []
   spritePackingTag: 
