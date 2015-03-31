@@ -12,7 +12,7 @@ public class Fan : Character {
 	public void Init () {
 		mRotateEvent = iTweenEvent.GetEvent (sprite.gameObject, "RotateEvent");
 		mJumpEvent = iTweenEvent.GetEvent (gameObject, "JumpEvent");
-		characterTransform.localScale = new Vector3 (0.8f,0.8f,0.8f);
+		characterTransform.localScale = new Vector3 (0.8f, 0.8f, 0.8f);
 	}
 
 	void Update () {
@@ -20,7 +20,7 @@ public class Fan : Character {
 		switch (mState) {
 		//ムーブ
 		case State.Move:
-			if(mDancing){
+			if (mDancing) {
 				StopDancing ();
 				StartMoving ();
 			}
@@ -42,7 +42,7 @@ public class Fan : Character {
 			break;
 		//ライブ
 		case State.Live:
-			if(!mDancing){
+			if (!mDancing) {
 				StartDancing ();
 			}
 			break;
@@ -70,7 +70,7 @@ public class Fan : Character {
 		mState = State.Move;
 		StartMoving ();
 	}
-		
+
 	public override void Stop () {
 		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 		mState = State.Stop;
@@ -83,16 +83,16 @@ public class Fan : Character {
 		mRotateEvent.Play ();
 		mTime = moveTimeSeconds;
 		ChangeDirection (CheckDirection ());
-		if(characterTransform.localPosition.y >= movableArea.limitTop){
-			characterTransform.localPosition = new Vector3 (characterTransform.localPosition.x,movableArea.limitTop - 5.0f,0);
+		if (characterTransform.localPosition.y >= movableArea.limitTop) {
+			characterTransform.localPosition = new Vector3 (characterTransform.localPosition.x, movableArea.limitTop - 5.0f, 0);
 		}
-		if(characterTransform.localPosition.y <= movableArea.limitBottom){
-			characterTransform.localPosition = new Vector3 (characterTransform.localPosition.x,movableArea.limitBottom +  5.0f,0);
+		if (characterTransform.localPosition.y <= movableArea.limitBottom) {
+			characterTransform.localPosition = new Vector3 (characterTransform.localPosition.x, movableArea.limitBottom + 5.0f, 0);
 		}
 	}
 				
 	//踊りを開始
-	private void StartDancing(){
+	private void StartDancing () {
 		mRotateEvent.Stop ();
 		sprite.transform.localEulerAngles = new Vector3 (0, 0, 0);
 		mJumpEvent.Play ();
@@ -100,7 +100,7 @@ public class Fan : Character {
 	}
 
 	//踊りを中止
-	private void StopDancing(){
+	private void StopDancing () {
 		mJumpEvent.Stop ();
 		mDancing = false;
 	}

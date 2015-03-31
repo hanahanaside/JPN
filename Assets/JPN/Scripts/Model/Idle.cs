@@ -38,6 +38,7 @@ public class Idle : Character {
 
 	void Update () {
 		mTime -= Time.deltaTime;
+
 		switch (mState) {
 		//ムーブ
 		case State.Move:

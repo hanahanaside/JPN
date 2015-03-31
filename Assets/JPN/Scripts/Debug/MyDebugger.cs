@@ -8,6 +8,16 @@ public class MyDebugger : MonoBehaviour {
 	public GameObject characterVoiceManagerPrefab;
 
 	void Awake () {
+		StageDao dao = DaoFactory.CreateStageDao ();
+		for (int i = 1; i <= 48; i++) {
+			StageData stage = new StageData ();
+			stage.Id = i;
+			stage.IdolCount = 25;
+			stage.FlagConstruction = StageData.NOT_CONSTRUCTION;
+			stage.UpdatedDate = System.DateTime.Now.ToString ();
+			dao.UpdateRecord (stage);
+		}
+
 		if (GameObject.FindGameObjectWithTag ("SoundManager") == null) {
 			Instantiate (soundManagerPrefab);
 			Instantiate (characterVoiceManagerPrefab);
