@@ -64,7 +64,7 @@ public class MyDebugger : MonoBehaviour {
 			for (int i = 1; i <= 48; i++) {
 				StageData stage = new StageData ();
 				stage.Id = i;
-				stage.IdolCount = 23;
+				stage.IdolCount = 10;
 				stage.FlagConstruction = StageData.NOT_CONSTRUCTION;
 				stage.UpdatedDate = System.DateTime.Now.ToString ();
 				dao.UpdateRecord (stage);
