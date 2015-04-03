@@ -49,14 +49,13 @@ public class EventManager : MonoSingleton<EventManager> {
 			//12
 			RaiseLostIdleEvent ();
 		}
-
+			
 		//トレードイベント
 		dtLastUpdate = DateTime.Parse (mTradeIdleEvent.LastUpdateDate);
 		timeSpan = dtNow - dtLastUpdate;
 		if (timeSpan.TotalHours >= 12) {
 			OccurTradeIdleEvent ();
 		}
-		OccurTradeIdleEvent ();
 
 		//ニュースイベント
 		dtLastUpdate = DateTime.Parse (mNewsEvent.LastUpdateDate);

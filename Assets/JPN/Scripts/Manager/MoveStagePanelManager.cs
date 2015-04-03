@@ -36,12 +36,13 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 		mMoveStageCenterOnChild = moveStagegrid.GetComponent<UICenterOnChild> ();
 		StageDao dao = DaoFactory.CreateStageDao ();
 		List<StageData> stageList = dao.SelectAll ();
-		foreach(StageData stage in stageList){
+		foreach (StageData stage in stageList) {
 			GameObject moveStageCellObject = Instantiate (moveStageCellPrefab) as GameObject;
 			moveStagegrid.AddChild (moveStageCellObject.transform);
 			moveStageCellObject.transform.localScale = new Vector3 (1f, 1f, 1f);
-			moveStageCellObject.GetComponent<MoveStageCell> ().Init(stage);
+			moveStageCellObject.GetComponent<MoveStageCell> ().Init (stage);
 		}
+		dialogObject.SetActive (false);
 	}
 
 	public void ShowMoveStagePanel () {
@@ -52,7 +53,7 @@ public class MoveStagePanelManager : MonoSingleton<MoveStagePanelManager> {
 		dialogObject.SetActive (true);
 		List<Transform> childList = moveStagegrid.GetChildList ();
 		int centerdObjectIndex = StageGridManager.instance.GetCenterdObjectIndex;
-		Transform targetChildTransform = childList[centerdObjectIndex];
+		Transform targetChildTransform = childList [centerdObjectIndex];
 		mMoveStageCenterOnChild.CenterOn (targetChildTransform);
 		ItweenEventPlayer.PlayMoveInDialogEvent (dialogObject);
 	}

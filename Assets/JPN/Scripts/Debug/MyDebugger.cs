@@ -8,6 +8,16 @@ public class MyDebugger : MonoBehaviour {
 	public GameObject characterVoiceManagerPrefab;
 
 	void Awake () {
+		StageDao dao = DaoFactory.CreateStageDao ();
+		for (int i = 1; i <= 48; i++) {
+			StageData stage = new StageData ();
+			stage.Id = i;
+			stage.IdolCount = 25;
+			stage.FlagConstruction = StageData.NOT_CONSTRUCTION;
+			stage.UpdatedDate = System.DateTime.Now.ToString ();
+			dao.UpdateRecord (stage);
+		}
+
 		if (GameObject.FindGameObjectWithTag ("SoundManager") == null) {
 			Instantiate (soundManagerPrefab);
 			Instantiate (characterVoiceManagerPrefab);
@@ -15,10 +25,9 @@ public class MyDebugger : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		string sceneName = Application.loadedLevelName;
-		if (sceneName != "Puzzle") {
-			ShowMainGUI ();
-		}
+		#if UNITY_EDITOR
+		ShowMainGUI ();
+		#endif
 	}
 
 	private void ShowMainGUI () {
@@ -64,7 +73,7 @@ public class MyDebugger : MonoBehaviour {
 			for (int i = 1; i <= 48; i++) {
 				StageData stage = new StageData ();
 				stage.Id = i;
-				stage.IdolCount = 20;
+				stage.IdolCount = 10;
 				stage.FlagConstruction = StageData.NOT_CONSTRUCTION;
 				stage.UpdatedDate = System.DateTime.Now.ToString ();
 				dao.UpdateRecord (stage);
@@ -77,5 +86,18 @@ public class MyDebugger : MonoBehaviour {
 			int[] clearedPuzzleCountArray = { 1, 1, 1, 1, 1, 1, 1, 1 };
 			PrefsManager.instance.ClearedPuzzleCountArray = clearedPuzzleCountArray;
 		}
+
+		Rect decreaseCoinRect = new Rect (left, top += topDifference, right, botton);
+		bool decreaseCoin = GUI.Button (decreaseCoinRect, "コインを1000減らす");
+		if (decreaseCoin) {
+			PlayerDataKeeper.instance.DecreaseCoinCount (1000);
+		}
+
+		Rect increaseTicketRect = new Rect (left, top += topDifference, right, botton);
+		bool increaseTicket = GUI.Button (increaseTicketRect, "チケットを100枚増やす");
+		if (increaseTicket) {
+			PlayerDataKeeper.instance.IncreaseTicketCount (100);
+		}
+
 	}
 }

@@ -8,7 +8,7 @@ using NPOI.SS.UserModel;
 
 public class GenerateCoinPower_importer : AssetPostprocessor
 {
-    private static readonly string filePath = "Assets/Resources/Data/GenerateCoinPower.xls";
+    private static readonly string filePath = "Assets/JPN/Resources/Data/GenerateCoinPower.xls";
     private static readonly string[] sheetNames = { "GenerateCoinPower", };
     
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
@@ -24,7 +24,7 @@ public class GenerateCoinPower_importer : AssetPostprocessor
 
                 foreach (string sheetName in sheetNames)
                 {
-                    var exportPath = "Assets/Resources/Data/" + sheetName + ".asset";
+                    var exportPath = "Assets/JPN/Resources/Data/" + sheetName + ".asset";
                     
                     // check scriptable object
                     var data = (Entity_GenerateCoinPower)AssetDatabase.LoadAssetAtPath(exportPath, typeof(Entity_GenerateCoinPower));

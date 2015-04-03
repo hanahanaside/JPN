@@ -44,6 +44,8 @@ public class FinishPuzzleDialogManager : MonoSingleton<FinishPuzzleDialogManager
 			OKDialog.instance.OnOKButtonClicked = () => {
 				BuyCoinDialog.instance.Show ();
 			};
+			//OKダイアログが見えなくなるのでレクタングルを非表示にする
+			AdManager.instance.HideRectangleAd ();
 			OKDialog.instance.Show ("コインが不足しています");
 			return;
 		}

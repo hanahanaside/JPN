@@ -10,9 +10,12 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 	private float mUntilGenerateTimeSeconds;
 	private bool mStop = false;
 	private int mUnlockStageCount;
+	private GameObject mCenteredObject;
 
 	void Awake () {
 		mUntilGenerateTimeSeconds = interval;
+		mCenteredObject = stageGrid.GetChildList () [0].gameObject;
+		stageGrid.GetComponent<UICenterOnChild> ().onCenter += OnCenterCallBack;
 		int[] clearedPuzzleCountArray = PrefsManager.instance.ClearedPuzzleCountArray;
 		for (int i = 0; i < clearedPuzzleCountArray.Length; i++) {
 			int clearedCount = clearedPuzzleCountArray [i];
@@ -20,7 +23,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 				mUnlockStageCount = i;
 				break;
 			}
-			mUnlockStageCount = i;
+			mUnlockStageCount = clearedPuzzleCountArray.Length;
 		}
 	}
 
@@ -32,7 +35,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		if (mUntilGenerateTimeSeconds > 0) {
 			return;
 		}
-		int rand = UnityEngine.Random.Range (0,stageGrid.GetChildList().Count);
+		int rand = UnityEngine.Random.Range (0, stageGrid.GetChildList ().Count);
 		GameObject stageObject = stageGrid.GetChildList () [rand].gameObject;
 
 		if (stageObject.tag == "sleep" || stageObject.tag == "construction") {
@@ -41,11 +44,13 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		}
 			
 		GameObject coinPrefab = GetCoinPrefab ();
-		GameObject coinObject = Instantiate (coinPrefab) as GameObject;
-		coinObject.transform.parent = stageObject.transform;
-		coinObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+		NGUITools.AddChild (mCenteredObject, coinPrefab);
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.GenerateCoin);
 		mUntilGenerateTimeSeconds = interval;
+	}
+
+	void OnCenterCallBack (GameObject centeredObject) {
+		mCenteredObject = centeredObject;
 	}
 
 	public void StopGenerating () {
@@ -56,11 +61,11 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 		mStop = false;
 	}
 
-	public void StartLive(){
+	public void StartLive () {
 		interval = 2.5f;
 	}
 
-	public void FinishLive(){
+	public void FinishLive () {
 		interval = 5.0f;
 	}
 
@@ -84,6 +89,7 @@ public class CoinGenerator : MonoSingleton<CoinGenerator> {
 			coinIndex = CoinRate.GetCoinIndexLevel_4 ();
 			break;
 		}
+		Debug.Log (mUnlockStageCount);
 		return coinPrefabArray [coinIndex];
 	}
 

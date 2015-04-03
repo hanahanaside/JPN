@@ -4,9 +4,10 @@ using System.Collections;
 public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 
 	private GameObject mDialogObject;
-	private GameObject mFenceObject;
+	private GameObject mFrontFenceObject;
+	private GameObject mBackFenceObject;
 
-	void OnEnable(){
+	void OnEnable () {
 		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent += LoadFinishedEvent;
 		#endif
@@ -15,7 +16,7 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#endif
 	}
 
-	void OnDisable(){
+	void OnDisable () {
 		#if UNITY_IPHONE
 		IAPManager.LoadFinishedEvent -= LoadFinishedEvent;
 		#endif
@@ -24,40 +25,43 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#endif
 	}
 
-	void LoadFinishedEvent(){
-		mFenceObject.SetActive (false);
+	void LoadFinishedEvent () {
+		mFrontFenceObject.SetActive (false);
 	}
 
-	void CompleteDismissEvent(){
+	void CompleteDismissEvent () {
 		mDialogObject.SetActive (false);
-		mDialogObject.transform.localScale = new Vector3 (1,1,1);
+		mBackFenceObject.SetActive (false);
+		mDialogObject.transform.localScale = new Vector3 (1, 1, 1);
 	}
 
-	public override void OnInitialize(){
+	public override void OnInitialize () {
 		mDialogObject = transform.FindChild ("Dialog").gameObject;
-		mFenceObject = transform.FindChild ("Fence").gameObject;
+		mFrontFenceObject = transform.FindChild ("FrontFence").gameObject;
+		mBackFenceObject = transform.FindChild ("BackFence").gameObject;
 	}
 
-	public void Show(){
+	public void Show () {
 		FenceManager.instance.ShowFence ();
 		mDialogObject.SetActive (true);
-		iTweenEvent.GetEvent (mDialogObject,"ShowEvent").Play();
+		mBackFenceObject.SetActive (true);
+		iTweenEvent.GetEvent (mDialogObject, "ShowEvent").Play ();
 	}
 
-	public void CloseButtonClicked(){
+	public void CloseButtonClicked () {
 		FenceManager.instance.HideFence ();
-		iTweenEvent.GetEvent (mDialogObject,"DismissEvent").Play();
+		iTweenEvent.GetEvent (mDialogObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 	}
 
-	public void BuyTicketButtonClicked(){
-		iTweenEvent.GetEvent (mDialogObject,"DismissEvent").Play();
+	public void BuyTicketButtonClicked () {
+		iTweenEvent.GetEvent (mDialogObject, "DismissEvent").Play ();
 		SoundManager.instance.PlaySE (SoundManager.SE_CHANNEL.Button);
 		BuyTicketDialog.instance.Show ();
 	}
 
-	public void BuyItem1Clicked(){
-		mFenceObject.SetActive (true);
+	public void BuyItem1Clicked () {
+		mFrontFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_1);
 		#endif
@@ -66,8 +70,8 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#endif
 	}
 
-	public void BuyItem2Clicked(){
-		mFenceObject.SetActive (true);
+	public void BuyItem2Clicked () {
+		mFrontFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_2);
 		#endif
@@ -76,8 +80,8 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#endif
 	}
 
-	public void BuyItem3Clicked(){
-		mFenceObject.SetActive (true);
+	public void BuyItem3Clicked () {
+		mFrontFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_3);
 		#endif
@@ -86,8 +90,8 @@ public class BuyCoinDialog : MonoSingleton<BuyCoinDialog> {
 		#endif
 	}
 
-	public void BuyItem4Clicked(){
-		mFenceObject.SetActive (true);
+	public void BuyItem4Clicked () {
+		mFrontFenceObject.SetActive (true);
 		#if UNITY_IPHONE
 		IAPManager.instance.PurchaseItem (IAPManager.ProductId.Coin_4);
 		#endif
